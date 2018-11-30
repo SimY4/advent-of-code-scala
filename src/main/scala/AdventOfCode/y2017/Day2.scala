@@ -1,4 +1,5 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 object Day2 {
 
@@ -7,7 +8,7 @@ object Day2 {
                               |2 4 6 8""".stripMargin
 
   def checksum(spreadsheet: String): Int = (for {
-    line <- spreadsheet.lines
+    line <- spreadsheet.linesIterator
     arr = line.split("\\s+").map(_.toInt)
     min = arr.min
     max = arr.max
@@ -22,7 +23,7 @@ object Day2 {
                                |3 8 6 5""".stripMargin
 
   def checksum2(spreadsheet: String): Int = (for {
-    line <- spreadsheet.lines
+    line <- spreadsheet.linesIterator
     arr = line.split("\\s+").map(_.toInt)
     x1 <- arr
     x2 <- arr

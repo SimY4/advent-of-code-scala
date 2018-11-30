@@ -1,4 +1,5 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 object Day10 {
 

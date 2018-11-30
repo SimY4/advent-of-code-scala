@@ -1,9 +1,10 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 import scala.annotation.tailrec
 
 object Day12 {
-  import adventCode.day12.InputParser
+  import day12.InputParser
 
   type Group = Set[Int]
 

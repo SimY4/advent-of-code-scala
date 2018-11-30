@@ -1,7 +1,8 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 object Day8 {
-  import adventCode.day8.InstructionsParser
+  import day8.InstructionsParser
 
   sealed trait Op
   case object Inc extends Op

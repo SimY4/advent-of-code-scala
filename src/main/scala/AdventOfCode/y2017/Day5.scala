@@ -1,4 +1,5 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 import scala.annotation.tailrec
 
@@ -20,7 +21,7 @@ object Day5 {
         countHops0(count + 1, list.updated(index, hop + 1), index + hop)
     }
 
-    countHops0(1, instructions.lines.map(_.toInt).toList, 0)
+    countHops0(1, instructions.linesIterator.map(_.toInt).toList, 0)
   }
 
   println(countHops(instrucitons) == 5)
@@ -39,7 +40,7 @@ object Day5 {
       }
     }
 
-    countHops20(1L, instructions.lines.map(_.toInt).toList, 0)
+    countHops20(1L, instructions.linesIterator.map(_.toInt).toList, 0)
   }
 
   println(countHops2(instrucitons) == 10)

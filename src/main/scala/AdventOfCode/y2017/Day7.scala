@@ -1,9 +1,10 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 import scala.util.Try
 
 object Day7 {
-  import adventCode.day7.TreeParser
+  import day7.TreeParser
 
   type Tree = (Map[String, TreeNode], String)
   case class TreeNode(weight: Int, children: Seq[String])
@@ -73,7 +74,7 @@ object Day7 {
 }
 
 package day7 {
-  import adventCode.Day7._
+  import Day7._
   import org.parboiled2._
 
   class TreeParser(val input: ParserInput) extends Parser {

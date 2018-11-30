@@ -1,21 +1,20 @@
-package adventCode
+package AdventOfCode
+package y2017
 
 object Day9 {
-  import day9.StreamParser
+  import day9._
 
-  type Score = (Int, Int)
-  implicit def scoreOps(score: Score): ScoreOps = new ScoreOps(score)
-
-  final class ScoreOps(score: Score) {
-    def +(other: Score): Score = (score._1 + other._1) -> (score._2 + score._2)
-  }
-
-  type \/[+A, +B] = Either[A, B]
   sealed trait Group
   case class NestedGroup(groups: (Garbage \/ Group)*) extends Group
   case class SimpleGroup(value: String) extends Group
   case class Garbage(value: String)
+  object Score {
+    type Data = (Int, Int)
 
+    implicit class DataOps(private val data: Data) extends AnyVal {
+      def +(other: Data): Data = (data._1 + other._1) -> (data._2 + data._2)
+    }
+  }
 
   private val inputs = Seq(
     "<>",
@@ -47,12 +46,12 @@ object Day9 {
 }
 
 package day9 {
-  import adventCode.Day9.{ \/, scoreOps }
   import org.parboiled2._
 
   class StreamParser(val input: ParserInput) extends Parser {
+    import Day9.Score._
 
-    def Input: Rule1[Day9.Score] = rule { GroupOrGarbage ~ EOI ~> { gg: Day9.Garbage \/ Day9.Group => score(0 -> 0, gg) } }
+    def Input: Rule1[Data] = rule { GroupOrGarbage ~ EOI ~> { gg: Day9.Garbage \/ Day9.Group => score(0 -> 0, gg) } }
 
     private def GroupOrGarbage: Rule1[Day9.Garbage \/ Day9.Group] = rule { Group ~> (Right(_)) | Garbage ~> { g: Day9.Garbage => Left(g) } }
 
@@ -64,7 +63,7 @@ package day9 {
 
     private def EscapedChar = rule { '!' ~ CharPredicate.All }
 
-    private def score(acc: Day9.Score, g: Day9.Garbage \/ Day9.Group): Day9.Score = g match {
+    private def score(acc: Data, g: Day9.Garbage \/ Day9.Group): Data = g match {
       case Right(Day9.NestedGroup(groupsOrGarbage @ _*)) =>
         val next = acc._1 + 1 -> acc._2
         groupsOrGarbage.foldLeft(next) { (a, gg) =>
@@ -74,7 +73,5 @@ package day9 {
       case Right(Day9.SimpleGroup(_)) => acc._1 + 1 -> 0
       case Left(Day9.Garbage(garbage)) => 0 -> (acc._2 + garbage.replaceAll("!.", "").length)
     }
-
   }
-
 }
