@@ -20,7 +20,7 @@ object Day1 {
   case class Found(st: Int) extends State
 
   def calibrate2(str: String): Int = {
-    val init: State = NotFound(0, Set.empty[Int])
+    val init: State = NotFound(0, Set.empty)
     def infinite: Stream[String] = str.linesIterator.toStream #::: infinite
     infinite.scanLeft(init) { (state, cal) => 
       state match {
