@@ -8,10 +8,9 @@ object Day1 {
                 |+1""".stripMargin
 
   def calibrate(str: String): Int = str.linesIterator.foldLeft(0) { (acc, cal) => 
-    val charSeq: Seq[Char] = cal
-    charSeq match {
-      case Seq('+', cs @ _*) => acc + cs.mkString.toInt
-      case Seq('-', cs @ _*) => acc - cs.mkString.toInt
+    cal.toList match {
+      case '+' :: cs => acc + cs.mkString.toInt
+      case '-' :: cs => acc - cs.mkString.toInt
     }
   }
 
@@ -26,12 +25,11 @@ object Day1 {
       state match {
         case s @ Found(_) => s
         case NotFound(acc, set) =>
-          val charSeq: Seq[Char] = cal
-          charSeq match {
-            case Seq('+', cs @ _*) => 
+          cal.toList match {
+            case '+' :: cs => 
               val nextCal = acc + cs.mkString.toInt
               if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)
-            case Seq('-', cs @ _*) => 
+            case '-' :: cs => 
               val nextCal = acc - cs.mkString.toInt
               if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)
           }
