@@ -34,6 +34,10 @@ object Day4 {
   case object FallsAsleep extends Action
   case object WakesUp extends Action
   case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
+  implicit class SleepScheduleOps(private val s: SleepSchedule) extends AnyVal {
+    def durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
+    def minutes: Seq[Int] = s.sleepStart.getMinute until s.sleepEnd.getMinute
+  }
 
   def schedule(input: String): Map[Int, List[SleepSchedule]] = {
     def parse(line: String): Record = {
@@ -63,10 +67,10 @@ object Day4 {
 
   def solve(input: String): Int = {
     val sched = schedule(input)
-    val (id, longestSleeperSchedule) = sched.maxBy { case (_, list) => list.map { s => Duration.between(s.sleepStart, s.sleepEnd) }.reduce(_.plus(_)) }
+    val (id, longestSleeperSchedule) = sched.maxBy { case (_, list) => list.map(_.durationBetween).reduce(_.plus(_)) }
     val maxMinuteSleeping = (for {
-      SleepSchedule(start, end) <- sched(id)
-      minute <- start.getMinute until end.getMinute
+      s <- sched(id)
+      minute <- s.minutes
     } yield minute)
       .groupBy(identity)
       .maxBy { case (_, list) =>  list.size }
@@ -77,8 +81,8 @@ object Day4 {
   def solve2(input: String): Int = {
     val sched = schedule(input)
     val (id, (maxMinuteSleeping, _)) = sched.mapValues { list => (for {
-        SleepSchedule(start, end) <- list
-        minute <- start.getMinute until end.getMinute
+        s <- list
+        minute <- s.minutes
       } yield minute)
         .groupBy(identity)
         .mapValues(_.size)
