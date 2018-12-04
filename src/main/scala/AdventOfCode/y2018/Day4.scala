@@ -61,8 +61,6 @@ object Day4 {
       .sortBy(_.ts), -1, Map.empty)
   }
 
-  case class State(curentGuard: Int, sleepCount: Map[Int, Int], overlaps: Map[Int, Set[Instant]])
-
   def solve(input: String): Int = {
     val sched = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy { case (_, list) => list.map { s => Duration.between(s.sleepStart, s.sleepEnd) }.reduce(_.plus(_)) }
@@ -86,10 +84,7 @@ object Day4 {
         .mapValues(_.size)
         .maxBy { case (_, size) => size }
     }.maxBy { case (_, (min, count)) => count }
-    println(id)
-    println(maxMinuteSleeping)
     id * maxMinuteSleeping
   }
-  
 
 }
