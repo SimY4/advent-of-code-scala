@@ -24,7 +24,6 @@ object Day9 {
     "<!!>",
     "<!!!>>",
     "<{o\"i!a,<{i<a>",
-
     "{}",
     "{{{}}}",
     "{{},{}}",
@@ -34,7 +33,6 @@ object Day9 {
     "{{<a>},{<a>},{<a>},{<a>}}",
     "{{<!>},{<!>},{<!>},{<a>}}"
   )
-
 
   println(for {
     input <- inputs
@@ -51,15 +49,27 @@ package day9 {
   class StreamParser(val input: ParserInput) extends Parser {
     import Day9.Score._
 
-    def Input: Rule1[Data] = rule { GroupOrGarbage ~ EOI ~> { gg: Day9.Garbage \/ Day9.Group => score(0 -> 0, gg) } }
+    def Input: Rule1[Data] = rule {
+      GroupOrGarbage ~ EOI ~> { gg: Day9.Garbage \/ Day9.Group =>
+        score(0 -> 0, gg)
+      }
+    }
 
-    private def GroupOrGarbage: Rule1[Day9.Garbage \/ Day9.Group] = rule { Group ~> (Right(_)) | Garbage ~> { g: Day9.Garbage => Left(g) } }
+    private def GroupOrGarbage: Rule1[Day9.Garbage \/ Day9.Group] = rule {
+      Group ~> (Right(_)) | Garbage ~> { g: Day9.Garbage =>
+        Left(g)
+      }
+    }
 
-    private def Group = rule { EmptyGroup | '{' ~ oneOrMore(GroupOrGarbage).separatedBy(',') ~> (Day9.NestedGroup(_ :_*)) ~ '}' }
+    private def Group = rule {
+      EmptyGroup | '{' ~ oneOrMore(GroupOrGarbage).separatedBy(',') ~> (Day9.NestedGroup(_: _*)) ~ '}'
+    }
 
     private def EmptyGroup = rule { "{}" ~ push(Day9.SimpleGroup("")) }
 
-    private def Garbage = rule { '<' ~ capture(zeroOrMore(EscapedChar | (!'>' ~ CharPredicate.All))) ~ '>' ~> Day9.Garbage }
+    private def Garbage = rule {
+      '<' ~ capture(zeroOrMore(EscapedChar | (!'>' ~ CharPredicate.All))) ~ '>' ~> Day9.Garbage
+    }
 
     private def EscapedChar = rule { '!' ~ CharPredicate.All }
 
@@ -70,7 +80,7 @@ package day9 {
           val s = score(next._1 -> 0, gg)
           a + s
         }
-      case Right(Day9.SimpleGroup(_)) => acc._1 + 1 -> 0
+      case Right(Day9.SimpleGroup(_))  => acc._1 + 1 -> 0
       case Left(Day9.Garbage(garbage)) => 0 -> (acc._2 + garbage.replaceAll("!.", "").length)
     }
   }

@@ -24,11 +24,12 @@ object Day7 {
                         |cntj (57)""".stripMargin
 
   def tree(input: String): Try[Tree] = {
-    def findRoot(nodes: Map[String, TreeNode]): String = (for {
-      (name, _) <- nodes
-      children = nodes.values.flatMap(_.children).toSet
-      if !(children contains name)
-    } yield name).head
+    def findRoot(nodes: Map[String, TreeNode]): String =
+      (for {
+        (name, _) <- nodes
+        children = nodes.values.flatMap(_.children).toSet
+        if !(children contains name)
+      } yield name).head
 
     for {
       nodes <- new TreeParser(input).Input.run()
@@ -44,7 +45,7 @@ object Day7 {
     val (nodes, root) = tree
 
     def calculateWeight(node: String): Int = nodes(node) match {
-      case TreeNode(weight, Nil) => weight
+      case TreeNode(weight, Nil)      => weight
       case TreeNode(weight, children) => weight + children.map(calculateWeight).sum
     }
 
@@ -83,7 +84,11 @@ package day7 {
 
     private def Lines = rule { oneOrMore(Node).separatedBy(NewLine) ~> (_.toMap) }
 
-    private def Node = rule { Name ~ ' ' ~ Weight ~ optional(" -> " ~ Children) ~> { (name, weight, children) => name -> TreeNode(weight, children.getOrElse(Nil)) } }
+    private def Node = rule {
+      Name ~ ' ' ~ Weight ~ optional(" -> " ~ Children) ~> { (name, weight, children) =>
+        name -> TreeNode(weight, children.getOrElse(Nil))
+      }
+    }
 
     private def Children = rule { oneOrMore(Name).separatedBy(", ") }
 

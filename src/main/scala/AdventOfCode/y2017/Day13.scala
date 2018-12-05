@@ -18,7 +18,7 @@ object Day13 extends App {
 }
 
 package day13 {
-  import Day13.{ Firewall, Row }
+  import Day13.{Firewall, Row}
   import org.parboiled2._
 
   class InputParser(val input: ParserInput) extends Parser {

@@ -37,7 +37,8 @@ object Day11 {
 
   def optimise(path: Seq[Direction], max: Coord = 0 -> 0): (Int, Int) = {
     val start = 0 -> 0
-    val (end, max) = path.foldLeft((start, 0)) { case ((current, mx), direction) =>
+    val (end, max) = path.foldLeft((start, 0)) {
+      case ((current, mx), direction) =>
         val next = track(current, direction)
         val nextDistance = next.distance
         if (nextDistance > mx) {

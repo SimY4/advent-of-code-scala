@@ -11,19 +11,32 @@ object Day10 {
 
   def knotHash(state: State): State = {
     val (list, lengths, count, pos) = state
-    val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)) { case ((ls, c, p), length) =>
-      val reversed = Iterator.continually(ls).flatten
-        .slice(p, p + length).toList.reverse
-        .zipWithIndex.map { case (a, i) => ((p + i) % ls.size, a) }
-        .toMap
-      val updated = Stream.from(0).take(ls.size).map { i => reversed.getOrElse(i, ls(i)) }.toList
-      (updated, c + 1, (p + length + c) % ls.size)
+    val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)) {
+      case ((ls, c, p), length) =>
+        val reversed = Iterator
+          .continually(ls)
+          .flatten
+          .slice(p, p + length)
+          .toList
+          .reverse
+          .zipWithIndex
+          .map { case (a, i) => ((p + i) % ls.size, a) }
+          .toMap
+        val updated = Stream
+          .from(0)
+          .take(ls.size)
+          .map { i =>
+            reversed.getOrElse(i, ls(i))
+          }
+          .toList
+        (updated, c + 1, (p + length + c) % ls.size)
     }
 
     (nextList, lengths, nextCount, nextPos)
   }
 
-  val (l @ x1 :: x2 :: _, _, _, _) = knotHash(list(5), lengths, 0, 0)
+  val state: State = (list(5), lengths, 0, 0)
+  val (l @ x1 :: x2 :: _, _, _, _) = knotHash(state)
   println(l)
   println(x1 * x2 == 12)
 
@@ -42,7 +55,9 @@ object Day10 {
   } yield ascii -> result
 
   def denseHash(state: State): String = {
-    val (list, _, _, _) = Stream.from(0).take(64).foldLeft(state) { (acc, _) => knotHash(acc) }
+    val (list, _, _, _) = Stream.from(0).take(64).foldLeft(state) { (acc, _) =>
+      knotHash(acc)
+    }
     (for {
       ls <- list.sliding(16, 16).toList
       hex = ('0' + ls.reduce(_ ^ _).toHexString).takeRight(2)
@@ -51,7 +66,8 @@ object Day10 {
 
   for {
     (i, r) <- lengthsList
-    res = denseHash(list(256), i, 0, 0)
+    state: State = (list(256), i, 0, 0)
+    res = denseHash(state)
     _ = println(s"$res -> $r")
     _ = println(res == r)
   } yield res

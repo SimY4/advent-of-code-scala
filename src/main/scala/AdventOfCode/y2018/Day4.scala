@@ -2,7 +2,7 @@ package AdventOfCode
 package y2018
 
 import java.text.SimpleDateFormat
-import java.time.{ Duration, Instant, LocalDateTime, ZoneOffset }
+import java.time.{Duration, Instant, LocalDateTime, ZoneOffset}
 
 import scala.annotation.tailrec
 
@@ -43,26 +43,40 @@ object Day4 {
     def parse(line: String): Record = {
       val matcher = raw"\[(?<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (?<ac>.+)".r.pattern.matcher(line)
       matcher.find
-      Record(dateFormat.parse(matcher.group("ts")).toInstant, matcher.group("ac") match {
-        case s if s.startsWith("wakes up") => WakesUp
-        case s if s.startsWith("falls asleep") => FallsAsleep
-        case s if s.startsWith("Guard #") => "\\d+".r.findFirstIn(s).map { g => BeginsDuty(g.toInt) }.get
-      })
+      Record(
+        dateFormat.parse(matcher.group("ts")).toInstant,
+        matcher.group("ac") match {
+          case s if s.startsWith("wakes up")     => WakesUp
+          case s if s.startsWith("falls asleep") => FallsAsleep
+          case s if s.startsWith("Guard #") =>
+            "\\d+".r
+              .findFirstIn(s)
+              .map { g =>
+                BeginsDuty(g.toInt)
+              }
+              .get
+        }
+      )
     }
     implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
-    @tailrec def schedule0(records: List[Record], current: Int, schedule: Map[Int, List[SleepSchedule]]): Map[Int, List[SleepSchedule]] = {
+    @tailrec def schedule0(records: List[Record],
+                           current: Int,
+                           schedule: Map[Int, List[SleepSchedule]]): Map[Int, List[SleepSchedule]] =
       records match {
-        case Nil => schedule
+        case Nil                            => schedule
         case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
-        case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs => schedule0(rs, current, 
-          schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end)))))
+        case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
+          schedule0(rs,
+                    current,
+                    schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end)))))
       }
-    }
 
     schedule0(input.linesIterator
-      .map(parse)
-      .toList
-      .sortBy(_.ts), -1, Map.empty)
+                .map(parse)
+                .toList
+                .sortBy(_.ts),
+              -1,
+              Map.empty)
   }
 
   def solve(input: String): Int = {
@@ -73,21 +87,24 @@ object Day4 {
       minute <- s.minutes
     } yield minute)
       .groupBy(identity)
-      .maxBy { case (_, list) =>  list.size }
+      .maxBy { case (_, list) => list.size }
       ._1
     id * maxMinuteSleeping
   }
 
   def solve2(input: String): Int = {
     val sched = schedule(input)
-    val (id, (maxMinuteSleeping, _)) = sched.mapValues { list => (for {
-        s <- list
-        minute <- s.minutes
-      } yield minute)
-        .groupBy(identity)
-        .mapValues(_.size)
-        .maxBy { case (_, size) => size }
-    }.maxBy { case (_, (min, count)) => count }
+    val (id, (maxMinuteSleeping, _)) = sched
+      .mapValues { list =>
+        (for {
+          s <- list
+          minute <- s.minutes
+        } yield minute)
+          .groupBy(identity)
+          .mapValues(_.size)
+          .maxBy { case (_, size) => size }
+      }
+      .maxBy { case (_, (min, count)) => count }
     id * maxMinuteSleeping
   }
 

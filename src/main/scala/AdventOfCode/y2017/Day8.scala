@@ -79,7 +79,11 @@ package day8 {
 
     private def Condition = rule { "if " ~ Register ~ Comp ~ Integer ~> Day8.Condition }
 
-    private def Comp = rule { " > " ~ push(Day8.Gt) | " >= " ~ push(Day8.Ge) | " < " ~ push(Day8.Lt) | " <= " ~ push(Day8.Le) | " == " ~ push(Day8.Eq) | " != " ~ push(Day8.Ne) }
+    private def Comp = rule {
+      " > " ~ push(Day8.Gt) | " >= " ~ push(Day8.Ge) | " < " ~ push(Day8.Lt) | " <= " ~ push(Day8.Le) | " == " ~ push(
+        Day8.Eq
+      ) | " != " ~ push(Day8.Ne)
+    }
 
     private def Register = rule { capture(oneOrMore(CharPredicate.Alpha)) }
 
@@ -87,7 +91,11 @@ package day8 {
 
     private def Op = rule { "inc" ~ push(Day8.Inc) | "dec" ~ push(Day8.Dec) }
 
-    private def Integer = rule { ('-' ~ UnsignedInteger ~> { i => -i }) | UnsignedInteger }
+    private def Integer = rule {
+      ('-' ~ UnsignedInteger ~> { i =>
+        -i
+      }) | UnsignedInteger
+    }
 
     private def UnsignedInteger = rule { capture(oneOrMore(CharPredicate.Digit)) ~> (_.toInt) }
 

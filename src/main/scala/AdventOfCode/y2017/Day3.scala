@@ -8,7 +8,12 @@ object Day3 {
   private def sqr(i: Int) = i * i
 
   def distance(x: Int): Int = {
-    val diag = Stream.from(1).dropWhile { i => sqr(i + i + 1) < x }.head
+    val diag = Stream
+      .from(1)
+      .dropWhile { i =>
+        sqr(i + i + 1) < x
+      }
+      .head
     val from = sqr((diag - 1) * 2 + 1) + 1
     val to = sqr(diag * 2 + 1)
     val side = (to + 1 - from) / 4
@@ -33,23 +38,25 @@ object Day3 {
 
     def indexes(x: Int): Seq[Coord] = x match {
       case 0 => Seq(0 -> 0)
-      case n => (-n + 1 to n).map(n -> _) ++
-        (n - 1).to(-n, -1).map(_ -> n) ++
-        (n - 1).to(-n, -1).map(-n -> _) ++
-        (-n + 1 to n).map(_ -> -n)
+      case n =>
+        (-n + 1 to n).map(n -> _) ++
+          (n - 1).to(-n, -1).map(_ -> n) ++
+          (n - 1).to(-n, -1).map(-n -> _) ++
+          (-n + 1 to n).map(_ -> -n)
     }
 
     def neighbours(coord: Coord): Seq[Coord] = coord match {
-      case (x, y) => Seq(
-        x - 1 -> (y - 1),
-        x -> (y - 1),
-        x + 1 -> (y - 1),
-        x - 1 -> y,
-        x + 1 -> y,
-        x - 1 -> (y + 1),
-        x -> (y + 1),
-        x + 1 -> (y + 1)
-      )
+      case (x, y) =>
+        Seq(
+          x - 1 -> (y - 1),
+          x -> (y - 1),
+          x + 1 -> (y - 1),
+          x - 1 -> y,
+          x + 1 -> y,
+          x - 1 -> (y + 1),
+          x -> (y + 1),
+          x + 1 -> (y + 1)
+        )
     }
 
     @tailrec def firstLarger0(accSeq: Map[Coord, Int], seqGen: Stream[Coord]): Int = {

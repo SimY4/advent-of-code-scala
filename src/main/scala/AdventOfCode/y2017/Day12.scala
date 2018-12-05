@@ -19,7 +19,7 @@ object Day12 {
   def group(program: Int, input: Map[Int, Seq[Int]]): Group = {
     @tailrec def group0(acc: Set[Int], current: Set[Int]): Group = if (current.isEmpty) { acc } else {
       val connects = acc ++ current.flatMap(input)
-      group0(connects, connects diff acc)
+      group0(connects, connects.diff(acc))
     }
 
     group0(Set(program), Set(program))
@@ -28,7 +28,7 @@ object Day12 {
   println(for {
     map <- new InputParser(input).Input.run()
     gr = group(0, map)
-    diff = map.keySet diff gr
+    diff = map.keySet.diff(gr)
   } yield diff.size -> (map.keySet.size - diff.size))
 
   // PART 2

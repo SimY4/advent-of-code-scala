@@ -10,7 +10,7 @@ object Day6 {
   private val memoryBanks = "0 2 7 0".split("\\s+").map(_.toInt).toList
 
   def redistribute(memoryBanks: List[Int]): StepAndLoop = {
-    @tailrec def redistribute0(states: Map[List[Int], Int], memoryBanks: List[Int]): StepAndLoop = {
+    @tailrec def redistribute0(states: Map[List[Int], Int], memoryBanks: List[Int]): StepAndLoop =
       if (states contains memoryBanks)
         states.size -> (states.size - states(memoryBanks))
       else {
@@ -27,7 +27,6 @@ object Day6 {
 
         redistribute0(states ++ Map(memoryBanks -> states.size), newMemoryBank)
       }
-    }
 
     redistribute0(Map.empty, memoryBanks)
   }
