@@ -1,9 +1,6 @@
 package AdventOfCode
 package y2018
 
-import java.text.SimpleDateFormat
-import java.time.{ Duration, Instant, LocalDateTime, ZoneOffset }
-
 import scala.annotation.tailrec
 
 object Day5 {

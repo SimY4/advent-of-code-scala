@@ -50,7 +50,7 @@ object Day4 {
       })
     }
     implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
-    def schedule0(records: List[Record], current: Int, schedule: Map[Int, List[SleepSchedule]]): Map[Int, List[SleepSchedule]] = {
+    @tailrec def schedule0(records: List[Record], current: Int, schedule: Map[Int, List[SleepSchedule]]): Map[Int, List[SleepSchedule]] = {
       records match {
         case Nil => schedule
         case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
