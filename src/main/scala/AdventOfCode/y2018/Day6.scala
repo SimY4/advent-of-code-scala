@@ -1,8 +1,6 @@
 package AdventOfCode
 package y2018
 
-import scala.annotation.tailrec
-
 object Day6 {
 
   val input = """1, 1
@@ -12,21 +10,24 @@ object Day6 {
                 |5, 5
                 |8, 9""".stripMargin
 
-  def coords(input: String): List[(Int, Int)] =
+  case class Coords(x: Int, y: Int)
+  implicit class CoordsOps(private val coords: Coords) extends AnyVal {
+    def dist(to: Coords): Int =
+      math.abs(to.x - coords.x) + math.abs(to.y - coords.y)
+  }
+
+  def coords(input: String): List[Coords] =
     input.linesIterator.map { line =>
       line.split(", ").map(_.toInt).toList match {
-        case x :: y :: Nil => x -> y
+        case x :: y :: Nil => Coords(x, y)
       }
     }.toList
-
-  def dist(from: (Int, Int), to: (Int, Int)): Int =
-    math.abs(to._1 - from._1) + math.abs(to._2 - from._2)
 
   def solve(input: String): Int = {
     val coord = coords(input)
 
-    def closest(c: (Int, Int)): String = {
-      val dists = coord.map(dist(_, c))
+    def closest(c: Coords): String = {
+      val dists = coord.map(_.dist(c))
       val minDist = dists.min
       val indexes = dists.zipWithIndex.filter(_._1 == minDist)
       if (indexes.size > 1) "."
@@ -37,16 +38,16 @@ object Day6 {
       }
     }
 
-    val minX = coord.map(_._1).min
-    val maxX = coord.map(_._1).max
-    val minY = coord.map(_._2).min
-    val maxY = coord.map(_._2).max
+    val minX = coord.map(_.x).min
+    val maxX = coord.map(_.x).max
+    val minY = coord.map(_.y).min
+    val maxY = coord.map(_.y).max
 
-    type Rect = Seq[((Int, Int), String)]
+    type Rect = Seq[(Coords, String)]
 
     def boundaries(rect: Rect): Set[String] =
       (for {
-        ((x, y), letter) <- rect
+        (Coords(x, y), letter) <- rect
         if x == minX || x == maxX || y == minY || y == maxY
       } yield letter).toSet
 
@@ -56,7 +57,8 @@ object Day6 {
     val rect = for {
       x <- minX to maxX
       y <- minY to maxY
-    } yield (x -> y) -> closest(x -> y)
+      coords = Coords(x, y)
+    } yield coords -> closest(coords)
 
     val bndries = boundaries(rect)
     val freqs = frequencies(rect)
@@ -68,17 +70,18 @@ object Day6 {
   def solve2(input: String): Int = {
     val coord = coords(input)
 
-    val minX = coord.map(_._1).min
-    val maxX = coord.map(_._1).max
-    val minY = coord.map(_._2).min
-    val maxY = coord.map(_._2).max
+    val minX = coord.map(_.x).min
+    val maxX = coord.map(_.x).max
+    val minY = coord.map(_.y).min
+    val maxY = coord.map(_.y).max
 
     val rect = for {
       x <- minX to maxX
       y <- minY to maxY
-      d = coord.map(dist(_, x -> y)).reduce(_ + _)
+      c = Coords(x, y)
+      d = coord.map(_.dist(c)).reduce(_ + _)
       if d < 10000
-    } yield x -> y
+    } yield c
 
     rect.size
   }
