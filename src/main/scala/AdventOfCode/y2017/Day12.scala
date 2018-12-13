@@ -4,7 +4,6 @@ package y2017
 import scala.annotation.tailrec
 
 object Day12 {
-  import day12.InputParser
 
   type Group = Set[Int]
 
@@ -25,11 +24,14 @@ object Day12 {
     group0(Set(program), Set(program))
   }
 
-  println(for {
-    map <- new InputParser(input).Input.run()
-    gr = group(0, map)
-    diff = map.keySet.diff(gr)
-  } yield diff.size -> (map.keySet.size - diff.size))
+  val map = input.linesIterator.map { line => 
+      "\\d+".r.findAllIn(line).map(_.toInt).toList match {
+        case i :: is => i -> is
+      }
+    }.toMap
+  val gr = group(0, map)
+  val diff = map.keySet.diff(gr)
+  println(diff.size -> (map.keySet.size - diff.size))
 
   // PART 2
 
@@ -42,28 +44,7 @@ object Day12 {
     groups0(Set.empty, input)
   }
 
-  println(for {
-    map <- new InputParser(input).Input.run()
-    grs = groups(map)
-  } yield grs.size)
-
-}
-
-package day12 {
-  import org.parboiled2._
-
-  class InputParser(val input: ParserInput) extends Parser {
-
-    def Input: Rule1[Map[Int, Seq[Int]]] = rule { Lines ~ EOI }
-
-    private def Lines = rule { oneOrMore(Pipe).separatedBy(NewLine) ~> (_.toMap) }
-
-    private def Pipe = rule { Program ~ " <-> " ~ oneOrMore(Program).separatedBy(", ") ~> (_ -> _) }
-
-    private def Program = rule { capture(oneOrMore(CharPredicate.Digit)) ~> (_.toInt) }
-
-    private def NewLine = rule { optional('\r') ~ '\n' }
-
-  }
+  val grs = groups(map)
+  println(grs.size)
 
 }
