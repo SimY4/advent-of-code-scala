@@ -8,13 +8,13 @@ object Day8 {
   case class Node(children: List[Node], meta: List[Int])
   implicit class NodeOps(private val node: Node) extends AnyVal {
     def sumMeta: Int =
-      node.meta.reduce(_ + _) + (node.children.map(_.sumMeta).foldLeft(0)(_ + _))
+      node.meta.reduce(_ + _) + node.children.map(_.sumMeta).foldLeft(0)(_ + _)
 
     def sumMeta2: Int = node.children match {
       case Nil => node.meta.reduce(_ + _)
       case ch =>
         node.meta.foldLeft(0) { (acc, m) =>
-          acc + node.children.lift(m - 1).map(_.sumMeta2).getOrElse(0)
+          acc + node.children.lift(m - 1).fold(0)(_.sumMeta2)
         }
     }
   }
