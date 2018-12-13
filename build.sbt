@@ -21,6 +21,6 @@ scalacOptions ++= Seq(
   "-deprecation"
 )
 
-initialCommands in console := "import AdventOfCode.y2018.Day5._; val i = scala.io.Source.fromFile(\"src/main/scala/input.text\").getLines.mkString(\"\\n\");"
+initialCommands in console := "import AdventOfCode.y2018.Day10._; val i = scala.io.Source.fromFile(\"src/main/scala/input.text\").getLines.mkString(\"\\n\");"
 
 addCommandAlias("fmt", "; compile:scalafmt; test:scalafmt; scalafmtSbt")
