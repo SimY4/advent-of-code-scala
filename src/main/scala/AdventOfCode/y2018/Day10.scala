@@ -51,29 +51,33 @@ object Day10 {
     def area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
   }
 
-  def parse(input: String): List[Point] = input.linesIterator.map { line => 
-    "-?\\d+".r.findAllIn(line).map(_.toLong).toList match {
-      case x :: y :: vx :: vy :: Nil => Point(x, y, vx, vy)
-    }
-  }.toList
+  def parse(input: String): List[Point] =
+    input.linesIterator.map { line =>
+      "-?\\d+".r.findAllIn(line).map(_.toLong).toList match {
+        case x :: y :: vx :: vy :: Nil => Point(x, y, vx, vy)
+      }
+    }.toList
 
   def solve(input: String): Unit = {
     def show(points: List[Point]): String = {
       val area = Area(points)
-      val coords = points.map { p => p.x -> p.y }.toSet
+      val coords = points.map { p =>
+        p.x -> p.y
+      }.toSet
       (area.y1 to area.y2)
         .map { y =>
-          (area.x1 to area.x2).map { x => 
+          (area.x1 to area.x2).map { x =>
             if (coords contains (x -> y))
               "X"
-            else 
+            else
               " "
           }.mkString
-        }.mkString("\n")
+        }
+        .mkString("\n")
     }
 
     @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit = {
-      val nextPoints = points.map { point => 
+      val nextPoints = points.map { point =>
         point.copy(x = point.x + point.vx, y = point.y + point.vy)
       }
       val nextArea = Area(nextPoints).area

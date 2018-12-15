@@ -24,11 +24,11 @@ object Day12 {
     group0(Set(program), Set(program))
   }
 
-  val map = input.linesIterator.map { line => 
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match {
-        case i :: is => i -> is
-      }
-    }.toMap
+  val map = input.linesIterator.map { line =>
+    "\\d+".r.findAllIn(line).map(_.toInt).toList match {
+      case i :: is => i -> is
+    }
+  }.toMap
   val gr = group(0, map)
   val diff = map.keySet.diff(gr)
   println(diff.size -> (map.keySet.size - diff.size))
