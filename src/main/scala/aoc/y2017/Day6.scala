@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.annotation.tailrec
@@ -15,10 +15,10 @@ object Day6 {
         states.size -> (states.size - states(memoryBanks))
       else {
         val maxMemoryBankIdx = memoryBanks.indices.maxBy(memoryBanks)
-        val memoryBankBlock = memoryBanks(maxMemoryBankIdx)
+        val memoryBankBlock  = memoryBanks(maxMemoryBankIdx)
 
         val newMemoryBank = (for {
-          i <- 1 to memoryBankBlock
+          i   <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
         } yield pos)
           .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>

@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2018
 
 object Day11 {
@@ -28,7 +28,7 @@ object Day11 {
 
   def solve2(grid: Int): (Cell, Int) = {
     val max = (for {
-      size <- (1 to 300).par
+      size          <- (1 to 300).toSeq.par
       (power, cell) = solve(grid, size)
     } yield (power, cell, size))
       .maxBy(_._1)

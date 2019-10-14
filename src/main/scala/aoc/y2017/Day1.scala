@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.annotation.tailrec
@@ -7,7 +7,7 @@ object Day1 {
 
   def sum(str: String): Int = {
     val digitsList = str.map(_.asDigit).toList
-    val first = digitsList.head
+    val first      = digitsList.head
 
     @tailrec def sum0(acc: Int, seq: Seq[Int]): Int = seq match {
       case x :: Nil if x == first       => acc + x
@@ -30,7 +30,7 @@ object Day1 {
 
     @tailrec def sum20(acc: Int, idx: Int, scoutIdx: Int): Int =
       if (idx < digitsList.size) {
-        val x = digitsList(idx)
+        val x            = digitsList(idx)
         val nextScoutIdx = (scoutIdx + 1) % digitsList.size
         if (x == digitsList(scoutIdx)) {
           sum20(acc + x, idx + 1, nextScoutIdx)

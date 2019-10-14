@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 object Day2 {
@@ -10,9 +10,9 @@ object Day2 {
   def checksum(spreadsheet: String): Int =
     (for {
       line <- spreadsheet.linesIterator
-      arr = line.split("\\s+").map(_.toInt)
-      min = arr.min
-      max = arr.max
+      arr  = line.split("\\s+").map(_.toInt)
+      min  = arr.min
+      max  = arr.max
     } yield max - min).sum
 
   println(checksum(spreadsheet) == 18)
@@ -26,9 +26,9 @@ object Day2 {
   def checksum2(spreadsheet: String): Int =
     (for {
       line <- spreadsheet.linesIterator
-      arr = line.split("\\s+").map(_.toInt)
-      x1 <- arr
-      x2 <- arr
+      arr  = line.split("\\s+").map(_.toInt)
+      x1   <- arr
+      x2   <- arr
       if x1 != x2 && x1 % x2 == 0
     } yield x1 / x2).sum
 

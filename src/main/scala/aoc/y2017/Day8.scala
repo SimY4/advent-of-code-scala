@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 object Day8 {
@@ -59,9 +59,9 @@ object Day8 {
 
   println(for {
     instructions <- new InstructionsParser(input).Input.run()
-    res = eval(instructions)
-    _ = println(res)
-    max = res.values.maxBy(_._2)
+    res          = eval(instructions)
+    _            = println(res)
+    max          = res.values.maxBy(_._2)
   } yield max)
 
 }

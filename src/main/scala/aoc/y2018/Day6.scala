@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2018
 
 object Day6 {
@@ -27,12 +27,12 @@ object Day6 {
     val coord = coords(input)
 
     def closest(c: Coords): String = {
-      val dists = coord.map(_.dist(c))
+      val dists   = coord.map(_.dist(c))
       val minDist = dists.min
       val indexes = dists.zipWithIndex.filter(_._1 == minDist)
       if (indexes.size > 1) "."
       else {
-        val idx = indexes.head._2
+        val idx    = indexes.head._2
         val letter = ('a'.toInt + idx).toChar
         s"$letter$idx"
       }
@@ -55,14 +55,14 @@ object Day6 {
       rect.map(_._2).groupBy(identity).mapValues(_.size)
 
     val rect = for {
-      x <- minX to maxX
-      y <- minY to maxY
+      x      <- minX to maxX
+      y      <- minY to maxY
       coords = Coords(x, y)
     } yield coords -> closest(coords)
 
     val bndries = boundaries(rect)
-    val freqs = frequencies(rect)
-    val safe = freqs -- bndries
+    val freqs   = frequencies(rect)
+    val safe    = freqs -- bndries
 
     safe.map(_._2).max
   }

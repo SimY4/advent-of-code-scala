@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.util.Try
@@ -27,13 +27,13 @@ object Day7 {
     def findRoot(nodes: Map[String, TreeNode]): String =
       (for {
         (name, _) <- nodes
-        children = nodes.values.flatMap(_.children).toSet
+        children  = nodes.values.flatMap(_.children).toSet
         if !(children contains name)
       } yield name).head
 
     for {
       nodes <- new TreeParser(input).Input.run()
-      root = findRoot(nodes)
+      root  = findRoot(nodes)
     } yield nodes -> root
   }
 
@@ -68,7 +68,7 @@ object Day7 {
   }
 
   println(for {
-    tree <- tree(input)
+    tree       <- tree(input)
     unbalanced = findUnbalancedSubtree(tree)
   } yield unbalanced)
 

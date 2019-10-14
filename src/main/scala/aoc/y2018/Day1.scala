@@ -1,5 +1,7 @@
-package AdventOfCode
+package aoc
 package y2018
+
+import scala.language.implicitConversions
 
 object Day1 {
 
@@ -11,10 +13,10 @@ object Day1 {
 
   sealed trait State
   case class NotFound(st: Int, viewed: Set[Int]) extends State
-  case class Found(st: Int) extends State
+  case class Found(st: Int)                      extends State
 
   def calibrate2(str: String): Int = {
-    val init: State = NotFound(0, Set.empty)
+    val init: State              = NotFound(0, Set.empty)
     def infinite: Stream[String] = str.linesIterator.toStream #::: infinite
     infinite
       .scanLeft(init) { (state, cal) =>

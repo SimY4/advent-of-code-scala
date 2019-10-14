@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2018
 
 import scala.annotation.tailrec
@@ -64,16 +64,14 @@ object Day10 {
       val coords = points.map { p =>
         p.x -> p.y
       }.toSet
-      (area.y1 to area.y2)
-        .map { y =>
-          (area.x1 to area.x2).map { x =>
-            if (coords contains (x -> y))
-              "X"
-            else
-              " "
-          }.mkString
-        }
-        .mkString("\n")
+      (area.y1 to area.y2).map { y =>
+        (area.x1 to area.x2).map { x =>
+          if (coords contains (x -> y))
+            "X"
+          else
+            " "
+        }.mkString
+      }.mkString("\n")
     }
 
     @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit = {

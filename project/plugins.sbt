@@ -1,2 +1,2 @@
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
-addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.5.1")
+addSbtPlugin("ch.epfl.lamp"  % "sbt-dotty"    % "0.3.4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.7")

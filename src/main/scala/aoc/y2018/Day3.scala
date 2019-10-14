@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2018
 
 object Day3 {

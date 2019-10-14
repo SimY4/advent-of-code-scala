@@ -1,10 +1,11 @@
-package AdventOfCode
+package aoc
 package y2018
 
 import java.text.SimpleDateFormat
-import java.time.{Duration, Instant, LocalDateTime, ZoneOffset}
+import java.time.{ Duration, Instant, LocalDateTime, ZoneOffset }
 
 import scala.annotation.tailrec
+import scala.language.implicitConversions
 
 object Day4 {
 
@@ -31,12 +32,12 @@ object Day4 {
   case class Record(ts: Instant, action: Action)
   sealed trait Action
   case class BeginsDuty(guard: Int) extends Action
-  case object FallsAsleep extends Action
-  case object WakesUp extends Action
+  case object FallsAsleep           extends Action
+  case object WakesUp               extends Action
   case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
   implicit class SleepScheduleOps(private val s: SleepSchedule) extends AnyVal {
     def durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
-    def minutes: Seq[Int] = s.sleepStart.getMinute until s.sleepEnd.getMinute
+    def minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
   }
 
   def schedule(input: String): Map[Int, List[SleepSchedule]] = {
@@ -59,31 +60,37 @@ object Day4 {
       )
     }
     implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
-    @tailrec def schedule0(records: List[Record],
-                           current: Int,
-                           schedule: Map[Int, List[SleepSchedule]]): Map[Int, List[SleepSchedule]] =
+    @tailrec def schedule0(
+      records: List[Record],
+      current: Int,
+      schedule: Map[Int, List[SleepSchedule]]
+    ): Map[Int, List[SleepSchedule]] =
       records match {
         case Nil                            => schedule
         case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
-          schedule0(rs,
-                    current,
-                    schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end)))))
+          schedule0(
+            rs,
+            current,
+            schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end))))
+          )
       }
 
-    schedule0(input.linesIterator
-                .map(parse)
-                .toList
-                .sortBy(_.ts),
-              -1,
-              Map.empty)
+    schedule0(
+      input.linesIterator
+        .map(parse)
+        .toList
+        .sortBy(_.ts),
+      -1,
+      Map.empty
+    )
   }
 
   def solve(input: String): Int = {
-    val sched = schedule(input)
+    val sched                        = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy { case (_, list) => list.map(_.durationBetween).reduce(_.plus(_)) }
     val maxMinuteSleeping = (for {
-      s <- sched(id)
+      s      <- sched(id)
       minute <- s.minutes
     } yield minute)
       .groupBy(identity)
@@ -94,17 +101,15 @@ object Day4 {
 
   def solve2(input: String): Int = {
     val sched = schedule(input)
-    val (id, (maxMinuteSleeping, _)) = sched
-      .mapValues { list =>
-        (for {
-          s <- list
-          minute <- s.minutes
-        } yield minute)
-          .groupBy(identity)
-          .mapValues(_.size)
-          .maxBy { case (_, size) => size }
-      }
-      .maxBy { case (_, (min, count)) => count }
+    val (id, (maxMinuteSleeping, _)) = sched.mapValues { list =>
+      (for {
+        s      <- list
+        minute <- s.minutes
+      } yield minute)
+        .groupBy(identity)
+        .mapValues(_.size)
+        .maxBy { case (_, size) => size }
+    }.maxBy { case (_, (min, count)) => count }
     id * maxMinuteSleeping
   }
 

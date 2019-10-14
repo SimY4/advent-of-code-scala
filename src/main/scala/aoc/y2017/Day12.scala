@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.annotation.tailrec
@@ -16,10 +16,13 @@ object Day12 {
                         |6 <-> 4, 5""".stripMargin
 
   def group(program: Int, input: Map[Int, Seq[Int]]): Group = {
-    @tailrec def group0(acc: Set[Int], current: Set[Int]): Group = if (current.isEmpty) { acc } else {
-      val connects = acc ++ current.flatMap(input)
-      group0(connects, connects.diff(acc))
-    }
+    @tailrec def group0(acc: Set[Int], current: Set[Int]): Group =
+      if (current.isEmpty) {
+        acc
+      } else {
+        val connects = acc ++ current.flatMap(input)
+        group0(connects, connects.diff(acc))
+      }
 
     group0(Set(program), Set(program))
   }
@@ -29,17 +32,20 @@ object Day12 {
       case i :: is => i -> is
     }
   }.toMap
-  val gr = group(0, map)
+  val gr   = group(0, map)
   val diff = map.keySet.diff(gr)
   println(diff.size -> (map.keySet.size - diff.size))
 
   // PART 2
 
   def groups(input: Map[Int, Seq[Int]]): Set[Group] = {
-    @tailrec def groups0(acc: Set[Group], i: Map[Int, Seq[Int]]): Set[Group] = if (i.isEmpty) { acc } else {
-      val groups = acc + group(i.keySet.head, i)
-      groups0(groups, i -- groups.flatten)
-    }
+    @tailrec def groups0(acc: Set[Group], i: Map[Int, Seq[Int]]): Set[Group] =
+      if (i.isEmpty) {
+        acc
+      } else {
+        val groups = acc + group(i.keySet.head, i)
+        groups0(groups, i -- groups.flatten)
+      }
 
     groups0(Set.empty, input)
   }

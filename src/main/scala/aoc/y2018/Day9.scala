@@ -1,13 +1,14 @@
-package AdventOfCode
+package aoc
 package y2018
 
 import scala.annotation.tailrec
+import scala.language.implicitConversions
 
 object Day9 {
 
   class Node(val value: Long) { self =>
-    var prev: Node = self
-    var next: Node = self
+    var prev: Node                = self
+    var next: Node                = self
     override def toString: String = value.toString
   }
   object Node {
@@ -45,7 +46,7 @@ object Day9 {
           r.prev
         }
         val removed = newRing.value
-        val player = (marble % players)
+        val player  = (marble % players)
         solve0(marble + 1, newRing.remove, scores + (player -> (scores.getOrElse(player, 0L) + marble + removed)))
       } else
         solve0(marble + 1, ring.next + marble, scores)

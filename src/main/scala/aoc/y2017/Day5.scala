@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.annotation.tailrec

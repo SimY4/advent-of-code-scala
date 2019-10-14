@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 import scala.annotation.tailrec
@@ -14,10 +14,10 @@ object Day3 {
         sqr(i + i + 1) < x
       }
       .head
-    val from = sqr((diag - 1) * 2 + 1) + 1
-    val to = sqr(diag * 2 + 1)
-    val side = (to + 1 - from) / 4
-    val pos = (x - from) % side
+    val from   = sqr((diag - 1) * 2 + 1) + 1
+    val to     = sqr(diag * 2 + 1)
+    val side   = (to + 1 - from) / 4
+    val pos    = (x - from) % side
     val center = (side / 2) - 1
 
     if (pos >= center)
@@ -39,22 +39,22 @@ object Day3 {
     def indexes(x: Int): Seq[Coord] = x match {
       case 0 => Seq(0 -> 0)
       case n =>
-        (-n + 1 to n).map(n -> _) ++
-          (n - 1).to(-n, -1).map(_ -> n) ++
+        (-n + 1 to n).map(n         -> _) ++
+          (n - 1).to(-n, -1).map(_  -> n) ++
           (n - 1).to(-n, -1).map(-n -> _) ++
-          (-n + 1 to n).map(_ -> -n)
+          (-n + 1 to n).map(_       -> -n)
     }
 
     def neighbours(coord: Coord): Seq[Coord] = coord match {
       case (x, y) =>
         Seq(
           x - 1 -> (y - 1),
-          x -> (y - 1),
+          x     -> (y - 1),
           x + 1 -> (y - 1),
           x - 1 -> y,
           x + 1 -> y,
           x - 1 -> (y + 1),
-          x -> (y + 1),
+          x     -> (y + 1),
           x + 1 -> (y + 1)
         )
     }
@@ -64,7 +64,7 @@ object Day3 {
 
       val res = (for {
         neighbour <- neighbours(coord)
-        v = accSeq.getOrElse(neighbour, 0)
+        v         = accSeq.getOrElse(neighbour, 0)
       } yield v).sum
 
       if (res > X)

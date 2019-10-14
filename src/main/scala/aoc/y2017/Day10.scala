@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2017
 
 object Day10 {
@@ -35,7 +35,7 @@ object Day10 {
     (nextList, lengths, nextCount, nextPos)
   }
 
-  val state: State = (list(5), lengths, 0, 0)
+  val state: State                 = (list(5), lengths, 0, 0)
   val (l @ x1 :: x2 :: _, _, _, _) = knotHash(state)
   println(l)
   println(x1 * x2 == 12)
@@ -46,11 +46,11 @@ object Day10 {
 
   private val lengthsList = for {
     (input, result) <- Map(
-      "" -> "a2582a3a0e66e6e86e3812dcb672a272",
-      "AoC 2017" -> "33efeb34ea91902bb2f59c9920caa6cd",
-      "1,2,3" -> "3efbe78a8d82f29979031a4aa0b16a9d",
-      "1,2,4" -> "63960835bcdc130f0b66d7ff4f6a5a8e"
-    )
+                        ""         -> "a2582a3a0e66e6e86e3812dcb672a272",
+                        "AoC 2017" -> "33efeb34ea91902bb2f59c9920caa6cd",
+                        "1,2,3"    -> "3efbe78a8d82f29979031a4aa0b16a9d",
+                        "1,2,4"    -> "63960835bcdc130f0b66d7ff4f6a5a8e"
+                      )
     ascii = input.map(_.toInt).toList ++ rest
   } yield ascii -> result
 
@@ -59,17 +59,17 @@ object Day10 {
       knotHash(acc)
     }
     (for {
-      ls <- list.sliding(16, 16).toList
+      ls  <- list.sliding(16, 16).toList
       hex = ('0' + ls.reduce(_ ^ _).toHexString).takeRight(2)
     } yield hex).mkString("")
   }
 
   for {
-    (i, r) <- lengthsList
+    (i, r)       <- lengthsList
     state: State = (list(256), i, 0, 0)
-    res = denseHash(state)
-    _ = println(s"$res -> $r")
-    _ = println(res == r)
+    res          = denseHash(state)
+    _            = println(s"$res -> $r")
+    _            = println(res == r)
   } yield res
 
 }

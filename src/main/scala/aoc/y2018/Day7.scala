@@ -1,8 +1,8 @@
-package AdventOfCode
+package aoc
 package y2018
 
 import scala.annotation.tailrec
-import scala.collection.immutable.{SortedMap, SortedSet}
+import scala.collection.immutable.{ SortedMap, SortedSet }
 
 object Day7 {
 

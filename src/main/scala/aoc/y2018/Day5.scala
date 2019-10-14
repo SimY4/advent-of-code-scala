@@ -1,4 +1,4 @@
-package AdventOfCode
+package aoc
 package y2018
 
 import scala.annotation.tailrec
@@ -7,11 +7,9 @@ object Day5 {
 
   val input = """dabAcCaCBAcCcaDA""".stripMargin
 
-  val regex = ('a' to 'z')
-    .flatMap { c =>
-      Seq(s"$c" + s"${c.toUpper}", s"${c.toUpper}" + s"$c")
-    }
-    .mkString("(", "|", ")")
+  val regex = ('a' to 'z').flatMap { c =>
+    Seq(s"$c" + s"${c.toUpper}", s"${c.toUpper}" + s"$c")
+  }.mkString("(", "|", ")")
     .r
 
   @tailrec def solve0(acc: String): String =
@@ -24,7 +22,7 @@ object Day5 {
 
   def solve2(input: String): Int =
     (for {
-      ch <- ('a' to 'z').par
+      ch            <- ('a' to 'z').par
       filteredInput = s"[$ch${ch.toUpper}]".r.replaceAllIn(input, "")
     } yield (solve0(filteredInput).length)).min
 
