@@ -1,7 +1,7 @@
 package aoc.y2015
 
 object Day4
-  private val hexArray = "0123456789ABCDEF".toCharArray()
+  private val hexArray = "0123456789ABCDEF".toCharArray
   private def (bytes: Array[Byte]) printHexBinary: String =
     val hexChars = new Array[Char](bytes.length * 2)
     for (i <- 0 until bytes.length) {

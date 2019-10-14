@@ -35,12 +35,12 @@ object Day9
 
   def solve(input: String): Int =
    paths(input)
-      .map { path => path.map(_.distance).sum }
+      .map { _.map(_.distance).sum }
       .min
 
   def solve2(input: String): Int =
     paths(input)
-      .map { path => path.map(_.distance).sum }
+      .map { _.map(_.distance).sum }
       .max
 
   val input = """AlphaCentauri to Snowdin = 66

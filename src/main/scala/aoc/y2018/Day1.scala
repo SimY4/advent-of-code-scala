@@ -16,7 +16,7 @@ object Day1
     infinite
       .scanLeft(NotFound(0, Set.empty)) { (state, cal) =>
         state match
-          case s @ Found(_) => s
+          case Found(_) => state
           case NotFound(acc, set) =>
             val nextCal = acc + cal.toInt
             if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)

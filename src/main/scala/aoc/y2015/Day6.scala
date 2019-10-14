@@ -34,9 +34,9 @@ object Day6
   def solve2(input: String): Int = input.linesIterator.map(parseLine)
     .foldLeft(Array.fill(1000, 1000)(0)) { (grid, action) => 
       action match
-        case TurnOn(x1, y1, x2, y2) => update(grid, x1, y1, x2, y2) { i => i + 1 }
+        case TurnOn(x1, y1, x2, y2) => update(grid, x1, y1, x2, y2) { _ + 1 }
         case TurnOff(x1, y1, x2, y2) => update(grid, x1, y1, x2, y2) { i => math.max(0, i - 1) }
-        case Toggle(x1, y1, x2, y2) => update(grid, x1, y1, x2, y2) { i => i + 2 }
+        case Toggle(x1, y1, x2, y2) => update(grid, x1, y1, x2, y2) { _ + 2 }
     }.map(_.sum).sum
 
   val input = """toggle 461,550 through 564,900

@@ -10,7 +10,7 @@ object Day5
       line <- input.linesIterator
       if line.filter(vowels.contains).size >= 3
       if pairs.exists(line.contains)
-      if bad.forall { b => !line.contains(b) }
+      if bad.forall { !line.contains(_) }
     yield line).size
 
   def solve2(input: String): Int = 
