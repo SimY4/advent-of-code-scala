@@ -13,7 +13,7 @@ object Day11
   private def meetRequirements(pass: String): Boolean =
     (for
       p <- Some(pass)
-      if p.sliding(3).exists(triples.contains)
+      if p.toSeq.sliding(3).exists(s => triples.contains(s.toString))
       if !p.exists(forbidden.contains)
       if pairs.mkString("|", "(", ")[2]").r.findAllIn(p).nonEmpty
     yield ()).isDefined

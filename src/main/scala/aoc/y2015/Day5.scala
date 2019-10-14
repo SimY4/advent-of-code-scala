@@ -16,8 +16,8 @@ object Day5
   def solve2(input: String): Int = 
     (for
       line <- input.linesIterator
-      if line.sliding(2).exists { s => s.r.findAllIn(line).size >= 2 }
-      if line.sliding(3).exists { s => s.head == s.last }
+      if line.toSeq.sliding(2).exists { _.toString.r.findAllIn(line).size >= 2 }
+      if line.toSeq.sliding(3).exists { s => s.head == s.last }
     yield line).size
 
   val input = """rthkunfaakmwmush

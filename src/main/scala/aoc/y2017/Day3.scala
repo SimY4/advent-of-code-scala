@@ -6,7 +6,7 @@ object Day3
   private def sqr(i: Int) = i * i
 
   def solve(x: Int): Int =
-    val diag = Stream.from(1).dropWhile { i => sqr(i + i + 1) < x }.head
+    val diag = LazyList.from(1).dropWhile { i => sqr(i + i + 1) < x }.head
     val from = sqr((diag - 1) * 2 + 1) + 1
     val to = sqr(diag * 2 + 1)
     val side = (to + 1 - from) / 4
@@ -42,7 +42,7 @@ object Day3
         (n - 1).to(-n, -1).map(Coord(-n, _)) ++
         (-n + 1 to n).map(Coord(_, -n))
 
-    @tailrec def firstLarger0(accSeq: Map[Coord, Int], seqGen: Stream[Coord]): Int =
+    @tailrec def firstLarger0(accSeq: Map[Coord, Int], seqGen: LazyList[Coord]): Int =
       val coord = seqGen.head
 
       val res = (for
@@ -55,6 +55,6 @@ object Day3
       else
         firstLarger0(accSeq ++ Map(coord -> res), seqGen.tail)
 
-    def coords = Stream.from(0).flatMap(indexes)
+    def coords = LazyList.from(0).flatMap(indexes)
 
     firstLarger0(Map(zero -> 1), coords.tail)

@@ -11,7 +11,7 @@ object Day4
     }
     new String(hexChars)
 
-  def solve(input: String, prefix: String = "00000"): Option[Int] = Stream.from(1)
+  def solve(input: String, prefix: String = "00000"): Option[Int] = LazyList.from(1)
     .find { i => 
       val md = java.security.MessageDigest.getInstance("MD5")
       md.update((input + i).getBytes("UTF-8"))

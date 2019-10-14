@@ -1,6 +1,8 @@
 package aoc.y2015
 
 object Day9
+  import scala.collection.parallel.CollectionConverters._
+
   case class Route(from: String, to: String, distance: Int)
 
   private val linePattern = "(\\w+) to (\\w+) = (\\d+)".r

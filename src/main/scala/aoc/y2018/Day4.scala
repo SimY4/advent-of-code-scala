@@ -101,13 +101,13 @@ object Day4 {
 
   def solve2(input: String): Int = {
     val sched = schedule(input)
-    val (id, (maxMinuteSleeping, _)) = sched.mapValues { list =>
+    val (id, (maxMinuteSleeping, _)) = sched.view.mapValues { list =>
       (for {
         s      <- list
         minute <- s.minutes
       } yield minute)
         .groupBy(identity)
-        .mapValues(_.size)
+        .view.mapValues(_.size)
         .maxBy { case (_, size) => size }
     }.maxBy { case (_, (min, count)) => count }
     id * maxMinuteSleeping

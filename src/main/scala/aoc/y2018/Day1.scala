@@ -12,7 +12,7 @@ object Day1
   import State._
 
   def solve2(input: String): Option[Int] =
-    def infinite: Stream[Int] = input.linesIterator.map(_.toInt).toStream #::: infinite
+    def infinite: LazyList[Int] = input.linesIterator.map(_.toInt).to(LazyList) #::: infinite
     infinite
       .scanLeft(NotFound(0, Set.empty)) { (state, cal) =>
         state match

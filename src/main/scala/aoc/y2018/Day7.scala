@@ -24,7 +24,7 @@ object Day7 {
     }.toList
 
   def graph(arrows: List[Arrow]): Map[String, SortedSet[String]] = {
-    val steps = (arrows.map(_.from) ++ arrows.map(_.to)).zip(Stream.continually(SortedSet.empty[String])).toMap
+    val steps = (arrows.map(_.from) ++ arrows.map(_.to)).zip(LazyList.continually(SortedSet.empty[String])).toMap
     arrows.foldLeft(steps) { (map, arr) =>
       map + (arr.to -> (map(arr.to) + arr.from))
     }

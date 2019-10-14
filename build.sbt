@@ -7,8 +7,9 @@ lazy val root = project
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.parboiled"  %% "parboiled"  % "2.1.8",
-      "org.scalacheck" %% "scalacheck" % "1.14.2" % Test
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0",
+      "org.parboiled"          %% "parboiled"  % "2.1.8",
+      "org.scalacheck"         %% "scalacheck" % "1.14.2" % Test
     ).map(_.withDottyCompat(scalaVersion.value)),
     scalacOptions ++= Seq(
       "-encoding",

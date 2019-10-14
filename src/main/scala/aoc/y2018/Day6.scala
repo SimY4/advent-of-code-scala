@@ -52,7 +52,7 @@ object Day6 {
       } yield letter).toSet
 
     def frequencies(rect: Rect): Map[String, Int] =
-      rect.map(_._2).groupBy(identity).mapValues(_.size)
+      rect.map(_._2).groupBy(identity).view.mapValues(_.size).toMap
 
     val rect = for {
       x      <- minX to maxX

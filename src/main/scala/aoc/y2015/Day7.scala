@@ -28,17 +28,17 @@ object Day7
   private def parseLine(line: String): Wire =
     line.split(" ").toList match
       case g :: "->" :: to :: Nil => 
-        Identity(Gate(g), Ref(to))
+        Identity(Gate(g), new Ref(to))
       case x :: "AND" :: y :: "->" :: to :: Nil =>
-        And(Gate(x), Gate(y), Ref(to))
+        And(Gate(x), Gate(y), new Ref(to))
       case x :: "OR" :: y :: "->" :: to :: Nil => 
-        Or(Gate(x), Gate(y), Ref(to))
+        Or(Gate(x), Gate(y), new Ref(to))
       case p :: "LSHIFT" :: num :: "->" :: to :: Nil if num.matches("\\d+") => 
-        LShift(Gate(p), num.toInt, Ref(to))
+        LShift(Gate(p), num.toInt, new Ref(to))
       case p :: "RSHIFT" :: num :: "->" :: to :: Nil if num.matches("\\d+") => 
-        RShift(Gate(p), num.toInt, Ref(to))
+        RShift(Gate(p), num.toInt, new Ref(to))
       case "NOT" :: e :: "->" :: to :: Nil => 
-        Not(Gate(e), Ref(to))
+        Not(Gate(e), new Ref(to))
 
   private def (as: List[A]) partitionWith[A, B, C](f: A => Either[B, C]): (List[B], List[C]) = 
       as.foldRight[(List[B], List[C])]((Nil, Nil)) { (a, partitions) =>
@@ -91,15 +91,15 @@ object Day7
 
   def solve(input: String): Option[Int] =
     val logicGates = input.linesIterator.map(parseLine).toList
-    iterate(Map.empty, logicGates).get(Ref("a"))
+    iterate(Map.empty, logicGates).get(new Ref("a"))
 
   def solve2(input: String): Option[Int] =
     val logicGates = input.linesIterator.map(parseLine).toList
-    val a = iterate(Map.empty, logicGates)(Ref("a"))
-    iterate(Map(Ref("b") -> a), logicGates.filter { 
+    val a = iterate(Map.empty, logicGates)(new Ref("a"))
+    iterate(Map(new Ref("b") -> a), logicGates.filter { 
       case Identity(Ref("b"), to) => false
       case _ => true
-    }).get(Ref("a"))
+    }).get(new Ref("a"))
 
   val input = """NOT dq -> dr
                 |kg OR kf -> kh
