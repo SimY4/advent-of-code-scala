@@ -1,6 +1,8 @@
 package aoc
 package y2017
 
+import scala.language.implicitConversions
+
 object Day9 {
   import day9._
 
@@ -50,7 +52,7 @@ package day9 {
     import Day9.Score._
 
     def Input: Rule1[Data] = rule {
-      GroupOrGarbage ~ EOI ~> { gg: Day9.Garbage Either Day9.Group =>
+      GroupOrGarbage ~ EOI ~> { (gg: Day9.Garbage Either Day9.Group) =>
         score(0 -> 0, gg)
       }
     }

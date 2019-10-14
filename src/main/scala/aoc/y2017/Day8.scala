@@ -1,6 +1,8 @@
 package aoc
 package y2017
 
+import scala.language.implicitConversions
+
 object Day8 {
   import day8.InstructionsParser
 

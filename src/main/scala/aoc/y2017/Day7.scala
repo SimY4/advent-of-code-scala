@@ -1,6 +1,7 @@
 package aoc
 package y2017
 
+import scala.language.implicitConversions
 import scala.util.Try
 
 object Day7 {

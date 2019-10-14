@@ -15,7 +15,7 @@ lazy val root = project
       "UTF-8",
       "-feature",
       "-unchecked",
-      "-Xfuture",
+      "-Xignore-scala2-macros",
       "-deprecation"
     )
   )
