@@ -1,6 +1,6 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version := "0.1.0"
-ThisBuild / scalaVersion := "0.19.0-RC1"
+ThisBuild / scalaVersion := "0.20.0-RC1"
 
 lazy val root = project
   .in(file("."))
@@ -21,6 +21,6 @@ lazy val root = project
     )
   )
 
-initialCommands in console := "import aoc.y2019.Day1._"
+initialCommands in console := "import aoc.y2019.Day2._"
 
 addCommandAlias("fmt", "; compile:scalafmt; test:scalafmt; scalafmtSbt")

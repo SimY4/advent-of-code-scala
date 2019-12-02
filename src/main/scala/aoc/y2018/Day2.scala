@@ -4,8 +4,8 @@ object Day2
   def solve(input: String): Int =
     val (fst, snd) = input.linesIterator.foldLeft(0 -> 0) { (acc, line) =>
       val grouped = line.toSeq.groupBy(identity).values.map(_.length)
-      val acc0 = if (grouped.exists(_ == 2)) (acc._1 + 1, acc._2) else acc
-      if (grouped.exists(_ == 3)) (acc0._1, acc0._2 + 1) else acc0
+      val (x, y) = if (grouped.exists(_ == 2)) (acc._1 + 1, acc._2) else acc
+      if (grouped.exists(_ == 3)) (x, y + 1) else (x, y)
     }
     fst * snd
 

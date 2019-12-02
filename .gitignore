@@ -1,4 +1,3 @@
-.ensime_cache/
 target/
-.ensime
+.dotty*
 *.log
