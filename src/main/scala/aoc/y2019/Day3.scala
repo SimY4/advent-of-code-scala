@@ -1,7 +1,5 @@
 package aoc.y2019
 
-import scala.annotation.tailrec
-
 object Day3
   enum Move(m: Int)
     case Right(m: Int) extends Move(m)
