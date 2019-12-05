@@ -34,4 +34,4 @@ object Day4
     yield passStr)
       .size
   
-  val input = """264360-746325""".stripMargin
+  val input = "264360-746325"
