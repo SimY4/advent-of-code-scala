@@ -21,6 +21,6 @@ lazy val root = project
     )
   )
 
-initialCommands in console := "import aoc.y2019.Day5._"
+initialCommands in console := "import aoc.y2019.Day6._"
 
 addCommandAlias("fmt", "; compile:scalafmt; test:scalafmt; scalafmtSbt")
