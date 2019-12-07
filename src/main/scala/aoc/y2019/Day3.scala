@@ -7,7 +7,7 @@ object Day3
     case Left(m: Int) extends Move(m)
     case Down(m: Int) extends Move(m)
 
-  def wire(line: String): List[(Int, Int)] = 
+  private def wire(line: String): List[(Int, Int)] = 
     line.split(",").map { s => 
       val (d, m) = s.splitAt(1)
       d match

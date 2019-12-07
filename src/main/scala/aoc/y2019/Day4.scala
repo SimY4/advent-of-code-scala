@@ -1,15 +1,15 @@
 package aoc.y2019
 
 object Day4
-  val pairsRegex = (0 to 9)
+  private val pairsRegex = (0 to 9)
     .map(i => s"$i$i")
     .mkString("(", "|", ")").r
 
-  val dupesRegex = (0 to 9)
+  private val dupesRegex = (0 to 9)
     .map(i => s"$i$i+")
     .mkString("(", "|", ")").r
 
-  def isAlwaysGrowing(pass: String) = 
+  private def isAlwaysGrowing(pass: String) = 
     pass.toList.map(_.toInt).sliding(2)
       .find { l => l(0) > l(1) }
       .isEmpty

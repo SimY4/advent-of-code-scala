@@ -3,7 +3,7 @@ package aoc.y2019
 import scala.annotation.tailrec
 
 object Day6
-  def graph(input: String): Map[String, Set[String]] = 
+  private def graph(input: String): Map[String, Set[String]] = 
     input.linesIterator.map { s => 
       val split = s.split(')')
       (split(0), split(1))
@@ -13,7 +13,7 @@ object Day6
       .mapValues(_.toSet)
       .toMap
 
-  @tailrec def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] = 
+  @tailrec private def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] = 
     graph.find(_._2.contains(node)) match 
       case Some((p, _)) => chain(graph, p :: acc, p)
       case None => acc
