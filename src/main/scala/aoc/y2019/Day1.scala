@@ -2,7 +2,7 @@ package aoc.y2019
 
 import scala.annotation.tailrec
 
-object Day1
+object Day1 with
   def solve(input: String): Long = input.linesIterator
     .map(_.toLong)
     .map(d => math.floor(d.toDouble / 3).toLong - 2)

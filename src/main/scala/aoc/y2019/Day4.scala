@@ -1,6 +1,6 @@
 package aoc.y2019
 
-object Day4
+object Day4 with
   private val pairsRegex = (0 to 9)
     .map(i => s"$i$i")
     .mkString("(", "|", ")").r

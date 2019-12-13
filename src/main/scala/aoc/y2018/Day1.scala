@@ -2,10 +2,10 @@ package aoc.y2018
 
 import scala.language.implicitConversions
 
-object Day1
+object Day1 with
   def solve(input: String): Int = input.linesIterator.map(_.toInt).sum
 
-  enum State
+  enum State with
     case NotFound(st: Int, viewed: Set[Int]) extends State
     case Found(st: Int)                      extends State
 
@@ -14,12 +14,11 @@ object Day1
   def solve2(input: String): Option[Int] =
     def infinite: LazyList[Int] = input.linesIterator.map(_.toInt).to(LazyList) #::: infinite
     infinite
-      .scanLeft(NotFound(0, Set.empty)) { (state, cal) =>
-        state match
-          case Found(_) => state
-          case NotFound(acc, set) =>
-            val nextCal = acc + cal.toInt
-            if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)
+      .scanLeft(NotFound(0, Set.empty)) { (state, cal) => state match
+        case Found(_) => state
+        case NotFound(acc, set) =>
+          val nextCal = acc + cal.toInt
+          if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)
       }
       .collectFirst { case Found(st) => st }
   

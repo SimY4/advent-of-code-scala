@@ -2,7 +2,7 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day3
+object Day3 with
   private def sqr(i: Int) = i * i
 
   def solve(x: Int): Int =

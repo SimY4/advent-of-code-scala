@@ -2,7 +2,7 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day5
+object Day5 with
   def solve(input: String): Int =
     @tailrec def countHops0(count: Int, list: List[Int], index: Int): Int =
       val hop = list(index)

@@ -1,8 +1,8 @@
 package aoc.y2015
 
-object Day3
+object Day3 with
   case class Coord(x: Int, y: Int)
-  object Coord
+  object Coord with
     val zero: Coord = Coord(0, 0)
 
   private def navigate(coord: Coord, direction: Char): Coord = 

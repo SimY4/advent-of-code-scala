@@ -1,7 +1,10 @@
 package aoc.y2015
 
-object Day4
+import java.security.MessageDigest
+
+object Day4 with
   private val hexArray = "0123456789ABCDEF".toCharArray
+
   private def (bytes: Array[Byte]) printHexBinary: String =
     val hexChars = new Array[Char](bytes.length * 2)
     for (i <- 0 until bytes.length) {
@@ -13,7 +16,7 @@ object Day4
 
   def solve(input: String, prefix: String = "00000"): Option[Int] = LazyList.from(1)
     .find { i => 
-      val md = java.security.MessageDigest.getInstance("MD5")
+      val md = MessageDigest.getInstance("MD5")
       md.update((input + i).getBytes("UTF-8"))
       val hex = md.digest().printHexBinary
       hex.startsWith(prefix) 

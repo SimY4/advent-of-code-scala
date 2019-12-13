@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day5
+object Day5 with
   private val vowels = "aeiou"
   private val pairs = ('a' to 'z').map { ch => s"$ch$ch" }.toList
   private val bad = List("ab", "cd", "pq", "xy")

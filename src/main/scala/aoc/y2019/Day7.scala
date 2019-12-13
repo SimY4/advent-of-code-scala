@@ -2,7 +2,7 @@ package aoc.y2019
 
 import scala.language.implicitConversions
 
-object Day7
+object Day7 with
   import Day5._
 
   def solve(input: String): Int = 

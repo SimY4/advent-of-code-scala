@@ -2,16 +2,15 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day7
-  enum Gate
+object Day7 with
+  enum Gate with
     case Ref(s: String) extends Gate
     case Value(i: Int) extends Gate
     
-  object Gate {
+  object Gate with
     def apply(s: String): Gate = 
       try { Value(s.toInt) }
       catch { case _: NumberFormatException => Ref(s) }
-  }
 
   import Gate._
 
@@ -39,8 +38,9 @@ object Day7
         RShift(Gate(p), num.toInt, new Ref(to))
       case "NOT" :: e :: "->" :: to :: Nil => 
         Not(Gate(e), new Ref(to))
+      case _ => ???
 
-  private def (as: List[A]) partitionWith[A, B, C](f: A => Either[B, C]): (List[B], List[C]) = 
+  private def [A, B, C] (as: List[A]) partitionWith(f: A => Either[B, C]): (List[B], List[C]) = 
       as.foldRight[(List[B], List[C])]((Nil, Nil)) { (a, partitions) =>
         f(a) match
           case Left(l) => partitions.copy(_1 = l :: partitions._1)

@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day1
+object Day1 with
   private def navigate(cursor: Int, direction: Char): Int = 
     direction match
       case '(' => cursor + 1

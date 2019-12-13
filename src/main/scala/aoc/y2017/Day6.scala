@@ -2,7 +2,7 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day6
+object Day6 with
   case class StepAndLoop(step: Int, loop: Int)
 
   def solve(input: String): StepAndLoop =

@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day2
+object Day2 with
   private def pairsList[A](as: List[A]): List[(A, A)] = 
     (as.head -> as.last) :: (as zip as.tail)
 

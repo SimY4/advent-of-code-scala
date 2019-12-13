@@ -2,7 +2,7 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day1
+object Day1 with
   def solve(input: String): Int =
     val digitsList = input.map(_.asDigit).toList
     val first = digitsList.head

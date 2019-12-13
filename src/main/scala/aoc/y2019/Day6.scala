@@ -2,7 +2,7 @@ package aoc.y2019
 
 import scala.annotation.tailrec
 
-object Day6
+object Day6 with
   private def graph(input: String): Map[String, Set[String]] = 
     input.linesIterator.map { s => 
       val split = s.split(')')

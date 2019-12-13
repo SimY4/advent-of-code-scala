@@ -2,8 +2,7 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day10
-
+object Day10 with
   private def countGroups(s: List[Char]): List[(Char, Int)] =
     @tailrec def iterate(rest: List[Char], acc: List[(Char, Int)] = Nil): List[(Char, Int)] =
       rest.headOption match

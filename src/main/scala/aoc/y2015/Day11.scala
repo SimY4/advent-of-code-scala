@@ -2,8 +2,7 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day11
-
+object Day11 with
   private val forbidden = Set('i', 'o', 'l')
   private val triples = ('a' to 'x')
     .map { ch => s"$ch${(ch + 1).toChar}${(ch + 2).toChar}" }

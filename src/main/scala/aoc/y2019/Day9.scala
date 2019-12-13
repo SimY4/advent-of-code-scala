@@ -1,6 +1,6 @@
 package aoc.y2019
 
-object Day9
+object Day9 with
   def runProgram(opCodes: List[Long], inputs: LazyList[Long]): LazyList[Long] = 
     case class ProgramState(pointer: Int, opCodes: List[Long], relativeBase: Int, inputs: LazyList[Long], output: Option[Long])
     LazyList.iterate(ProgramState(0, opCodes, 0, inputs, None)) { case state @ ProgramState(pointer, opCodes, relativeBase, inputs, _) =>
@@ -40,12 +40,10 @@ object Day9
       .takeWhile(_.pointer >= 0)
       .collect { case ProgramState(_, _, _, _, Some(output)) => output }
     
-
   def solve(input: String): String = 
     val fill = List.fill(100000)(0L)
     runProgram(input.split(",").map(_.toLong).toList ++ fill, LazyList(1L)).mkString(",")
     
-
   def solve2(input: String): String = 
     val fill = List.fill(100000)(0L)
     runProgram(input.split(",").map(_.toLong).toList ++ fill, LazyList(2L)).mkString(",")

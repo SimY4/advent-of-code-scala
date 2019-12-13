@@ -2,7 +2,7 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day8
+object Day8 with
   @tailrec private def countEscaping(acc: Int = 0, str: String): Int = 
     if (str.isEmpty) acc
     else if (str.startsWith("\\x")) countEscaping(acc + 1, str.substring(4))

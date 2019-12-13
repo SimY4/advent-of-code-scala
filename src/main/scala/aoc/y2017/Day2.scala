@@ -1,6 +1,6 @@
 package aoc.y2017
 
-object Day2
+object Day2 with
   def solve(input: String): Int = (for
     line <- input.linesIterator
     arr = "\\d+".r.findAllIn(line).map(_.toInt)

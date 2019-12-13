@@ -1,30 +1,20 @@
 package aoc.y2019
 
-object Day3
-  enum Move(m: Int)
-    case Right(m: Int) extends Move(m)
-    case Up(m: Int) extends Move(m)
-    case Left(m: Int) extends Move(m)
-    case Down(m: Int) extends Move(m)
+object Day3 with
+  case class Coord(x: Int, y: Int)
 
-  private def wire(line: String): List[(Int, Int)] = 
-    line.split(",").map { s => 
-      val (d, m) = s.splitAt(1)
-      d match
-        case "R" => Move.Right(m.toInt)
-        case "U" => Move.Up(m.toInt)
-        case "L" => Move.Left(m.toInt)
-        case "D" => Move.Down(m.toInt)
-    }
-    .foldLeft(List((0, 0))) { case (acc @ (x, y) :: _, move) => 
-      (move match {
-        case Move.Right(m) => for r <- (x + 1) to (x + m) yield (r, y)
-        case Move.Up(m) => for u <- (y - 1) to (y - m) by -1 yield (x, u)
-        case Move.Left(m) => for l <- (x - 1) to (x - m) by -1 yield (l, y)
-        case Move.Down(m) => for d <- (y + 1) to (y + m) yield (x, d)
-      }).toList.reverse ++ acc
-    }.reverse
-      
+  private def wire(line: String): List[Coord] = 
+    (for 
+      instruction <- line.split(",").toList
+      (d, m) = instruction.splitAt(1)
+      coord       <- List.fill(m.toInt) { d match
+        case "R" => Coord(1, 0)
+        case "U" => Coord(0, -1)
+        case "L" => Coord(-1, 0)
+        case "D" => Coord(0, 1)
+      }
+    yield coord)
+      .scanLeft(Coord(0, 0)) { (acc, coord) => acc.copy(x = acc.x + coord.x, y = acc.y + coord.y) }
 
   def solve(input: String): Int = 
     (for
@@ -34,7 +24,7 @@ object Day3
       .toList
       .groupMap(_._1)(_._2)
       .filter(_._2.size >= 2)
-      .map { case ((x, y), _) => math.abs(x) + math.abs(y) }
+      .map { case (Coord(x, y), _) => math.abs(x) + math.abs(y) }
       .min
 
   def solve2(input: String): Int = 

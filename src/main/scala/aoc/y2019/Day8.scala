@@ -1,6 +1,6 @@
 package aoc.y2019
 
-object Day8
+object Day8 with
   def solve(input: String): Int = 
     val layer = input.sliding(25 * 6, 25 * 6)
       .minBy(_.filter('0' == _).length)

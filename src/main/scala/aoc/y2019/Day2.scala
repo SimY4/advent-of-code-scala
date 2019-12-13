@@ -2,7 +2,7 @@ package aoc.y2019
 
 import scala.annotation.tailrec
 
-object Day2
+object Day2 with
   @tailrec private def runProgram(pointer: Int, opCodes: List[Int]): Int = opCodes.drop(pointer) match
     case 1 :: x :: y :: z :: _ => runProgram(pointer + 4, opCodes.updated(z, opCodes(x) + opCodes(y)))
     case 2 :: x :: y :: z :: _ => runProgram(pointer + 4, opCodes.updated(z, opCodes(x) * opCodes(y)))

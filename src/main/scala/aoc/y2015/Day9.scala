@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day9
+object Day9 with
   import scala.collection.parallel.CollectionConverters._
 
   case class Route(from: String, to: String, distance: Int)
@@ -21,10 +21,10 @@ object Day9
             nextPath <- expandPath(nextRoute :: path, rest - path.head.to)
           yield nextPath).seq
 
-    val routes = input.linesIterator.toSeq
-      .flatMap { case linePattern(from, to, distance) => 
-        Seq(Route(from, to, distance.toInt), Route(to, from, distance.toInt)) 
-      }
+    val routes = (for 
+      linePattern(from, to, distance) <- input.linesIterator.toSeq
+      route                           <- Seq(Route(from, to, distance.toInt), Route(to, from, distance.toInt)) 
+    yield route)
       .groupBy(_.from)
       
     (for

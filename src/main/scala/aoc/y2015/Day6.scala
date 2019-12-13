@@ -1,9 +1,9 @@
 package aoc.y2015
 
-object Day6
+object Day6 with
   type Grid[A] = Array[Array[A]]
 
-  enum Action
+  enum Action with
     case TurnOn(x1: Int, y1: Int, x2: Int, y2: Int) extends Action
     case TurnOff(x1: Int, y1: Int, x2: Int, y2: Int) extends Action
     case Toggle(x1: Int, y1: Int, x2: Int, y2: Int) extends Action
@@ -16,6 +16,7 @@ object Day6
         if (line.startsWith("turn on")) TurnOn(x1, y1, x2, y2) 
         else if (line.startsWith("turn off")) TurnOff(x1, y1, x2, y2) 
         else Toggle(x1, y1, x2, y2)
+      case _ => ???
 
   private def update[A](grid: Grid[A], x1: Int, y1: Int, x2: Int, y2: Int)(f: A => A): Grid[A] =
     for (i <- x1 to x2; j <- y1 to y2) {

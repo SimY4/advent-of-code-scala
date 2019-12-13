@@ -1,6 +1,6 @@
 package aoc.y2019
 
-object Day5
+object Day5 with
   def runProgram(opCodes: List[Int], inputs: LazyList[Int]): LazyList[Int] = 
     case class ProgramState(pointer: Int, opCodes: List[Int], inputs: LazyList[Int], output: Option[Int])
     LazyList.iterate(ProgramState(0, opCodes, inputs, None)) { case ProgramState(pointer, opCodes, inputs, _) =>
