@@ -19,7 +19,7 @@ object Day11 {
     def distance: Int = math.max(math.max(math.abs(coord._1), math.abs(coord._2)), math.abs(coord._1 - coord._2))
   }
 
-  def parse(input: String): Seq[Direction] = input.split(",").map {
+  def parse(input: String): Seq[Direction] = input.split(',').toSeq.map {
     case "n"  => N
     case "ne" => NE
     case "se" => SE

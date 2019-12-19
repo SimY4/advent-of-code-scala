@@ -10,7 +10,7 @@ object Day6 with
     }
       .toList
       .groupMap(_._1)(_._2)
-      .mapValues(_.toSet)
+      .view.mapValues(_.toSet)
       .toMap
 
   @tailrec private def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] = 
