@@ -1,33 +1,40 @@
 package aoc.y2015
 
-import scala.annotation.tailrec
-
 object Day11 with
   private val forbidden = Set('i', 'o', 'l')
-  private val triples = ('a' to 'x')
-    .map { ch => s"$ch${(ch + 1).toChar}${(ch + 2).toChar}" }
-    .toSet
-  private val pairs = ('a' to 'z').map { ch => s"$ch$ch" }.toList
 
-  private def meetRequirements(pass: String): Boolean =
-    (for
-      p <- Some(pass)
-      if p.toSeq.sliding(3).exists(s => triples.contains(s.toString))
-      if !p.exists(forbidden.contains)
-      if pairs.mkString("|", "(", ")[2]").r.findAllIn(p).nonEmpty
-    yield ()).isDefined
+  private def (s: List[Char]) increment: List[Char] =
+    s.reverse match
+      case 'z' :: tail => increment(tail.reverse) :+ 'a'
+      case x :: tail => ((x + 1).toChar :: tail).reverse
+      case Nil => 'a' :: Nil
 
-  private def (s: String) increment: String =
-    s.reverse.toList match
-      case 'z' :: tail => increment(tail.reverse.mkString) + 'a'
-      case x :: tail => ((x + 1).toChar :: tail).reverse.mkString
-      case Nil => "a"
+  private def meetRequirements(pass: List[Char]): Boolean =
+    pass
+      .sliding(3)
+      .exists { triple => 
+        triple.size == 3 && triple(0) + 1 == triple(1) && triple(1) + 1 == triple(2) 
+      } && 
+      !pass.exists(forbidden.contains) && 
+      pass
+        .sliding(2)
+        .zipWithIndex
+        .filter(pair => pair.size == 2 && pair._1(0) == pair._1(1))
+        .map(_._2)
+        .sliding(2)
+        .exists(pair => pair.size == 2 && pair(0) + 1 != pair(1))
 
   def solve(input: String): String =
-    @tailrec def iterate(input: String): String =
-      if (meetRequirements(input)) input
-      else iterate(increment(input))
-
-    iterate(input)
+    LazyList.iterate(input.toList)(_.increment)
+      .filter(meetRequirements)
+      .head
+      .mkString
     
-  def solve2(input: String): Int = ???
+  def solve2(input: String): String = 
+    LazyList.iterate(input.toList)(_.increment)
+      .filter(meetRequirements)
+      .drop(1)
+      .head
+      .mkString
+
+  val input = "hxbxwxba"

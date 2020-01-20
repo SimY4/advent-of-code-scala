@@ -13,3 +13,5 @@ object Day10 with
     }.size
 
   def solve2(input: String): Int = solve(input, 50)
+
+  val input = "1113222113"
