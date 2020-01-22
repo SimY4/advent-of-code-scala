@@ -7,14 +7,11 @@ object Day7 with
 
   def solve(input: String): Int = 
     val opCodes = input.split(",").map(_.toInt).toList
-    (for
-      amplifier <- (0 to 4).permutations
-      out1      <- runProgram(opCodes, LazyList(amplifier(0), 0)).headOption
-      out2      <- runProgram(opCodes, LazyList(amplifier(1), out1)).headOption
-      out3      <- runProgram(opCodes, LazyList(amplifier(2), out2)).headOption
-      out4      <- runProgram(opCodes, LazyList(amplifier(3), out3)).headOption
-      out5      <- runProgram(opCodes, LazyList(amplifier(4), out4)).headOption
-    yield out5).max
+      (0 to 4).permutations
+        .map(_.fold(0) { (init, v) =>
+          runProgram(opCodes, LazyList(v, init)).head
+        })
+        .max
     
   def solve2(input: String): Int = 
     val opCodes = input.split(",").map(_.toInt).toList

@@ -70,13 +70,13 @@ object Day4
 
   def solve(input: String): Int =
     val sched                        = schedule(input)
-    val (id, longestSleeperSchedule) = sched.maxBy { case (_, list) => list.map(_.durationBetween).reduce(_.plus(_)) }
+    val (id, longestSleeperSchedule) = sched.maxBy((_, list) => list.map(_.durationBetween).reduce(_.plus(_)))
     val maxMinuteSleeping = (for
       s      <- sched(id)
       minute <- s.minutes
     yield minute)
       .groupBy(identity)
-      .maxBy { case (_, list) => list.size }
+      .maxBy((_, list) => list.size)
       ._1
     id * maxMinuteSleeping
 
@@ -89,7 +89,7 @@ object Day4
       yield minute)
         .groupBy(identity)
         .view.mapValues(_.size)
-        .maxBy { case (_, size) => size }
+        .maxBy((_, size) => size)
     }.maxBy { case (_, (min, count)) => count }
     id * maxMinuteSleeping
   

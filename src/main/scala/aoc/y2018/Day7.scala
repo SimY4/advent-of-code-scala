@@ -24,7 +24,7 @@ object Day7
       if (reqs.isEmpty) then
         res
       else
-        val step = reqs.filter { case (_, set) => set.isEmpty }.map(_._1).toList.sorted.head
+        val step = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
         val newReqs = for {
           (k, set) <- reqs
         } yield k -> (set - step)
@@ -44,7 +44,7 @@ object Day7
       if (reqs.isEmpty && queue.isEmpty) then
         time
       else
-        queue.filter { case (_, time) => time == 0L }.map(_._1).toList.headOption match
+        queue.filter((_, time) => time == 0L).map(_._1).toList.headOption match
           case Some(step) =>
             val newReqs = for
               (k, set) <- reqs
@@ -54,7 +54,7 @@ object Day7
             if (queue.size >= 5) then
               solve0(reqs, work(queue), time + 1)
             else
-              reqs.filter { case (_, set) => set.isEmpty }.map(_._1).toList.sorted.headOption match
+              reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match
                 case Some(step) =>
                   solve0(reqs - step, queue + (step -> duration(step)), time)
                 case None =>

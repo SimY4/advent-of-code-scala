@@ -9,7 +9,7 @@ object Day10 with
           case _ => (ch, 1) :: list
         }
       }
-       .flatMap { case (ch, cnt) => s"${cnt}${ch}".toList }
+       .flatMap((ch, cnt) => s"${cnt}${ch}".toList)
     }.size
 
   def solve2(input: String): Int = solve(input, 50)

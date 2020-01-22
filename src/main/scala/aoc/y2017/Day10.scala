@@ -20,7 +20,7 @@ object Day10 {
           .toList
           .reverse
           .zipWithIndex
-          .map { case (a, i) => ((p + i) % ls.size, a) }
+          .map((a, i) => ((p + i) % ls.size, a))
           .toMap
         val updated = LazyList
           .from(0)

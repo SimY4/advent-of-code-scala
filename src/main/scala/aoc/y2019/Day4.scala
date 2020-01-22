@@ -32,7 +32,7 @@ object Day4 with
           case (d, cnt) :: tail if d == digit => (digit, cnt + 1) :: tail
           case _ => (digit, 1) :: acc
         }
-      }.exists { case (_, cnt) => cnt == 2 }
+      }.exists((_, cnt) => cnt == 2)
       if passDigits.sliding(2, 1).forall { pair => pair.head <= pair.tail.head }
     yield pass)
       .size
