@@ -25,23 +25,23 @@ object Day12 with
       else Some(matches, input.dropWhile(p))
     }
 
-    val nothing: Parser[String] = Some("", _)
+    def nothing[A](empty: A): Parser[A] = Some(empty, _)
     
     given as AnyRef with
       def [A, B](p: Parser[A]) as(b: => B): Parser[B] = p.map(_ => b)
 
-      def [A](p: Parser[A]) many(separatedBy: Parser[Any] = nothing): Parser[List[A]] = 
-        (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing.as(Nil)
+      def [A](p: Parser[A]) many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] = 
+        (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing(Nil)
 
       def [A, B](p: Parser[A]) map (f: A => B): Parser[B] = { input => 
         p(input).map((a, rest) => (f(a), rest)) 
       }
-      def [A](p: Parser[A]) optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing.as(None)
+      def [A](p: Parser[A]) optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
       def [A](p: Parser[A]) run(input: String): A = 
         p(input).map(_._1).get
 
-      def [A, A0 >: A](p: Parser[A]) <|> (other: => Parser[A0]): Parser[A0] = { input =>
+      def [A](p: Parser[A]) <|> (other: => Parser[A]): Parser[A] = { input =>
         p(input) orElse other(input)
       }
 
@@ -78,10 +78,10 @@ object Day12 with
     }
     private val stringParser: Parser[String] = char('"') *> span(_ != '"') <* char('"')
     private val arrayParser: Parser[JArray] = (char('[') *> parser.many(char(',')) <* char(']'))
-      .map(list => new JArray(list))
+      .map(new JArray(_))
     private val objectParser: Parser[JObj] = (char('{') *> (stringParser <* char(':') <*> parser).many(char(',')) <* char('}'))
       .map(list => new JObj(list.toMap))
-    lazy val parser: Parser[Json] = nullParser <|> boolParser <|> numberParser <|> stringParser.map(s => new JString(s)) <|> arrayParser <|> objectParser
+    lazy val parser: Parser[Json] = nullParser <|> boolParser <|> numberParser <|> stringParser.map(new JString(_)) <|> arrayParser <|> objectParser
 
   def solve2(input: String): Int = 
     import Json._
