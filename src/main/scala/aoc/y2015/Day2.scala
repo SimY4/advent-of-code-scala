@@ -1,25 +1,23 @@
-package aoc.y2015
+package aoc
+package y2015
 
-object Day2 with
-  private def pairsList[A](as: List[A]): List[(A, A)] = 
-    (as.head -> as.last) :: (as zip as.tail)
-
+object Day2 {
   def solve(input: String): Int = 
-    (for
+    (for {
       line <- input.linesIterator
       dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
-      sides = pairsList(dimensions).map(_ * _)
+      sides = dimensions.pairs.map(_ * _)
       surfaceArea = sides.map(2 * _).sum
       extra = sides.min
-    yield surfaceArea + extra).sum
+    } yield surfaceArea + extra).sum
 
   def solve2(input: String): Int = 
-    (for
+    (for {
       line <- input.linesIterator
       dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
-      ribbon = pairsList(dimensions).map(2 * _ + 2 * _).min
+      ribbon = dimensions.pairs.map(2 * _ + 2 * _).min
       bow = dimensions.product
-    yield ribbon + bow).sum
+    } yield ribbon + bow).sum
 
   val input = """29x13x26
                 |11x11x14
@@ -1021,3 +1019,4 @@ object Day2 with
                 |3x2x22
                 |14x3x5
                 |10x9x8""".stripMargin
+}

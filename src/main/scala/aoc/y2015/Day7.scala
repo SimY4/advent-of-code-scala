@@ -2,56 +2,57 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day7 with
-  enum Gate with
-    case Ref(s: String) extends Gate
-    case Value(i: Int) extends Gate
+object Day7 {
+  private enum Gate {
+    case Ref(s: String)
+    case Value(i: Int)
+  }
     
-  object Gate with
+  private object Gate {
     def apply(s: String): Gate = 
-      try { Value(s.toInt) }
+      try Value(s.toInt)
       catch { case _: NumberFormatException => Ref(s) }
+  }
 
   import Gate._
 
-  enum Wire
-    case Identity(g: Gate, to: Ref) extends Wire
-    case Not(e: Gate, to: Ref) extends Wire
-    case And(x: Gate, y: Gate, to: Ref) extends Wire
-    case Or(x: Gate, y: Gate, to: Ref) extends Wire
-    case LShift(p: Gate, shift: Int, to: Ref) extends Wire
-    case RShift(p: Gate, shift: Int, to: Ref) extends Wire
+  private enum Wire {
+    case Identity(g: Gate, to: Ref)
+    case Not(e: Gate, to: Ref)
+    case And(x: Gate, y: Gate, to: Ref)
+    case Or(x: Gate, y: Gate, to: Ref)
+    case LShift(p: Gate, shift: Int, to: Ref)
+    case RShift(p: Gate, shift: Int, to: Ref)
+  }
 
   import Wire._
 
-  private def parseLine(line: String): Wire =
-    line.split(" ").toList match
-      case g :: "->" :: to :: Nil => 
-        Identity(Gate(g), new Ref(to))
-      case x :: "AND" :: y :: "->" :: to :: Nil =>
-        And(Gate(x), Gate(y), new Ref(to))
-      case x :: "OR" :: y :: "->" :: to :: Nil => 
-        Or(Gate(x), Gate(y), new Ref(to))
-      case p :: "LSHIFT" :: num :: "->" :: to :: Nil if num.matches("\\d+") => 
-        LShift(Gate(p), num.toInt, new Ref(to))
-      case p :: "RSHIFT" :: num :: "->" :: to :: Nil if num.matches("\\d+") => 
-        RShift(Gate(p), num.toInt, new Ref(to))
-      case "NOT" :: e :: "->" :: to :: Nil => 
-        Not(Gate(e), new Ref(to))
-      case _ => ???
+  private def parseLine(line: String): Wire = line match {
+    case s"$x AND $y -> $to" => And(Gate(x), Gate(y), new Ref(to))
+    case s"$x OR $y -> $to" => Or(Gate(x), Gate(y), new Ref(to))
+    case s"$p LSHIFT $num -> $to" if num.matches("\\d+") => 
+      LShift(Gate(p), num.toInt, new Ref(to))
+    case s"$p RSHIFT $num -> $to" if num.matches("\\d+") => 
+      RShift(Gate(p), num.toInt, new Ref(to))
+    case s"NOT $e -> $to" => 
+      Not(Gate(e), new Ref(to))
+    case s"$g -> $to" => Identity(Gate(g), new Ref(to))
+    case _ => ???
+  }
 
   private def [A, B, C] (as: List[A]) partitionWith(f: A => Either[B, C]): (List[B], List[C]) = 
-      as.foldRight[(List[B], List[C])]((Nil, Nil)) { (a, partitions) =>
-        f(a) match
+      as.foldRight((Nil: List[B], Nil: List[C])) { (a, partitions) =>
+        f(a) match {
           case Left(l) => partitions.copy(_1 = l :: partitions._1)
           case Right(r) => partitions.copy(_2 = r :: partitions._2)
+        }
       }
 
   private def (i: Int) u: Int = i << 16 >>> 16
 
-  @tailrec def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
-    if (logicGates.isEmpty) then signals
-    else
+  @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
+    if (logicGates.isEmpty) signals
+    else {
       val (newSignals, rest) = logicGates.partitionWith { 
         case Not(e @ Ref(_), to) if signals.contains(e) => 
           Left(to -> (~signals(e)).u)
@@ -88,18 +89,21 @@ object Day7 with
         case w => Right(w)
       }
       iterate(signals ++ newSignals, rest)
+    }
 
-  def solve(input: String): Option[Int] =
+  def solve(input: String): Option[Int] = {
     val logicGates = input.linesIterator.map(parseLine).toList
     iterate(Map.empty, logicGates).get(new Ref("a"))
+  }
 
-  def solve2(input: String): Option[Int] =
+  def solve2(input: String): Option[Int] = {
     val logicGates = input.linesIterator.map(parseLine).toList
     val a = iterate(Map.empty, logicGates)(new Ref("a"))
     iterate(Map(new Ref("b") -> a), logicGates.filter { 
       case Identity(Ref("b"), to) => false
       case _ => true
     }).get(new Ref("a"))
+  }
 
   val input = """NOT dq -> dr
                 |kg OR kf -> kh
@@ -440,3 +444,4 @@ object Day7 with
                 |gj RSHIFT 3 -> gl
                 |fo RSHIFT 3 -> fq
                 |he RSHIFT 2 -> hf""".stripMargin
+}

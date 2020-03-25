@@ -7,24 +7,25 @@ import java.time.{ Duration, Instant, LocalDateTime, ZoneOffset }
 import scala.annotation.tailrec
 import scala.language.implicitConversions
 
-object Day4
-  val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+object Day4 {
+  private val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 
-  case class Record(ts: Instant, action: Action)
-  enum Action
-    case BeginsDuty(guard: Int) extends Action
-    case FallsAsleep            extends Action
-    case WakesUp                extends Action
+  private final case class Record(ts: Instant, action: Action)
+  private enum Action {
+    case BeginsDuty(guard: Int)
+    case FallsAsleep
+    case WakesUp
+  }
 
   import Action._
 
-  case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
+  private final case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
 
-  def (s: SleepSchedule) durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
-  def (s: SleepSchedule) minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
+  private def (s: SleepSchedule) durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
+  private def (s: SleepSchedule) minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
 
-  def schedule(input: String): Map[Int, List[SleepSchedule]] =
-    def parse(line: String): Record =
+  private def schedule(input: String): Map[Int, List[SleepSchedule]] = {
+    def parse(line: String): Record = {
       val matcher = raw"\[(?<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (?<ac>.+)".r.pattern.matcher(line)
       matcher.find
       Record(
@@ -39,8 +40,10 @@ object Day4
                 BeginsDuty(g.toInt)
               }
               .get
+          case _ => ???
         }
       )
+    }
 
     implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
 
@@ -49,7 +52,7 @@ object Day4
       current: Int,
       schedule: Map[Int, List[SleepSchedule]]
     ): Map[Int, List[SleepSchedule]] =
-      records match
+      records match {
         case Nil                            => schedule
         case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
@@ -58,6 +61,8 @@ object Day4
             current,
             schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end))))
           )
+        case _ => ???
+      }
 
     schedule0(
       input.linesIterator
@@ -67,6 +72,7 @@ object Day4
       -1,
       Map.empty
     )
+  }
 
   def solve(input: String): Int =
     val sched                        = schedule(input)
@@ -111,3 +117,4 @@ object Day4
                 |[1518-11-05 00:03] Guard #99 begins shift
                 |[1518-11-05 00:45] falls asleep
                 |[1518-11-05 00:55] wakes up""".stripMargin
+}

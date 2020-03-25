@@ -1,33 +1,35 @@
 package aoc.y2015
 
-object Day17 with
-  def solve(input: String): Int =
+object Day17 {
+  def solve(input: String): Int = {
     val containers = input.linesIterator.map(_.toInt).toList
     
     (0 until (1 << containers.size))
       .count { mask => 
-        (for 
+        (for {
           (j, i) <- containers.zipWithIndex
           if (mask & (1 << i)) > 0
-        yield j)
+        } yield j)
           .sum == 150
       }
+  }
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int = {
     val containers = input.linesIterator.map(_.toInt).toList
     
     (0 until (1 << containers.size))
       .flatMap { mask => 
-        val set = (for 
+        val set = (for {
           (j, i) <- containers.zipWithIndex
           if (mask & (1 << i)) > 0
-        yield j)
+        } yield j)
         Option.when(set.sum == 150) { set.size }
       }
       .groupBy(identity)
       .toSeq
       .minBy(_._1)
       ._2.size
+  }
 
   val input = """33
                 |14
@@ -49,3 +51,4 @@ object Day17 with
                 |41
                 |30
                 |42""".stripMargin
+}

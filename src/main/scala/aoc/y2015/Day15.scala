@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day15 with
+object Day15 {
   private def split(number: Int, parts: Int): List[List[Int]] =
     (0 until parts - 1)
       .foldLeft((1 to number).map(_ :: Nil).toList) { (acc, _) => 
@@ -14,7 +14,7 @@ object Day15 with
       .filter(_.sum == number)
       .toList
 
-  def solve(input: String): Int =
+  def solve(input: String): Int = {
     val ingredients = (for
       line <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
@@ -29,8 +29,9 @@ object Day15 with
           .product
       }
       .max
+  }
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int = {
     val ingredients = (for
       line <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
@@ -47,8 +48,10 @@ object Day15 with
         }
       }
       .max
+  }
 
   val input = """Frosting: capacity 4, durability -2, flavor 0, texture 0, calories 5
                 |Candy: capacity 0, durability 5, flavor -1, texture 0, calories 8
                 |Butterscotch: capacity -1, durability 0, flavor 5, texture 0, calories 6
                 |Sugar: capacity 0, durability 0, flavor -2, texture 2, calories 1""".stripMargin
+}

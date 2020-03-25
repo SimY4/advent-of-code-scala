@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day10 with
+object Day10 {
   def solve(input: String, times: Int = 40): Int =
     (1 to times).foldLeft(input.toList) { (list, _) =>
       list.foldRight(Nil: List[(Char, Int)]) { (ch, list) =>
@@ -15,3 +15,4 @@ object Day10 with
   def solve2(input: String): Int = solve(input, 50)
 
   val input = "1113222113"
+}

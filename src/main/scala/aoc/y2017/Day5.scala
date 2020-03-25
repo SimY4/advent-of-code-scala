@@ -2,29 +2,31 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day5 with
-  def solve(input: String): Int =
-    @tailrec def countHops0(count: Int, list: List[Int], index: Int): Int =
+object Day5 {
+  def solve(input: String): Int = {
+    @tailrec def countHops0(count: Int, list: List[Int], index: Int): Int = {
       val hop = list(index)
 
-      if (index + hop >= list.size || index + hop < 0) then
-        count
-      else
-        countHops0(count + 1, list.updated(index, hop + 1), index + hop)
+      if (index + hop >= list.size || index + hop < 0) count
+      else countHops0(count + 1, list.updated(index, hop + 1), index + hop)
+    }
 
     countHops0(1, input.linesIterator.map(_.toInt).toList, 0)
+  }
 
-  def solve2(input: String): Long =
-    @tailrec def countHops20(count: Long, list: List[Int], index: Int): Long =
+  def solve2(input: String): Long = {
+    @tailrec def countHops20(count: Long, list: List[Int], index: Int): Long = {
       val hop = list(index)
 
-      if (index + hop >= list.size || index + hop < 0) then
-        count
-      else
+      if (index + hop >= list.size || index + hop < 0) count
+      else {
         val offset = if (hop >= 3) hop - 1 else hop + 1
         countHops20(count + 1, list.updated(index, offset), index + hop)
+      }
+    }
 
     countHops20(1L, input.linesIterator.map(_.toInt).toList, 0)
+  }
 
   val input = """0
                 |1
@@ -1070,3 +1072,4 @@ object Day5 with
                 |-924
                 |-924
                 |-365""".stripMargin
+}

@@ -1,30 +1,28 @@
-package aoc.y2015
+package aoc
+package y2015
 
-object Day13 with
+object Day13 {
   private val linePattern = "^([A-Z][a-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([A-Z][a-z]+)\\.$".r
 
-  private def pairsList[A](as: List[A]): List[(A, A)] = 
-    (as.head -> as.last) :: (as zip as.tail)
-
-  def solve(input: String): Int =
-    val rels = (for
+  def solve(input: String): Int = {
+    val rels = (for {
       linePattern(first, gl, points, second) <- input.linesIterator
-      adjPoints = if gl == "gain" then points.toInt else -points.toInt
-    yield (first -> second, adjPoints))
+      adjPoints = if (gl == "gain") points.toInt else -points.toInt
+    } yield (first -> second, adjPoints))
       .toMap
     rels.keySet
       .map(_._1)
       .toList
       .permutations
-      .map(pairsList)
-      .map(_.map((a, b) => rels((a, b)) + rels((b, a))).sum)
+      .map(_.pairs.map((a, b) => rels((a, b)) + rels((b, a))).sum)
       .max
+  }
 
-  def solve2(input: String): Int = 
-    val rels = (for
+  def solve2(input: String): Int = {
+    val rels = (for {
       linePattern(first, gl, points, second) <- input.linesIterator
-      adjPoints = if gl == "gain" then points.toInt else -points.toInt
-    yield (first -> second, adjPoints))
+      adjPoints = if (gl == "gain") points.toInt else -points.toInt
+    } yield (first -> second, adjPoints))
       .toMap
     val guests = rels.keySet.map(_._1)
     val relsWithMe = guests.foldLeft(rels) { (acc, guest) =>
@@ -32,9 +30,9 @@ object Day13 with
     }
     ("Me" :: guests.toList)
       .permutations
-      .map(pairsList)
-      .map(_.map((a, b) => relsWithMe((a, b)) + relsWithMe((b, a))).sum)
+      .map(_.pairs.map((a, b) => relsWithMe((a, b)) + relsWithMe((b, a))).sum)
       .max
+  }
 
   val input = """Alice would lose 57 happiness units by sitting next to Bob.
                 |Alice would lose 62 happiness units by sitting next to Carol.
@@ -92,3 +90,4 @@ object Day13 with
                 |Mallory would gain 22 happiness units by sitting next to Eric.
                 |Mallory would gain 79 happiness units by sitting next to Frank.
                 |Mallory would lose 16 happiness units by sitting next to George.""".stripMargin
+}

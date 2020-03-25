@@ -3,52 +3,53 @@ package y2018
 
 import scala.annotation.tailrec
 
-object Day10
-
-  case class Point(x: Long, y: Long, vx: Long, vy: Long)
-  case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
-  object Area
+object Day10 {
+  private final case class Point(coord: Coord, vcoord: Coord)
+  private final case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
+  private object Area {
     def apply(points: List[Point]): Area = Area(
-      points.map(_.x).min,
-      points.map(_.x).max,
-      points.map(_.y).min,
-      points.map(_.y).max
+      points.map(_.coord.x).min,
+      points.map(_.coord.x).max,
+      points.map(_.coord.y).min,
+      points.map(_.coord.y).max
     )
-  def (a: Area) area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
 
-  def parse(input: String): List[Point] =
+    def (a: Area) area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
+  }
+
+  import Area._
+
+  private def parse(input: String): List[Point] =
     input.linesIterator.map { line =>
       "-?\\d+".r.findAllIn(line).map(_.toLong).toList match
-        case x :: y :: vx :: vy :: Nil => Point(x, y, vx, vy)
+        case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
+        case _ => ???
     }.toList
 
-  def solve(input: String): Unit =
-    def show(points: List[Point]): String =
+  def solve(input: String): Unit = {
+    def show(points: List[Point]): String = {
       val area = Area(points)
-      val coords = points.map { p =>
-        p.x -> p.y
-      }.toSet
+      val coords = points.map(_.coord).toSet
       (area.y1 to area.y2).map { y =>
         (area.x1 to area.x2).map { x =>
-          if (coords contains (x -> y)) then
-            "X"
-          else
-            " "
+          if (coords contains Coord(x, y)) "X"
+          else " "
         }.mkString
       }.mkString("\n")
+    }
 
-    @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit =
+    @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit = {
       val nextPoints = points.map { point =>
-        point.copy(x = point.x + point.vx, y = point.y + point.vy)
+        point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
       }
       val nextArea = Area(nextPoints).area
-      if (area > nextArea) then
-        solve0(nextPoints, time + 1, nextArea)
-      else
-        println(s"time: $time, area:\n${show(points)}")
+      if (area > nextArea) solve0(nextPoints, time + 1, nextArea)
+      else println(s"time: $time, area:\n${show(points)}")
+    }
 
     val pts = parse(input)
     solve0(pts, 0, Area(pts).area)
+  }
 
   val input = """position=< 9,  1> velocity=< 0,  2>
                 |position=< 7,  0> velocity=<-1,  0>
@@ -81,3 +82,4 @@ object Day10
                 |position=< 5,  9> velocity=< 1, -2>
                 |position=<14,  7> velocity=<-2,  0>
                 |position=<-3,  6> velocity=< 2, -1>""".stripMargin
+}

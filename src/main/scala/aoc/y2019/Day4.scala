@@ -1,6 +1,6 @@
 package aoc.y2019
 
-object Day4 with
+object Day4 {
   private def (i: Int) digits: Seq[Int] = 
     LazyList.iterate(Some(i): Option[Int]) { 
       case Some(i) if i > 0 => Some(i / 10)
@@ -12,19 +12,20 @@ object Day4 with
       .toList
       .reverse
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int = {
     val range = input.split("-").map(_.toInt)
-    (for 
+    (for {
       pass <- range(0) to range(1)
       passDigits = pass.digits
       if passDigits.sliding(2, 1).exists { pair => pair.head == pair.tail.head }
       if passDigits.sliding(2, 1).forall { pair => pair.head <= pair.tail.head }
-    yield pass)
+    } yield pass)
       .size
+  }
 
-  def solve2(input: String): Int =
+  def solve2(input: String): Int = {
     val range = input.split("-").map(_.toInt)
-    (for 
+    (for {
       pass <- range(0) to range(1)
       passDigits = pass.digits
       if passDigits.foldRight(Nil: List[(Int, Int)]) { (digit, acc) =>
@@ -34,7 +35,9 @@ object Day4 with
         }
       }.exists((_, cnt) => cnt == 2)
       if passDigits.sliding(2, 1).forall { pair => pair.head <= pair.tail.head }
-    yield pass)
+    } yield pass)
       .size
+  }
   
   val input = "264360-746325"
+}

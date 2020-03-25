@@ -2,15 +2,14 @@ package aoc
 package y2017
 
 object Day10 {
-
-  type State = (List[Int], List[Int], Int, Int)
+  final case class State(list: List[Int], lengths: List[Int], count: Int, pos: Int)
 
   private val lengths = "3,4,1,5".split(",").map(_.toInt).toList
 
   def list(n: Int): List[Int] = LazyList.from(0).take(n).toList
 
   def knotHash(state: State): State = {
-    val (list, lengths, count, pos) = state
+    val State(list, lengths, count, pos) = state
     val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)) {
       case ((ls, c, p), length) =>
         val reversed = Iterator
@@ -32,11 +31,11 @@ object Day10 {
         (updated, c + 1, (p + length + c) % ls.size)
     }
 
-    (nextList, lengths, nextCount, nextPos)
+    State(nextList, lengths, nextCount, nextPos)
   }
 
-  val state: State                 = (list(5), lengths, 0, 0)
-  val (l @ x1 :: x2 :: _, _, _, _) = knotHash(state)
+  val state: State                 = State(list(5), lengths, 0, 0)
+  val State(l @ x1 :: x2 :: _, _, _, _) = knotHash(state)
   println(l)
   println(x1 * x2 == 12)
 
@@ -55,7 +54,7 @@ object Day10 {
   } yield ascii -> result
 
   def denseHash(state: State): String = {
-    val (list, _, _, _) = LazyList.from(0).take(64).foldLeft(state) { (acc, _) =>
+    val State(list, _, _, _) = LazyList.from(0).take(64).foldLeft(state) { (acc, _) =>
       knotHash(acc)
     }
     (for {
@@ -66,7 +65,7 @@ object Day10 {
 
   for {
     (i, r)       <- lengthsList
-    state: State = (list(256), i, 0, 0)
+    state: State = State(list(256), i, 0, 0)
     res          = denseHash(state)
     _            = println(s"$res -> $r")
     _            = println(res == r)

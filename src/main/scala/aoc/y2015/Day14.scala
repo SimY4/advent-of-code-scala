@@ -1,15 +1,16 @@
 package aoc.y2015
 
-object Day14 with
+object Day14 {
   private val linePattern = "^([A-Z][a-z]+) can fly (\\d+) km/s for (\\d+) seconds, but then must rest for (\\d+) seconds\\.$".r
 
-  private case class Raindeer(name: String, speed: Int, flyTime: Int, restTime: Int)
-  private case class State(distance: Int, score: Int, switch: Int, status: Status)
+  private final case class Raindeer(name: String, speed: Int, flyTime: Int, restTime: Int)
+  private final case class State(distance: Int, score: Int, switch: Int, status: Status)
 
-  private enum Status with
+  private enum Status {
     case Flying, Resting
+  }
 
-  def solve(input: String): Int =
+  def solve(input: String): Int = {
     val raindeers = (for
       linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
     yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
@@ -32,8 +33,9 @@ object Day14 with
       .values
       .map(_.distance)
       .max
+  }
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int = {
     val raindeers = (for
       linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
     yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
@@ -66,6 +68,7 @@ object Day14 with
       .values
       .map(_.score)
       .max
+  }
 
   val input = """Vixen can fly 8 km/s for 8 seconds, but then must rest for 53 seconds.
                 |Blitzen can fly 13 km/s for 4 seconds, but then must rest for 49 seconds.
@@ -76,3 +79,4 @@ object Day14 with
                 |Comet can fly 3 km/s for 37 seconds, but then must rest for 76 seconds.
                 |Prancer can fly 9 km/s for 12 seconds, but then must rest for 97 seconds.
                 |Dancer can fly 37 km/s for 1 seconds, but then must rest for 36 seconds.""".stripMargin
+}

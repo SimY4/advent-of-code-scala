@@ -4,22 +4,13 @@ package y2017
 import scala.language.implicitConversions
 
 object Day11 {
-
-  sealed trait Direction
-  case object N  extends Direction
-  case object NE extends Direction
-  case object SE extends Direction
-  case object S  extends Direction
-  case object SW extends Direction
-  case object NW extends Direction
-
-  type Coord = (Int, Int)
-  implicit def coordOps(coord: Coord): CoordOps = new CoordOps(coord)
-  final class CoordOps(coord: Coord) {
-    def distance: Int = math.max(math.max(math.abs(coord._1), math.abs(coord._2)), math.abs(coord._1 - coord._2))
+  private enum Direction {
+    case N, NE, SE, S, SW, NW
   }
 
-  def parse(input: String): Seq[Direction] = input.split(',').toSeq.map {
+  import Direction._
+
+  private def parse(input: String): Seq[Direction] = input.split(',').toSeq.map {
     case "n"  => N
     case "ne" => NE
     case "se" => SE
@@ -28,26 +19,23 @@ object Day11 {
     case "nw" => NW
   }
 
-  def track(current: Coord, direction: Direction): Coord = direction match {
-    case N  => current._1 + 1   -> current._2
-    case NE => (current._1 + 1) -> (current._2 + 1)
-    case SE => current._1       -> (current._2 + 1)
-    case S  => current._1 - 1   -> current._2
-    case SW => (current._1 - 1) -> (current._2 - 1)
-    case NW => current._1       -> (current._2 - 1)
+  private def track(current: Coord, direction: Direction): Coord = direction match {
+    case N  => current.copy(x = current.x + 1)
+    case NE => current.copy(current.x + 1, current.y + 1)
+    case SE => current.copy(y = current.y + 1)
+    case S  => current.copy(x = current.x - 1)
+    case SW => current.copy(current.x - 1, current.y - 1)
+    case NW => current.copy(y = current.y - 1)
   }
 
-  def optimise(path: Seq[Direction], max: Coord = 0 -> 0): (Int, Int) = {
-    val start = 0 -> 0
-    val (end, max) = path.foldLeft((start, 0)) {
+  private def optimise(path: Seq[Direction], max: Coord = Coord(0, 0)): (Long, Long) = {
+    val start = Coord(0, 0)
+    val (end, max) = path.foldLeft((start, 0L)) {
       case ((current, mx), direction) =>
         val next         = track(current, direction)
         val nextDistance = next.distance
-        if (nextDistance > mx) {
-          (next, nextDistance)
-        } else {
-          (next, mx)
-        }
+        if (nextDistance > mx) (next, nextDistance)
+        else (next, mx)
     }
     println(end)
     (end.distance, max)

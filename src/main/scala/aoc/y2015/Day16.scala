@@ -1,10 +1,11 @@
 package aoc.y2015
 
-object Day16 with
-  private[Day16] enum Dogs with
+object Day16 {
+  private enum Dogs {
     case Samoyeds, Pomeranians, Akitas, Vizslas
+  }
 
-  private[Day16] final case class AuntSue(
+  private final case class AuntSue(
     children: Option[Int] = None,
     cats: Option[Int] = None,
     dogs: Map[Dogs, Int] = Map.empty,
@@ -14,7 +15,7 @@ object Day16 with
     perfumes: Option[Int] = None
   )
 
-  val auntSue = AuntSue(
+  private val auntSue = AuntSue(
     children = Some(3),
     cats = Some(7),
     dogs = Map(
@@ -32,7 +33,7 @@ object Day16 with
   private def parseLine(line: String): AuntSue =
     line.split(" ").toList.drop(2).sliding(2, 2)
       .foldLeft(AuntSue()) { (sue, pair) => 
-        pair match
+        pair match {
           case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
           case "cats:" :: num :: Nil => sue.copy(cats = num.replace(",", "").toIntOption)
           case "samoyeds:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
@@ -44,46 +45,57 @@ object Day16 with
           case "cars:" :: num :: Nil => sue.copy(cars = num.replace(",", "").toIntOption)
           case "perfumes:" :: num :: Nil => sue.copy(perfumes = num.replace(",", "").toIntOption)
           case _ => sue
+        }
       }
 
-  def solve(input: String): Int =
+  def solve(input: String): Int = {
     def equiv(sue: AuntSue): Boolean =
-      auntSue.children.forall(lc => sue.children.forall(rc => lc == rc)) &&
-        auntSue.cats.forall(lc => sue.cats.forall(rc => lc == rc)) &&
-        (auntSue.dogs.keySet ++ sue.dogs.keySet).forall(dog => auntSue.dogs.get(dog).forall(ld => sue.dogs.get(dog).forall(rd => ld == rd))) &&
-        auntSue.goldfish.forall(lg => sue.goldfish.forall(rg => lg == rg)) &&
-        auntSue.trees.forall(lt => sue.trees.forall(rt => lt == rt)) &&
-        auntSue.cars.forall(lc => sue.cars.forall(rc => lc == rc)) &&
-        auntSue.perfumes.forall(lp => sue.perfumes.forall(rp => lp == rp))
+      (for {
+        a <- Some(sue)
+        if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
+        if auntSue.cats.forall(lc => a.cats.forall(rc => lc == rc))
+        if (auntSue.dogs.keySet ++ a.dogs.keySet).forall(dog => auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall(rd => ld == rd)))
+        if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg == rg))
+        if auntSue.trees.forall(lt => a.trees.forall(rt => lt == rt))
+        if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
+        if auntSue.perfumes.forall(lp => a.perfumes.forall(rp => lp == rp))
+      } yield ()).isDefined
 
-    (for
+    (for {
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
       sue         = parseLine(line)
       if equiv(sue)
-    yield idx + 1)
+    } yield idx + 1)
       .head
+  }
 
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int = {
     def equiv(sue: AuntSue): Boolean =
-      auntSue.children.forall(lc => sue.children.forall(rc => lc == rc)) &&
-        auntSue.cats.forall(lc => sue.cats.forall(rc => lc < rc)) &&
-        (auntSue.dogs.keySet ++ sue.dogs.keySet).forall(dog => auntSue.dogs.get(dog).forall(ld => sue.dogs.get(dog).forall { rd => 
-          dog match 
-            case Dogs.Pomeranians => ld > rd
-            case _ => ld == rd
-        })) &&
-        auntSue.goldfish.forall(lg => sue.goldfish.forall(rg => lg > rg)) &&
-        auntSue.trees.forall(lt => sue.trees.forall(rt => lt < rt)) &&
-        auntSue.cars.forall(lc => sue.cars.forall(rc => lc == rc)) &&
-        auntSue.perfumes.forall(lp => sue.perfumes.forall(rp => lp == rp))
+      (for {
+        a <- Some(sue)
+        if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
+        if auntSue.cats.forall(lc => a.cats.forall(rc => lc < rc))
+        if (auntSue.dogs.keySet ++ a.dogs.keySet)
+          .forall(dog => auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall { rd => 
+            dog match {
+              case Dogs.Pomeranians => ld > rd
+              case _ => ld == rd
+            }
+          }))
+        if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg > rg))
+        if auntSue.trees.forall(lt => a.trees.forall(rt => lt < rt))
+        if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
+        if auntSue.perfumes.forall(lp => a.perfumes.forall(rp => lp == rp))
+      } yield ()).isDefined
 
-    (for
+    (for {
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
       sue         = parseLine(line)
       if equiv(sue)
-    yield idx + 1)
+    } yield idx + 1)
       .head
+  }
 
   val input = """Sue 1: goldfish: 6, trees: 9, akitas: 0
                 |Sue 2: goldfish: 7, trees: 1, akitas: 0
@@ -585,3 +597,4 @@ object Day16 with
                 |Sue 498: perfumes: 7, vizslas: 6, cats: 9
                 |Sue 499: vizslas: 8, perfumes: 1, akitas: 3
                 |Sue 500: perfumes: 4, cars: 9, trees: 4""".stripMargin
+}
