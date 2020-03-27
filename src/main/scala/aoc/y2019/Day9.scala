@@ -15,12 +15,11 @@ object Day9 {
           case _ => ???
         }
       }
-      def getValue(param: Long, i: Int): Long = {
+      def getValue(param: Long, i: Int): Long =
         param match {
           case 1L => opCodes(pointer + i)
           case _ => opCodes(getPointer(param, i))
         }
-      }
       def xP = getPointer(param1, 1)
       def xV = getValue(param1, 1)
       def yP = getPointer(param2, 2)

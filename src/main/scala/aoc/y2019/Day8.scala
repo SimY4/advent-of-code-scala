@@ -10,13 +10,13 @@ object Day8 {
   def solve2(input: String): Unit = {
     val layers = input.toSeq.sliding(25 * 6, 25 * 6).toList
 
-    println((for 
+    println((for {
       pixel <- 0 until (25 * 6)
       color  = layers
         .map(_.charAt(pixel))
         .find(_ != '2')
         .getOrElse('0')
-    yield color)
+    } yield color)
       .sliding(25, 25)
       .map { 
         _.map {

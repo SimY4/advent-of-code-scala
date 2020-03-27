@@ -4,21 +4,21 @@ object Day15 {
   private def split(number: Int, parts: Int): List[List[Int]] =
     (0 until parts - 1)
       .foldLeft((1 to number).map(_ :: Nil).toList) { (acc, _) => 
-        for 
+        for {
           xxs <- acc
           xs <- 1 until number
           concat = xs :: xxs
           if concat.sum <= number
-        yield concat
+        } yield concat
       }
       .filter(_.sum == number)
       .toList
 
   def solve(input: String): Int = {
-    val ingredients = (for
+    val ingredients = (for {
       line <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
-    yield parsed).toList
+    } yield parsed).toList
     
     split(100, ingredients.size)
       .map { fractions => 
