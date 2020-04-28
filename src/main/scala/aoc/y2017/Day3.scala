@@ -19,20 +19,6 @@ object Day3 {
   }
 
   def solve2(X: Int): Int = {
-    def (coord: Coord) neighbours: Seq[Coord] = {
-      val Coord(x, y) = coord
-      Seq(
-        Coord(x - 1, y - 1),
-        Coord(x, y - 1),
-        Coord(x + 1, y - 1),
-        Coord(x - 1, y),
-        Coord(x + 1, y),
-        Coord(x - 1, y + 1),
-        Coord(x, y + 1),
-        Coord(x + 1, y + 1)
-      )
-    }
-
     def indexes(x: Long): Seq[Coord] = x match {
       case 0L => Seq(Coord(0, 0))
       case n => (-n + 1 to n).map(Coord(n, _)) ++

@@ -9,6 +9,20 @@ package object aoc {
         math.abs(to.x - coord.x) + math.abs(to.y - coord.y)
 
       def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
+
+      def neighbours: List[Coord] = {
+        val Coord(x, y) = coord
+        List(
+          Coord(x - 1, y - 1),
+          Coord(x, y - 1),
+          Coord(x + 1, y - 1),
+          Coord(x - 1, y),
+          Coord(x + 1, y),
+          Coord(x - 1, y + 1),
+          Coord(x, y + 1),
+          Coord(x + 1, y + 1)
+        )
+      }
     }
   }
 }
