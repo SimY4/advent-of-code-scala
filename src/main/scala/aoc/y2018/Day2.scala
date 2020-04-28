@@ -15,7 +15,7 @@ object Day2 {
       line1 <- input.linesIterator
       line2 <- input.linesIterator
       if line1 < line2
-      indexes = (line1.zip(line2) zipWithIndex).collect { case ((l, r), i) if l != r => i }
+      indexes = (line1 zip line2).zipWithIndex.collect { case ((l, r), i) if l != r => i }
       if indexes.size == 1
       index <- indexes.headOption
     } yield (line1.substring(0, index) + line1.substring(index + 1))).toList.head

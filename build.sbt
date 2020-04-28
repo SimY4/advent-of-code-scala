@@ -1,6 +1,6 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version := "0.1.0"
-ThisBuild / scalaVersion := "0.23.0-RC1"
+ThisBuild / scalaVersion := "0.24.0-RC1"
 
 lazy val root = project
   .in(file("."))
@@ -8,8 +8,7 @@ lazy val root = project
     name := "advent-of-code",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0",
-      "org.parboiled"          %% "parboiled"  % "2.1.8",
-      "org.scalacheck"         %% "scalacheck" % "1.14.2" % Test
+      "org.scalacheck"         %% "scalacheck" % "1.14.3" % Test
     ).map(_.withDottyCompat(scalaVersion.value)),
     scalacOptions ++= Seq(
       "-encoding",
