@@ -1,5 +1,4 @@
-package aoc
-package y2015
+package aoc.y2015
 
 object Day19 {
   private val replacementsRegex = "(\\w+) => (\\w+)".r

@@ -2,6 +2,16 @@ package object aoc {
   def [A] (as: List[A]) pairs: List[(A, A)] = 
     (as.head -> as.last) :: (as zip as.tail)
 
+  def (n: Long) fartors: Seq[Long] = 
+    (1L to math.sqrt(n.toDouble).toLong)
+      .flatMap { i => 
+        if (n % i == 0L) {
+          val div = n / i
+          if (i != div) i :: div :: Nil
+          else i :: Nil
+        } else Nil
+      }
+
   final case class Coord(x: Long, y: Long)
   object Coord {
     extension ops on (coord: Coord) {
