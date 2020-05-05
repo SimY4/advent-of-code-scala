@@ -2,7 +2,7 @@ package object aoc {
   def [A] (as: List[A]) pairs: List[(A, A)] = 
     (as.head -> as.last) :: (as zip as.tail)
 
-  def (n: Long) fartors: Seq[Long] = 
+  def (n: Long) factors: Seq[Long] = 
     (1L to math.sqrt(n.toDouble).toLong)
       .flatMap { i => 
         if (n % i == 0L) {
