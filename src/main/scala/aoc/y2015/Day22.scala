@@ -147,9 +147,6 @@ object Day22 {
       
     duel(true, 0, GameState(Map.empty, Character(50, 500), boss))
       .min
-
-      //1242
-      //1538
   }
 
   val input = """Hit Points: 51
