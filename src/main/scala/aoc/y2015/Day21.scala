@@ -36,10 +36,10 @@ object Day21 {
     val p1Damage = math.max(p1.damage - p2.armor, 1)
     val p2Damage = math.max(p2.damage - p1.armor, 1)
 
-    var p1Strikes = 
+    val p1Strikes = 
       if (p2.hitPoints % p1Damage == 0) p2.hitPoints / p1Damage
       else (p2.hitPoints / p1Damage) + 1
-    var p2Strikes = 
+    val p2Strikes = 
       if (p1.hitPoints % p2Damage == 0) p1.hitPoints / p2Damage
       else (p1.hitPoints / p2Damage) + 1
 

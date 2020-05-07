@@ -40,20 +40,12 @@ object Day7 {
     case _ => ???
   }
 
-  private def [A, B, C] (as: List[A]) partitionWith(f: A => Either[B, C]): (List[B], List[C]) = 
-      as.foldRight((Nil: List[B], Nil: List[C])) { (a, partitions) =>
-        f(a) match {
-          case Left(l) => partitions.copy(_1 = l :: partitions._1)
-          case Right(r) => partitions.copy(_2 = r :: partitions._2)
-        }
-      }
-
   private def (i: Int) u: Int = i << 16 >>> 16
 
   @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
     if (logicGates.isEmpty) signals
     else {
-      val (newSignals, rest) = logicGates.partitionWith { 
+      val (newSignals, rest) = logicGates.partitionMap { 
         case Not(e @ Ref(_), to) if signals.contains(e) => 
           Left(to -> (~signals(e)).u)
         case Not(Value(v), to) => 
