@@ -46,7 +46,7 @@ object Day22 {
         case hp :: damage :: Nil => Boss(hp, damage)
       }
 
-    val atom = new AtomicInteger(Integer.MAX_VALUE)
+    val atom = new AtomicInteger(Int.MaxValue)
 
     def duel(myTurn: Boolean, spent: Int, state: GameState): List[Int] = {
       // turn start effects
@@ -75,7 +75,7 @@ object Day22 {
               character = turnStartState.character.copy(mana = turnStartState.character.mana - eot.mana))
           }
           outcome <- if (endTurnState.boss.hitPoints <= 0) {
-            atom.getAndUpdate { min => if (spell.mana + spent < min) spent else min }
+            atom.getAndUpdate { min => if (spell.mana + spent < min) spell.mana + spent else min }
             (spell.mana + spent) :: Nil
           } else if (spell.mana + spent < atom.get) duel(false, spell.mana + spent, endTurnState)
           else Nil
@@ -99,7 +99,7 @@ object Day22 {
         case hp :: damage :: Nil => Boss(hp, damage)
       }
 
-    val atom = new AtomicInteger(Integer.MAX_VALUE)
+    val atom = new AtomicInteger(Int.MaxValue)
 
     def duel(myTurn: Boolean, spent: Int, state: GameState): List[Int] = {
       val initialState = if (myTurn) state.copy(character = state.character.copy(hitPoints = state.character.hitPoints - 1)) else state
