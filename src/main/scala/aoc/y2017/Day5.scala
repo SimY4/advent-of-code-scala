@@ -4,28 +4,25 @@ import scala.annotation.tailrec
 
 object Day5 {
   def solve(input: String): Int = {
-    @tailrec def countHops0(count: Int, list: List[Int], index: Int): Int = {
-      val hop = list(index)
+    @tailrec def countHops(count: Int, list: List[Int], index: Int): Int =
+      list.lift(index) match {
+        case Some(hop) => countHops(count + 1, list.updated(index, hop + 1), index + hop)
+        case None => count
+      }
 
-      if (index + hop >= list.size || index + hop < 0) count
-      else countHops0(count + 1, list.updated(index, hop + 1), index + hop)
-    }
-
-    countHops0(1, input.linesIterator.map(_.toInt).toList, 0)
+    countHops(0, input.linesIterator.map(_.toInt).toList, 0)
   }
 
-  def solve2(input: String): Long = {
-    @tailrec def countHops20(count: Long, list: List[Int], index: Int): Long = {
-      val hop = list(index)
-
-      if (index + hop >= list.size || index + hop < 0) count
-      else {
-        val offset = if (hop >= 3) hop - 1 else hop + 1
-        countHops20(count + 1, list.updated(index, offset), index + hop)
+  def solve2(input: String): Int = {
+    @tailrec def countHops(count: Int, list: List[Int], index: Int): Int = 
+      list.lift(index) match {
+        case Some(hop) => 
+          val offset = if (hop >= 3) hop - 1 else hop + 1
+          countHops(count + 1, list.updated(index, offset), index + hop)
+        case None => count
       }
-    }
 
-    countHops20(1L, input.linesIterator.map(_.toInt).toList, 0)
+    countHops(0, input.linesIterator.map(_.toInt).toList, 0)
   }
 
   val input = """0

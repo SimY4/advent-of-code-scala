@@ -3,14 +3,12 @@ package aoc.y2017
 object Day2 {
   def solve(input: String): Int = (for {
     line <- input.linesIterator
-    arr = "\\d+".r.findAllIn(line).map(_.toInt)
-    min = arr.min
-    max = arr.max
-  } yield max - min).sum
+    arr = "\\d+".r.findAllIn(line).map(_.toInt).toList
+  } yield arr.max - arr.min).sum
 
   def solve2(input: String): Int = (for {
     line <- input.linesIterator
-    arr = "\\d+".r.findAllIn(line).map(_.toInt)
+    arr = "\\d+".r.findAllIn(line).map(_.toInt).toList
     x1 <- arr
     x2 <- arr
     if x1 != x2 && x1 % x2 == 0
