@@ -15,6 +15,9 @@ package object aoc {
   final case class Coord(x: Long, y: Long)
   object Coord {
     extension ops on (coord: Coord) {
+      def + (other: Coord): Coord =
+        Coord(coord.x + other.x, coord.y + other.y)
+
       def dist(to: Coord): Long =
         math.abs(to.x - coord.x) + math.abs(to.y - coord.y)
 

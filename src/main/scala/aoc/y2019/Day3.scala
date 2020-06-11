@@ -7,13 +7,13 @@ object Day3 {
       instruction <- line.split(",").toList
       (d, m) = instruction.splitAt(1)
       coord       <- List.fill(m.toInt) { d match
-        case "R" => Coord(1, 0)
-        case "U" => Coord(0, -1)
-        case "L" => Coord(-1, 0)
-        case "D" => Coord(0, 1)
+        case "R" => Coord(1L, 0L)
+        case "U" => Coord(0L, -1L)
+        case "L" => Coord(-1L, 0L)
+        case "D" => Coord(0L, 1L)
       }
     } yield coord)
-      .scanLeft(Coord(0, 0)) { (acc, coord) => acc.copy(x = acc.x + coord.x, y = acc.y + coord.y) }
+      .scanLeft(Coord(0, 0))(_ + _)
 
   def solve(input: String): Long = 
     (for {
