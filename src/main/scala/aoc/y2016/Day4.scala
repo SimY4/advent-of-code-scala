@@ -8,7 +8,7 @@ object Day4 {
       .groupBy(identity).view
       .mapValues(_.size)
       .toSeq
-      .sorted(Ordering.by[(Char, Int), Int](_._2)(Ordering[Int].reverse).orElse(Ordering.by[(Char, Int), Char](_._1)))
+      .sorted(Ordering.by[(Char, Int), Int]((_, n) => n)(Ordering[Int].reverse).orElse(Ordering.by[(Char, Int), Char]((ch, _) => ch)))
       .take(5)
       .map(_._1)
       .mkString
