@@ -17,9 +17,8 @@ object Day6 {
       case x1 :: y1 :: x2 :: y2 :: Nil => line match {
         case _ if line.startsWith("turn on") => TurnOn(Coord(x1, y1), Coord(x2, y2)) 
         case _ if line.startsWith("turn off") => TurnOff(Coord(x1, y1), Coord(x2, y2)) 
-        case _ => Toggle(Coord(x1, y1), Coord(x2, y2))
+        case _ if line.startsWith("toggle") => Toggle(Coord(x1, y1), Coord(x2, y2))
       }
-      case _ => ???
     }
 
   private def update[A](grid: Grid[A], coord1: Coord, coord2: Coord)(f: A => A): Grid[A] = {

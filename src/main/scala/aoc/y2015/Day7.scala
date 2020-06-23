@@ -37,7 +37,6 @@ object Day7 {
     case s"NOT $e -> $to" => 
       Not(Gate(e), new Ref(to))
     case s"$g -> $to" => Identity(Gate(g), new Ref(to))
-    case _ => ???
   }
 
   private def (i: Int) u: Int = i << 16 >>> 16
