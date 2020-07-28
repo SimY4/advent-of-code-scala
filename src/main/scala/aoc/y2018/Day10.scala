@@ -23,7 +23,6 @@ object Day10 {
     input.linesIterator.map { line =>
       "-?\\d+".r.findAllIn(line).map(_.toLong).toList match
         case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
-        case _ => ???
     }.toList
 
   def solve(input: String): Unit = {

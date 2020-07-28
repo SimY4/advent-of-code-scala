@@ -20,8 +20,7 @@ object Day12 {
   }
 
   private def runProgram(instructions: List[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] = {
-    @tailrec def go(state: Map[String, Int], pos: Int): Map[String, Int] = {
-
+    @tailrec def go(state: Map[String, Int], pos: Int): Map[String, Int] =
       instructions.lift(pos) match {
         case None => state
         case Some(Cpy(Left(i), reg)) => go(state.updated(reg, i), pos + 1)
@@ -31,7 +30,6 @@ object Day12 {
         case Some(Jnz(Left(i), n)) => go(state, if (i == 0) pos + 1 else pos + n)
         case Some(Jnz(Right(reg), n)) => go(state, if (state(reg) == 0) pos + 1 else pos + n)
       }
-    }
 
     go(state, pos)
   }

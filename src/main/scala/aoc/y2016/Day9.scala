@@ -10,7 +10,7 @@ object Day9 {
       val end = input.indexOf(')', start)
       val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList
       val sample = input.substring(end + 1, end + nChar.toInt + 1)
-      val newInput = input.replace(start, end + nChar.toInt + 1, sample.repeat(nTimes.toInt))
+      val newInput = input.replace(start, end + nChar.toInt + 1, sample * nTimes.toInt)
       decompress(newInput, start + sample.size * nTimes.toInt)
     }
   }
@@ -22,7 +22,7 @@ object Day9 {
       val end = input.indexOf(')', start)
       val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList
       val sample = input.substring(end + 1, end + nChar.toInt + 1)
-      val newInput = input.replace(0, end + nChar.toInt + 1, sample.repeat(nTimes.toInt))
+      val newInput = input.replace(0, end + nChar.toInt + 1, sample * nTimes.toInt)
       decompressV2(newInput, count + start.toLong)
     }
   }

@@ -12,7 +12,6 @@ object Day9 {
         param match {
           case 0L | 1L => arg
           case 2L => relativeBase + arg
-          case _ => ???
         }
       }
       def getValue(param: Long, i: Int): Long =
@@ -38,7 +37,6 @@ object Day9 {
         case 8L => state.copy(pointer + 4, opCodes.updated(zP, if xV == yV then 1L else 0L), output = None)
         case 9L => state.copy(pointer + 2, relativeBase = relativeBase + xV.toInt, output = None)
         case 99L => ProgramState(-1, Nil, -1, inputs, None)
-        case _ => ???
       }
     }
       .takeWhile(_.pointer >= 0)

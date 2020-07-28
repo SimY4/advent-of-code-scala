@@ -10,7 +10,6 @@ object Day7 {
     input.linesIterator.map { line =>
       "[A-Z]".r.findAllIn(line).toList match {
         case _ :: from :: to :: Nil => Arrow(from, to)
-        case _ => ???
       }
     }.toList
 

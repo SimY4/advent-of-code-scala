@@ -5,7 +5,7 @@ object Day11 {
 
   private def (s: List[Char]) increment: List[Char] =
     s.reverse match {
-      case 'z' :: tail => increment(tail.reverse) :+ 'a'
+      case 'z' :: tail => tail.reverse.increment :+ 'a'
       case x :: tail => ((x + 1).toChar :: tail).reverse
       case Nil => 'a' :: Nil
     }

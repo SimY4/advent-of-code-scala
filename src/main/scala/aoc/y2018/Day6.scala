@@ -6,7 +6,6 @@ object Day6 {
     input.linesIterator.map { 
       _.split(", ").map(_.toLong).toList match
         case x :: y :: Nil => Coord(x, y)
-        case _ => ???
     }.toList
 
   def solve(input: String): Int = {

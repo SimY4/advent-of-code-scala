@@ -24,7 +24,6 @@ object Day8 {
           (childrenTail._1 :+ ch) -> newRest
         }
         Node(children.toList, r.take(num_meta)) -> r.drop(num_meta)
-      case _ => ???
     }
     child(nums)._1
   }

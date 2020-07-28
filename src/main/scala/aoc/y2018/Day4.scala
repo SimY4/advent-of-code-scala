@@ -40,7 +40,6 @@ object Day4 {
                 BeginsDuty(g.toInt)
               }
               .get
-          case _ => ???
         }
       )
     }
@@ -61,7 +60,6 @@ object Day4 {
             current,
             schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end))))
           )
-        case _ => ???
       }
 
     schedule0(

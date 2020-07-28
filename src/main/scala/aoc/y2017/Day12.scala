@@ -21,7 +21,6 @@ object Day12 {
   val map = input.linesIterator.map { line =>
     "\\d+".r.findAllIn(line).map(_.toInt).toList match {
       case i :: is => i -> is
-      case _ => ???
     }
   }.toMap
   val gr   = group(0, map)

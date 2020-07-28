@@ -7,7 +7,6 @@ object Day3 {
     def parse(line: String): Claim =
       "\\d+".r.findAllIn(line).map(_.toInt).toList match {
         case id :: h1 :: v1 :: h2 :: v2 :: Nil => Claim(id, h1, v1, h2, v2)
-        case _ => ???
       }
     val fabric: Array[Array[Set[Int]]] = Array.fill(1000, 1000)(Set.empty[Int])
     input.linesIterator.map(parse).foreach { claim =>
