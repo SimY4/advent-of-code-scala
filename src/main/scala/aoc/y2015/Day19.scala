@@ -13,7 +13,7 @@ object Day19 {
     Input(replacements, molecule)
   }
 
-  private def (replacement: (String, String)) scanReplace (input: String): LazyList[String] = {
+  extension (replacement: (String, String)) private def scanReplace (input: String): LazyList[String] = {
     val (from, to) = replacement
     val idx = input.indexOf(from, 0)
     if (idx < 0) LazyList.empty

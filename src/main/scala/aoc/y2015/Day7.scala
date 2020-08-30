@@ -39,7 +39,7 @@ object Day7 {
     case s"$g -> $to" => Identity(Gate(g), new Ref(to))
   }
 
-  private def (i: Int) u: Int = i << 16 >>> 16
+  extension (i: Int) private def u: Int = i << 16 >>> 16
 
   @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
     if (logicGates.isEmpty) signals

@@ -1,8 +1,8 @@
 package object aoc {
-  def [A] (as: List[A]) pairs: List[(A, A)] = 
+  extension [A](as: List[A]) def pairs: List[(A, A)] = 
     (as.head -> as.last) :: (as zip as.tail)
 
-  def (n: Long) factors: Seq[Long] = 
+  extension (n: Long) def factors: Seq[Long] = 
     (1L to math.sqrt(n.toDouble).toLong)
       .flatMap { i => 
         if (n % i == 0L) {
@@ -14,7 +14,7 @@ package object aoc {
       
   private val hexArray = "0123456789ABCDEF".toCharArray
 
-  def (bytes: Array[Byte]) printHexBinary: String = {
+  extension (bytes: Array[Byte]) def printHexBinary: String = {
     val hexChars = new Array[Char](bytes.length * 2)
     for (i <- 0 until bytes.length) {
       val v = bytes(i) & 0xFF
@@ -26,7 +26,7 @@ package object aoc {
 
   final case class Coord(x: Long, y: Long)
   object Coord {
-    extension ops on (coord: Coord) {
+    extension (coord: Coord) {
       def + (other: Coord): Coord =
         Coord(coord.x + other.x, coord.y + other.y)
 

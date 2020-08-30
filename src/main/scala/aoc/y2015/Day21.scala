@@ -32,7 +32,7 @@ object Day21 {
     Ring("Defense +3", 80, 0, 3)
   )
 
-  private def duel(p1: Character, p2: Character): Boolean = {
+  extension (p1: Character) private def duel(p2: Character): Boolean = {
     val p1Damage = math.max(p1.damage - p2.armor, 1)
     val p2Damage = math.max(p2.damage - p1.armor, 1)
 
@@ -66,7 +66,7 @@ object Day21 {
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if duel(char, boss)
+      if char duel boss
     } yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .min
   }
@@ -91,7 +91,7 @@ object Day21 {
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if !duel(char, boss)
+      if !(char duel boss)
     } yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .max
   }
