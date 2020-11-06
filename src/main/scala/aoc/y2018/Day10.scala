@@ -14,7 +14,7 @@ object Day10 {
       points.map(_.coord.y).max
     )
 
-    def (a: Area) area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
+    extension (a: Area) def area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
   }
 
   import Area._

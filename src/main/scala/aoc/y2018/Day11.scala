@@ -4,7 +4,7 @@ package y2018
 object Day11 {
   import scala.collection.parallel.CollectionConverters._
 
-  def (cell: Coord) power(grid: Int): Long = {
+  extension (cell: Coord) def power(grid: Int): Long = {
     def hundreds(i: Long): Long = i % 1000 / 100
 
     val rackId = cell.x + 10

@@ -27,40 +27,40 @@ object Day12 {
 
     def nothing[A](empty: A): Parser[A] = Some(empty, _)
     
-    given as AnyRef {
-      def [A, B](p: Parser[A]) as(b: => B): Parser[B] = p.map(_ => b)
+    given parserOps as AnyRef {
+      extension [A, B](p: Parser[A]) def as(b: => B): Parser[B] = p.map(_ => b)
 
-      def [A](p: Parser[A]) many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] = 
+      extension [A](p: Parser[A]) def many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] = 
         (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing(Nil)
 
-      def [A, B](p: Parser[A]) map (f: A => B): Parser[B] = { input => 
+      extension [A, B](p: Parser[A]) def map (f: A => B): Parser[B] = { input => 
         p(input).map((a, rest) => (f(a), rest)) 
       }
-      def [A](p: Parser[A]) optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
+      extension [A](p: Parser[A]) def optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
-      def [A](p: Parser[A]) run(input: String): A = 
+      extension [A](p: Parser[A]) def run(input: String): A = 
         p(input).map(_._1).get
 
-      def [A](p: Parser[A]) <|> (other: => Parser[A]): Parser[A] = { input =>
+      extension [A](p: Parser[A]) def <|> (other: => Parser[A]): Parser[A] = { input =>
         p(input) orElse other(input)
       }
 
-      def [A, B](p: Parser[A]) <*> (other: => Parser[B]): Parser[(A, B)] = 
+      extension [A, B](p: Parser[A]) def <*> (other: => Parser[B]): Parser[(A, B)] = 
         p.andThen { op => 
           op.flatMap { (a, rest) => 
             other(rest).map((b, rest2) => ((a, b), rest2))
           }
         }
 
-      def [A](p: Parser[A]) <* (other: => Parser[Any]): Parser[A] = 
+      extension [A](p: Parser[A]) def <* (other: => Parser[Any]): Parser[A] = 
         (p <*> other).map(_._1)
 
-      def [A](p: Parser[Any]) *> (other: => Parser[A]): Parser[A] = 
+      extension [A](p: Parser[Any]) def *> (other: => Parser[A]): Parser[A] = 
         (p <*> other).map(_._2)
     }
   }
 
-  import Parser.{_, given _}
+  import Parser.{_, given}
 
   private enum Json {
     case JNull

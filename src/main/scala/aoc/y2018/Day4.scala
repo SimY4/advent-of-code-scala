@@ -21,8 +21,8 @@ object Day4 {
 
   private final case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
 
-  private def (s: SleepSchedule) durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
-  private def (s: SleepSchedule) minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
+  extension (s: SleepSchedule) private def durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
+  extension (s: SleepSchedule) private def minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
 
   private def schedule(input: String): Map[Int, List[SleepSchedule]] = {
     def parse(line: String): Record = {

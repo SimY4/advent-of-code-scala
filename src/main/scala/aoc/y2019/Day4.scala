@@ -1,7 +1,7 @@
 package aoc.y2019
 
 object Day4 {
-  private def (i: Int) digits: Seq[Int] = 
+  extension (i: Int) private def digits: Seq[Int] = 
     LazyList.iterate(Some(i): Option[Int]) { 
       case Some(i) if i > 0 => Some(i / 10)
       case _ => None

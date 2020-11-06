@@ -18,7 +18,7 @@ object Day9 {
       newNode
     }
       
-    def (node: Node) + (value: Int): Node = {
+    extension (node: Node) def + (value: Int): Node = {
       val oldNext = node.next
       val newNode = Node(node, value, oldNext)
       node.next = newNode
@@ -26,7 +26,7 @@ object Day9 {
       newNode
     }
 
-    def (node: Node) remove: Node = {
+    extension (node: Node) def remove: Node = {
       val oldNext = node.next
       val oldPrev = node.prev
       oldPrev.next = oldNext
