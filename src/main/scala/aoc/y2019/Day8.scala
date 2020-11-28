@@ -8,7 +8,7 @@ object Day8 {
   }
     
   def solve2(input: String): Unit = {
-    val layers = input.toSeq.sliding(25 * 6, 25 * 6).toList
+    val layers = input.toList.sliding(25 * 6, 25 * 6).map(_.mkString)
 
     println((for {
       pixel <- 0 until (25 * 6)

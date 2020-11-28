@@ -1,15 +1,15 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version := "0.1.0"
-ThisBuild / scalaVersion := "3.0.0-M1"
+ThisBuild / scalaVersion := "3.0.0-M2"
 
 lazy val root = project
   .in(file("."))
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parallel-collections" % "0.2.0",
-      "org.scalacheck"         %% "scalacheck" % "1.15.0" % Test
-    ).map(_.withDottyCompat(scalaVersion.value)),
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.0",
+      "org.scalacheck"         %% "scalacheck" % "1.15.1" % Test
+    ),
     scalacOptions ++= Seq(
       "-encoding",
       "UTF-8",
