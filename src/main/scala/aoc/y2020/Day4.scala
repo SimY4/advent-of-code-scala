@@ -54,7 +54,7 @@ object Day4 {
         .filter(y => 59 <= y && y <= 76)
         .map(Height(_, "in"))
       case "hcl" :: s"#${color}" :: Nil => Option.when(color.matches("[0-9a-f]{6}"))(HairColor(color))
-      case "ecl" :: color :: Nil => Option.when(color.matches("amb|blu|brn|gry|grn|hzl|oth"))(HairColor(color))
+      case "ecl" :: color :: Nil => Option.when(color.matches("amb|blu|brn|gry|grn|hzl|oth"))(EyeColor(color))
       case "pid" :: id :: Nil => Option.when(id.matches("\\d{9}"))(PassportId(id.toInt))
       case "cid" :: _ :: Nil => Some(CountryId)
       case _ => None
