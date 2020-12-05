@@ -2,45 +2,37 @@ package aoc
 package y2016
 
 object Day1 {
-  private enum Direction {
-    case N, E, S, W
-  }
-  import Direction._
+  import Coord.Direction._ 
 
-  private def navigate(direction: Direction, instruction: String): (Direction, List[Coord]) = {
+  type Direction = Coord.Direction & Coord.HVDirection
+
+  private def navigate(direction: Direction, instruction: String): (Direction, List[Direction]) = {
     val steps = instruction.tail.toInt
     val nextDirection = (instruction.head, direction) match {
-      case ('R', N) => E
-      case ('R', E) => S
-      case ('R', S) => W
-      case ('R', W) => N
-      case ('L', N) => W
-      case ('L', E) => N
-      case ('L', S) => E
-      case ('L', W) => S
+      case ('R', Up) => Right
+      case ('R', Right) => Down
+      case ('R', Down) => Left
+      case ('R', Left) => Up
+      case ('L', Up) => Left
+      case ('L', Right) => Up
+      case ('L', Down) => Right
+      case ('L', Left) => Down
     }
-    nextDirection -> List.fill(steps) { 
-      nextDirection match {
-        case N => Coord(0L, 1L)
-        case E => Coord(1L, 0L)
-        case S => Coord(0L, -1L)
-        case W => Coord(-1L, 0L)
-      }
-    }
+    nextDirection -> List.fill(steps)(nextDirection)
   }
 
   def solve(input: String): Long = {
-    val Coord(x, y) = input.split(", ").foldLeft(N -> Coord(0L, 0L)) { (state, instruction) => 
+    val Coord(x, y) = input.split(", ").foldLeft(Up -> Coord(0L, 0L)) { (state, instruction) => 
       val (direction, coords) = navigate(state._1, instruction)
-      direction -> coords.foldLeft(state._2)(_ + _)
+      direction -> coords.foldLeft(state._2)(_ + _.direction)
     }._2
     math.abs(x) + math.abs(y)
   }
 
   def solve2(input: String): Option[Long] = {
-    input.split(", ").foldLeft(N -> List(Coord(0L, 0L))) { (state, instruction) => 
+    input.split(", ").foldLeft(Up -> List(Coord(0L, 0L))) { (state, instruction) => 
       val (direction, coords) = navigate(state._1, instruction)
-      direction -> coords.foldRight(state._2) { (coord, list) => (coord + list.head) :: list } 
+      direction -> coords.foldRight(state._2) { (coord, list) => (coord.direction + list.head) :: list } 
     }._2
       .tails
       .collectFirst { case head :: tail if tail.size == tail.toSet.size => head }

@@ -35,19 +35,23 @@ package object aoc {
 
       def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
 
-      def neighbours: List[Coord] = {
-        val Coord(x, y) = coord
-        List(
-          Coord(x - 1, y - 1),
-          Coord(x, y - 1),
-          Coord(x + 1, y - 1),
-          Coord(x - 1, y),
-          Coord(x + 1, y),
-          Coord(x - 1, y + 1),
-          Coord(x, y + 1),
-          Coord(x + 1, y + 1)
-        )
-      }
+      def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] = directions.map(coord + _.direction)
+    }
+
+    sealed trait HVDirection
+
+    enum Direction(val direction: Coord) {
+      case Up extends Direction(Coord(0L, 1L)) with HVDirection
+      case UpRight extends Direction(Coord(1L, 1L))
+      case Right extends Direction(Coord(1L, 0L)) with HVDirection
+      case DownRight extends Direction(Coord(1L, -1L))
+      case Down extends Direction(Coord(0L, -1L)) with HVDirection
+      case DownLeft extends Direction(Coord(-1L, -1L))
+      case Left extends Direction(Coord(-1L, 0L)) with HVDirection
+      case UpLeft extends Direction(Coord(-1L, 1L))
+    }
+    object Direction {
+      val hvOnly: List[Direction with HVDirection] = List(Up, Right, Down, Left)
     }
   }
 }

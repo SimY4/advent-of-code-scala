@@ -3,7 +3,7 @@ package y2015
 
 object Day18 {
   private def changeSwitch(grid: Array[Array[Boolean]], coord: Coord): Boolean = {
-    val lightsOn = coord.neighbours
+    val lightsOn = coord.neighbours()
         .count { neighbour => 
           grid.lift(neighbour.x.toInt)
             .exists(row => row.lift(neighbour.y.toInt)

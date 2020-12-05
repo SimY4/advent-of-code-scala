@@ -29,7 +29,7 @@ object Day3 {
     coords.tail
       .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) => 
         val res = (for {
-          neighbour <- coord.neighbours
+          neighbour <- coord.neighbours()
           v = acc.getOrElse(neighbour, 0)
         } yield v).sum
         acc + (coord -> res)
