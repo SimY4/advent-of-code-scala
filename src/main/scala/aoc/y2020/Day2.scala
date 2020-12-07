@@ -1,7 +1,7 @@
 package aoc.y2020
 
 object Day2 {
-  private case class Policy(low: Int, high: Int, char: Char)
+  private final case class Policy(low: Int, high: Int, char: Char)
 
   private val lineRegex = "(\\d+)-(\\d+) (\\w): (\\w+)".r
 
