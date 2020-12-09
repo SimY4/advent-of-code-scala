@@ -1,5 +1,7 @@
 package aoc.y2020
 
+import scala.annotation.tailrec
+
 object Day8 {
   private enum Ins {
     case Acc(acc: Int, idx: Int)
@@ -19,7 +21,7 @@ object Day8 {
   def solve(input: String): Int = {
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
 
-    def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int = 
+    @tailrec def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int = 
       instructions.lift(cur) match {
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(cur + jmp, visited + i, state)
@@ -37,7 +39,7 @@ object Day8 {
       case n: Nop => n
     }
     
-    def loop(instructions: List[Ins], cur: Int = 0, visited: Set[Ins] = Set.empty, state: Int = 0): Option[Int] = 
+    @tailrec def loop(instructions: List[Ins], cur: Int = 0, visited: Set[Ins] = Set.empty, state: Int = 0): Option[Int] = 
       instructions.lift(cur) match {
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(instructions, cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(instructions, cur + jmp, visited + i, state)
