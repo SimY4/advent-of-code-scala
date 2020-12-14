@@ -6,9 +6,9 @@ object Day13 {
       case ts :: buses :: Nil => 
         val (bus, minTs) = buses.split(',').flatMap(_.toIntOption)
           .map { bus =>
-            bus -> LazyList.from(bus, bus)
-              .dropWhile(_ < ts.toInt)
-              .head
+            bus -> LazyList.from(ts.toInt)
+              .find(_ % bus == 0)
+              .get
           }
           .minBy(_._2)
         bus * (minTs - ts.toInt)
