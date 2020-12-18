@@ -3,7 +3,7 @@ package aoc.y2018
 object Day8 {
   private final case class Node(children: List[Node], meta: List[Int])
   private object Node {
-    extension (node: Node):
+    extension (node: Node) {
       def sumMeta: Int =
         node.meta.reduce(_ + _) + node.children.map(_.sumMeta).foldLeft(0)(_ + _)
 
@@ -14,6 +14,7 @@ object Day8 {
               acc + node.children.lift(m - 1).fold(0)(_.sumMeta2)
             }
         }
+    }
   }
 
   private def parse(input: String): Node = {
