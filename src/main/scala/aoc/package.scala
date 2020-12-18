@@ -1,57 +1,57 @@
-package object aoc {
-  extension [A](as: List[A]) def pairs: List[(A, A)] = 
-    (as.head -> as.last) :: (as zip as.tail)
+package aoc
 
-  extension (n: Long) def factors: Seq[Long] = 
-    (1L to math.sqrt(n.toDouble).toLong)
-      .flatMap { i => 
-        if (n % i == 0L) {
-          val div = n / i
-          if (i != div) i :: div :: Nil
-          else i :: Nil
-        } else Nil
-      }
-      
-  private val hexArray = "0123456789ABCDEF".toCharArray
+extension [A](as: List[A]) def pairs: List[(A, A)] = 
+  (as.head -> as.last) :: (as zip as.tail)
 
-  extension (bytes: Array[Byte]) def printHexBinary: String = {
-    val hexChars = new Array[Char](bytes.length * 2)
-    for (i <- 0 until bytes.length) {
-      val v = bytes(i) & 0xFF
-      hexChars(i * 2) = hexArray(v >>> 4)
-      hexChars(i * 2 + 1) = hexArray(v & 0x0F)
+extension (n: Long) def factors: Seq[Long] = 
+  (1L to math.sqrt(n.toDouble).toLong)
+    .flatMap { i => 
+      if (n % i == 0L) {
+        val div = n / i
+        if (i != div) i :: div :: Nil
+        else i :: Nil
+      } else Nil
     }
-    new String(hexChars)
+      
+private val hexArray = "0123456789ABCDEF".toCharArray
+
+extension (bytes: Array[Byte]) def printHexBinary: String = {
+  val hexChars = new Array[Char](bytes.length * 2)
+  for (i <- 0 until bytes.length) {
+    val v = bytes(i) & 0xFF
+    hexChars(i * 2) = hexArray(v >>> 4)
+    hexChars(i * 2 + 1) = hexArray(v & 0x0F)
+  }
+  new String(hexChars)
+}
+
+final case class Coord(x: Long, y: Long)
+object Coord {
+  extension (coord: Coord) {
+    def + (other: Coord): Coord =
+      Coord(coord.x + other.x, coord.y + other.y)
+
+    def dist(to: Coord): Long =
+      math.abs(to.x - coord.x) + math.abs(to.y - coord.y)
+
+    def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
+
+    def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] = directions.map(coord + _.direction)
   }
 
-  final case class Coord(x: Long, y: Long)
-  object Coord {
-    extension (coord: Coord) {
-      def + (other: Coord): Coord =
-        Coord(coord.x + other.x, coord.y + other.y)
+  sealed trait HVDirection
 
-      def dist(to: Coord): Long =
-        math.abs(to.x - coord.x) + math.abs(to.y - coord.y)
-
-      def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
-
-      def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] = directions.map(coord + _.direction)
-    }
-
-    sealed trait HVDirection
-
-    enum Direction(val direction: Coord) {
-      case Up extends Direction(Coord(0L, 1L)) with HVDirection
-      case UpRight extends Direction(Coord(1L, 1L))
-      case Right extends Direction(Coord(1L, 0L)) with HVDirection
-      case DownRight extends Direction(Coord(1L, -1L))
-      case Down extends Direction(Coord(0L, -1L)) with HVDirection
-      case DownLeft extends Direction(Coord(-1L, -1L))
-      case Left extends Direction(Coord(-1L, 0L)) with HVDirection
-      case UpLeft extends Direction(Coord(-1L, 1L))
-    }
-    object Direction {
-      val hvOnly: List[Direction with HVDirection] = List(Up, Right, Down, Left)
-    }
+  enum Direction(val direction: Coord) {
+    case Up extends Direction(Coord(0L, 1L)) with HVDirection
+    case UpRight extends Direction(Coord(1L, 1L))
+    case Right extends Direction(Coord(1L, 0L)) with HVDirection
+    case DownRight extends Direction(Coord(1L, -1L))
+    case Down extends Direction(Coord(0L, -1L)) with HVDirection
+    case DownLeft extends Direction(Coord(-1L, -1L))
+    case Left extends Direction(Coord(-1L, 0L)) with HVDirection
+    case UpLeft extends Direction(Coord(-1L, 1L))
+  }
+  object Direction {
+    val hvOnly: List[Direction with HVDirection] = List(Up, Right, Down, Left)
   }
 }
