@@ -21,6 +21,8 @@ private object Parser {
     else Some(matches, input.substring(matches.length))
   }
 
+  val any: Parser[Char] = { input => input.headOption.map((_, input.tail)) }
+
   def nothing[A](empty: A): Parser[A] = Some(empty, _)
 
   val eof: Parser[Unit] = { input => Option.when(input.isEmpty)(((), input)) }
@@ -34,6 +36,7 @@ private object Parser {
     def map (f: A => B): Parser[B] = { input => 
       p(input).map((a, rest) => (f(a), rest)) 
     }
+    
     def optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
     def run(input: String): A = 
