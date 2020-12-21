@@ -2,9 +2,7 @@ package aoc
 package y2016
 
 object Day1 {
-  import Coord.Direction._ 
-
-  type Direction = Coord.Direction & Coord.HVDirection
+  import Direction._ 
 
   private def navigate(direction: Direction, instruction: String): (Direction, List[Direction]) = {
     val steps = instruction.tail.toInt

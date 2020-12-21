@@ -12,7 +12,7 @@ object Day13 {
       if (destination == current) Some(0)
       else {
         val newVisited = visited + current
-        val neighbours = current.neighbours(Coord.Direction.hvOnly)
+        val neighbours = current.neighbours(Direction.hvOnly)
           .filter(n => n.x >= 0 && n.y >= 0 && !newVisited.contains(n))
           .filterNot(isWall)
           
@@ -30,7 +30,7 @@ object Day13 {
       if (step > 50) visited
       else {
         val newVisited = visited + current
-        val neighbours = current.neighbours(Coord.Direction.hvOnly)
+        val neighbours = current.neighbours(Direction.hvOnly)
           .filter(n => n.x >= 0 && n.y >= 0 && !newVisited.contains(n))
           .filterNot(isWall)
 

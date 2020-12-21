@@ -38,20 +38,31 @@ object Coord {
 
     def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] = directions.map(coord + _.direction)
   }
+}
 
-  sealed trait HVDirection
+enum Direction(val direction: Coord) {
+  case Up extends Direction(Coord(0L, 1L))
+  case UpRight extends Direction(Coord(1L, 1L))
+  case Right extends Direction(Coord(1L, 0L))
+  case DownRight extends Direction(Coord(1L, -1L))
+  case Down extends Direction(Coord(0L, -1L))
+  case DownLeft extends Direction(Coord(-1L, -1L))
+  case Left extends Direction(Coord(-1L, 0L))
+  case UpLeft extends Direction(Coord(-1L, 1L))
+}
+object Direction {
+  val hvOnly: List[Direction] = List(Up, Right, Down, Left)
 
-  enum Direction(val direction: Coord) {
-    case Up extends Direction(Coord(0L, 1L)) with HVDirection
-    case UpRight extends Direction(Coord(1L, 1L))
-    case Right extends Direction(Coord(1L, 0L)) with HVDirection
-    case DownRight extends Direction(Coord(1L, -1L))
-    case Down extends Direction(Coord(0L, -1L)) with HVDirection
-    case DownLeft extends Direction(Coord(-1L, -1L))
-    case Left extends Direction(Coord(-1L, 0L)) with HVDirection
-    case UpLeft extends Direction(Coord(-1L, 1L))
-  }
-  object Direction {
-    val hvOnly: List[Direction with HVDirection] = List(Up, Right, Down, Left)
+  extension (d: Direction) {
+    def oposite: Direction = d match {
+      case Up => Down
+      case UpRight => DownLeft
+      case Right => Left
+      case DownRight => UpLeft
+      case Down => Up
+      case DownLeft => UpRight
+      case Left => Right
+      case UpLeft => DownRight
+    }
   }
 }

@@ -28,8 +28,8 @@ object Day11 {
     @tailrec def loop(layout: Array[Array[Char]]): Int = {
       val newLayout = layout.zipWithIndex.map { (col, y) => 
         col.zipWithIndex.map { 
-          case ('L', x) if !Coord.Direction.values.exists(d => LazyList.iterate(Coord(x, y))(_ + d.direction).map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt))).drop(1).takeWhile(_.filter(_ != 'L').isDefined).exists(_.exists(_ == '#'))) => '#'
-          case ('#', x) if 5 <= Coord.Direction.values.count(d => LazyList.iterate(Coord(x, y))(_ + d.direction).map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt))).drop(1).takeWhile(_.filter(_ != 'L').isDefined).exists(_.exists(_ == '#'))) => 'L'
+          case ('L', x) if !Direction.values.exists(d => LazyList.iterate(Coord(x, y))(_ + d.direction).map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt))).drop(1).takeWhile(_.filter(_ != 'L').isDefined).exists(_.exists(_ == '#'))) => '#'
+          case ('#', x) if 5 <= Direction.values.count(d => LazyList.iterate(Coord(x, y))(_ + d.direction).map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt))).drop(1).takeWhile(_.filter(_ != 'L').isDefined).exists(_.exists(_ == '#'))) => 'L'
           case (c, _) => c
         }
       }
