@@ -3,7 +3,7 @@ package y2019
 
 object Day3 {
   private def wire(line: String): List[Coord] = 
-    (for {
+    (for
       instruction <- line.split(",").toList
       (d, m) = instruction.splitAt(1)
       coord       <- List.fill(m.toInt) { d match
@@ -12,14 +12,14 @@ object Day3 {
         case "L" => Coord(-1L, 0L)
         case "D" => Coord(0L, 1L)
       }
-    } yield coord)
+    yield coord)
       .scanLeft(Coord(0, 0))(_ + _)
 
   def solve(input: String): Long = 
-    (for {
+    (for
       line <- input.linesIterator
       wire <- wire(line).map((_, 1)).drop(1).toMap.toSeq
-    } yield wire)
+    yield wire)
       .toList
       .groupMap(_._1)(_._2)
       .filter(_._2.size >= 2)
@@ -27,10 +27,10 @@ object Day3 {
       .min
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       wire <- wire(line).zipWithIndex.drop(1).toMap.toSeq
-    } yield wire)
+    yield wire)
       .toList
       .groupMap(_._1)(_._2)
       .filter(_._2.size >= 2)

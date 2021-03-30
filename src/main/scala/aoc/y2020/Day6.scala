@@ -2,16 +2,16 @@ package aoc.y2020
 
 object Day6 {
   def solve(input: String): Int = 
-    (for {
+    (for
       group <- input.split(System.lineSeparator * 2).toSeq
       answers = group.linesIterator.flatMap(_.toSeq).toSet.size
-    } yield answers).sum
+    yield answers).sum
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       group <- input.split(System.lineSeparator * 2).toSeq
       answers = group.linesIterator.map(_.toSet).reduce(_ intersect _).size
-    } yield answers).sum
+    yield answers).sum
 
   val input = """zvxc
                 |dv

@@ -9,30 +9,30 @@ object Day9 {
 
   private def paths(input: String): Iterable[List[Route]] = {
     def expandPath(path: List[Route], rest: Map[String, Seq[Route]]): Iterable[List[Route]] =
-      (for {
+      (for
         nextRoutes <- rest.get(path.head.to)
         filtered = nextRoutes.filter { nextRoute => path.forall(_.from != nextRoute.to) }
         if filtered.nonEmpty
-      } yield filtered) match {
+      yield filtered) match {
         case None => path :: Nil
         case Some(nextRoutes) =>
-          (for {
+          (for
             nextRoute <- nextRoutes.par
             nextPath <- expandPath(nextRoute :: path, rest - path.head.to)
-          } yield nextPath).seq
+          yield nextPath).seq
       }
 
-    val routes = (for {
+    val routes = (for
       linePattern(from, to, distance) <- input.linesIterator.toSeq
       route                           <- Seq(Route(from, to, distance.toInt), Route(to, from, distance.toInt)) 
-    } yield route)
+    yield route)
       .groupBy(_.from)
       
-    (for {
+    (for
       initialRoute <- routes.values.flatten.par
       path <- expandPath(initialRoute :: Nil, routes - initialRoute.from)
       if path.size >= ((routes.size / 2) - 1)
-    } yield path).seq
+    yield path).seq
   }
 
   def solve(input: String): Int =

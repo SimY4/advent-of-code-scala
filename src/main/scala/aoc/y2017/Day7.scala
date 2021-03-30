@@ -10,17 +10,17 @@ object Day7 {
 
   private def tree(input: String): Tree = {
     def findRoot(nodes: Map[String, TreeNode]): String = {
-      (for {
+      (for
         (name, _) <- nodes
         children  = nodes.values.flatMap(_.children).toSet
         if !(children contains name)
-      } yield name).head
+      yield name).head
     }
 
-    val nodes = (for {
+    val nodes = (for
       linePattern(name, weight, children) <- input.linesIterator
       childrenNormalized = Option(children).map(_.split(", ").toList).getOrElse(Nil)
-    } yield name -> TreeNode(weight.toInt, childrenNormalized))
+    yield name -> TreeNode(weight.toInt, childrenNormalized))
       .toMap
     val root = findRoot(nodes)
     nodes -> root

@@ -21,21 +21,21 @@ object Day8 {
     .foldLeft(Array.fill(6, 50)(false)) { (grid, action) => 
       action match {
         case Rect(x, y) => 
-          for (i <- 0 until y; j <- 0 until x) {
+          for i <- 0 until y; j <- 0 until x do {
             grid(i)(j) = true
           }
           grid
         case RotateRow(y, shift) =>
           val row = grid(y)
           val newRow = Array.ofDim[Boolean](row.length)
-          for (i <- 0 until row.length) {
+          for i <- 0 until row.length do {
             newRow((i + shift) % newRow.length) = row(i)
           }
           grid(y) = newRow
           grid
         case RotateCol(x, shift) =>
-          val col = for (i <- 0 until grid.length) yield grid(i)(x)
-          for (i <- 0 until grid.length) {
+          val col = for i <- 0 until grid.length yield grid(i)(x)
+          for i <- 0 until grid.length do {
             grid((i + shift) % grid.length)(x) = col(i)
           }
           grid
@@ -44,7 +44,7 @@ object Day8 {
 
   def solve(input: String): Int = decode(input).map(_.count(identity)).sum
 
-  def solve2(input: String): Unit = decode(input).foreach(arr => println(arr.map(if (_) 'X' else '.').mkString))
+  def solve2(input: String): Unit = decode(input).foreach(arr => println(arr.map(if _ then 'X' else '.').mkString))
 
   val input = """rect 1x1
                 |rotate row y=0 by 5

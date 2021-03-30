@@ -17,10 +17,10 @@ object Day16 {
     .map { data =>
       @tailrec def checksum(d: String): String = {
         val cs = d.sliding(2, 2).map { pair => 
-          if (pair(0) == pair(1)) '1'
+          if pair(0) == pair(1) then '1'
           else '0'
         }.mkString
-        if ((cs.length & 1) == 0) checksum(cs)
+        if (cs.length & 1) == 0 then checksum(cs)
         else cs
       }
       checksum(data)

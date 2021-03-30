@@ -6,10 +6,10 @@ object Day17 {
     
     (0 until (1 << containers.size))
       .count { mask => 
-        (for {
+        (for
           (j, i) <- containers.zipWithIndex
           if (mask & (1 << i)) > 0
-        } yield j)
+        yield j)
           .sum == 150
       }
   }
@@ -19,10 +19,10 @@ object Day17 {
     
     (0 until (1 << containers.size))
       .flatMap { mask => 
-        val set = (for {
+        val set = (for
           (j, i) <- containers.zipWithIndex
           if (mask & (1 << i)) > 0
-        } yield j)
+        yield j)
         Option.when(set.sum == 150) { set.size }
       }
       .groupBy(identity)

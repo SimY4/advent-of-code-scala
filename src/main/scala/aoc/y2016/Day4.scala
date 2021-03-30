@@ -16,16 +16,16 @@ object Day4 {
   }
 
   def solve(input: String): Int = 
-    (for {
+    (for
       lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
-    } yield id.toInt).sum
+    yield id.toInt).sum
 
   def solve2(input: String): List[(String, String)] = 
-    (for {
+    (for
       lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
-    } yield id -> name.map {
+    yield id -> name.map {
       case '-' => ' '
       case ch => (1 to id.toInt).foldLeft(ch) { 
         case ('z', _) => 'a'

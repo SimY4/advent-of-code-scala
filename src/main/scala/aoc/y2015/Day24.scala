@@ -10,19 +10,19 @@ object Day24 {
     def groups: Seq[List[Int]] = {
       val tooSmall = input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
       val tooBig =  input.linesIterator.map(_.toInt).toList.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toList
-      for {
+      for
         i <- tooBig.size until tooSmall.size
         group <- weights.combinations(i)
         if group.sum == maxWeight
-      } yield group
+      yield group
     }
 
     groups
       .take(1)
       .foldLeft(Int.MaxValue -> List.empty[List[Int]]) { (acc, group) => 
         val compare = acc._1 compare group.size
-        if (compare < 0) acc
-        else if (compare > 0) group.size -> (group :: Nil)
+        if compare < 0 then acc
+        else if compare > 0 then group.size -> (group :: Nil)
         else acc._1 -> (group :: acc._2)
       }
       ._2

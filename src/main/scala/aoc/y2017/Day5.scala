@@ -17,7 +17,7 @@ object Day5 {
     @tailrec def countHops(count: Int, list: List[Int], index: Int): Int = 
       list.lift(index) match {
         case Some(hop) => 
-          val offset = if (hop >= 3) hop - 1 else hop + 1
+          val offset = if hop >= 3 then hop - 1 else hop + 1
           countHops(count + 1, list.updated(index, offset), index + hop)
         case None => count
       }

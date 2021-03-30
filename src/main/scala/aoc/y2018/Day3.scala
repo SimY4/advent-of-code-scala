@@ -10,10 +10,10 @@ object Day3 {
       }
     val fabric: Array[Array[Set[Int]]] = Array.fill(1000, 1000)(Set.empty[Int])
     input.linesIterator.map(parse).foreach { claim =>
-      (for {
+      (for
         i <- claim.v1 until claim.v1 + claim.v2
         j <- claim.h1 until claim.h1 + claim.h2
-      } yield (i, j)).foreach {
+      yield (i, j)).foreach {
         case (i, j) =>
           fabric(i)(j) = fabric(i)(j) + claim.id
       }
@@ -29,7 +29,7 @@ object Day3 {
     val res = Array.fill(input.linesIterator.size)(true)
     fabric(input).foreach { arr =>
       arr.foreach { ids =>
-        if (ids.size > 1) {
+        if ids.size > 1 then {
           ids.foreach { id =>
             res(id - 1) = false
           }

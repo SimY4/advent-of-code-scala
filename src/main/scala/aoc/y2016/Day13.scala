@@ -9,7 +9,7 @@ object Day13 {
 
   def solve: Option[Int] = {
     def loop(current: Coord, visited: Set[Coord] = Set.empty): Option[Int] = 
-      if (destination == current) Some(0)
+      if destination == current then Some(0)
       else {
         val newVisited = visited + current
         val neighbours = current.neighbours(Direction.hvOnly)
@@ -27,7 +27,7 @@ object Day13 {
 
   def solve2: Int = {
     def loop(current: Coord, step: Int = 0, visited: Set[Coord] = Set.empty): Set[Coord] = {
-      if (step > 50) visited
+      if step > 50 then visited
       else {
         val newVisited = visited + current
         val neighbours = current.neighbours(Direction.hvOnly)

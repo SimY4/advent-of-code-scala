@@ -22,12 +22,12 @@ object Day7 {
 
   def solve(input: String): String = {
     @tailrec def solve0(reqs: Map[String, SortedSet[String]], res: String): String =
-      if (reqs.isEmpty) res
+      if reqs.isEmpty then res
       else {
         val step = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
-        val newReqs = for {
+        val newReqs = for
           (k, set) <- reqs
-        } yield k -> (set - step)
+        yield k -> (set - step)
         solve0(newReqs - step, res + step)
       }
 
@@ -43,16 +43,16 @@ object Day7 {
       }
 
     @tailrec def solve0(reqs: Map[String, SortedSet[String]], queue: SortedMap[String, Long], time: Long): Long =
-      if (reqs.isEmpty && queue.isEmpty) time
+      if reqs.isEmpty && queue.isEmpty then time
       else {
         queue.filter((_, time) => time == 0L).map(_._1).toList.headOption match {
           case Some(step) =>
             val newReqs = 
-              for ((k, set) <- reqs)
+              for (k, set) <- reqs
               yield k -> (set - step)
             solve0(newReqs - step, queue - step, time)
           case None =>
-            if (queue.size >= 5) solve0(reqs, work(queue), time + 1)
+            if queue.size >= 5 then solve0(reqs, work(queue), time + 1)
             else reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match {
               case Some(step) =>
                 solve0(reqs - step, queue + (step -> duration(step)), time)

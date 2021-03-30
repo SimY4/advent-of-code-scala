@@ -43,7 +43,7 @@ object Day10 {
 
   private val rest = Seq(17, 31, 73, 47, 23)
 
-  private val lengthsList = for {
+  private val lengthsList = for
     (input, result) <- Map(
                         ""         -> "a2582a3a0e66e6e86e3812dcb672a272",
                         "AoC 2017" -> "33efeb34ea91902bb2f59c9920caa6cd",
@@ -51,24 +51,24 @@ object Day10 {
                         "1,2,4"    -> "63960835bcdc130f0b66d7ff4f6a5a8e"
                       )
     ascii = input.map(_.toInt).toList ++ rest
-  } yield ascii -> result
+  yield ascii -> result
 
   def denseHash(state: State): String = {
     val State(list, _, _, _) = LazyList.from(0).take(64).foldLeft(state) { (acc, _) =>
       knotHash(acc)
     }
-    (for {
+    (for
       ls  <- list.sliding(16, 16).toList
       hex = s"0${ls.reduce(_ ^ _).toHexString}".takeRight(2)
-    } yield hex).mkString("")
+    yield hex).mkString("")
   }
 
-  for {
+  for
     (i, r)       <- lengthsList
     state: State = State(list(256), i, 0, 0)
     res          = denseHash(state)
     _            = println(s"$res -> $r")
     _            = println(res == r)
-  } yield res
+  yield res
 
 }

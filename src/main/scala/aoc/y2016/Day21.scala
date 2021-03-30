@@ -30,7 +30,7 @@ object Day21 {
         case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString 
         case (pwd, RotatePos(true, x)) => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
         case (pwd, RotateLetter(x)) => 
-          val times = 1 + pwd.indexOf(x) + (if (pwd.indexOf(x) >= 4) 1 else 0)
+          val times = 1 + pwd.indexOf(x) + (if pwd.indexOf(x) >= 4 then 1 else 0)
           (0 until pwd.size).map(i => pwd.reverse((i + times) % pwd.size)).mkString.reverse
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y)) => pwd.patch(x, Nil, 1).patch(y, Seq(pwd(x)), 0)

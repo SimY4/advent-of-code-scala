@@ -18,11 +18,11 @@ object Day2 {
 
   def solve2(input: String): Option[(Int, Int)] = {
     val opCodes = input.split(",").map(_.toInt).toList
-    (for {
+    (for
       noun <- 0 to 99
       verb <- 0 to 99
       if runProgram(0, opCodes.updated(1, noun).updated(2, verb)) == 19690720
-    } yield (noun, verb))
+    yield (noun, verb))
       .headOption
   }
   

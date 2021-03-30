@@ -41,7 +41,7 @@ object Day16 {
           val simplified = fields.view
               .map((k, v) => k -> (v -- singles.filter((sk, _) => k != sk).values))
               .toMap
-          if (fields == simplified) fields
+          if fields == simplified then fields
           else simplify(simplified)
         }
 

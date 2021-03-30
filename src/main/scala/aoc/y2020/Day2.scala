@@ -11,20 +11,20 @@ object Day2 {
     }
 
   def solve(input: String): Int =
-    (for {
+    (for
       line <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
       count = pwd.toSeq.count(_ == char)
       if low <= count && count <= high
-    } yield pwd).size
+    yield pwd).size
   
   def solve2(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
       pwdFunc = pwd.toList.lift
       if pwdFunc(low - 1).exists(_ == char) ^ pwdFunc(high - 1).exists(_ == char)
-    } yield pwd).size
+    yield pwd).size
   
 
   val input = """6-7 w: wwhmzwtwwk

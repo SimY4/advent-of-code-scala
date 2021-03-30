@@ -5,10 +5,10 @@ object Day13 {
   private val linePattern = "^([A-Z][a-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([A-Z][a-z]+)\\.$".r
 
   def solve(input: String): Int = {
-    val rels = (for {
+    val rels = (for
       linePattern(first, gl, points, second) <- input.linesIterator
-      adjPoints = if (gl == "gain") points.toInt else -points.toInt
-    } yield (first -> second, adjPoints))
+      adjPoints = if gl == "gain" then points.toInt else -points.toInt
+    yield (first -> second, adjPoints))
       .toMap
     rels.keySet
       .map(_._1)
@@ -19,10 +19,10 @@ object Day13 {
   }
 
   def solve2(input: String): Int = {
-    val rels = (for {
+    val rels = (for
       linePattern(first, gl, points, second) <- input.linesIterator
-      adjPoints = if (gl == "gain") points.toInt else -points.toInt
-    } yield (first -> second, adjPoints))
+      adjPoints = if gl == "gain" then points.toInt else -points.toInt
+    yield (first -> second, adjPoints))
       .toMap
     val guests = rels.keySet.map(_._1)
     val relsWithMe = guests.foldLeft(rels) { (acc, guest) =>

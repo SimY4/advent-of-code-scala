@@ -10,7 +10,7 @@ object Day17 {
   private val md = MessageDigest.getInstance("MD5")
   
   private def paths(current: Coord, path: List[Direction] = Nil): List[List[Direction]] = 
-    if (Coord(3L, 0L) == current) List(path)
+    if Coord(3L, 0L) == current then List(path)
     else {
       md.update((input + path.reverse.map {
         case Up => 'U'
@@ -20,7 +20,7 @@ object Day17 {
       }.mkString).getBytes(StandardCharsets.UTF_8))
       val hex = md.digest().printHexBinary
 
-      val directions = for {
+      val directions = for
         d <- Direction.hvOnly
         next = current + d.direction
         if 0 <= next.x && next.x <= 3 && 0 <= next.y && next.y <= 3
@@ -30,7 +30,7 @@ object Day17 {
           case Left => hex(2)
           case Right => hex(3)
         })
-      } yield d
+      yield d
 
       directions.flatMap(d => paths(current + d.direction, d :: path))
     }

@@ -2,14 +2,14 @@ package aoc.y2016
 
 object Day3 {
   def solve(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       f :: s :: t :: _ = "\\d+".r.findAllIn(line).map(_.toInt).toList
       if f + s > t && s + t > f && f + t > s
-    } yield ()).size
+    yield ()).size
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       lines3 <- input.linesIterator.sliding(3, 3)
       f :: s :: t :: _ <- {
         val triplet = lines3.map { line => "\\d+".r.findAllIn(line).map(_.toInt).toList }.toList
@@ -20,7 +20,7 @@ object Day3 {
         )
       }
       if f + s > t && s + t > f && f + t > s
-    } yield ()).size
+    yield ()).size
 
   val input = """  785  516  744
                 |  272  511  358

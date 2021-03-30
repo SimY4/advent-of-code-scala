@@ -30,19 +30,19 @@ object Day6 {
     type Rect = Seq[(Coord, String)]
 
     def boundaries(rect: Rect): Set[String] =
-      (for {
+      (for
         (Coord(x, y), letter) <- rect
         if x == minX || x == maxX || y == minY || y == maxY
-      } yield letter).toSet
+      yield letter).toSet
 
     def frequencies(rect: Rect): Map[String, Int] =
       rect.map(_._2).groupBy(identity).view.mapValues(_.size).toMap
 
-    val rect = for {
+    val rect = for
       x      <- minX to maxX
       y      <- minY to maxY
       coords = Coord(x, y)
-    } yield coords -> closest(coords)
+    yield coords -> closest(coords)
 
     val bndries = boundaries(rect)
     val freqs   = frequencies(rect)
@@ -59,13 +59,13 @@ object Day6 {
     val minY = coord.map(_.y).min
     val maxY = coord.map(_.y).max
 
-    val rect = for {
+    val rect = for
       x <- minX to maxX
       y <- minY to maxY
       c = Coord(x, y)
       d = coord.map(_.dist(c)).reduce(_ + _)
       if d < 10000
-    } yield c
+    yield c
 
     rect.size
   }

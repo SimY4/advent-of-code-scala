@@ -37,10 +37,10 @@ object Day21 {
     val p2Damage = math.max(p2.damage - p1.armor, 1)
 
     val p1Strikes = 
-      if (p2.hitPoints % p1Damage == 0) p2.hitPoints / p1Damage
+      if p2.hitPoints % p1Damage == 0 then p2.hitPoints / p1Damage
       else (p2.hitPoints / p1Damage) + 1
     val p2Strikes = 
-      if (p1.hitPoints % p2Damage == 0) p1.hitPoints / p2Damage
+      if p1.hitPoints % p2Damage == 0 then p1.hitPoints / p2Damage
       else (p1.hitPoints / p2Damage) + 1
 
     p1Strikes <= p2Strikes
@@ -55,19 +55,19 @@ object Day21 {
 
     val weapons = items.collect { case w: Weapon => w }
     val armor = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor])) { Some(_) :: _ }
-    val rings = (List.empty[Ring] :: (for {
+    val rings = (List.empty[Ring] :: (for
       r1 <- items.collect { case r: Ring => r }
       r2 <- items.collect { case r: Ring => r }
-    } yield if (r1 == r2) r1 :: Nil else r1 :: r2 :: Nil))
+    yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil))
       .distinct
 
-    (for {
+    (for
       weapon <- weapons
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if char duel boss
-    } yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
+    yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .min
   }
 
@@ -80,19 +80,19 @@ object Day21 {
 
     val weapons = items.collect { case w: Weapon => w }
     val armor = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor])) { Some(_) :: _ }
-    val rings = (List.empty[Ring] :: (for {
+    val rings = (List.empty[Ring] :: (for
       r1 <- items.collect { case r: Ring => r }
       r2 <- items.collect { case r: Ring => r }
-    } yield if (r1 == r2) r1 :: Nil else r1 :: r2 :: Nil))
+    yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil))
       .distinct
 
-    (for {
+    (for
       weapon <- weapons
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if !(char duel boss)
-    } yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
+    yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .max
   }
 

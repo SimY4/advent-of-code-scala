@@ -46,7 +46,7 @@ object Day24 {
         .map { (tile, v) => 
           val blacks = tile.neighbours.map(acc.getOrElse(_, false)).filter(identity).size
           (tile, 
-            if (v) !(0 == blacks || blacks > 2)
+            if v then !(0 == blacks || blacks > 2)
             else 2 == blacks)
         }
         .groupMapReduce(_._1)(_._2)(_ || _)

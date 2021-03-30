@@ -50,7 +50,7 @@ object Day16 {
 
   def solve(input: String): Int = {
     def equiv(sue: AuntSue): Boolean =
-      (for {
+      (for
         a <- Some(sue)
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc == rc))
@@ -59,20 +59,20 @@ object Day16 {
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt == rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
         if auntSue.perfumes.forall(lp => a.perfumes.forall(rp => lp == rp))
-      } yield ()).isDefined
+      yield ()).isDefined
 
-    (for {
+    (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
       sue         = parseLine(line)
       if equiv(sue)
-    } yield idx + 1)
+    yield idx + 1)
       .head
   }
 
 
   def solve2(input: String): Int = {
     def equiv(sue: AuntSue): Boolean =
-      (for {
+      (for
         a <- Some(sue)
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc < rc))
@@ -87,13 +87,13 @@ object Day16 {
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt < rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
         if auntSue.perfumes.forall(lp => a.perfumes.forall(rp => lp == rp))
-      } yield ()).isDefined
+      yield ()).isDefined
 
-    (for {
+    (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
       sue         = parseLine(line)
       if equiv(sue)
-    } yield idx + 1)
+    yield idx + 1)
       .head
   }
 

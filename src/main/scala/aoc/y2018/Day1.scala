@@ -19,7 +19,7 @@ object Day1 {
         case Found(_) => state
         case NotFound(acc, set) =>
           val nextCal = acc + cal.toInt
-          if (set contains nextCal) Found(nextCal) else NotFound(nextCal, set + nextCal)
+          if set contains nextCal then Found(nextCal) else NotFound(nextCal, set + nextCal)
       }}
       .collectFirst { case Found(st) => st }
   }

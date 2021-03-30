@@ -19,19 +19,19 @@ object Day8 {
   }
 
   def solve(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       totalStr = countEscaping(str = line.substring(1, line.length - 1))
       totalInMemory = line.length
-    } yield (totalStr, totalInMemory))
+    yield (totalStr, totalInMemory))
       .foldLeft(0) { (acc, p) => acc + p._2 - p._1 }
 
   def solve2(input: String): Int = 
-    (for {
+    (for
         line <- input.linesIterator
         totalUnescaped = countUnescaping(str = line)
         totalInMemory = line.length
-    } yield (totalUnescaped, totalInMemory))
+    yield (totalUnescaped, totalInMemory))
       .foldLeft(0) { (acc, p) => acc + p._1 - p._2 }
 
   val input = """"\xa8br\x8bjr\""

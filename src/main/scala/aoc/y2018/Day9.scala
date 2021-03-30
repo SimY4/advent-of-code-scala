@@ -39,8 +39,8 @@ object Day9 {
 
   def solve(players: Int, marbles: Int): Long = {
     @tailrec def solve0(marble: Int, ring: Node, scores: Map[Int, Long]): Long =
-      if (marble > marbles) scores.values.max
-      else if (0 == marble % 23) {
+      if marble > marbles then scores.values.max
+      else if 0 == marble % 23 then {
         val newRing = (1 to 7).foldLeft(ring) { (r, _) =>
           r.prev
         }

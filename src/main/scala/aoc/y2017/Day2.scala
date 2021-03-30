@@ -1,18 +1,18 @@
 package aoc.y2017
 
 object Day2 {
-  def solve(input: String): Int = (for {
+  def solve(input: String): Int = (for
     line <- input.linesIterator
     arr = "\\d+".r.findAllIn(line).map(_.toInt).toList
-  } yield arr.max - arr.min).sum
+  yield arr.max - arr.min).sum
 
-  def solve2(input: String): Int = (for {
+  def solve2(input: String): Int = (for
     line <- input.linesIterator
     arr = "\\d+".r.findAllIn(line).map(_.toInt).toList
     x1 <- arr
     x2 <- arr
     if x1 != x2 && x1 % x2 == 0
-  } yield x1 / x2).sum
+  yield x1 / x2).sum
 
   val input = """1919	2959	82	507	3219	239	3494	1440	3107	259	3544	683	207	562	276	2963
                 |587	878	229	2465	2575	1367	2017	154	152	157	2420	2480	138	2512	2605	876

@@ -4,10 +4,10 @@ private opaque type Parser[+A] = String => Option[(A, String)]
 
 private object Parser {
   def char(ch: Char): Parser[Char] = { input =>
-    for {
+    for
       head <- input.headOption
       if head == ch
-    } yield (head, input.tail)
+    yield (head, input.tail)
   }
 
   def literal(literal: String): Parser[String] = { input =>

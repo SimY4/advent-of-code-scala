@@ -42,7 +42,7 @@ object Day7 {
   extension (i: Int) private def u: Int = i << 16 >>> 16
 
   @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
-    if (logicGates.isEmpty) signals
+    if logicGates.isEmpty then signals
     else {
       val (newSignals, rest) = logicGates.partitionMap { 
         case Not(e @ Ref(_), to) if signals.contains(e) => 

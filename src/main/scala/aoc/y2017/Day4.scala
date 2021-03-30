@@ -1,19 +1,19 @@
 package aoc.y2017
 
 object Day4 {
-  def solve(input: String): Int = (for {
+  def solve(input: String): Int = (for
     passphrase <- input.linesIterator
     arr = passphrase.split("\\s+")
     if arr.length == arr.toSet.size
-  } yield 1).sum
+  yield 1).sum
 
-  def solve2(input: String): Int = (for {
+  def solve2(input: String): Int = (for
     passphrase <- input.linesIterator
     arr = passphrase.split("\\s+")
     if arr.forall { w1 =>
       arr.filter(_ ne w1).forall { w2 => !(w1.toCharArray.sorted sameElements w2.toCharArray.sorted)}
     }
-  } yield 1).sum
+  yield 1).sum
 
   val input = """vxjtwn vjnxtw sxibvv mmws wjvtxn icawnd rprh
                 |fhaa qwy vqbq gsswej lxr yzl wakcige mwjrl

@@ -16,7 +16,7 @@ object Day19 {
   extension (replacement: (String, String)) private def scanReplace (input: String): LazyList[String] = {
     val (from, to) = replacement
     val idx = input.indexOf(from, 0)
-    if (idx < 0) LazyList.empty
+    if idx < 0 then LazyList.empty
     else LazyList.iterate(idx)(i => input.indexOf(from, i + 1))
       .takeWhile(0 <= _)
       .map(idx => new StringBuilder(input).replace(idx, idx + from.length, to).toString)
@@ -33,10 +33,10 @@ object Day19 {
   def solve2(input: String): Int = {
     val Input(replacements, medicine) = parseInput(input)
     LazyList.iterate(List(medicine)) { molecules =>
-      (for {
+      (for
         (from, to) <- replacements
         nextMolecule <- (to, from).scanReplace(molecules.head)
-      } yield nextMolecule)
+      yield nextMolecule)
         .distinct
     }
       .indexWhere(_.exists(_ == "e"))

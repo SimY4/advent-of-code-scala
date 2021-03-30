@@ -31,7 +31,7 @@ object Day10 {
       val coords = points.map(_.coord).toSet
       (area.y1 to area.y2).map { y =>
         (area.x1 to area.x2).map { x =>
-          if (coords contains Coord(x, y)) "X"
+          if coords contains Coord(x, y) then "X"
           else " "
         }.mkString
       }.mkString("\n")
@@ -42,7 +42,7 @@ object Day10 {
         point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
       }
       val nextArea = Area(nextPoints).area
-      if (area > nextArea) solve0(nextPoints, time + 1, nextArea)
+      if area > nextArea then solve0(nextPoints, time + 1, nextArea)
       else println(s"time: $time, area:\n${show(points)}")
     }
 

@@ -15,7 +15,7 @@ object Day11 {
           case (c, _) => c
         }
       }
-      if (layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col sameElements newCol)) newLayout.map(_.count(_ == '#')).sum
+      if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col sameElements newCol) then newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
     }
 
@@ -33,7 +33,7 @@ object Day11 {
           case (c, _) => c
         }
       }
-      if (layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col sameElements newCol)) newLayout.map(_.count(_ == '#')).sum
+      if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col sameElements newCol) then newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
     }
 

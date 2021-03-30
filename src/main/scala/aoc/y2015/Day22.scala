@@ -57,11 +57,11 @@ object Day22 {
       }.copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
       val armor = state.cooldowns.keys.collect { case Shield => 7 }.sum
 
-      if (turnStartState.boss.hitPoints <= 0) {
-        atom.getAndUpdate { min => if (spent < min) spent else min }
+      if turnStartState.boss.hitPoints <= 0 then {
+        atom.getAndUpdate { min => if spent < min then spent else min }
         spent :: Nil
-      } else if (myTurn) {
-        for {
+      } else if myTurn then {
+        for
           spell <- Spell.book
           if spell.mana <= turnStartState.character.mana && !turnStartState.cooldowns.keys.exists(_ == spell)
           endTurnState = spell match { 
@@ -74,16 +74,16 @@ object Day22 {
             case eot: EffectOverTime => turnStartState.copy(cooldowns = turnStartState.cooldowns + (eot -> eot.turns), 
               character = turnStartState.character.copy(mana = turnStartState.character.mana - eot.mana))
           }
-          outcome <- if (endTurnState.boss.hitPoints <= 0) {
-            atom.getAndUpdate { min => if (spell.mana + spent < min) spell.mana + spent else min }
+          outcome <- if endTurnState.boss.hitPoints <= 0 then {
+            atom.getAndUpdate { min => if spell.mana + spent < min then spell.mana + spent else min }
             (spell.mana + spent) :: Nil
-          } else if (spell.mana + spent < atom.get) duel(false, spell.mana + spent, endTurnState)
+          } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
           else Nil
-        } yield outcome
+        yield outcome
       } else {
         val endTurnState = turnStartState.copy(character = turnStartState.character.copy(hitPoints = 
           turnStartState.character.hitPoints - math.max(turnStartState.boss.damage - armor, 1)))
-        if (endTurnState.character.hitPoints <= 0) Nil
+        if endTurnState.character.hitPoints <= 0 then Nil
         else duel(true, spent, endTurnState)
       }
     }
@@ -102,8 +102,8 @@ object Day22 {
     val atom = new AtomicInteger(Int.MaxValue)
 
     def duel(myTurn: Boolean, spent: Int, state: GameState): List[Int] = {
-      val initialState = if (myTurn) state.copy(character = state.character.copy(hitPoints = state.character.hitPoints - 1)) else state
-      if (initialState.character.hitPoints <= 0) Nil
+      val initialState = if myTurn then state.copy(character = state.character.copy(hitPoints = state.character.hitPoints - 1)) else state
+      if initialState.character.hitPoints <= 0 then Nil
       else {
         // turn start effects
         val turnStartState = initialState.cooldowns.keys.foldLeft(initialState) { 
@@ -113,11 +113,11 @@ object Day22 {
         }.copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
         val armor = initialState.cooldowns.keys.collect { case Shield => 7 }.sum
 
-        if (turnStartState.boss.hitPoints <= 0) {
-          atom.getAndUpdate { min => if (spent < min) spent else min }
+        if turnStartState.boss.hitPoints <= 0 then {
+          atom.getAndUpdate { min => if spent < min then spent else min }
           spent :: Nil
-        } else if (myTurn) {
-          for {
+        } else if myTurn then {
+          for
             spell <- Spell.book
             if spell.mana <= turnStartState.character.mana && !turnStartState.cooldowns.keys.exists(_ == spell)
             endTurnState = spell match { 
@@ -130,16 +130,16 @@ object Day22 {
               case eot: EffectOverTime => turnStartState.copy(cooldowns = turnStartState.cooldowns + (eot -> eot.turns), 
                 character = turnStartState.character.copy(hitPoints = turnStartState.character.hitPoints, mana = turnStartState.character.mana - eot.mana))
             }
-            outcome <- if (endTurnState.boss.hitPoints <= 0) {
-              atom.getAndUpdate { min => if (spell.mana + spent < min) spent + spent else min }
+            outcome <- if endTurnState.boss.hitPoints <= 0 then {
+              atom.getAndUpdate { min => if spell.mana + spent < min then spent + spent else min }
               (spell.mana + spent) :: Nil
-            } else if (spell.mana + spent < atom.get) duel(false, spell.mana + spent, endTurnState)
+            } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
             else Nil
-          } yield outcome
+          yield outcome
         } else {
           val endTurnState = turnStartState.copy(character = turnStartState.character.copy(hitPoints = 
             turnStartState.character.hitPoints - math.max(turnStartState.boss.damage - armor, 1)))
-          if (endTurnState.character.hitPoints <= 0) Nil
+          if endTurnState.character.hitPoints <= 0 then Nil
           else duel(true, spent, endTurnState)
         }
       }

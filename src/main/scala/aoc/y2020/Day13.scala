@@ -21,7 +21,7 @@ object Day13 {
         val res = buses.split(',').zipWithIndex.flatMap((b, i) => b.toLongOption.map(_ - i))
 
         def egcd(a: Long, b: Long): (Long, Long, Long) =
-          if (a == 0L) (b, 0L, 1L)
+          if a == 0L then (b, 0L, 1L)
           else {
             val (g, x, y) = egcd(b % a, a)
             (g, y - (b / a) * x, x)

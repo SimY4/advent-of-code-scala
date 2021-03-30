@@ -6,9 +6,9 @@ extension [A](as: List[A]) def pairs: List[(A, A)] =
 extension (n: Long) def factors: Seq[Long] = 
   (1L to math.sqrt(n.toDouble).toLong)
     .flatMap { i => 
-      if (n % i == 0L) {
+      if n % i == 0L then {
         val div = n / i
-        if (i != div) i :: div :: Nil
+        if i != div then i :: div :: Nil
         else i :: Nil
       } else Nil
     }
@@ -17,7 +17,7 @@ private val hexArray = "0123456789ABCDEF".toCharArray
 
 extension (bytes: Array[Byte]) def printHexBinary: String = {
   val hexChars = new Array[Char](bytes.length * 2)
-  for (i <- 0 until bytes.length) {
+  for i <- 0 until bytes.length do {
     val v = bytes(i) & 0xFF
     hexChars(i * 2) = hexArray(v >>> 4)
     hexChars(i * 2 + 1) = hexArray(v & 0x0F)

@@ -9,15 +9,15 @@ object Day6 {
     val memoryBanks = "\\d+".r.findAllIn(input).map(_.toInt).toList
 
     @tailrec def redistribute0(states: Map[List[Int], Int], memoryBanks: List[Int]): StepAndLoop =
-      if (states contains memoryBanks) StepAndLoop(states.size, (states.size - states(memoryBanks)))
+      if states contains memoryBanks then StepAndLoop(states.size, (states.size - states(memoryBanks)))
       else {
         val maxMemoryBankIdx = memoryBanks.indices.maxBy(memoryBanks)
         val memoryBankBlock = memoryBanks(maxMemoryBankIdx)
 
-        val newMemoryBank = (for {
+        val newMemoryBank = (for
           i <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
-        } yield pos)
+        yield pos)
           .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>
             banks.updated(i, banks(i) + 1)
           }

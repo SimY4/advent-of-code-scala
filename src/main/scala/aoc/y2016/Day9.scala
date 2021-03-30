@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 object Day9 {
   @tailrec private def decompress(input: StringBuilder, pos: Int = 0): String = {
     val start = input.indexOf('(', pos)
-    if (start < 0) input.toString
+    if start < 0 then input.toString
     else {
       val end = input.indexOf(')', start)
       val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList
@@ -17,7 +17,7 @@ object Day9 {
 
   @tailrec private def decompressV2(input: StringBuilder, count: Long = 0): Long = {
     val start = input.indexOf('(')
-    if (start < 0) count + input.size.toLong
+    if start < 0 then count + input.size.toLong
     else {
       val end = input.indexOf(')', start)
       val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList

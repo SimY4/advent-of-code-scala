@@ -26,14 +26,14 @@ object Day23 {
     
 
   @tailrec private def runProgram(program: List[Instruction], state: Map[String, Int], cursor: Int): Map[String, Int] =
-    if (cursor >= program.size) state
+    if cursor >= program.size then state
     else program(cursor) match {
       case hlf(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ / 2) }, cursor + 1)
       case tpl(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ * 3) }, cursor + 1)
       case inc(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ + 1) }, cursor + 1)
       case jmp(offset: Int) => runProgram(program, state, cursor + offset)
-      case jie(r: String, offset: Int) => runProgram(program, state, cursor + (if ((state(r) & 1) == 0) offset else 1))
-      case jio(r: String, offset: Int) => runProgram(program, state, cursor + (if (state(r) == 1) offset else 1))
+      case jie(r: String, offset: Int) => runProgram(program, state, cursor + (if (state(r) & 1) == 0 then offset else 1))
+      case jio(r: String, offset: Int) => runProgram(program, state, cursor + (if state(r) == 1 then offset else 1))
     }
 
   def solve(input: String): Int = {

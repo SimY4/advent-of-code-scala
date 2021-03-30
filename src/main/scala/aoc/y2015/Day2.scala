@@ -3,21 +3,21 @@ package y2015
 
 object Day2 {
   def solve(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
       sides = dimensions.pairs.map(_ * _)
       surfaceArea = sides.map(2 * _).sum
       extra = sides.min
-    } yield surfaceArea + extra).sum
+    yield surfaceArea + extra).sum
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
       ribbon = dimensions.pairs.map(2 * _ + 2 * _).min
       bow = dimensions.product
-    } yield ribbon + bow).sum
+    yield ribbon + bow).sum
 
   val input = """29x13x26
                 |11x11x14

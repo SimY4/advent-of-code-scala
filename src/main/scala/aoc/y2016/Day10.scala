@@ -21,8 +21,8 @@ object Day10 {
 
   private def parseLine(line: String): Action = line match {
     case lineRegex(bot, lowBotOut, low, highBotOut, high) => 
-      val lowOut = if ("bot" == lowBotOut) Bot(low.toInt) else Output(low.toInt)
-      val highOut = if ("bot" == highBotOut) Bot(high.toInt) else Output(high.toInt)
+      val lowOut = if "bot" == lowBotOut then Bot(low.toInt) else Output(low.toInt)
+      val highOut = if "bot" == highBotOut then Bot(high.toInt) else Output(high.toInt)
       BotGives(bot.toInt, lowOut, highOut) 
     case s"value ${value} goes to bot ${bot}" => SetValue(value.toInt, bot.toInt)
   }
@@ -108,11 +108,11 @@ object Day10 {
           )
         case (acc, _) => acc
       }
-      (for {
+      (for
         f <- newOutState.get(0).flatMap(_.headOption)
         s <- newOutState.get(1).flatMap(_.headOption)
         t <- newOutState.get(2).flatMap(_.headOption)
-      } yield f * s * t) match {
+      yield f * s * t) match {
         case Some(n) => n
         case None => go(newBotState, newOutState)
       }

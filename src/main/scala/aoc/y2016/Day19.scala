@@ -11,9 +11,9 @@ object Day19 {
 
     @tailrec def loop(cur: Int): Int = {
       var next = elves.nextSetBit(cur + 1)
-      next = if (next < 0) elves.nextSetBit(0) else next
-      if (elves.get(cur)) {
-        if (cur == next) cur
+      next = if next < 0 then elves.nextSetBit(0) else next
+      if elves.get(cur) then {
+        if cur == next then cur
         else {
           elves.clear(next)
           loop(next)
@@ -27,7 +27,7 @@ object Day19 {
   def solve2(input: Int): Int = {
     var p = 1
     while (3 * p <= input) do ( p = p * 3 )
-    if (input == p) input
+    if input == p then input
     else input - p + math.max(input - 2 * p, 0)
   }
 

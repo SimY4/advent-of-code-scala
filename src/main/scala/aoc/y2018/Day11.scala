@@ -12,24 +12,24 @@ object Day11 {
   }
 
   def solve(grid: Int, size: Long = 3): (Long, Coord) = {
-    (for {
+    (for
       x <- 1L to (301 - size)
       y <- 1L to (301 - size)
-      power = (for {
+      power = (for
         dx <- 0L until size
         dy <- 0L until size
-      } yield Coord(x + dx, y + dy)).foldLeft(0L) { (acc, cell) =>
+      yield Coord(x + dx, y + dy)).foldLeft(0L) { (acc, cell) =>
         acc + cell.power(grid)
       }
-    } yield power -> Coord(x, y))
+    yield power -> Coord(x, y))
       .maxBy(_._1)
   }
 
   def solve2(grid: Int): (Coord, Long) = {
-    val max = (for {
+    val max = (for
       size          <- (1L to 300L).toSeq.par
       (power, cell) = solve(grid, size)
-    } yield (power, cell, size))
+    yield (power, cell, size))
       .maxBy(_._1)
     max._2 -> max._3
   }

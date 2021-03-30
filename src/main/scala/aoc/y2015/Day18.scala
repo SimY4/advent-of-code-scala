@@ -9,7 +9,7 @@ object Day18 {
             .exists(row => row.lift(neighbour.y.toInt)
               .exists(identity))
         }
-    if (grid(coord.x.toInt)(coord.y.toInt))
+    if grid(coord.x.toInt)(coord.y.toInt) then
       2 == lightsOn || 3 == lightsOn
     else 
       3 == lightsOn
@@ -22,11 +22,11 @@ object Day18 {
 
     LazyList.from(0)
       .scanLeft(grid) { (g, _) => 
-        (for {
+        (for
           i <- 0 until g.size
           row = (0 until g.size)
             .map(j => changeSwitch(g, Coord(i.toLong, j.toLong))).toArray
-        } yield row)
+        yield row)
           .toArray
       }
       .drop(100)
@@ -45,12 +45,12 @@ object Day18 {
 
     LazyList.from(0)
       .scanLeft(grid) { (g, _) => 
-        (for {
+        (for
           i <- 0 until g.size
           row = (0 until g.size)
             .map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong)))
             .toArray
-        } yield row)
+        yield row)
           .toArray
       }
       .drop(100)

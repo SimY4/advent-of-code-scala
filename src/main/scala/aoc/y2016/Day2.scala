@@ -41,7 +41,7 @@ object Day2 {
           case 'L' if coord.x > 0L => coord.copy(x = coord.x - 1L)
           case _ => coord
         }
-        if ('_' == field2(y.toInt)(x.toInt)) coord else Coord(x, y)
+        if '_' == field2(y.toInt)(x.toInt) then coord else Coord(x, y)
       }
     }
       .drop(1)

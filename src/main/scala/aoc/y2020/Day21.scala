@@ -31,7 +31,7 @@ object Day21 {
       val simplified = allergens.view
           .map((k, v) => k -> (v -- singles.filter((sk, _) => k != sk).values))
           .toMap
-      if (allergens == simplified) allergens
+      if allergens == simplified then allergens
       else simplify(simplified)
     }
     

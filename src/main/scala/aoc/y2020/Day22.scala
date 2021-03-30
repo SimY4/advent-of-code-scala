@@ -17,7 +17,7 @@ object Day22 {
           case (score, (card, mult)) => score + (mult + 1) * card
         }
         case ((f1 :: rest1), (f2 :: rest2)) => 
-          if (f1 > f2) play(rest1 ::: List(f1, f2), rest2)
+          if f1 > f2 then play(rest1 ::: List(f1, f2), rest2)
           else play(rest1, rest2 ::: List(f2, f1))
       }
 
@@ -32,7 +32,7 @@ object Day22 {
     def recursiveCombat(player1: List[Int], player2: List[Int]): Boolean = play(player1, player2)._1
 
     def play(player1: List[Int], player2: List[Int], history: Set[(String, String)] = Set.empty): (Boolean, Int) = 
-      if (history.contains((player1.mkString, player2.mkString)))
+      if history.contains((player1.mkString, player2.mkString)) then
         true -> player1.reverse.zipWithIndex.foldLeft(0) { 
           case (score, (card, mult)) => score + (mult + 1) * card
         }
@@ -45,10 +45,10 @@ object Day22 {
             case (score, (card, mult)) => score + (mult + 1) * card
           }
           case ((f1 :: rest1), (f2 :: rest2)) if rest1.size >= f1 && rest2.size >= f2 => 
-            if (recursiveCombat(rest1.take(f1), rest2.take(f2))) play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString -> player2.mkString))
+            if recursiveCombat(rest1.take(f1), rest2.take(f2)) then play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString -> player2.mkString))
             else play(rest1, rest2 ::: List(f2, f1), history + (player1.mkString -> player2.mkString))
           case ((f1 :: rest1), (f2 :: rest2)) => 
-            if (f1 > f2) play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString -> player2.mkString))
+            if f1 > f2 then play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString -> player2.mkString))
             else play(rest1, rest2 ::: List(f2, f1), history + (player1.mkString -> player2.mkString))
         }
 

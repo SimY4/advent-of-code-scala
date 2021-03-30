@@ -27,14 +27,14 @@ object Day4 {
     }
 
   def solve(input: String): Int = 
-    (for {
+    (for
       raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).map(passportField).toSet
       if passport.count {
         case CountryId => false
         case _ => true
       } >= 7
-    } yield ()).size
+    yield ()).size
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
     field.split(':').toList match {
@@ -61,14 +61,14 @@ object Day4 {
     }
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).flatMap(passportFieldStrict).toSet
       if passport.count {
         case CountryId => false
         case _ => true
       } >= 7
-    } yield ()).size
+    yield ()).size
 
   val input = """hgt:176cm
                 |iyr:2013

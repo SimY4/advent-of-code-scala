@@ -8,7 +8,7 @@ object Day12 {
 
   def group(program: Int, input: Map[Int, Seq[Int]]): Group = {
     @tailrec def group0(acc: Set[Int], current: Set[Int]): Group =
-      if (current.isEmpty) {
+      if current.isEmpty then {
         acc
       } else {
         val connects = acc ++ current.flatMap(input)
@@ -31,7 +31,7 @@ object Day12 {
 
   def groups(input: Map[Int, Seq[Int]]): Set[Group] = {
     @tailrec def groups0(acc: Set[Group], i: Map[Int, Seq[Int]]): Set[Group] =
-      if (i.isEmpty) acc
+      if i.isEmpty then acc
       else {
         val groups = acc + group(i.keySet.head, i)
         groups0(groups, i -- groups.flatten)

@@ -5,19 +5,19 @@ object Day5 {
   private val bad = List("ab", "cd", "pq", "xy")
 
   def solve(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       if line.filter(vowels.contains).size >= 3
       if line.toSeq.sliding(2).exists { s => s.head == s.last }
       if bad.forall { !line.contains(_) }
-    } yield line).size
+    yield line).size
 
   def solve2(input: String): Int = 
-    (for {
+    (for
       line <- input.linesIterator
       if line.toSeq.sliding(2).exists { _.toString.r.findAllIn(line).size >= 2 }
       if line.toSeq.sliding(3).exists { s => s.head == s.last }
-    } yield line).size
+    yield line).size
 
   val input = """rthkunfaakmwmush
                 |qxlnvjguikqcyfzt

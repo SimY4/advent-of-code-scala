@@ -17,7 +17,7 @@ object Day7 {
 
     def loop(color: String, acc: Set[String] = Set.empty): Set[String] = {
       val canContain = bags.view.filter((_, c) => c.map(_._2).contains(color)).keySet
-      if (canContain.isEmpty) acc + color
+      if canContain.isEmpty then acc + color
       else canContain.toList.map(loop(_, acc + color)).reduce(_ union _)
     }
 
@@ -29,7 +29,7 @@ object Day7 {
 
     def loop(color: String): Int = {
       val consists = bags(color)
-      if (consists.isEmpty) 0
+      if consists.isEmpty then 0
       else consists.map((n, c) => n * (loop(c) + 1)).sum
     }
 

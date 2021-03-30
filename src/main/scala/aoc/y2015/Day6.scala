@@ -22,7 +22,7 @@ object Day6 {
     }
 
   private def update[A](grid: Grid[A], coord1: Coord, coord2: Coord)(f: A => A): Grid[A] = {
-    for (i <- coord1.x.toInt to coord2.x.toInt; j <- coord1.y.toInt to coord2.y.toInt) {
+    for i <- coord1.x.toInt to coord2.x.toInt; j <- coord1.y.toInt to coord2.y.toInt do {
       grid(i)(j) = f(grid(i)(j))
     }
     grid

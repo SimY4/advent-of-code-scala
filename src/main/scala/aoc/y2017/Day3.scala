@@ -12,7 +12,7 @@ object Day3 {
     val pos = (input - from) % side
     val center = (side / 2) - 1
 
-    if (pos >= center) pos - center + diag
+    if pos >= center then pos - center + diag
     else center - pos + diag
   }
 
@@ -28,10 +28,10 @@ object Day3 {
     val coords = LazyList.iterate(0L)(_ + 1L).flatMap(indexes)
     coords.tail
       .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) => 
-        val res = (for {
+        val res = (for
           neighbour <- coord.neighbours()
           v = acc.getOrElse(neighbour, 0)
-        } yield v).sum
+        yield v).sum
         acc + (coord -> res)
       }
       .map(_.values.max)

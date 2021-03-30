@@ -34,14 +34,14 @@ object Day11 {
       case ((current, mx), direction) =>
         val next         = track(current, direction)
         val nextDistance = next.distance
-        if (nextDistance > mx) (next, nextDistance)
+        if nextDistance > mx then (next, nextDistance)
         else (next, mx)
     }
     println(end)
     (end.distance, max)
   }
 
-  println(for {
+  println(for
     (input, res) <- Map(
                      "ne,ne,ne"       -> 3,
                      "ne,ne,sw,sw"    -> 0,
@@ -52,6 +52,6 @@ object Day11 {
     r @ (min, _) = optimise(parsed)
     _            = println(r)
     _            = println(min == res)
-  } yield r)
+  yield r)
 
 }

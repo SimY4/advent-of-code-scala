@@ -16,7 +16,7 @@ object Day7 {
     
   def solve2(input: String): Int = {
     val opCodes = input.split(",").map(_.toInt).toList
-    (for (amplifier <- (5 to 9).permutations) yield {
+    (for amplifier <- (5 to 9).permutations yield {
       def out1: LazyList[Int] = runProgram(opCodes, amplifier(0) #:: 0 #:: out5)
       def out2: LazyList[Int] = runProgram(opCodes, amplifier(1) #:: out1)
       def out3: LazyList[Int] = runProgram(opCodes, amplifier(2) #:: out2)

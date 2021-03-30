@@ -27,8 +27,8 @@ object Day12 {
         case Some(Cpy(Right(r), reg)) => go(state.updated(reg, state(r)), pos + 1)
         case Some(Inc(reg)) => go(state.updated(reg, state(reg) + 1), pos + 1)
         case Some(Dec(reg)) => go(state.updated(reg, state(reg) - 1), pos + 1)
-        case Some(Jnz(Left(i), n)) => go(state, if (i == 0) pos + 1 else pos + n)
-        case Some(Jnz(Right(reg), n)) => go(state, if (state(reg) == 0) pos + 1 else pos + n)
+        case Some(Jnz(Left(i), n)) => go(state, if i == 0 then pos + 1 else pos + n)
+        case Some(Jnz(Right(reg), n)) => go(state, if state(reg) == 0 then pos + 1 else pos + n)
       }
 
     go(state, pos)

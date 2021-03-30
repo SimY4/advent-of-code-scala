@@ -9,7 +9,7 @@ object Day20 {
 
     data.foldLeft(0L) {
       case (h, (begin, end)) =>
-        if (begin > h) h
+        if begin > h then h
         else math.max(h, end + 1)
     }
   }
@@ -22,7 +22,7 @@ object Day20 {
 
     data.foldLeft((0L, 0L)) {
       case ((h, c), (begin, end)) =>
-        if (begin > h) (end + 1, c + begin - h)
+        if begin > h then (end + 1, c + begin - h)
         else math.max(h, end + 1) -> c
     }
     ._2
