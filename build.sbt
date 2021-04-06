@@ -7,9 +7,9 @@ lazy val root = project
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.0",
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.2",
       "org.scalacheck"         %% "scalacheck" % "1.15.3" % Test
-    ).map(_.withDottyCompat(scalaVersion.value)),
+    ),
     scalacOptions ++= Seq(
       "-encoding", "UTF-8",
       "-feature",
@@ -20,6 +20,6 @@ lazy val root = project
     )
   )
 
-initialCommands in console := "import aoc.y2015.Day19._"
+console / initialCommands := "import aoc.y2015.Day19._"
 
 addCommandAlias("fmt", "; compile:scalafmt; test:scalafmt; scalafmtSbt")
