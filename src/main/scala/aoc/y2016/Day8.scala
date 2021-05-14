@@ -9,7 +9,7 @@ object Day8 {
     case RotateCol(x: Int, shift: Int)
   }
 
-  import Action._
+  import Action.*
 
   private def parseLine(line: String): Action = line match {
     case s"rect ${x}x$y" => Rect(x.toInt, y.toInt) 

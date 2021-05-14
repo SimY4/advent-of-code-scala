@@ -10,14 +10,14 @@ object Day10 {
     case Output(n: Int)
   }
 
-  import Out._
+  import Out.*
 
   private enum Action {
     case SetValue(value: Int, bot: Int)
     case BotGives(bot: Int, low: Out, high: Out)
   }
 
-  import Action._
+  import Action.*
 
   private def parseLine(line: String): Action = line match {
     case lineRegex(bot, lowBotOut, low, highBotOut, high) => 

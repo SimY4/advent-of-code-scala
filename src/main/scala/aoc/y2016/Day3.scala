@@ -4,14 +4,14 @@ object Day3 {
   def solve(input: String): Int = 
     (for
       line <- input.linesIterator
-      f :: s :: t :: _ = "\\d+".r.findAllIn(line).map(_.toInt).toList
+      f :: s :: t :: _ = "\\d+".r.findAllIn(line).map(_.toInt).toList: @unchecked
       if f + s > t && s + t > f && f + t > s
     yield ()).size
 
   def solve2(input: String): Int = 
     (for
       lines3 <- input.linesIterator.sliding(3, 3)
-      f :: s :: t :: _ <- {
+      case f :: s :: t :: _ <- {
         val triplet = lines3.map { line => "\\d+".r.findAllIn(line).map(_.toInt).toList }.toList
         List(
           triplet(0)(0) :: triplet(1)(0) :: triplet(2)(0) :: Nil,

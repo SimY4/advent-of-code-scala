@@ -9,7 +9,7 @@ object Day21 {
 
   private final case class Character(hitPoints: Int, damage: Int, armor: Int)
 
-  import Item._
+  import Item.*
 
   private val items = List(
     Weapon("Dagger", 8, 4),
@@ -66,7 +66,7 @@ object Day21 {
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if char duel boss
+      if char `duel` boss
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .min
   }
@@ -91,7 +91,7 @@ object Day21 {
       ar <- armor
       rngs <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if !(char duel boss)
+      if !(char `duel` boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum)
       .max
   }

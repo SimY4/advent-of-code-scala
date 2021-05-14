@@ -33,7 +33,7 @@ object Day22 {
     }
   }
 
-  import Spell._
+  import Spell.*
 
   private final case class Character(hitPoints: Int, mana: Int)
   private final case class Boss(hitPoints: Int, damage: Int)

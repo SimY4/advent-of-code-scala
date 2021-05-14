@@ -17,13 +17,13 @@ object Day4 {
 
   def solve(input: String): Int = 
     (for
-      lineRegex(name, id, checksum) <- input.linesIterator
+      case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
     yield id.toInt).sum
 
   def solve2(input: String): List[(String, String)] = 
     (for
-      lineRegex(name, id, checksum) <- input.linesIterator
+      case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
     yield id -> name.map {
       case '-' => ' '

@@ -4,7 +4,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 object Day7 {
-  import scala.jdk.CollectionConverters._
+  import scala.jdk.CollectionConverters.*
 
   private def abba(s: Seq[Char]): Boolean = s(0) != s(1) && s == s.reverse
 

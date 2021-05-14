@@ -17,7 +17,7 @@ object Day10 {
     extension (a: Area) def area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
   }
 
-  import Area._
+  import Area.*
 
   private def parse(input: String): List[Point] =
     input.linesIterator.map { line =>

@@ -8,7 +8,7 @@ object Day11 {
     case N, NE, SE, S, SW, NW
   }
 
-  import Direction._
+  import Direction.*
 
   private def parse(input: String): Seq[Direction] = input.split(',').toSeq.map {
     case "n"  => N

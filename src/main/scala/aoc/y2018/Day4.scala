@@ -17,7 +17,7 @@ object Day4 {
     case WakesUp
   }
 
-  import Action._
+  import Action.*
 
   private final case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
 

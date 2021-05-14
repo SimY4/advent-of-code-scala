@@ -6,7 +6,7 @@ object Day14 {
     case Mem(addr: Long, value: Long)
   }
 
-  import Ins._
+  import Ins.*
 
   private def parseLine(line: String): Ins =
     line match {

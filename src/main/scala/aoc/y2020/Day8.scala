@@ -9,7 +9,7 @@ object Day8 {
     case Nop(nop: Int, idx: Int)
   }
 
-  import Ins._
+  import Ins.*
 
   private def parseLine(line: String, idx: Int): Ins = 
     line match {

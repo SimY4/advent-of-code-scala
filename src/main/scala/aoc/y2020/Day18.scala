@@ -2,7 +2,7 @@ package aoc
 package y2020
 
 object Day18 {
-  import Parser.{ _, given }
+  import Parser.{ *, given }
 
   private enum Expr {
     case Digit(d: Int)
@@ -31,7 +31,7 @@ object Day18 {
     lazy val parser2: Parser[Expr] = prodParser2
   }
 
-  import Expr._
+  import Expr.*
 
   private def eval(expr: Expr): Long = 
     expr match {

@@ -10,7 +10,7 @@ object Day12 {
     case Jnz(reg: Int Either String, n: Int)
   }
 
-  import Code._
+  import Code.*
 
   private def parseLine(line: String): Code = line match {
     case s"cpy ${value} ${reg}" => Cpy(value.toIntOption.toLeft(value), reg)

@@ -8,7 +8,7 @@ object Day9 {
     if start < 0 then input.toString
     else {
       val end = input.indexOf(')', start)
-      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList
+      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList: @unchecked
       val sample = input.substring(end + 1, end + nChar.toInt + 1)
       val newInput = input.replace(start, end + nChar.toInt + 1, sample * nTimes.toInt)
       decompress(newInput, start + sample.size * nTimes.toInt)
@@ -20,7 +20,7 @@ object Day9 {
     if start < 0 then count + input.size.toLong
     else {
       val end = input.indexOf(')', start)
-      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList
+      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList: @unchecked
       val sample = input.substring(end + 1, end + nChar.toInt + 1)
       val newInput = input.replace(0, end + nChar.toInt + 1, sample * nTimes.toInt)
       decompressV2(newInput, count + start.toLong)

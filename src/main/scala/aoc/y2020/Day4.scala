@@ -12,7 +12,7 @@ object Day4 {
     case CountryId
   }
 
-  import PasswordField._
+  import PasswordField.*
 
   private def passportField(field: String): PasswordField =
     field.split(':').toList match {

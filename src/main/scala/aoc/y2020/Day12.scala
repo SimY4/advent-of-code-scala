@@ -12,8 +12,8 @@ object Day12 {
     case F(steps: Int)
   }
 
-  import Direction._
-  import Move._
+  import Direction.*
+  import Move.*
 
   private def parseLine(line: String): Move = 
     line match {

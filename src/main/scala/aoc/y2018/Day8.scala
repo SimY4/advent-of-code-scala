@@ -30,7 +30,7 @@ object Day8 {
     child(nums)._1
   }
 
-  import Node._
+  import Node.*
 
   def solve(input: String): Int = parse(input).sumMeta
 

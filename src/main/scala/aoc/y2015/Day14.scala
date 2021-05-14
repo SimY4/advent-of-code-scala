@@ -11,7 +11,7 @@ object Day14 {
   }
 
   def solve(input: String): Int = {
-    val raindeers = (for linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
+    val raindeers = (for case linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
     yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
       .toMap
 
@@ -36,7 +36,7 @@ object Day14 {
 
   def solve2(input: String): Int = {
     val raindeers = (for
-      linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
+      case linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
     yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
       .toMap
 

@@ -9,7 +9,7 @@ object Day21 {
     case Reverse(x: Int, y: Int)
     case Move(x: Int, y: Int)
   }
-  import Operation._
+  import Operation.*
 
   private def parseLine(line: String): Operation = line match {
     case s"swap position $x with position $y" => SwapPos(x.toInt, y.toInt)

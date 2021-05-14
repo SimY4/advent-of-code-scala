@@ -6,7 +6,7 @@ object Day13 {
 
   def solve(input: String): Int = {
     val rels = (for
-      linePattern(first, gl, points, second) <- input.linesIterator
+      case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
     yield (first -> second, adjPoints))
       .toMap
@@ -20,7 +20,7 @@ object Day13 {
 
   def solve2(input: String): Int = {
     val rels = (for
-      linePattern(first, gl, points, second) <- input.linesIterator
+      case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
     yield (first -> second, adjPoints))
       .toMap

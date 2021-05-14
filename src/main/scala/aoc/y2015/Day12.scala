@@ -5,7 +5,7 @@ object Day12 {
   def solve(input: String): Int =
     "(?<=[:\\[,])-?\\d+(\\.\\d+)?".r.findAllIn(input).map(_.toInt).sum
 
-  import Parser.{_, given}
+  import Parser.{*, given}
   
   private enum Json {
     case JNull
@@ -16,7 +16,7 @@ object Day12 {
     case JObj(obj: Map[String, Json])
   }
   private object Json {
-    private val nullParser: Parser[JNull.type] = literal("null") as JNull
+    private val nullParser: Parser[JNull.type] = literal("null") `as` JNull
     private val boolParser: Parser[JBool] = literal("true").as(new JBool(true)) <|> literal("false").as(new JBool(false))
     private val numberParser: Parser[JNumber] = (char('-').optional <*> span(_.isDigit)).map { (oc, digits) => 
       val i = digits.toInt
@@ -31,7 +31,7 @@ object Day12 {
   }
 
   def solve2(input: String): Int = {
-    import Json._
+    import Json.*
 
     def preprocess(i: Json): Json = i match {
       case JObj(obj: Map[String, Json]) => 

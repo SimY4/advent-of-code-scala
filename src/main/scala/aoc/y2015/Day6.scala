@@ -10,7 +10,7 @@ object Day6 {
     case Toggle(coord1: Coord, coord2: Coord)
   }
 
-  import Action._
+  import Action.*
 
   private def parseLine(line: String): Action = 
     "\\d+".r.findAllIn(line).map(_.toLong).toList match {

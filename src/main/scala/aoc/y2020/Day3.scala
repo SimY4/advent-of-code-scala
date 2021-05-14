@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 object Day3 {
   def solve(input: String): Int = {
     val area = input.linesIterator.map { line =>
-      def list: LazyList[Char] = LazyList(line.toList: _*) #::: list
+      def list: LazyList[Char] = LazyList(line.toList *) #::: list
       list
     }.toList
     
@@ -21,7 +21,7 @@ object Day3 {
   
   def solve2(input: String): Long = {
     val area = input.linesIterator.map { line =>
-      def list: LazyList[Char] = LazyList(line.toList: _*) #::: list
+      def list: LazyList[Char] = LazyList(line.toList *) #::: list
       list
     }.toList
     

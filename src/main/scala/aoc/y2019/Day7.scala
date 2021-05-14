@@ -3,7 +3,7 @@ package aoc.y2019
 import scala.language.implicitConversions
 
 object Day7 {
-  import Day5._
+  import Day5.*
 
   def solve(input: String): Int = {
     val opCodes = input.split(",").map(_.toInt).toList

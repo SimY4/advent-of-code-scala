@@ -12,7 +12,7 @@ object Day23 {
     case jio(r: String, offset: Int)
   }
 
-  import Instruction._
+  import Instruction.*
 
   private def parseLine(line: String): Instruction = 
     "[a-z\\-+0-9]+".r.findAllIn(line).toList match {

@@ -3,7 +3,7 @@ package aoc.y2018
 import scala.annotation.tailrec
 
 object Day5 {
-  import scala.collection.parallel.CollectionConverters._
+  import scala.collection.parallel.CollectionConverters.*
 
   val regex = ('a' to 'z').flatMap { c =>
     Seq(s"$c" + s"${c.toUpper}", s"${c.toUpper}" + s"$c")

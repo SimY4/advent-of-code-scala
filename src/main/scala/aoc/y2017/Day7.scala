@@ -18,7 +18,7 @@ object Day7 {
     }
 
     val nodes = (for
-      linePattern(name, weight, children) <- input.linesIterator
+      case linePattern(name, weight, children) <- input.linesIterator
       childrenNormalized = Option(children).map(_.split(", ").toList).getOrElse(Nil)
     yield name -> TreeNode(weight.toInt, childrenNormalized))
       .toMap

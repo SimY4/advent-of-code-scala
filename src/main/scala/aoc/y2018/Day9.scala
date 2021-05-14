@@ -35,7 +35,7 @@ object Day9 {
     }
   }
   
-  import Node._
+  import Node.*
 
   def solve(players: Int, marbles: Int): Long = {
     @tailrec def solve0(marble: Int, ring: Node, scores: Map[Int, Long]): Long =

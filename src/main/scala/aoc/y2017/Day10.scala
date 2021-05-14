@@ -35,7 +35,7 @@ object Day10 {
   }
 
   val state: State                 = State(list(5), lengths, 0, 0)
-  val State(l @ x1 :: x2 :: _, _, _, _) = knotHash(state)
+  val State(l @ x1 :: x2 :: _, _, _, _) = knotHash(state): @unchecked
   println(l)
   println(x1 * x2 == 12)
 

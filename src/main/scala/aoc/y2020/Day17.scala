@@ -1,7 +1,7 @@
 package aoc.y2020
 
 object Day17 {
-  import scala.collection.parallel.CollectionConverters._
+  import scala.collection.parallel.CollectionConverters.*
 
   private final case class Coord(x: Long, y: Long, z: Long, w: Long)
   extension (c: Coord) {

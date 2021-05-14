@@ -10,7 +10,7 @@ object Day1 {
     case Found(st: Int)
   }
 
-  import State._
+  import State.*
 
   def solve2(input: String): Option[Int] = {
     def infinite: LazyList[Int] = input.linesIterator.map(_.toInt).to(LazyList) #::: infinite

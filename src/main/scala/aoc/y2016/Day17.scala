@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
 object Day17 {
-  import Direction._
+  import Direction.*
   
   private val md = MessageDigest.getInstance("MD5")
   

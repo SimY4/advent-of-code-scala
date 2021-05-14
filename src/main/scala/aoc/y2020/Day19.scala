@@ -5,8 +5,8 @@ object Day19 {
   private final case class Cons(ref: List[Int | Char])
   private final case class Rule(id: Int, or: List[Cons])
 
-  import Rule._
-  import Parser.{_, given}
+  import Rule.*
+  import Parser.{*, given}
 
   private val refParser: Parser[Int | Char] = span(_.isDigit).map(_.toInt) <|> (char('"') *> any <* char('"'))
   private val consParser: Parser[Cons] = refParser.many(char(' ')).map(Cons(_))

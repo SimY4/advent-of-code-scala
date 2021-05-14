@@ -14,7 +14,7 @@ object Day7 {
       catch { case _: NumberFormatException => Ref(s) }
   }
 
-  import Gate._
+  import Gate.*
 
   private enum Wire {
     case Identity(g: Gate, to: Ref)
@@ -25,7 +25,7 @@ object Day7 {
     case RShift(p: Gate, shift: Int, to: Ref)
   }
 
-  import Wire._
+  import Wire.*
 
   private def parseLine(line: String): Wire = line match {
     case s"$x AND $y -> $to" => And(Gate(x), Gate(y), new Ref(to))
