@@ -5,7 +5,8 @@ object Day10 {
   def solve(input: String): Int = {
     val adapters = input.linesIterator.map(_.toInt).toList.sorted
 
-    val res = adapters.zip(adapters.tail)
+    val res = adapters
+      .zip(adapters.tail)
       .map((f, s) => s - f)
       .groupBy(identity)
       .view
@@ -22,7 +23,7 @@ object Day10 {
     adapters.foldLeft(0) { (acc, ad) =>
       val d = ad - acc
       System.arraycopy(arr, 0, arr, d, arr.size - d)
-      (0 until d).foreach( arr(_) = 0 )
+      (0 until d).foreach(arr(_) = 0)
       arr(0) = arr.sum
       ad
     }

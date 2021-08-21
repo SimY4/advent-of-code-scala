@@ -3,52 +3,60 @@ package aoc.y2020
 import scala.annotation.tailrec
 
 object Day16 {
-  private final case class Range(start: Int, end: Int)
-  private final case class Rule(field: String, ranges: List[Range])
+  final private case class Range(start: Int, end: Int)
+  final private case class Rule(field: String, ranges: List[Range])
 
-  private def parseRule(rule: String): Rule = 
+  private def parseRule(rule: String): Rule =
     rule match {
-      case s"$name: $r1s-$r1e or $r2s-$r2e" => Rule(name, List(Range(r1s.toInt, r1e.toInt), Range(r2s.toInt, r2e.toInt)))
+      case s"$name: $r1s-$r1e or $r2s-$r2e" =>
+        Rule(name, List(Range(r1s.toInt, r1e.toInt), Range(r2s.toInt, r2e.toInt)))
     }
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     input.split(System.lineSeparator * 2).toList match {
       case rules :: _ :: nearbyTickets :: Nil =>
         val parsedRules = rules.linesIterator.map(parseRule).toList
-        nearbyTickets.linesIterator.drop(1).map(_.split(',').map(_.toInt).toList)
+        nearbyTickets.linesIterator
+          .drop(1)
+          .map(_.split(',').map(_.toInt).toList)
           .flatMap(_.filter(v => !parsedRules.flatMap(_.ranges).exists(range => range.start <= v && v <= range.end)))
           .sum
     }
 
-  def solve2(input: String): Long = 
+  def solve2(input: String): Long =
     input.split(System.lineSeparator * 2).toList match {
       case rules :: ticket :: nearbyTickets :: Nil =>
-        val parsedRules = rules.linesIterator.map(parseRule).toSet
-        val parsedTicket = ticket.substring(ticket.indexOf(System.lineSeparator) + System.lineSeparator.size).split(',').map(_.toInt).toVector
-        val parsedNearbyTickets = nearbyTickets.linesIterator.drop(1).map(_.split(',').map(_.toInt).toVector)
+        val parsedRules         = rules.linesIterator.map(parseRule).toSet
+        val parsedTicket        = ticket
+          .substring(ticket.indexOf(System.lineSeparator) + System.lineSeparator.size)
+          .split(',')
+          .map(_.toInt)
+          .toVector
+        val parsedNearbyTickets = nearbyTickets.linesIterator
+          .drop(1)
+          .map(_.split(',').map(_.toInt).toVector)
           .filter(_.forall(v => parsedRules.flatMap(_.ranges).exists(range => range.start <= v && v <= range.end)))
           .toList
-        val matchingFields = (0 until parsedTicket.size).foldLeft(Map.empty[Int, Set[Rule]]) { (acc, i) =>
-          acc + (i -> (parsedTicket :: parsedNearbyTickets).foldLeft(parsedRules) { (acc, ticket) => 
+        val matchingFields      = (0 until parsedTicket.size).foldLeft(Map.empty[Int, Set[Rule]]) { (acc, i) =>
+          acc + (i -> (parsedTicket :: parsedNearbyTickets).foldLeft(parsedRules) { (acc, ticket) =>
             acc.filter(_.ranges.exists(range => range.start <= ticket(i) && ticket(i) <= range.end))
           })
         }
 
         @tailrec def simplify(fields: Map[Int, Set[Rule]]): Map[Int, Set[Rule]] = {
-          val singles = fields.collect {
+          val singles    = fields.collect {
             case (k, v) if v.size == 1 => k -> v.iterator.next
           }
           val simplified = fields.view
-              .map((k, v) => k -> (v -- singles.filter((sk, _) => k != sk).values))
-              .toMap
+            .map((k, v) => k -> (v -- singles.filter((sk, _) => k != sk).values))
+            .toMap
           if fields == simplified then fields
           else simplify(simplified)
         }
 
         val fields = simplify(matchingFields)
 
-        fields
-          .view
+        fields.view
           .mapValues(_.head)
           .filter((_, v) => v.field.startsWith("departure"))
           .map((i, _) => parsedTicket(i).toLong)

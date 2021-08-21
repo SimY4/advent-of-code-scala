@@ -1,10 +1,11 @@
 package aoc.y2015
 
 object Day14 {
-  private val linePattern = "^([A-Z][a-z]+) can fly (\\d+) km/s for (\\d+) seconds, but then must rest for (\\d+) seconds\\.$".r
+  private val linePattern =
+    "^([A-Z][a-z]+) can fly (\\d+) km/s for (\\d+) seconds, but then must rest for (\\d+) seconds\\.$".r
 
-  private final case class Raindeer(name: String, speed: Int, flyTime: Int, restTime: Int)
-  private final case class State(distance: Int, score: Int, switch: Int, status: Status)
+  final private case class Raindeer(name: String, speed: Int, flyTime: Int, restTime: Int)
+  final private case class State(distance: Int, score: Int, switch: Int, status: Status)
 
   private enum Status {
     case Flying, Resting
@@ -12,20 +13,24 @@ object Day14 {
 
   def solve(input: String): Int = {
     val raindeers = (for case linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
-    yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
-      .toMap
+    yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(
+      0,
+      0,
+      flyTime.toInt,
+      Status.Flying
+    )).toMap
 
-    LazyList.from(1)
-      .scanLeft(raindeers) { (states, second) => 
-        states
-          .transform {
-            case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) => 
-              if second < switch then State(distance + speed, score, switch, Status.Flying)
-              else State(distance + speed, score, second + restTime, Status.Resting)
-            case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) => 
-              if second < switch then s
-              else State(distance, score, second + flyTime, Status.Flying)
-          }
+    LazyList
+      .from(1)
+      .scanLeft(raindeers) { (states, second) =>
+        states.transform {
+          case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying))     =>
+            if second < switch then State(distance + speed, score, switch, Status.Flying)
+            else State(distance + speed, score, second + restTime, Status.Resting)
+          case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
+            if second < switch then s
+            else State(distance, score, second + flyTime, Status.Flying)
+        }
       }
       .drop(2502)
       .head
@@ -35,29 +40,31 @@ object Day14 {
   }
 
   def solve2(input: String): Int = {
-    val raindeers = (for
-      case linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
-    yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(0, 0, flyTime.toInt, Status.Flying))
-      .toMap
+    val raindeers = (for case linePattern(raindeer, speed, flyTime, restTime) <- input.linesIterator
+    yield Raindeer(raindeer, speed.toInt, flyTime.toInt, restTime.toInt) -> State(
+      0,
+      0,
+      flyTime.toInt,
+      Status.Flying
+    )).toMap
 
-    LazyList.from(1)
-      .scanLeft(raindeers) { (states, second) => 
-        val updatedStates = states
-          .transform { 
-            case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) => 
-              if second < switch then State(distance + speed, score, switch, Status.Flying)
-              else State(distance + speed, score, second + restTime, Status.Resting)
-            case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) => 
-              if second < switch then s
-              else State(distance, score, second + flyTime, Status.Flying)
-          }
-        val leaders = updatedStates
-          .toList
+    LazyList
+      .from(1)
+      .scanLeft(raindeers) { (states, second) =>
+        val updatedStates = states.transform {
+          case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying))     =>
+            if second < switch then State(distance + speed, score, switch, Status.Flying)
+            else State(distance + speed, score, second + restTime, Status.Resting)
+          case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
+            if second < switch then s
+            else State(distance, score, second + flyTime, Status.Flying)
+        }
+        val leaders       = updatedStates.toList
           .groupMap(_._2.distance)(_._1)
           .maxBy(_._1)
           ._2
         leaders
-          .foldLeft(updatedStates) { (s, leadingRaindeer) => 
+          .foldLeft(updatedStates) { (s, leadingRaindeer) =>
             val state = s(leadingRaindeer)
             s.updated(leadingRaindeer, state.copy(score = state.score + 1))
           }

@@ -10,44 +10,51 @@ object Day14 {
 
   private def parseLine(line: String): Ins =
     line match {
-      case s"mask = $mask" => Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])) { 
-        case (mask, ('X', i)) => mask 
-        case (mask, ('0', i)) => mask.updated(i, Some(false))
-        case (mask, ('1', i)) => mask.updated(i, Some(true))
+      case s"mask = $mask"        =>
+        Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])) {
+          case (mask, ('X', i)) => mask
+          case (mask, ('0', i)) => mask.updated(i, Some(false))
+          case (mask, ('1', i)) => mask.updated(i, Some(true))
         })
       case s"mem[$addr] = $value" => Mem(addr.toLong, value.toLong)
     }
 
-  def solve(input: String): Long = 
+  def solve(input: String): Long =
     input.linesIterator
       .map(parseLine)
-      .foldLeft(Map.empty[Long, Long] -> Array.empty[Option[Boolean]]) { 
-        case ((mem, _), Mask(mask)) => mem -> mask
-        case ((mem, mask), Mem(addr, value)) => 
-          mem.updated(addr, mask.zipWithIndex.foldLeft(value) {
-            case (acc, (Some(true), i)) => acc | (1L << i)
-            case (acc, (Some(false), i)) => acc & ~(1L << i)
-            case (acc, _) => acc
-          }) -> mask
+      .foldLeft(Map.empty[Long, Long] -> Array.empty[Option[Boolean]]) {
+        case ((mem, _), Mask(mask))          => mem -> mask
+        case ((mem, mask), Mem(addr, value)) =>
+          mem.updated(
+            addr,
+            mask.zipWithIndex.foldLeft(value) {
+              case (acc, (Some(true), i))  => acc | (1L << i)
+              case (acc, (Some(false), i)) => acc & ~(1L << i)
+              case (acc, _)                => acc
+            }
+          ) -> mask
       }
       ._1
       .values
       .sum
-  
+
   def solve2(input: String): Long =
     input.linesIterator
       .map(parseLine)
-      .foldLeft(Map.empty[String, Long] -> Array.empty[Option[Boolean]]) { 
-        case ((mem, _), Mask(mask)) => mem -> mask
-        case ((mem, mask), Mem(addr, value)) => 
+      .foldLeft(Map.empty[String, Long] -> Array.empty[Option[Boolean]]) {
+        case ((mem, _), Mask(mask))          => mem -> mask
+        case ((mem, mask), Mem(addr, value)) =>
           val binaryAddr = addr.toBinaryString.reverse.padTo(36, '0')
-          val addrs = mask.zipWithIndex.foldLeft(List(binaryAddr)) {
+          val addrs      = mask.zipWithIndex.foldLeft(List(binaryAddr)) {
             case (acc, (Some(false), i)) => acc
-            case (acc, (Some(true), i)) => acc.map(_.updated(i, '1'))
-            case (acc, (None, i)) => acc.flatMap(mask => List(
-              mask.updated(i, '1'),
-              mask.updated(i, '0')
-            ))
+            case (acc, (Some(true), i))  => acc.map(_.updated(i, '1'))
+            case (acc, (None, i))        =>
+              acc.flatMap(mask =>
+                List(
+                  mask.updated(i, '1'),
+                  mask.updated(i, '0')
+                )
+              )
           }
           addrs.foldLeft(mem)(_.updated(_, value)) -> mask
       }

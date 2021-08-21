@@ -3,10 +3,10 @@ package aoc.y2015
 object Day15 {
   private def split(number: Int, parts: Int): List[List[Int]] =
     (0 until parts - 1)
-      .foldLeft((1 to number).map(_ :: Nil).toList) { (acc, _) => 
+      .foldLeft((1 to number).map(_ :: Nil).toList) { (acc, _) =>
         for
-          xxs <- acc
-          xs <- 1 until number
+          xxs   <- acc
+          xs    <- 1 until number
           concat = xs :: xxs
           if concat.sum <= number
         yield concat
@@ -16,38 +16,36 @@ object Day15 {
 
   def solve(input: String): Int = {
     val ingredients = (for
-      line <- input.linesIterator
+      line  <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
-    
-    split(100, ingredients.size)
-      .map { fractions => 
-        (fractions zip ingredients)
-          .map((fr, stats) => stats.init.map(_ * fr))
-          .reduce((is1, is2) => (is1 zip is2).map(_ + _))
-          .map(math.max(_, 0))
-          .product
-      }
-      .max
+
+    split(100, ingredients.size).map { fractions =>
+      fractions
+        .zip(ingredients)
+        .map((fr, stats) => stats.init.map(_ * fr))
+        .reduce((is1, is2) => is1.zip(is2).map(_ + _))
+        .map(math.max(_, 0))
+        .product
+    }.max
   }
 
   def solve2(input: String): Int = {
     val ingredients = (for
-      line <- input.linesIterator
+      line  <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
-    
-    split(100, ingredients.size)
-      .flatMap { fractions => 
-        val recipe = (fractions zip ingredients)
-          .map((fr, stats) => stats.map(_ * fr))
-          .reduce((is1, is2) => (is1 zip is2).map(_ + _))
-          .map(math.max(_, 0))
-        Option.when(recipe.last == 500) {
-          recipe.init.product
-        }
+
+    split(100, ingredients.size).flatMap { fractions =>
+      val recipe = fractions
+        .zip(ingredients)
+        .map((fr, stats) => stats.map(_ * fr))
+        .reduce((is1, is2) => is1.zip(is2).map(_ + _))
+        .map(math.max(_, 0))
+      Option.when(recipe.last == 500) {
+        recipe.init.product
       }
-      .max
+    }.max
   }
 
   val input = """Frosting: capacity 4, durability -2, flavor 0, texture 0, calories 5

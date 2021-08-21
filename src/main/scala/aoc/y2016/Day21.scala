@@ -12,54 +12,54 @@ object Day21 {
   import Operation.*
 
   private def parseLine(line: String): Operation = line match {
-    case s"swap position $x with position $y" => SwapPos(x.toInt, y.toInt)
-    case s"swap letter $x with letter $y" => SwapLetter(x.head, y.head)
-    case s"rotate left $x step$_" => RotatePos(false, x.toInt)
-    case s"rotate right $x step$_" => RotatePos(true, x.toInt)
+    case s"swap position $x with position $y"     => SwapPos(x.toInt, y.toInt)
+    case s"swap letter $x with letter $y"         => SwapLetter(x.head, y.head)
+    case s"rotate left $x step$_"                 => RotatePos(false, x.toInt)
+    case s"rotate right $x step$_"                => RotatePos(true, x.toInt)
     case s"rotate based on position of letter $x" => RotateLetter(x.head)
-    case s"reverse positions $x through $y" => Reverse(x.toInt, y.toInt)
-    case s"move position $x to position $y" => Move(x.toInt, y.toInt)
+    case s"reverse positions $x through $y"       => Reverse(x.toInt, y.toInt)
+    case s"move position $x to position $y"       => Move(x.toInt, y.toInt)
   }
 
   def solve(input: String): String =
     input.linesIterator
       .map(parseLine)
       .foldLeft("abcdefgh") {
-        case (pwd, SwapPos(x, y)) => pwd.updated(y, pwd(x)).updated(x, pwd(y))
-        case (pwd, SwapLetter(x, y)) => pwd.updated(pwd.indexOf(y), x).updated(pwd.indexOf(x), y)
-        case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString 
-        case (pwd, RotatePos(true, x)) => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
-        case (pwd, RotateLetter(x)) => 
+        case (pwd, SwapPos(x, y))       => pwd.updated(y, pwd(x)).updated(x, pwd(y))
+        case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(y), x).updated(pwd.indexOf(x), y)
+        case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
+        case (pwd, RotatePos(true, x))  => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
+        case (pwd, RotateLetter(x))     =>
           val times = 1 + pwd.indexOf(x) + (if pwd.indexOf(x) >= 4 then 1 else 0)
           (0 until pwd.size).map(i => pwd.reverse((i + times) % pwd.size)).mkString.reverse
-        case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
-        case (pwd, Move(x, y)) => pwd.patch(x, Nil, 1).patch(y, Seq(pwd(x)), 0)
+        case (pwd, Reverse(x, y))       => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
+        case (pwd, Move(x, y))          => pwd.patch(x, Nil, 1).patch(y, Seq(pwd(x)), 0)
       }
 
-  def solve2(input: String): String = 
+  def solve2(input: String): String =
     input.linesIterator
       .map(parseLine)
       .toList
       .reverse
       .foldLeft("fbgdceah") {
-        case (pwd, SwapPos(x, y)) => pwd.updated(x, pwd(y)).updated(y, pwd(x))
-        case (pwd, SwapLetter(x, y)) => pwd.updated(pwd.indexOf(x), y).updated(pwd.indexOf(y), x)
+        case (pwd, SwapPos(x, y))       => pwd.updated(x, pwd(y)).updated(y, pwd(x))
+        case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(x), y).updated(pwd.indexOf(y), x)
         case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
-        case (pwd, RotatePos(true, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString 
-        case (pwd, RotateLetter(x)) => 
-          val i = pwd.indexOf(x)
+        case (pwd, RotatePos(true, x))  => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
+        case (pwd, RotateLetter(x))     =>
+          val i     = pwd.indexOf(x)
           val times = i match {
             case 0 | 1 => 1
-            case 2 => 6
-            case 3 => 2
-            case 4 => 7
-            case 5 => 3
-            case 6 => 0
-            case 7 => 4
+            case 2     => 6
+            case 3     => 2
+            case 4     => 7
+            case 5     => 3
+            case 6     => 0
+            case 7     => 4
           }
           (0 until pwd.size).map(i => pwd((i + times) % pwd.size)).mkString
-        case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
-        case (pwd, Move(x, y)) => pwd.patch(y, Nil, 1).patch(x, Seq(pwd(y)), 0)
+        case (pwd, Reverse(x, y))       => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
+        case (pwd, Move(x, y))          => pwd.patch(y, Nil, 1).patch(x, Seq(pwd(y)), 0)
       }
 
   val input = """rotate right 3 steps

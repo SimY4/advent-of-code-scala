@@ -12,10 +12,10 @@ object Day6 {
       if states contains memoryBanks then StepAndLoop(states.size, (states.size - states(memoryBanks)))
       else {
         val maxMemoryBankIdx = memoryBanks.indices.maxBy(memoryBanks)
-        val memoryBankBlock = memoryBanks(maxMemoryBankIdx)
+        val memoryBankBlock  = memoryBanks(maxMemoryBankIdx)
 
         val newMemoryBank = (for
-          i <- 1 to memoryBankBlock
+          i  <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
         yield pos)
           .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>

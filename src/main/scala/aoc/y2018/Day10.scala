@@ -4,8 +4,8 @@ package y2018
 import scala.annotation.tailrec
 
 object Day10 {
-  private final case class Point(coord: Coord, vcoord: Coord)
-  private final case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
+  final private case class Point(coord: Coord, vcoord: Coord)
+  final private case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
   private object Area {
     def apply(points: List[Point]): Area = Area(
       points.map(_.coord.x).min,
@@ -27,7 +27,7 @@ object Day10 {
 
   def solve(input: String): Unit = {
     def show(points: List[Point]): String = {
-      val area = Area(points)
+      val area   = Area(points)
       val coords = points.map(_.coord).toSet
       (area.y1 to area.y2).map { y =>
         (area.x1 to area.x2).map { x =>
@@ -41,7 +41,7 @@ object Day10 {
       val nextPoints = points.map { point =>
         point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
       }
-      val nextArea = Area(nextPoints).area
+      val nextArea   = Area(nextPoints).area
       if area > nextArea then solve0(nextPoints, time + 1, nextArea)
       else println(s"time: $time, area:\n${show(points)}")
     }

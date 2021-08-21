@@ -5,7 +5,7 @@ object Day16 {
     case Samoyeds, Pomeranians, Akitas, Vizslas
   }
 
-  private final case class AuntSue(
+  final private case class AuntSue(
     children: Option[Int] = None,
     cats: Option[Int] = None,
     dogs: Map[Dogs, Int] = Map.empty,
@@ -19,10 +19,10 @@ object Day16 {
     children = Some(3),
     cats = Some(7),
     dogs = Map(
-      Dogs.Samoyeds -> 2,
+      Dogs.Samoyeds    -> 2,
       Dogs.Pomeranians -> 3,
-      Dogs.Akitas -> 0,
-      Dogs.Vizslas -> 0
+      Dogs.Akitas      -> 0,
+      Dogs.Vizslas     -> 0
     ),
     goldfish = Some(5),
     trees = Some(3),
@@ -31,20 +31,25 @@ object Day16 {
   )
 
   private def parseLine(line: String): AuntSue =
-    line.split(" ").toList.drop(2).sliding(2, 2)
-      .foldLeft(AuntSue()) { (sue, pair) => 
+    line
+      .split(" ")
+      .toList
+      .drop(2)
+      .sliding(2, 2)
+      .foldLeft(AuntSue()) { (sue, pair) =>
         pair match {
-          case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
-          case "cats:" :: num :: Nil => sue.copy(cats = num.replace(",", "").toIntOption)
-          case "samoyeds:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
-          case "pomeranians:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Pomeranians -> num.replace(",", "").toInt))
-          case "akitas:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Akitas -> num.replace(",", "").toInt))
-          case "vizslas:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Vizslas -> num.replace(",", "").toInt))
-          case "goldfish:" :: num :: Nil => sue.copy(goldfish = num.replace(",", "").toIntOption)
-          case "trees:" :: num :: Nil => sue.copy(trees = num.replace(",", "").toIntOption)
-          case "cars:" :: num :: Nil => sue.copy(cars = num.replace(",", "").toIntOption)
-          case "perfumes:" :: num :: Nil => sue.copy(perfumes = num.replace(",", "").toIntOption)
-          case _ => sue
+          case "children:" :: num :: Nil    => sue.copy(children = num.replace(",", "").toIntOption)
+          case "cats:" :: num :: Nil        => sue.copy(cats = num.replace(",", "").toIntOption)
+          case "samoyeds:" :: num :: Nil    => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
+          case "pomeranians:" :: num :: Nil =>
+            sue.copy(dogs = sue.dogs + (Dogs.Pomeranians -> num.replace(",", "").toInt))
+          case "akitas:" :: num :: Nil      => sue.copy(dogs = sue.dogs + (Dogs.Akitas -> num.replace(",", "").toInt))
+          case "vizslas:" :: num :: Nil     => sue.copy(dogs = sue.dogs + (Dogs.Vizslas -> num.replace(",", "").toInt))
+          case "goldfish:" :: num :: Nil    => sue.copy(goldfish = num.replace(",", "").toIntOption)
+          case "trees:" :: num :: Nil       => sue.copy(trees = num.replace(",", "").toIntOption)
+          case "cars:" :: num :: Nil        => sue.copy(cars = num.replace(",", "").toIntOption)
+          case "perfumes:" :: num :: Nil    => sue.copy(perfumes = num.replace(",", "").toIntOption)
+          case _                            => sue
         }
       }
 
@@ -54,7 +59,9 @@ object Day16 {
         a <- Some(sue)
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc == rc))
-        if (auntSue.dogs.keySet ++ a.dogs.keySet).forall(dog => auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall(rd => ld == rd)))
+        if (auntSue.dogs.keySet ++ a.dogs.keySet).forall(dog =>
+          auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall(rd => ld == rd))
+        )
         if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg == rg))
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt == rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
@@ -63,12 +70,10 @@ object Day16 {
 
     (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
-      sue         = parseLine(line)
+      sue          = parseLine(line)
       if equiv(sue)
-    yield idx + 1)
-      .head
+    yield idx + 1).head
   }
-
 
   def solve2(input: String): Int = {
     def equiv(sue: AuntSue): Boolean =
@@ -77,12 +82,18 @@ object Day16 {
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc < rc))
         if (auntSue.dogs.keySet ++ a.dogs.keySet)
-          .forall(dog => auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall { rd => 
-            dog match {
-              case Dogs.Pomeranians => ld > rd
-              case _ => ld == rd
-            }
-          }))
+          .forall(dog =>
+            auntSue.dogs
+              .get(dog)
+              .forall(ld =>
+                a.dogs.get(dog).forall { rd =>
+                  dog match {
+                    case Dogs.Pomeranians => ld > rd
+                    case _                => ld == rd
+                  }
+                }
+              )
+          )
         if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg > rg))
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt < rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
@@ -91,10 +102,9 @@ object Day16 {
 
     (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
-      sue         = parseLine(line)
+      sue          = parseLine(line)
       if equiv(sue)
-    yield idx + 1)
-      .head
+    yield idx + 1).head
   }
 
   val input = """Sue 1: goldfish: 6, trees: 9, akitas: 0

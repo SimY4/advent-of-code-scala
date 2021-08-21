@@ -2,22 +2,21 @@ package aoc.y2020
 
 object Day1 {
   def solve(input: String): Int =
-    (for  
+    (for
       x <- input.linesIterator.map(_.toInt)
       y <- input.linesIterator.map(_.toInt)
       if x < y
       if x + y == 2020
     yield x * y).toList.head
-  
-  def solve2(input: String): Int = 
-    (for  
+
+  def solve2(input: String): Int =
+    (for
       x <- input.linesIterator.map(_.toInt)
       y <- input.linesIterator.map(_.toInt)
       z <- input.linesIterator.map(_.toInt)
       if x < y && y < z
       if x + y + z == 2020
     yield x * y * z).toList.head
-  
 
   val input = """2004
                 |1671

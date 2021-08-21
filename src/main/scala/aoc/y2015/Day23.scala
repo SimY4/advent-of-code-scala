@@ -14,27 +14,28 @@ object Day23 {
 
   import Instruction.*
 
-  private def parseLine(line: String): Instruction = 
+  private def parseLine(line: String): Instruction =
     "[a-z\\-+0-9]+".r.findAllIn(line).toList match {
-      case "hlf" :: r :: Nil => hlf(r)
-      case "tpl" :: r :: Nil => tpl(r)
-      case "inc" :: r :: Nil => inc(r)
-      case "jmp" :: offset :: Nil => jmp(offset.toInt)
+      case "hlf" :: r :: Nil           => hlf(r)
+      case "tpl" :: r :: Nil           => tpl(r)
+      case "inc" :: r :: Nil           => inc(r)
+      case "jmp" :: offset :: Nil      => jmp(offset.toInt)
       case "jie" :: r :: offset :: Nil => jie(r, offset.toInt)
       case "jio" :: r :: offset :: Nil => jio(r, offset.toInt)
     }
-    
 
   @tailrec private def runProgram(program: List[Instruction], state: Map[String, Int], cursor: Int): Map[String, Int] =
     if cursor >= program.size then state
-    else program(cursor) match {
-      case hlf(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ / 2) }, cursor + 1)
-      case tpl(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ * 3) }, cursor + 1)
-      case inc(r: String) => runProgram(program, state.updatedWith(r) { _.map(_ + 1) }, cursor + 1)
-      case jmp(offset: Int) => runProgram(program, state, cursor + offset)
-      case jie(r: String, offset: Int) => runProgram(program, state, cursor + (if (state(r) & 1) == 0 then offset else 1))
-      case jio(r: String, offset: Int) => runProgram(program, state, cursor + (if state(r) == 1 then offset else 1))
-    }
+    else
+      program(cursor) match {
+        case hlf(r: String)              => runProgram(program, state.updatedWith(r)(_.map(_ / 2)), cursor + 1)
+        case tpl(r: String)              => runProgram(program, state.updatedWith(r)(_.map(_ * 3)), cursor + 1)
+        case inc(r: String)              => runProgram(program, state.updatedWith(r)(_.map(_ + 1)), cursor + 1)
+        case jmp(offset: Int)            => runProgram(program, state, cursor + offset)
+        case jie(r: String, offset: Int) =>
+          runProgram(program, state, cursor + (if (state(r) & 1) == 0 then offset else 1))
+        case jio(r: String, offset: Int) => runProgram(program, state, cursor + (if state(r) == 1 then offset else 1))
+      }
 
   def solve(input: String): Int = {
     val program = input.linesIterator

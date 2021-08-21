@@ -4,7 +4,7 @@ object Day3 {
   private case class Claim(id: Int, h1: Int, v1: Int, h2: Int, v2: Int)
 
   def fabric(input: String): Array[Array[Set[Int]]] = {
-    def parse(line: String): Claim =
+    def parse(line: String): Claim     =
       "\\d+".r.findAllIn(line).map(_.toInt).toList match {
         case id :: h1 :: v1 :: h2 :: v2 :: Nil => Claim(id, h1, v1, h2, v2)
       }
@@ -13,9 +13,8 @@ object Day3 {
       (for
         i <- claim.v1 until claim.v1 + claim.v2
         j <- claim.h1 until claim.h1 + claim.h2
-      yield (i, j)).foreach {
-        case (i, j) =>
-          fabric(i)(j) = fabric(i)(j) + claim.id
+      yield (i, j)).foreach { case (i, j) =>
+        fabric(i)(j) = fabric(i)(j) + claim.id
       }
     }
     fabric

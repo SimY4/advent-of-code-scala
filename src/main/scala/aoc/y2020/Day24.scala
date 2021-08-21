@@ -6,31 +6,34 @@ import scala.annotation.tailrec
 object Day24 {
   @tailrec private def navigate(line: String, acc: Coord = Coord(0L, 0L)): Coord =
     line match {
-      case _ if line.startsWith("e") => navigate(line.substring(1), acc + Direction.Right.direction + Direction.Right.direction)
+      case _ if line.startsWith("e")  =>
+        navigate(line.substring(1), acc + Direction.Right.direction + Direction.Right.direction)
       case _ if line.startsWith("se") => navigate(line.substring(2), acc + Direction.DownRight.direction)
       case _ if line.startsWith("sw") => navigate(line.substring(2), acc + Direction.DownLeft.direction)
-      case _ if line.startsWith("w") => navigate(line.substring(1), acc + Direction.Left.direction + Direction.Left.direction)
+      case _ if line.startsWith("w")  =>
+        navigate(line.substring(1), acc + Direction.Left.direction + Direction.Left.direction)
       case _ if line.startsWith("ne") => navigate(line.substring(2), acc + Direction.UpRight.direction)
       case _ if line.startsWith("nw") => navigate(line.substring(2), acc + Direction.UpLeft.direction)
-      case "" => acc
+      case ""                         => acc
     }
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     input.linesIterator
       .map(navigate(_))
       .toList
       .groupBy(identity)
       .count((_, list) => (list.size & 1) > 0)
 
-  extension (c: Coord) private def neighbours: List[Coord] =
-    List(
-      c + Direction.Right.direction + Direction.Right.direction,
-      c + Direction.DownRight.direction,
-      c + Direction.DownLeft.direction,
-      c + Direction.Left.direction + Direction.Left.direction,
-      c + Direction.UpRight.direction,
-      c + Direction.UpLeft.direction
-    )
+  extension (c: Coord)
+    private def neighbours: List[Coord] =
+      List(
+        c + Direction.Right.direction + Direction.Right.direction,
+        c + Direction.DownRight.direction,
+        c + Direction.DownLeft.direction,
+        c + Direction.Left.direction + Direction.Left.direction,
+        c + Direction.UpRight.direction,
+        c + Direction.UpLeft.direction
+      )
 
   def solve2(input: String): Int = {
     val floor = input.linesIterator
@@ -38,20 +41,22 @@ object Day24 {
       .toList
       .groupMapReduce(identity)(_ => true)(_ ^ _)
 
-    (1 to 100).foldLeft(floor) { (acc, _) =>
-      acc
-        .toSeq
-        .filter((_, v) => v)
-        .flatMap((tile, v) => (tile -> v) :: tile.neighbours.map(n => n -> acc.getOrElse(n, false)))
-        .map { (tile, v) => 
-          val blacks = tile.neighbours.map(acc.getOrElse(_, false)).filter(identity).size
-          (tile, 
-            if v then !(0 == blacks || blacks > 2)
-            else 2 == blacks)
-        }
-        .groupMapReduce(_._1)(_._2)(_ || _)
-    }
-    .count((_, v) => v)
+    (1 to 100)
+      .foldLeft(floor) { (acc, _) =>
+        acc.toSeq
+          .filter((_, v) => v)
+          .flatMap((tile, v) => (tile -> v) :: tile.neighbours.map(n => n -> acc.getOrElse(n, false)))
+          .map { (tile, v) =>
+            val blacks = tile.neighbours.map(acc.getOrElse(_, false)).filter(identity).size
+            (
+              tile,
+              if v then !(0 == blacks || blacks > 2)
+              else 2 == blacks
+            )
+          }
+          .groupMapReduce(_._1)(_._2)(_ || _)
+      }
+      .count((_, v) => v)
   }
 
   val input = """seesweseseeeeeeeeeenweeee

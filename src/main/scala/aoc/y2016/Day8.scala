@@ -12,32 +12,27 @@ object Day8 {
   import Action.*
 
   private def parseLine(line: String): Action = line match {
-    case s"rect ${x}x$y" => Rect(x.toInt, y.toInt) 
-    case s"rotate row y=$y by $shift" => RotateRow(y.toInt, shift.toInt)
+    case s"rect ${x}x$y"                 => Rect(x.toInt, y.toInt)
+    case s"rotate row y=$y by $shift"    => RotateRow(y.toInt, shift.toInt)
     case s"rotate column x=$x by $shift" => RotateCol(x.toInt, shift.toInt)
   }
 
-  private def decode(input: String): Grid = input.linesIterator.map(parseLine)
-    .foldLeft(Array.fill(6, 50)(false)) { (grid, action) => 
+  private def decode(input: String): Grid = input.linesIterator
+    .map(parseLine)
+    .foldLeft(Array.fill(6, 50)(false)) { (grid, action) =>
       action match {
-        case Rect(x, y) => 
-          for i <- 0 until y; j <- 0 until x do {
-            grid(i)(j) = true
-          }
+        case Rect(x, y)          =>
+          for i <- 0 until y; j <- 0 until x do grid(i)(j) = true
           grid
         case RotateRow(y, shift) =>
-          val row = grid(y)
+          val row    = grid(y)
           val newRow = Array.ofDim[Boolean](row.length)
-          for i <- 0 until row.length do {
-            newRow((i + shift) % newRow.length) = row(i)
-          }
+          for i <- 0 until row.length do newRow((i + shift) % newRow.length) = row(i)
           grid(y) = newRow
           grid
         case RotateCol(x, shift) =>
           val col = for i <- 0 until grid.length yield grid(i)(x)
-          for i <- 0 until grid.length do {
-            grid((i + shift) % grid.length)(x) = col(i)
-          }
+          for i <- 0 until grid.length do grid((i + shift) % grid.length)(x) = col(i)
           grid
       }
     }

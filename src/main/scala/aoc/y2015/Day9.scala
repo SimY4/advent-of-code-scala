@@ -3,7 +3,7 @@ package aoc.y2015
 object Day9 {
   import scala.collection.parallel.CollectionConverters.*
 
-  private final case class Route(from: String, to: String, distance: Int)
+  final private case class Route(from: String, to: String, distance: Int)
 
   private val linePattern = "(\\w+) to (\\w+) = (\\d+)".r
 
@@ -11,39 +11,35 @@ object Day9 {
     def expandPath(path: List[Route], rest: Map[String, Seq[Route]]): Iterable[List[Route]] =
       (for
         nextRoutes <- rest.get(path.head.to)
-        filtered = nextRoutes.filter { nextRoute => path.forall(_.from != nextRoute.to) }
+        filtered    = nextRoutes.filter(nextRoute => path.forall(_.from != nextRoute.to))
         if filtered.nonEmpty
       yield filtered) match {
-        case None => path :: Nil
+        case None             => path :: Nil
         case Some(nextRoutes) =>
           (for
             nextRoute <- nextRoutes.par
-            nextPath <- expandPath(nextRoute :: path, rest - path.head.to)
+            nextPath  <- expandPath(nextRoute :: path, rest - path.head.to)
           yield nextPath).seq
       }
 
     val routes = (for
       case linePattern(from, to, distance) <- input.linesIterator.toSeq
-      route                           <- Seq(Route(from, to, distance.toInt), Route(to, from, distance.toInt)) 
+      route <- Seq(Route(from, to, distance.toInt), Route(to, from, distance.toInt))
     yield route)
       .groupBy(_.from)
-      
+
     (for
       initialRoute <- routes.values.flatten.par
-      path <- expandPath(initialRoute :: Nil, routes - initialRoute.from)
+      path         <- expandPath(initialRoute :: Nil, routes - initialRoute.from)
       if path.size >= ((routes.size / 2) - 1)
     yield path).seq
   }
 
   def solve(input: String): Int =
-   paths(input)
-      .map { _.map(_.distance).sum }
-      .min
+    paths(input).map(_.map(_.distance).sum).min
 
   def solve2(input: String): Int =
-    paths(input)
-      .map { _.map(_.distance).sum }
-      .max
+    paths(input).map(_.map(_.distance).sum).max
 
   val input = """AlphaCentauri to Snowdin = 66
                 |AlphaCentauri to Tambi = 28

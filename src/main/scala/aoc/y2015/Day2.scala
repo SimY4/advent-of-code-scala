@@ -2,21 +2,21 @@ package aoc
 package y2015
 
 object Day2 {
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     (for
-      line <- input.linesIterator
-      dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
-      sides = dimensions.pairs.map(_ * _)
+      line       <- input.linesIterator
+      dimensions  = "\\d+".r.findAllIn(line).map(_.toInt).toList
+      sides       = dimensions.pairs.map(_ * _)
       surfaceArea = sides.map(2 * _).sum
-      extra = sides.min
+      extra       = sides.min
     yield surfaceArea + extra).sum
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int =
     (for
-      line <- input.linesIterator
+      line      <- input.linesIterator
       dimensions = "\\d+".r.findAllIn(line).map(_.toInt).toList
-      ribbon = dimensions.pairs.map(2 * _ + 2 * _).min
-      bow = dimensions.product
+      ribbon     = dimensions.pairs.map(2 * _ + 2 * _).min
+      bow        = dimensions.product
     yield ribbon + bow).sum
 
   val input = """29x13x26

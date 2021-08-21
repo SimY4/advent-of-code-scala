@@ -20,45 +20,46 @@ object Day10 {
   import Action.*
 
   private def parseLine(line: String): Action = line match {
-    case lineRegex(bot, lowBotOut, low, highBotOut, high) => 
-      val lowOut = if "bot" == lowBotOut then Bot(low.toInt) else Output(low.toInt)
+    case lineRegex(bot, lowBotOut, low, highBotOut, high) =>
+      val lowOut  = if "bot" == lowBotOut then Bot(low.toInt) else Output(low.toInt)
       val highOut = if "bot" == highBotOut then Bot(high.toInt) else Output(high.toInt)
-      BotGives(bot.toInt, lowOut, highOut) 
-    case s"value ${value} goes to bot ${bot}" => SetValue(value.toInt, bot.toInt)
+      BotGives(bot.toInt, lowOut, highOut)
+    case s"value ${value} goes to bot ${bot}"             => SetValue(value.toInt, bot.toInt)
   }
 
   def solve(input: String): Int = {
-    val parsed = input.linesIterator.map(parseLine).toList
+    val parsed    = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
-      case (map, SetValue(value, bot)) => map.updatedWith(bot) {
-        case Some(list) => Some(value :: list)
-        case None => Some(value :: Nil)
-      }
-      case (map, _) => map
+      case (map, SetValue(value, bot)) =>
+        map.updatedWith(bot) {
+          case Some(list) => Some(value :: list)
+          case None       => Some(value :: Nil)
+        }
+      case (map, _)                    => map
     }
 
     @tailrec def go(botState: Map[Int, List[Int]]): Int = {
       val newBotState = parsed.foldLeft(botState) {
-        case (botState, BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case (botState, BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           botState
             .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
             .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
             .updated(bot, Nil)
-        case (acc, BotGives(bot, Bot(n1), _)) if botState.get(bot).exists(_.size == 2) => 
+        case (acc, BotGives(bot, Bot(n1), _)) if botState.get(bot).exists(_.size == 2)            =>
           botState
             .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
             .updated(bot, Nil)
-        case (acc, BotGives(bot, _, Bot(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case (acc, BotGives(bot, _, Bot(n2))) if botState.get(bot).exists(_.size == 2)            =>
           botState
             .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
             .updated(bot, Nil)
-        case (acc, _) => acc
+        case (acc, _)                                                                             => acc
       }
       newBotState.collectFirst {
         case (key, value) if value.contains(61) && value.contains(17) => key
       } match {
         case Some(bot) => bot
-        case None => go(newBotState)
+        case None      => go(newBotState)
       }
     }
 
@@ -66,18 +67,19 @@ object Day10 {
   }
 
   def solve2(input: String): Int = {
-    val parsed = input.linesIterator.map(parseLine).toList
+    val parsed    = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
-      case (map, SetValue(value, bot)) => map.updatedWith(bot) {
-        case Some(list) => Some(value :: list)
-        case None => Some(value :: Nil)
-      }
-      case (map, _) => map
+      case (map, SetValue(value, bot)) =>
+        map.updatedWith(bot) {
+          case Some(list) => Some(value :: list)
+          case None       => Some(value :: Nil)
+        }
+      case (map, _)                    => map
     }
 
     @tailrec def go(botState: Map[Int, List[Int]], outState: Map[Int, List[Int]] = Map.empty): Int = {
       val (newBotState, newOutState) = parsed.foldLeft((botState, outState)) {
-        case ((botState, outState), BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case ((botState, outState), BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           (
             botState
               .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
@@ -85,28 +87,28 @@ object Day10 {
               .updated(bot, Nil),
             outState
           )
-        case (acc, BotGives(bot, Bot(n1), Output(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case (acc, BotGives(bot, Bot(n1), Output(n2))) if botState.get(bot).exists(_.size == 2)               =>
           (
             botState
               .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
               .updated(bot, Nil),
             outState.updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
           )
-        case (acc, BotGives(bot, Output(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case (acc, BotGives(bot, Output(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2)               =>
           (
             botState
               .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
               .updated(bot, Nil),
             outState.updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
           )
-        case (acc, BotGives(bot, Output(n1), Output(n2))) if botState.get(bot).exists(_.size == 2) => 
+        case (acc, BotGives(bot, Output(n1), Output(n2))) if botState.get(bot).exists(_.size == 2)            =>
           (
             botState.updated(bot, Nil),
             outState
               .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
               .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
           )
-        case (acc, _) => acc
+        case (acc, _)                                                                                         => acc
       }
       (for
         f <- newOutState.get(0).flatMap(_.headOption)
@@ -114,7 +116,7 @@ object Day10 {
         t <- newOutState.get(2).flatMap(_.headOption)
       yield f * s * t) match {
         case Some(n) => n
-        case None => go(newBotState, newOutState)
+        case None    => go(newBotState, newOutState)
       }
     }
 

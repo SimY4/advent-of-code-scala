@@ -3,7 +3,7 @@ package y2018
 
 object Day6 {
   def coords(input: String): List[Coord] =
-    input.linesIterator.map { 
+    input.linesIterator.map {
       _.split(", ").map(_.toLong).toList match
         case x :: y :: Nil => Coord(x, y)
     }.toList
@@ -15,7 +15,7 @@ object Day6 {
       val dists   = coord.map(_.dist(c))
       val minDist = dists.min
       val indexes = dists.zipWithIndex.filter(_._1 == minDist)
-      if (indexes.size > 1) then "." 
+      if indexes.size > 1 then "."
       else
         val idx    = indexes.head._2
         val letter = ('a'.toInt + idx).toChar
@@ -38,9 +38,9 @@ object Day6 {
     def frequencies(rect: Rect): Map[String, Int] =
       rect.map(_._2).groupBy(identity).view.mapValues(_.size).toMap
 
-    val rect = for
-      x      <- minX to maxX
-      y      <- minY to maxY
+    val rect    = for
+      x     <- minX to maxX
+      y     <- minY to maxY
       coords = Coord(x, y)
     yield coords -> closest(coords)
 
@@ -62,8 +62,8 @@ object Day6 {
     val rect = for
       x <- minX to maxX
       y <- minY to maxY
-      c = Coord(x, y)
-      d = coord.map(_.dist(c)).reduce(_ + _)
+      c  = Coord(x, y)
+      d  = coord.map(_.dist(c)).reduce(_ + _)
       if d < 10000
     yield c
 

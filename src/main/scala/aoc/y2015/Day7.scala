@@ -7,9 +7,9 @@ object Day7 {
     case Ref(s: String)
     case Value(i: Int)
   }
-    
+
   private object Gate {
-    def apply(s: String): Gate = 
+    def apply(s: String): Gate =
       try Value(s.toInt)
       catch { case _: NumberFormatException => Ref(s) }
   }
@@ -28,56 +28,56 @@ object Day7 {
   import Wire.*
 
   private def parseLine(line: String): Wire = line match {
-    case s"$x AND $y -> $to" => And(Gate(x), Gate(y), new Ref(to))
-    case s"$x OR $y -> $to" => Or(Gate(x), Gate(y), new Ref(to))
-    case s"$p LSHIFT $num -> $to" if num.matches("\\d+") => 
+    case s"$x AND $y -> $to"                             => And(Gate(x), Gate(y), new Ref(to))
+    case s"$x OR $y -> $to"                              => Or(Gate(x), Gate(y), new Ref(to))
+    case s"$p LSHIFT $num -> $to" if num.matches("\\d+") =>
       LShift(Gate(p), num.toInt, new Ref(to))
-    case s"$p RSHIFT $num -> $to" if num.matches("\\d+") => 
+    case s"$p RSHIFT $num -> $to" if num.matches("\\d+") =>
       RShift(Gate(p), num.toInt, new Ref(to))
-    case s"NOT $e -> $to" => 
+    case s"NOT $e -> $to"                                =>
       Not(Gate(e), new Ref(to))
-    case s"$g -> $to" => Identity(Gate(g), new Ref(to))
+    case s"$g -> $to"                                    => Identity(Gate(g), new Ref(to))
   }
 
   extension (i: Int) private def u: Int = i << 16 >>> 16
 
-  @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] = 
+  @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] =
     if logicGates.isEmpty then signals
     else {
-      val (newSignals, rest) = logicGates.partitionMap { 
-        case Not(e @ Ref(_), to) if signals.contains(e) => 
+      val (newSignals, rest) = logicGates.partitionMap {
+        case Not(e @ Ref(_), to) if signals.contains(e)                                    =>
           Left(to -> (~signals(e)).u)
-        case Not(Value(v), to) => 
+        case Not(Value(v), to)                                                             =>
           Left(to -> (~v).u)
-        case And(x @ Ref(_), y @ Ref(_), to) if signals.contains(x) && signals.contains(y) => 
+        case And(x @ Ref(_), y @ Ref(_), to) if signals.contains(x) && signals.contains(y) =>
           Left(to -> (signals(x) & signals(y)))
-        case And(x @ Ref(_), Value(v), to) if signals.contains(x) => 
+        case And(x @ Ref(_), Value(v), to) if signals.contains(x)                          =>
           Left(to -> (signals(x) & v))
-        case And(Value(v), y @ Ref(_), to) if signals.contains(y) => 
+        case And(Value(v), y @ Ref(_), to) if signals.contains(y)                          =>
           Left(to -> (v & signals(y)))
-        case And(Value(v1), Value(v2), to) => 
+        case And(Value(v1), Value(v2), to)                                                 =>
           Left(to -> (v1 & v2))
-        case Or(x @ Ref(_), y @ Ref(_), to) if signals.contains(x) && signals.contains(y) => 
+        case Or(x @ Ref(_), y @ Ref(_), to) if signals.contains(x) && signals.contains(y)  =>
           Left(to -> (signals(x) | signals(y)))
-        case Or(x @ Ref(_), Value(v), to) if signals.contains(x) => 
+        case Or(x @ Ref(_), Value(v), to) if signals.contains(x)                           =>
           Left(to -> (signals(x) | v))
-        case Or(Value(v), y @ Ref(_), to) if signals.contains(y) => 
+        case Or(Value(v), y @ Ref(_), to) if signals.contains(y)                           =>
           Left(to -> (v | signals(y)))
-        case Or(Value(v1), Value(v2), to) => 
+        case Or(Value(v1), Value(v2), to)                                                  =>
           Left(to -> (v1 | v2))
-        case LShift(p @ Ref(_), num, to) if signals.contains(p) => 
+        case LShift(p @ Ref(_), num, to) if signals.contains(p)                            =>
           Left(to -> (signals(p) << num).u)
-        case LShift(Value(v), num, to) => 
+        case LShift(Value(v), num, to)                                                     =>
           Left(to -> (v << num).u)
-        case RShift(p @ Ref(_), num, to) if signals.contains(p) => 
+        case RShift(p @ Ref(_), num, to) if signals.contains(p)                            =>
           Left(to -> (signals(p).u >>> num))
-        case RShift(Value(v), num, to) => 
+        case RShift(Value(v), num, to)                                                     =>
           Left(to -> (v >>> num))
-        case Identity(g @ Ref(_), to) if signals.contains(g) => 
+        case Identity(g @ Ref(_), to) if signals.contains(g)                               =>
           Left(to -> signals(g))
-        case Identity(Value(v), to) => 
+        case Identity(Value(v), to)                                                        =>
           Left(to -> v)
-        case w => Right(w)
+        case w                                                                             => Right(w)
       }
       iterate(signals ++ newSignals, rest)
     }
@@ -89,11 +89,14 @@ object Day7 {
 
   def solve2(input: String): Option[Int] = {
     val logicGates = input.linesIterator.map(parseLine).toList
-    val a = iterate(Map.empty, logicGates)(new Ref("a"))
-    iterate(Map(new Ref("b") -> a), logicGates.filter { 
-      case Identity(Ref("b"), to) => false
-      case _ => true
-    }).get(new Ref("a"))
+    val a          = iterate(Map.empty, logicGates)(new Ref("a"))
+    iterate(
+      Map(new Ref("b") -> a),
+      logicGates.filter {
+        case Identity(Ref("b"), to) => false
+        case _                      => true
+      }
+    ).get(new Ref("a"))
   }
 
   val input = """NOT dq -> dr

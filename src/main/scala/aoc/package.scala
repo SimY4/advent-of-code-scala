@@ -1,34 +1,36 @@
 package aoc
 
-extension [A](as: List[A]) def pairs: List[(A, A)] = 
-  (as.head -> as.last) :: (as zip as.tail)
+extension [A](as: List[A])
+  def pairs: List[(A, A)] =
+    (as.head -> as.last) :: (as.zip(as.tail))
 
-extension (n: Long) def factors: Seq[Long] = 
-  (1L to math.sqrt(n.toDouble).toLong)
-    .flatMap { i => 
+extension (n: Long)
+  def factors: Seq[Long] =
+    (1L to math.sqrt(n.toDouble).toLong).flatMap { i =>
       if n % i == 0L then {
         val div = n / i
         if i != div then i :: div :: Nil
         else i :: Nil
       } else Nil
     }
-      
+
 private val hexArray = "0123456789ABCDEF".toCharArray
 
-extension (bytes: Array[Byte]) def printHexBinary: String = {
-  val hexChars = new Array[Char](bytes.length * 2)
-  for i <- 0 until bytes.length do {
-    val v = bytes(i) & 0xFF
-    hexChars(i * 2) = hexArray(v >>> 4)
-    hexChars(i * 2 + 1) = hexArray(v & 0x0F)
+extension (bytes: Array[Byte])
+  def printHexBinary: String = {
+    val hexChars = new Array[Char](bytes.length * 2)
+    for i <- 0 until bytes.length do {
+      val v = bytes(i) & 0xff
+      hexChars(i * 2) = hexArray(v >>> 4)
+      hexChars(i * 2 + 1) = hexArray(v & 0x0f)
+    }
+    new String(hexChars)
   }
-  new String(hexChars)
-}
 
 final case class Coord(x: Long, y: Long)
-object Coord {
+object Coord     {
   extension (coord: Coord) {
-    def + (other: Coord): Coord =
+    def +(other: Coord): Coord =
       Coord(coord.x + other.x, coord.y + other.y)
 
     def dist(to: Coord): Long =
@@ -36,7 +38,8 @@ object Coord {
 
     def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
 
-    def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] = directions.map(coord + _.direction)
+    def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
+      directions.map(coord + _.direction)
   }
 }
 
@@ -55,14 +58,14 @@ object Direction {
 
   extension (d: Direction) {
     def oposite: Direction = d match {
-      case Up => Down
-      case UpRight => DownLeft
-      case Right => Left
+      case Up        => Down
+      case UpRight   => DownLeft
+      case Right     => Left
       case DownRight => UpLeft
-      case Down => Up
-      case DownLeft => UpRight
-      case Left => Right
-      case UpLeft => DownRight
+      case Down      => Up
+      case DownLeft  => UpRight
+      case Left      => Right
+      case UpLeft    => DownRight
     }
   }
 }

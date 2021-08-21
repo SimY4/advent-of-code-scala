@@ -15,18 +15,20 @@ object Day14 {
       md.digest().printHexBinary
     }
 
-    LazyList.from(0)
-      .filter { i => 
-        hash(i).sliding(3)
+    LazyList
+      .from(0)
+      .filter { i =>
+        hash(i)
+          .sliding(3)
           .find(_.toSet.size == 1)
-          .exists { triple => 
-            ((i + 1) to (i + 1001))
-              .exists { j =>
-                hash(j).sliding(5)
-                  .filter(_.toSet.size == 1)
-                  .find(_.contains(triple))
-                  .isDefined
-              }
+          .exists { triple =>
+            ((i + 1) to (i + 1001)).exists { j =>
+              hash(j)
+                .sliding(5)
+                .filter(_.toSet.size == 1)
+                .find(_.contains(triple))
+                .isDefined
+            }
           }
       }
       .drop(63)
@@ -45,21 +47,24 @@ object Day14 {
       }
     }
 
-    (0 to 999).foreach { i => cache(i) = hash(i) }
+    (0 to 999).foreach(i => cache(i) = hash(i))
 
-    LazyList.from(0)
-      .filter { i => 
+    LazyList
+      .from(0)
+      .filter { i =>
         val cur = cache(i % 1000)
         cache(i % 1000) = hash(i + 1000)
-        cur.sliding(3)
+        cur
+          .sliding(3)
           .find(_.toSet.size == 1)
-          .exists { triple => 
+          .exists { triple =>
             cache.values.exists { hash =>
-                hash.sliding(5)
-                  .filter(_.toSet.size == 1)
-                  .find(_.contains(triple))
-                  .isDefined
-              }
+              hash
+                .sliding(5)
+                .filter(_.toSet.size == 1)
+                .find(_.contains(triple))
+                .isDefined
+            }
           }
       }
       .drop(63)

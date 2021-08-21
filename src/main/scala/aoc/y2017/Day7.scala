@@ -9,20 +9,18 @@ object Day7 {
   final case class TreeNode(weight: Int, children: Seq[String])
 
   private def tree(input: String): Tree = {
-    def findRoot(nodes: Map[String, TreeNode]): String = {
+    def findRoot(nodes: Map[String, TreeNode]): String =
       (for
         (name, _) <- nodes
-        children  = nodes.values.flatMap(_.children).toSet
+        children   = nodes.values.flatMap(_.children).toSet
         if !(children contains name)
       yield name).head
-    }
 
     val nodes = (for
       case linePattern(name, weight, children) <- input.linesIterator
       childrenNormalized = Option(children).map(_.split(", ").toList).getOrElse(Nil)
-    yield name -> TreeNode(weight.toInt, childrenNormalized))
-      .toMap
-    val root = findRoot(nodes)
+    yield name -> TreeNode(weight.toInt, childrenNormalized)).toMap
+    val root  = findRoot(nodes)
     nodes -> root
   }
 
@@ -43,8 +41,8 @@ object Day7 {
         case 0 => None
         case 1 => Some(node)
         case _ =>
-          (for 
-            smallest <- weightsToNodes.values.minBy(_.size)
+          (for
+            smallest    <- weightsToNodes.values.minBy(_.size)
             unballanced <- findUnbalancedSubtree0(smallest)
           yield unballanced).headOption
       }
@@ -54,7 +52,7 @@ object Day7 {
   }
 
   def solve2(input: String): Option[TreeNode] = {
-    val t = tree(input)
+    val t       = tree(input)
     val subtree = findUnbalancedSubtree(t)
     subtree.flatMap(s => t._1.get(s))
   }

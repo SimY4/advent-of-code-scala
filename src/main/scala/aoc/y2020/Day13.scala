@@ -1,12 +1,15 @@
 package aoc.y2020
 
 object Day13 {
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     input.linesIterator.toList match {
-      case ts :: buses :: Nil => 
-        val (bus, minTs) = buses.split(',').flatMap(_.toIntOption)
+      case ts :: buses :: Nil =>
+        val (bus, minTs) = buses
+          .split(',')
+          .flatMap(_.toIntOption)
           .map { bus =>
-            bus -> LazyList.from(ts.toInt)
+            bus -> LazyList
+              .from(ts.toInt)
               .find(_ % bus == 0)
               .get
           }
@@ -14,11 +17,11 @@ object Day13 {
         bus * (minTs - ts.toInt)
     }
 
-  def solve2(input: String): Option[Long] = 
+  def solve2(input: String): Option[Long] =
     input.linesIterator.toList match {
-      case _ :: buses :: Nil => 
+      case _ :: buses :: Nil =>
         val parsedBusses = buses.split(',').flatMap(_.toLongOption)
-        val res = buses.split(',').zipWithIndex.flatMap((b, i) => b.toLongOption.map(_ - i))
+        val res          = buses.split(',').zipWithIndex.flatMap((b, i) => b.toLongOption.map(_ - i))
 
         def egcd(a: Long, b: Long): (Long, Long, Long) =
           if a == 0L then (b, 0L, 1L)
@@ -34,14 +37,15 @@ object Day13 {
 
         def chineseRemainder(residues: Array[Long], modulii: Array[Long]): Option[Long] = {
           val prod = modulii.product
-          val sum = residues.zip(modulii)
+          val sum  = residues
+            .zip(modulii)
             .map { (residue, modulus) =>
               val p = prod / modulus
               modInv(p, modulus).map(m => residue * m * p)
             }
             .reduce {
               case (Some(m1), Some(m2)) => Some(m1 + m2)
-              case _ => None
+              case _                    => None
             }
           sum.map(_ % prod)
         }
@@ -49,6 +53,7 @@ object Day13 {
         chineseRemainder(res, parsedBusses)
     }
 
-  val input = """1000104
-                |41,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,37,x,x,x,x,x,659,x,x,x,x,x,x,x,23,x,x,x,x,13,x,x,x,x,x,19,x,x,x,x,x,x,x,x,x,29,x,937,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,17""".stripMargin
+  val input =
+    """1000104
+      |41,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,37,x,x,x,x,x,659,x,x,x,x,x,x,x,23,x,x,x,x,13,x,x,x,x,x,19,x,x,x,x,x,x,x,x,x,29,x,937,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,17""".stripMargin
 }

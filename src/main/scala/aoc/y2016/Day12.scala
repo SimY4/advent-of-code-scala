@@ -14,20 +14,20 @@ object Day12 {
 
   private def parseLine(line: String): Code = line match {
     case s"cpy ${value} ${reg}" => Cpy(value.toIntOption.toLeft(value), reg)
-    case s"inc ${reg}" => Inc(reg)
-    case s"dec ${reg}" => Dec(reg)
-    case s"jnz ${value} ${n}" => Jnz(value.toIntOption.toLeft(value), n.toInt)
+    case s"inc ${reg}"          => Inc(reg)
+    case s"dec ${reg}"          => Dec(reg)
+    case s"jnz ${value} ${n}"   => Jnz(value.toIntOption.toLeft(value), n.toInt)
   }
 
   private def runProgram(instructions: List[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] = {
     @tailrec def go(state: Map[String, Int], pos: Int): Map[String, Int] =
       instructions.lift(pos) match {
-        case None => state
-        case Some(Cpy(Left(i), reg)) => go(state.updated(reg, i), pos + 1)
+        case None                     => state
+        case Some(Cpy(Left(i), reg))  => go(state.updated(reg, i), pos + 1)
         case Some(Cpy(Right(r), reg)) => go(state.updated(reg, state(r)), pos + 1)
-        case Some(Inc(reg)) => go(state.updated(reg, state(reg) + 1), pos + 1)
-        case Some(Dec(reg)) => go(state.updated(reg, state(reg) - 1), pos + 1)
-        case Some(Jnz(Left(i), n)) => go(state, if i == 0 then pos + 1 else pos + n)
+        case Some(Inc(reg))           => go(state.updated(reg, state(reg) + 1), pos + 1)
+        case Some(Dec(reg))           => go(state.updated(reg, state(reg) - 1), pos + 1)
+        case Some(Jnz(Left(i), n))    => go(state, if i == 0 then pos + 1 else pos + n)
         case Some(Jnz(Right(reg), n)) => go(state, if state(reg) == 0 then pos + 1 else pos + n)
       }
 

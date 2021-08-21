@@ -3,39 +3,39 @@ package aoc.y2019
 import scala.annotation.tailrec
 
 object Day6 {
-  private def graph(input: String): Map[String, Set[String]] = 
-    input.linesIterator.map { s => 
+  private def graph(input: String): Map[String, Set[String]] =
+    input.linesIterator.map { s =>
       val split = s.split(')')
       (split(0), split(1))
-    }
-      .toList
+    }.toList
       .groupMap(_._1)(_._2)
-      .view.mapValues(_.toSet)
+      .view
+      .mapValues(_.toSet)
       .toMap
 
-  @tailrec private def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] = 
+  @tailrec private def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] =
     graph.find(_._2.contains(node)) match {
       case Some((p, _)) => chain(graph, p :: acc, p)
-      case None => acc
+      case None         => acc
     }
 
-  def solve(input: String): Int = { 
-    val g = graph(input)
+  def solve(input: String): Int = {
+    val g      = graph(input)
     val unique = g.keys ++ g.values.flatten.toSet
 
     unique.toList.map(chain(g, Nil, _).size).sum
   }
-    
+
   def solve2(input: String): Int = {
     val g = graph(input)
 
-    val youChain = chain(g, "YOU" :: Nil, "YOU")
-    val sanChain = chain(g, "SAN" :: Nil, "SAN")
+    val youChain     = chain(g, "YOU" :: Nil, "YOU")
+    val sanChain     = chain(g, "SAN" :: Nil, "SAN")
     val youChainDiff = youChain.dropWhile(sanChain.contains(_))
     val sanChainDiff = sanChain.dropWhile(youChain.contains(_))
     youChainDiff.size + sanChainDiff.size - 2
   }
-  
+
   val input = """97W)B43
                 |R63)RTM
                 |19C)SHD

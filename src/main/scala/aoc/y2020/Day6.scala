@@ -1,15 +1,15 @@
 package aoc.y2020
 
 object Day6 {
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     (for
-      group <- input.split(System.lineSeparator * 2).toSeq
+      group  <- input.split(System.lineSeparator * 2).toSeq
       answers = group.linesIterator.flatMap(_.toSeq).toSet.size
     yield answers).sum
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int =
     (for
-      group <- input.split(System.lineSeparator * 2).toSeq
+      group  <- input.split(System.lineSeparator * 2).toSeq
       answers = group.linesIterator.map(_.toSet).reduce(_ intersect _).size
     yield answers).sum
 

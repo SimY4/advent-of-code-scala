@@ -2,14 +2,14 @@ package aoc
 package y2015
 
 object Day13 {
-  private val linePattern = "^([A-Z][a-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([A-Z][a-z]+)\\.$".r
+  private val linePattern =
+    "^([A-Z][a-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([A-Z][a-z]+)\\.$".r
 
   def solve(input: String): Int = {
     val rels = (for
       case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
-    yield (first -> second, adjPoints))
-      .toMap
+    yield (first -> second, adjPoints)).toMap
     rels.keySet
       .map(_._1)
       .toList
@@ -19,17 +19,15 @@ object Day13 {
   }
 
   def solve2(input: String): Int = {
-    val rels = (for
+    val rels       = (for
       case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
-    yield (first -> second, adjPoints))
-      .toMap
-    val guests = rels.keySet.map(_._1)
+    yield (first -> second, adjPoints)).toMap
+    val guests     = rels.keySet.map(_._1)
     val relsWithMe = guests.foldLeft(rels) { (acc, guest) =>
       acc ++ Map(("Me" -> guest) -> 0, (guest -> "Me") -> 0)
     }
-    ("Me" :: guests.toList)
-      .permutations
+    ("Me" :: guests.toList).permutations
       .map(_.pairs.map((a, b) => relsWithMe((a, b)) + relsWithMe((b, a))).sum)
       .max
   }

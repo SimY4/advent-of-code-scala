@@ -26,7 +26,7 @@ object Day19 {
 
   def solve2(input: Int): Int = {
     var p = 1
-    while (3 * p <= input) do ( p = p * 3 )
+    while 3 * p <= input do (p = p * 3)
     if input == p then input
     else input - p + math.max(input - 2 * p, 0)
   }

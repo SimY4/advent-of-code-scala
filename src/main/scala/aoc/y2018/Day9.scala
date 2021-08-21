@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 import scala.language.implicitConversions
 
 object Day9 {
-  private final class Node(val value: Long) { self =>
+  final private class Node(val value: Long) { self =>
     var prev: Node                = self
     var next: Node                = self
     override def toString: String = value.toString
@@ -17,24 +17,26 @@ object Day9 {
       newNode.next = next
       newNode
     }
-      
-    extension (node: Node) def + (value: Int): Node = {
-      val oldNext = node.next
-      val newNode = Node(node, value, oldNext)
-      node.next = newNode
-      oldNext.prev = newNode
-      newNode
-    }
 
-    extension (node: Node) def remove: Node = {
-      val oldNext = node.next
-      val oldPrev = node.prev
-      oldPrev.next = oldNext
-      oldNext.prev = oldPrev
-      oldNext
-    }
+    extension (node: Node)
+      def +(value: Int): Node = {
+        val oldNext = node.next
+        val newNode = Node(node, value, oldNext)
+        node.next = newNode
+        oldNext.prev = newNode
+        newNode
+      }
+
+    extension (node: Node)
+      def remove: Node = {
+        val oldNext = node.next
+        val oldPrev = node.prev
+        oldPrev.next = oldNext
+        oldNext.prev = oldPrev
+        oldNext
+      }
   }
-  
+
   import Node.*
 
   def solve(players: Int, marbles: Int): Long = {
@@ -45,10 +47,9 @@ object Day9 {
           r.prev
         }
         val removed = newRing.value
-        val player  = (marble % players)
+        val player  = marble % players
         solve0(marble + 1, newRing.remove, scores + (player -> (scores.getOrElse(player, 0L) + marble + removed)))
-      } 
-      else solve0(marble + 1, ring.next + marble, scores)
+      } else solve0(marble + 1, ring.next + marble, scores)
 
     solve0(1, new Node(0), Map.empty)
   }

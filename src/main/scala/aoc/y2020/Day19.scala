@@ -2,40 +2,40 @@ package aoc
 package y2020
 
 object Day19 {
-  private final case class Cons(ref: List[Int | Char])
-  private final case class Rule(id: Int, or: List[Cons])
+  final private case class Cons(ref: List[Int | Char])
+  final private case class Rule(id: Int, or: List[Cons])
 
   import Rule.*
-  import Parser.{*, given}
+  import Parser.{ given, * }
 
   private val refParser: Parser[Int | Char] = span(_.isDigit).map(_.toInt) <|> (char('"') *> any <* char('"'))
-  private val consParser: Parser[Cons] = refParser.many(char(' ')).map(Cons(_))
-  private val orParser: Parser[List[Cons]] = consParser.many(literal(" | "))
-  private val ruleParser: Parser[Rule] = (span(_.isDigit).map(_.toInt) <* literal(": ") <*> orParser).map(Rule(_, _))
+  private val consParser: Parser[Cons]      = refParser.many(char(' ')).map(Cons(_))
+  private val orParser: Parser[List[Cons]]  = consParser.many(literal(" | "))
+  private val ruleParser: Parser[Rule]      = (span(_.isDigit).map(_.toInt) <* literal(": ") <*> orParser).map(Rule(_, _))
 
   def solve(input: String): Int =
     input.split(System.lineSeparator * 2).toList match {
-      case rules :: inputs :: Nil => 
+      case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
           .map(ruleParser.run(_))
           .map(r => r.id -> r)
           .toMap
 
-        def toRegex(rule: Rule): String = {
+        def toRegex(rule: Rule): String =
           rule.or match {
             case simple :: Nil =>
               simple.ref.map {
-                case i: Int => toRegex(rulesMap(i))
+                case i: Int   => toRegex(rulesMap(i))
                 case ch: Char => ch.toString
               }.mkString
-            case rest => rest.map { 
-              _.ref.map {
-                case i: Int => toRegex(rulesMap(i))
-                case ch: Char => ch.toString
-              }.mkString
-            }.mkString("(?:", "|", ")")
+            case rest          =>
+              rest.map {
+                _.ref.map {
+                  case i: Int   => toRegex(rulesMap(i))
+                  case ch: Char => ch.toString
+                }.mkString
+              }.mkString("(?:", "|", ")")
           }
-        }
 
         val regex = toRegex(rulesMap(0)).r
 
@@ -43,9 +43,9 @@ object Day19 {
           .count(regex.matches)
     }
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int =
     input.split(System.lineSeparator * 2).toList match {
-      case rules :: inputs :: Nil => 
+      case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
           .map(ruleParser.run(_))
           .map(r => r.id -> r)
@@ -53,27 +53,28 @@ object Day19 {
           .updated(8, Rule(8, List(Cons(List(42)), Cons(List(42, 8)))))
           .updated(11, Rule(11, List(Cons(List(42, 31)), Cons(List(42, 11, 31)))))
 
-        def toRegex(rule: Rule): String = {
+        def toRegex(rule: Rule): String =
           rule.or match {
-            case Cons(List(f1: Int)) :: Cons(List(f2: Int, self: Int)) :: Nil if f1 == f2 && self == rule.id => 
+            case Cons(List(f1: Int)) :: Cons(List(f2: Int, self: Int)) :: Nil if f1 == f2 && self == rule.id =>
               s"(?:${toRegex(rulesMap(f1))})+"
-            case Cons(List(f1: Int, s1: Int)) :: Cons(List(f2: Int, self: Int, s2: Int)) :: Nil if f1 == f2 && s1 == s2 && self == rule.id => 
-              (1 to 10)
-                .map { i => 
-                  s"(?:${toRegex(rulesMap(f1))}){$i}?(?:${toRegex(rulesMap(s1))}){$i}"
-                }.mkString("(?:", "|", ")")
-            case simple :: Nil => simple.ref.map {
-              case i: Int => toRegex(rulesMap(i))
-              case ch: Char => ch.toString
-            }.mkString
-            case rest => rest.map { 
-              _.ref.map {
-                case i: Int => toRegex(rulesMap(i))
+            case Cons(List(f1: Int, s1: Int)) :: Cons(List(f2: Int, self: Int, s2: Int)) :: Nil
+                if f1 == f2 && s1 == s2 && self == rule.id =>
+              (1 to 10).map { i =>
+                s"(?:${toRegex(rulesMap(f1))}){$i}?(?:${toRegex(rulesMap(s1))}){$i}"
+              }.mkString("(?:", "|", ")")
+            case simple :: Nil                                                                               =>
+              simple.ref.map {
+                case i: Int   => toRegex(rulesMap(i))
                 case ch: Char => ch.toString
               }.mkString
-            }.mkString("(?:", "|", ")")
+            case rest                                                                                        =>
+              rest.map {
+                _.ref.map {
+                  case i: Int   => toRegex(rulesMap(i))
+                  case ch: Char => ch.toString
+                }.mkString
+              }.mkString("(?:", "|", ")")
           }
-        }
 
         val regex = toRegex(rulesMap(0)).r
 

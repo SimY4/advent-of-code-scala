@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 import scala.collection.immutable.{ SortedMap, SortedSet }
 
 object Day7 {
-  private final case class Arrow(from: String, to: String)
+  final private case class Arrow(from: String, to: String)
 
   private def arrows(input: String): List[Arrow] =
     input.linesIterator.map { line =>
@@ -24,10 +24,10 @@ object Day7 {
     @tailrec def solve0(reqs: Map[String, SortedSet[String]], res: String): String =
       if reqs.isEmpty then res
       else {
-        val step = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
-        val newReqs = for
-          (k, set) <- reqs
-        yield k -> (set - step)
+        val step    = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
+        val newReqs =
+          for (k, set) <- reqs
+          yield k -> (set - step)
         solve0(newReqs - step, res + step)
       }
 
@@ -47,18 +47,19 @@ object Day7 {
       else {
         queue.filter((_, time) => time == 0L).map(_._1).toList.headOption match {
           case Some(step) =>
-            val newReqs = 
+            val newReqs =
               for (k, set) <- reqs
               yield k -> (set - step)
             solve0(newReqs - step, queue - step, time)
-          case None =>
+          case None       =>
             if queue.size >= 5 then solve0(reqs, work(queue), time + 1)
-            else reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match {
-              case Some(step) =>
-                solve0(reqs - step, queue + (step -> duration(step)), time)
-              case None =>
-                solve0(reqs, work(queue), time + 1)
-            }
+            else
+              reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match {
+                case Some(step) =>
+                  solve0(reqs - step, queue + (step -> duration(step)), time)
+                case None       =>
+                  solve0(reqs, work(queue), time + 1)
+              }
         }
       }
 

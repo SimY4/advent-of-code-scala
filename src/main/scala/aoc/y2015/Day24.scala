@@ -2,16 +2,18 @@ package aoc.y2015
 
 object Day24 {
   def solve(input: String, nGroups: Int = 3): Long = {
-    val weights = input.linesIterator
+    val weights   = input.linesIterator
       .map(_.toInt)
       .toList
     val maxWeight = weights.sum / nGroups
 
     def groups: Seq[List[Int]] = {
-      val tooSmall = input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
-      val tooBig =  input.linesIterator.map(_.toInt).toList.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toList
+      val tooSmall =
+        input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
+      val tooBig   =
+        input.linesIterator.map(_.toInt).toList.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toList
       for
-        i <- tooBig.size until tooSmall.size
+        i     <- tooBig.size until tooSmall.size
         group <- weights.combinations(i)
         if group.sum == maxWeight
       yield group
@@ -19,11 +21,11 @@ object Day24 {
 
     groups
       .take(1)
-      .foldLeft(Int.MaxValue -> List.empty[List[Int]]) { (acc, group) => 
-        val compare = acc._1 compare group.size
+      .foldLeft(Int.MaxValue -> List.empty[List[Int]]) { (acc, group) =>
+        val compare = acc._1.compare(group.size)
         if compare < 0 then acc
         else if compare > 0 then group.size -> (group :: Nil)
-        else acc._1 -> (group :: acc._2)
+        else acc._1                         -> (group :: acc._2)
       }
       ._2
       .map(_.map(_.toLong).product)

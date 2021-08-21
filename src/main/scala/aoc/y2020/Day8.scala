@@ -11,7 +11,7 @@ object Day8 {
 
   import Ins.*
 
-  private def parseLine(line: String, idx: Int): Ins = 
+  private def parseLine(line: String, idx: Int): Ins =
     line match {
       case s"acc $ins" => Acc(ins.toInt, idx)
       case s"jmp $ins" => Jmp(ins.toInt, idx)
@@ -21,38 +21,42 @@ object Day8 {
   def solve(input: String): Int = {
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
 
-    @tailrec def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int = 
+    @tailrec def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int =
       instructions.lift(cur) match {
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(cur + jmp, visited + i, state)
-        case Some(i @ Nop(_, _)) if !visited.contains(i) => loop(cur + 1, visited + i, state)
-        case _ => state
+        case Some(i @ Nop(_, _)) if !visited.contains(i)   => loop(cur + 1, visited + i, state)
+        case _                                             => state
       }
 
     loop(0)
   }
-    
+
   def solve2(input: String): Int = {
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
-    val jumpAndNops = instructions.collect {
+    val jumpAndNops  = instructions.collect {
       case j: Jmp => j
       case n: Nop => n
     }
-    
-    @tailrec def loop(instructions: List[Ins], cur: Int = 0, visited: Set[Ins] = Set.empty, state: Int = 0): Option[Int] = 
+
+    @tailrec def loop(
+      instructions: List[Ins],
+      cur: Int = 0,
+      visited: Set[Ins] = Set.empty,
+      state: Int = 0
+    ): Option[Int] =
       instructions.lift(cur) match {
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(instructions, cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(instructions, cur + jmp, visited + i, state)
-        case Some(i @ Nop(_, _)) if !visited.contains(i) => loop(instructions, cur + 1, visited + i, state)
-        case _ if cur >= (instructions.size - 1) => Some(state)
-        case _ => None
+        case Some(i @ Nop(_, _)) if !visited.contains(i)   => loop(instructions, cur + 1, visited + i, state)
+        case _ if cur >= (instructions.size - 1)           => Some(state)
+        case _                                             => None
       }
 
-    jumpAndNops
-      .map {
-        case Jmp(jmp, i) => instructions.updated(i, Nop(jmp, i))
-        case Nop(nop, i) => instructions.updated(i, Jmp(nop, i))
-      }
+    jumpAndNops.map {
+      case Jmp(jmp, i) => instructions.updated(i, Nop(jmp, i))
+      case Nop(nop, i) => instructions.updated(i, Jmp(nop, i))
+    }
       .flatMap(loop(_))
       .head
   }

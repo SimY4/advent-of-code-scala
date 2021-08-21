@@ -26,47 +26,52 @@ object Day4 {
       case "cid" :: _ :: Nil => CountryId
     }
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     (for
-      raw <- input.split(System.lineSeparator * 2).toSeq
+      raw     <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).map(passportField).toSet
       if passport.count {
         case CountryId => false
-        case _ => true
+        case _         => true
       } >= 7
     yield ()).size
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
     field.split(':').toList match {
-      case "byr" :: value :: Nil => value.toIntOption
-        .filter(y => 1920 <= y && y <= 2002)
-        .map(BirthYear(_))
-      case "iyr" :: value :: Nil => value.toIntOption
-        .filter(y => 2010 <= y && y <= 2020)
-        .map(IssueYear(_))
-      case "eyr" :: value :: Nil => value.toIntOption
-        .filter(y => 2020 <= y && y <= 2030)
-        .map(ExpirationYear(_))
-      case "hgt" :: s"${hgt}cm" :: Nil => hgt.toIntOption
-        .filter(y => 150 <= y && y <= 193)
-        .map(Height(_, "cm"))
-      case "hgt" :: s"${hgt}in" :: Nil => hgt.toIntOption
-        .filter(y => 59 <= y && y <= 76)
-        .map(Height(_, "in"))
+      case "byr" :: value :: Nil        =>
+        value.toIntOption
+          .filter(y => 1920 <= y && y <= 2002)
+          .map(BirthYear(_))
+      case "iyr" :: value :: Nil        =>
+        value.toIntOption
+          .filter(y => 2010 <= y && y <= 2020)
+          .map(IssueYear(_))
+      case "eyr" :: value :: Nil        =>
+        value.toIntOption
+          .filter(y => 2020 <= y && y <= 2030)
+          .map(ExpirationYear(_))
+      case "hgt" :: s"${hgt}cm" :: Nil  =>
+        hgt.toIntOption
+          .filter(y => 150 <= y && y <= 193)
+          .map(Height(_, "cm"))
+      case "hgt" :: s"${hgt}in" :: Nil  =>
+        hgt.toIntOption
+          .filter(y => 59 <= y && y <= 76)
+          .map(Height(_, "in"))
       case "hcl" :: s"#${color}" :: Nil => Option.when(color.matches("[0-9a-f]{6}"))(HairColor(color))
-      case "ecl" :: color :: Nil => Option.when(color.matches("amb|blu|brn|gry|grn|hzl|oth"))(EyeColor(color))
-      case "pid" :: id :: Nil => Option.when(id.matches("\\d{9}"))(PassportId(id.toInt))
-      case "cid" :: _ :: Nil => Some(CountryId)
-      case _ => None
+      case "ecl" :: color :: Nil        => Option.when(color.matches("amb|blu|brn|gry|grn|hzl|oth"))(EyeColor(color))
+      case "pid" :: id :: Nil           => Option.when(id.matches("\\d{9}"))(PassportId(id.toInt))
+      case "cid" :: _ :: Nil            => Some(CountryId)
+      case _                            => None
     }
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int =
     (for
-      raw <- input.split(System.lineSeparator * 2).toSeq
+      raw     <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).flatMap(passportFieldStrict).toSet
       if passport.count {
         case CountryId => false
-        case _ => true
+        case _         => true
       } >= 7
     yield ()).size
 

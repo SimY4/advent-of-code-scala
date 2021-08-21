@@ -4,35 +4,35 @@ import scala.annotation.tailrec
 
 object Day8 {
   @tailrec private def countEscaping(acc: Int = 0, str: String): Int = str match {
-    case "" => acc
+    case ""                         => acc
     case _ if str.startsWith("\\x") => countEscaping(acc + 1, str.substring(4))
-    case _ if str.startsWith("\\") => countEscaping(acc + 1, str.substring(2))
-    case _ => countEscaping(acc + 1, str.substring(1))
+    case _ if str.startsWith("\\")  => countEscaping(acc + 1, str.substring(2))
+    case _                          => countEscaping(acc + 1, str.substring(1))
   }
 
   @tailrec private def countUnescaping(acc: Int = 2, str: String): Int = str match {
-    case "" => acc
+    case ""                          => acc
     case _ if str.startsWith("\\\"") => countUnescaping(acc + 4, str.substring(2))
-    case _ if str.startsWith("\"") => countUnescaping(acc + 2, str.substring(1))
-    case _ if str.startsWith("\\") => countUnescaping(acc + 2, str.substring(1))
-    case _ => countUnescaping(acc + 1, str.substring(1))
+    case _ if str.startsWith("\"")   => countUnescaping(acc + 2, str.substring(1))
+    case _ if str.startsWith("\\")   => countUnescaping(acc + 2, str.substring(1))
+    case _                           => countUnescaping(acc + 1, str.substring(1))
   }
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     (for
-      line <- input.linesIterator
-      totalStr = countEscaping(str = line.substring(1, line.length - 1))
+      line         <- input.linesIterator
+      totalStr      = countEscaping(str = line.substring(1, line.length - 1))
       totalInMemory = line.length
     yield (totalStr, totalInMemory))
-      .foldLeft(0) { (acc, p) => acc + p._2 - p._1 }
+      .foldLeft(0)((acc, p) => acc + p._2 - p._1)
 
-  def solve2(input: String): Int = 
+  def solve2(input: String): Int =
     (for
-        line <- input.linesIterator
-        totalUnescaped = countUnescaping(str = line)
-        totalInMemory = line.length
+      line          <- input.linesIterator
+      totalUnescaped = countUnescaping(str = line)
+      totalInMemory  = line.length
     yield (totalUnescaped, totalInMemory))
-      .foldLeft(0) { (acc, p) => acc + p._1 - p._2 }
+      .foldLeft(0)((acc, p) => acc + p._1 - p._2)
 
   val input = """"\xa8br\x8bjr\""
                 |"nq"

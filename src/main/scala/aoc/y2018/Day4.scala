@@ -10,7 +10,7 @@ import scala.language.implicitConversions
 object Day4 {
   private val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 
-  private final case class Record(ts: Instant, action: Action)
+  final private case class Record(ts: Instant, action: Action)
   private enum Action {
     case BeginsDuty(guard: Int)
     case FallsAsleep
@@ -19,7 +19,7 @@ object Day4 {
 
   import Action.*
 
-  private final case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
+  final private case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
 
   extension (s: SleepSchedule) private def durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
   extension (s: SleepSchedule) private def minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
@@ -33,7 +33,7 @@ object Day4 {
         matcher.group("ac") match {
           case s if s.startsWith("wakes up")     => WakesUp
           case s if s.startsWith("falls asleep") => FallsAsleep
-          case s if s.startsWith("Guard #") =>
+          case s if s.startsWith("Guard #")      =>
             "\\d+".r
               .findFirstIn(s)
               .map { g =>
@@ -52,8 +52,8 @@ object Day4 {
       schedule: Map[Int, List[SleepSchedule]]
     ): Map[Int, List[SleepSchedule]] =
       records match {
-        case Nil                            => schedule
-        case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
+        case Nil                                                      => schedule
+        case Record(_, BeginsDuty(d)) :: rs                           => schedule0(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
           schedule0(
             rs,
@@ -75,7 +75,7 @@ object Day4 {
   def solve(input: String): Int =
     val sched                        = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy((_, list) => list.map(_.durationBetween).reduce(_.plus(_)))
-    val maxMinuteSleeping = (for
+    val maxMinuteSleeping            = (for
       s      <- sched(id)
       minute <- s.minutes
     yield minute)
@@ -85,18 +85,18 @@ object Day4 {
     id * maxMinuteSleeping
 
   def solve2(input: String): Int =
-    val sched = schedule(input)
+    val sched                        = schedule(input)
     val (id, (maxMinuteSleeping, _)) = sched.view.mapValues { list =>
       (for
         s      <- list
         minute <- s.minutes
       yield minute)
         .groupBy(identity)
-        .view.mapValues(_.size)
+        .view
+        .mapValues(_.size)
         .maxBy((_, size) => size)
     }.maxBy { case (_, (min, count)) => count }
     id * maxMinuteSleeping
-  
 
   val input = """[1518-11-01 00:00] Guard #10 begins shift
                 |[1518-11-01 00:05] falls asleep

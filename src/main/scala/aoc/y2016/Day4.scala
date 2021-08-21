@@ -4,33 +4,41 @@ object Day4 {
   private val lineRegex = "(\\w+(?:-\\w+)+)-(\\d+)\\[(\\w+)]".r
 
   private def decoy(name: String, checksum: String): Boolean = {
-    val mostCommon = name.replace("-", "").toSeq
-      .groupBy(identity).view
+    val mostCommon = name
+      .replace("-", "")
+      .toSeq
+      .groupBy(identity)
+      .view
       .mapValues(_.size)
       .toSeq
-      .sorted(Ordering.by[(Char, Int), Int]((_, n) => n)(Ordering[Int].reverse).orElse(Ordering.by[(Char, Int), Char]((ch, _) => ch)))
+      .sorted(
+        Ordering
+          .by[(Char, Int), Int]((_, n) => n)(Ordering[Int].reverse)
+          .orElse(Ordering.by[(Char, Int), Char]((ch, _) => ch))
+      )
       .take(5)
       .map(_._1)
       .mkString
     mostCommon == checksum
   }
 
-  def solve(input: String): Int = 
+  def solve(input: String): Int =
     (for
       case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
     yield id.toInt).sum
 
-  def solve2(input: String): List[(String, String)] = 
+  def solve2(input: String): List[(String, String)] =
     (for
       case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
     yield id -> name.map {
       case '-' => ' '
-      case ch => (1 to id.toInt).foldLeft(ch) { 
-        case ('z', _) => 'a'
-        case (c, _) => (c.toInt + 1).toChar
-      }
+      case ch  =>
+        (1 to id.toInt).foldLeft(ch) {
+          case ('z', _) => 'a'
+          case (c, _)   => (c.toInt + 1).toChar
+        }
     }).toList
 
   val input = """vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]

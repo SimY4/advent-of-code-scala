@@ -1,9 +1,11 @@
 package aoc.y2020
 
 object Day9 {
-  def solve(input: String): Long = 
-    input.linesIterator.map(_.toLong).sliding(26)
-      .flatMap { slide => 
+  def solve(input: String): Long =
+    input.linesIterator
+      .map(_.toLong)
+      .sliding(26)
+      .flatMap { slide =>
         val exists = slide.init.exists { x =>
           slide.init.exists { y =>
             x + y == slide.last
@@ -14,9 +16,10 @@ object Day9 {
       .toList
       .head
 
-  def solve2(input: String): Option[Long] = 
+  def solve2(input: String): Option[Long] =
     val n = solve(input)
-    input.linesIterator.map(_.toLong)
+    input.linesIterator
+      .map(_.toLong)
       .toSeq
       .inits
       .flatMap(_.tails)

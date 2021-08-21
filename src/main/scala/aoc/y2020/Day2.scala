@@ -1,31 +1,30 @@
 package aoc.y2020
 
 object Day2 {
-  private final case class Policy(low: Int, high: Int, char: Char)
+  final private case class Policy(low: Int, high: Int, char: Char)
 
   private val lineRegex = "(\\d+)-(\\d+) (\\w): (\\w+)".r
 
-  private def parse(line: String): (Policy, String) = 
+  private def parse(line: String): (Policy, String) =
     line match {
       case lineRegex(low, high, ch, pwd) => Policy(low.toInt, high.toInt, ch.head) -> pwd
     }
 
   def solve(input: String): Int =
     (for
-      line <- input.linesIterator
+      line                          <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
-      count = pwd.toSeq.count(_ == char)
+      count                          = pwd.toSeq.count(_ == char)
       if low <= count && count <= high
     yield pwd).size
-  
-  def solve2(input: String): Int = 
+
+  def solve2(input: String): Int =
     (for
-      line <- input.linesIterator
+      line                          <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
-      pwdFunc = pwd.toList.lift
+      pwdFunc                        = pwd.toList.lift
       if pwdFunc(low - 1).exists(_ == char) ^ pwdFunc(high - 1).exists(_ == char)
     yield pwd).size
-  
 
   val input = """6-7 w: wwhmzwtwwk
                 |10-12 q: qqqqqqqqqqqdqqq
