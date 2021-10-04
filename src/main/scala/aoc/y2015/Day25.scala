@@ -13,5 +13,5 @@ object Day25 {
       }
       .collectFirst { case (Cell(coord, _), value) if coord == input => value }
 
-  val input                             = Coord(2947L, 3029L)
+  val input = Coord(2947L, 3029L)
 }

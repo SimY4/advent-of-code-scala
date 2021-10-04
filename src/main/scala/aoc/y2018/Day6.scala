@@ -38,7 +38,7 @@ object Day6 {
     def frequencies(rect: Rect): Map[String, Int] =
       rect.map(_._2).groupBy(identity).view.mapValues(_.size).toMap
 
-    val rect    = for
+    val rect = for
       x     <- minX to maxX
       y     <- minY to maxY
       coords = Coord(x, y)

@@ -1,13 +1,13 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version      := "0.1.0"
-ThisBuild / scalaVersion := "3.0.1"
+ThisBuild / scalaVersion := "3.0.2"
 
 lazy val root = project
   .in(file("."))
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.3",
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4",
       "org.scalacheck"         %% "scalacheck"                 % "1.15.4" % Test
     ),
     scalacOptions ++= Seq(
