@@ -1,6 +1,6 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version      := "0.1.0"
-ThisBuild / scalaVersion := "3.0.2"
+ThisBuild / scalaVersion := "3.1.0"
 
 lazy val root = project
   .in(file("."))
@@ -11,13 +11,16 @@ lazy val root = project
       "org.scalacheck"         %% "scalacheck"                 % "1.15.4" % Test
     ),
     scalacOptions ++= Seq(
+      "-release",
+      "11",
       "-encoding",
       "UTF-8",
       "-feature",
       "-unchecked",
       "-deprecation",
       "-rewrite",
-      "-new-syntax"
+      "-new-syntax",
+      "-source:future-migration"
     )
   )
 
