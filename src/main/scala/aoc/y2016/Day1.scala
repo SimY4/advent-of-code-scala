@@ -5,7 +5,7 @@ object Day1 {
   import Direction.*
 
   private def navigate(direction: Direction, instruction: String): (Direction, List[Direction]) = {
-    val steps         = instruction.tail.toInt
+    val steps = instruction.tail.toInt
     val nextDirection = (instruction.head, direction) match {
       case ('R', Up)    => Right
       case ('R', Right) => Down

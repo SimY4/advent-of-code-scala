@@ -5,8 +5,8 @@ object Day15 {
     (0 until parts - 1)
       .foldLeft((1 to number).map(_ :: Nil).toList) { (acc, _) =>
         for
-          xxs   <- acc
-          xs    <- 1 until number
+          xxs <- acc
+          xs  <- 1 until number
           concat = xs :: xxs
           if concat.sum <= number
         yield concat
@@ -16,7 +16,7 @@ object Day15 {
 
   def solve(input: String): Int = {
     val ingredients = (for
-      line  <- input.linesIterator
+      line <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
 
@@ -32,7 +32,7 @@ object Day15 {
 
   def solve2(input: String): Int = {
     val ingredients = (for
-      line  <- input.linesIterator
+      line <- input.linesIterator
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
 

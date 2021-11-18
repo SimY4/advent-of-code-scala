@@ -24,7 +24,7 @@ object Day7 {
     @tailrec def solve0(reqs: Map[String, SortedSet[String]], res: String): String =
       if reqs.isEmpty then res
       else {
-        val step    = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
+        val step = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
         val newReqs =
           for (k, set) <- reqs
           yield k -> (set - step)
@@ -51,13 +51,13 @@ object Day7 {
               for (k, set) <- reqs
               yield k -> (set - step)
             solve0(newReqs - step, queue - step, time)
-          case None       =>
+          case None =>
             if queue.size >= 5 then solve0(reqs, work(queue), time + 1)
             else
               reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match {
                 case Some(step) =>
                   solve0(reqs - step, queue + (step -> duration(step)), time)
-                case None       =>
+                case None =>
                   solve0(reqs, work(queue), time + 1)
               }
         }

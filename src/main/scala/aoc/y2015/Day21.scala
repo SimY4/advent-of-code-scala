@@ -54,7 +54,7 @@ object Day21 {
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
-    val rings   = (List.empty[Ring] :: (for
+    val rings = (List.empty[Ring] :: (for
       r1 <- items.collect { case r: Ring => r }
       r2 <- items.collect { case r: Ring => r }
     yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil)).distinct
@@ -63,7 +63,7 @@ object Day21 {
       weapon <- weapons
       ar     <- armor
       rngs   <- rings
-      char    = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
+      char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if char.`duel`(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).min
   }
@@ -77,7 +77,7 @@ object Day21 {
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
-    val rings   = (List.empty[Ring] :: (for
+    val rings = (List.empty[Ring] :: (for
       r1 <- items.collect { case r: Ring => r }
       r2 <- items.collect { case r: Ring => r }
     yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil)).distinct
@@ -86,7 +86,7 @@ object Day21 {
       weapon <- weapons
       ar     <- armor
       rngs   <- rings
-      char    = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
+      char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if !char.`duel`(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).max
   }

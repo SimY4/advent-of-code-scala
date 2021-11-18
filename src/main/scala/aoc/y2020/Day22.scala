@@ -11,11 +11,11 @@ object Day22 {
 
     @tailrec def play(player1: List[Int], player2: List[Int]): Int =
       (player1, player2) match {
-        case (Nil, player)                  =>
+        case (Nil, player) =>
           player.reverse.zipWithIndex.foldLeft(0) { case (score, (card, mult)) =>
             score + (mult + 1) * card
           }
-        case (player, Nil)                  =>
+        case (player, Nil) =>
           player.reverse.zipWithIndex.foldLeft(0) { case (score, (card, mult)) =>
             score + (mult + 1) * card
           }
@@ -42,11 +42,11 @@ object Day22 {
         }
       else
         (player1, player2) match {
-          case (Nil, player)                                                          =>
+          case (Nil, player) =>
             false -> player.reverse.zipWithIndex.foldLeft(0) { case (score, (card, mult)) =>
               score + mult * card
             }
-          case (player, Nil)                                                          =>
+          case (player, Nil) =>
             true -> player.reverse.zipWithIndex.foldLeft(0) { case (score, (card, mult)) =>
               score + (mult + 1) * card
             }
@@ -54,7 +54,7 @@ object Day22 {
             if recursiveCombat(rest1.take(f1), rest2.take(f2)) then
               play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString    -> player2.mkString))
             else play(rest1, rest2 ::: List(f2, f1), history + (player1.mkString -> player2.mkString))
-          case ((f1 :: rest1), (f2 :: rest2))                                         =>
+          case ((f1 :: rest1), (f2 :: rest2)) =>
             if f1 > f2 then play(rest1 ::: List(f1, f2), rest2, history + (player1.mkString -> player2.mkString))
             else play(rest1, rest2 ::: List(f2, f1), history + (player1.mkString            -> player2.mkString))
         }

@@ -4,7 +4,7 @@ object Day7 {
   private def parseLine(line: String): (String, List[(Int, String)]) =
     line.split(" contain ").toList match {
       case bags :: "no other bags." :: Nil => bags.substring(0, bags.lastIndexOf(' ')) -> Nil
-      case bags :: contains :: Nil         =>
+      case bags :: contains :: Nil =>
         bags.substring(0, bags.lastIndexOf(' ')) ->
           contains.split(", ").toList.map { bags =>
             bags.substring(0, bags.indexOf(' ')).toInt -> bags.substring(bags.indexOf(' ') + 1, bags.lastIndexOf(' '))

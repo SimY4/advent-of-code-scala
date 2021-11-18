@@ -19,11 +19,11 @@ object Day13 {
   }
 
   def solve2(input: String): Int = {
-    val rels       = (for
+    val rels = (for
       case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
     yield (first -> second, adjPoints)).toMap
-    val guests     = rels.keySet.map(_._1)
+    val guests = rels.keySet.map(_._1)
     val relsWithMe = guests.foldLeft(rels) { (acc, guest) =>
       acc ++ Map(("Me" -> guest) -> 0, (guest -> "Me") -> 0)
     }

@@ -38,18 +38,18 @@ object Day16 {
       .sliding(2, 2)
       .foldLeft(AuntSue()) { (sue, pair) =>
         pair match {
-          case "children:" :: num :: Nil    => sue.copy(children = num.replace(",", "").toIntOption)
-          case "cats:" :: num :: Nil        => sue.copy(cats = num.replace(",", "").toIntOption)
-          case "samoyeds:" :: num :: Nil    => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
+          case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
+          case "cats:" :: num :: Nil     => sue.copy(cats = num.replace(",", "").toIntOption)
+          case "samoyeds:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
           case "pomeranians:" :: num :: Nil =>
             sue.copy(dogs = sue.dogs + (Dogs.Pomeranians -> num.replace(",", "").toInt))
-          case "akitas:" :: num :: Nil      => sue.copy(dogs = sue.dogs + (Dogs.Akitas -> num.replace(",", "").toInt))
-          case "vizslas:" :: num :: Nil     => sue.copy(dogs = sue.dogs + (Dogs.Vizslas -> num.replace(",", "").toInt))
-          case "goldfish:" :: num :: Nil    => sue.copy(goldfish = num.replace(",", "").toIntOption)
-          case "trees:" :: num :: Nil       => sue.copy(trees = num.replace(",", "").toIntOption)
-          case "cars:" :: num :: Nil        => sue.copy(cars = num.replace(",", "").toIntOption)
-          case "perfumes:" :: num :: Nil    => sue.copy(perfumes = num.replace(",", "").toIntOption)
-          case _                            => sue
+          case "akitas:" :: num :: Nil   => sue.copy(dogs = sue.dogs + (Dogs.Akitas -> num.replace(",", "").toInt))
+          case "vizslas:" :: num :: Nil  => sue.copy(dogs = sue.dogs + (Dogs.Vizslas -> num.replace(",", "").toInt))
+          case "goldfish:" :: num :: Nil => sue.copy(goldfish = num.replace(",", "").toIntOption)
+          case "trees:" :: num :: Nil    => sue.copy(trees = num.replace(",", "").toIntOption)
+          case "cars:" :: num :: Nil     => sue.copy(cars = num.replace(",", "").toIntOption)
+          case "perfumes:" :: num :: Nil => sue.copy(perfumes = num.replace(",", "").toIntOption)
+          case _                         => sue
         }
       }
 
@@ -70,7 +70,7 @@ object Day16 {
 
     (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
-      sue          = parseLine(line)
+      sue = parseLine(line)
       if equiv(sue)
     yield idx + 1).head
   }
@@ -102,7 +102,7 @@ object Day16 {
 
     (for
       (line, idx) <- input.linesIterator.toSeq.zipWithIndex
-      sue          = parseLine(line)
+      sue = parseLine(line)
       if equiv(sue)
     yield idx + 1).head
   }

@@ -34,7 +34,7 @@ object Day4 {
       if decoy(name, checksum)
     yield id -> name.map {
       case '-' => ' '
-      case ch  =>
+      case ch =>
         (1 to id.toInt).foldLeft(ch) {
           case ('z', _) => 'a'
           case (c, _)   => (c.toInt + 1).toChar

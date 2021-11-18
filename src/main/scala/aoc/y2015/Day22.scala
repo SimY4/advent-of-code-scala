@@ -6,28 +6,28 @@ object Day22 {
   sealed trait Spell {
     def mana: Int
   }
-  object Spell       {
+  object Spell {
     val book: List[Spell] = List(MagicMisile, Drain, Shield, Poison, Recharge)
 
     sealed trait EffectOverTime extends Spell {
       def turns: Int
     }
 
-    case object MagicMisile extends Spell          {
+    case object MagicMisile extends Spell {
       override val mana: Int = 53
     }
-    case object Drain       extends Spell          {
+    case object Drain extends Spell {
       override val mana: Int = 73
     }
-    case object Shield      extends EffectOverTime {
+    case object Shield extends EffectOverTime {
       override val mana: Int  = 113
       override val turns: Int = 6
     }
-    case object Poison      extends EffectOverTime {
+    case object Poison extends EffectOverTime {
       override val mana: Int  = 173
       override val turns: Int = 6
     }
-    case object Recharge    extends EffectOverTime {
+    case object Recharge extends EffectOverTime {
       override val mana: Int  = 229
       override val turns: Int = 5
     }
@@ -57,42 +57,41 @@ object Day22 {
           case (state, _)        => state
         }
         .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
-      val armor          = state.cooldowns.keys.collect { case Shield => 7 }.sum
+      val armor = state.cooldowns.keys.collect { case Shield => 7 }.sum
 
       if turnStartState.boss.hitPoints <= 0 then {
         atom.getAndUpdate(min => if spent < min then spent else min)
         spent :: Nil
       } else if myTurn then {
         for
-          spell       <- Spell.book
+          spell <- Spell.book
           if spell.mana <= turnStartState.character.mana && !turnStartState.cooldowns.keys.exists(_ == spell)
           endTurnState = spell match {
-                           case MagicMisile         =>
-                             turnStartState.copy(
-                               character =
-                                 turnStartState.character.copy(mana = turnStartState.character.mana - MagicMisile.mana),
-                               boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 4)
-                             )
-                           case Drain               =>
-                             turnStartState.copy(
-                               character = turnStartState.character.copy(
-                                 hitPoints = turnStartState.character.hitPoints + 2,
-                                 mana = turnStartState.character.mana - Drain.mana
-                               ),
-                               boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 2)
-                             )
-                           case eot: EffectOverTime =>
-                             turnStartState.copy(
-                               cooldowns = turnStartState.cooldowns + (eot -> eot.turns),
-                               character =
-                                 turnStartState.character.copy(mana = turnStartState.character.mana - eot.mana)
-                             )
-                         }
-          outcome     <- if endTurnState.boss.hitPoints <= 0 then {
-                           atom.getAndUpdate(min => if spell.mana + spent < min then spell.mana + spent else min)
-                           (spell.mana + spent) :: Nil
-                         } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
-                         else Nil
+            case MagicMisile =>
+              turnStartState.copy(
+                character = turnStartState.character.copy(mana = turnStartState.character.mana - MagicMisile.mana),
+                boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 4)
+              )
+            case Drain =>
+              turnStartState.copy(
+                character = turnStartState.character.copy(
+                  hitPoints = turnStartState.character.hitPoints + 2,
+                  mana = turnStartState.character.mana - Drain.mana
+                ),
+                boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 2)
+              )
+            case eot: EffectOverTime =>
+              turnStartState.copy(
+                cooldowns = turnStartState.cooldowns + (eot -> eot.turns),
+                character = turnStartState.character.copy(mana = turnStartState.character.mana - eot.mana)
+              )
+          }
+          outcome <-
+            if endTurnState.boss.hitPoints <= 0 then {
+              atom.getAndUpdate(min => if spell.mana + spent < min then spell.mana + spent else min)
+              (spell.mana + spent) :: Nil
+            } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
+            else Nil
         yield outcome
       } else {
         val endTurnState = turnStartState.copy(character =
@@ -131,46 +130,47 @@ object Day22 {
             case (state, _)        => state
           }
           .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
-        val armor          = initialState.cooldowns.keys.collect { case Shield => 7 }.sum
+        val armor = initialState.cooldowns.keys.collect { case Shield => 7 }.sum
 
         if turnStartState.boss.hitPoints <= 0 then {
           atom.getAndUpdate(min => if spent < min then spent else min)
           spent :: Nil
         } else if myTurn then {
           for
-            spell       <- Spell.book
+            spell <- Spell.book
             if spell.mana <= turnStartState.character.mana && !turnStartState.cooldowns.keys.exists(_ == spell)
             endTurnState = spell match {
-                             case MagicMisile         =>
-                               turnStartState.copy(
-                                 character = turnStartState.character.copy(
-                                   hitPoints = turnStartState.character.hitPoints,
-                                   mana = turnStartState.character.mana - MagicMisile.mana
-                                 ),
-                                 boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 4)
-                               )
-                             case Drain               =>
-                               turnStartState.copy(
-                                 character = turnStartState.character.copy(
-                                   hitPoints = turnStartState.character.hitPoints + 2,
-                                   mana = turnStartState.character.mana - Drain.mana
-                                 ),
-                                 boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 2)
-                               )
-                             case eot: EffectOverTime =>
-                               turnStartState.copy(
-                                 cooldowns = turnStartState.cooldowns + (eot -> eot.turns),
-                                 character = turnStartState.character.copy(
-                                   hitPoints = turnStartState.character.hitPoints,
-                                   mana = turnStartState.character.mana - eot.mana
-                                 )
-                               )
-                           }
-            outcome     <- if endTurnState.boss.hitPoints <= 0 then {
-                             atom.getAndUpdate(min => if spell.mana + spent < min then spent + spent else min)
-                             (spell.mana + spent) :: Nil
-                           } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
-                           else Nil
+              case MagicMisile =>
+                turnStartState.copy(
+                  character = turnStartState.character.copy(
+                    hitPoints = turnStartState.character.hitPoints,
+                    mana = turnStartState.character.mana - MagicMisile.mana
+                  ),
+                  boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 4)
+                )
+              case Drain =>
+                turnStartState.copy(
+                  character = turnStartState.character.copy(
+                    hitPoints = turnStartState.character.hitPoints + 2,
+                    mana = turnStartState.character.mana - Drain.mana
+                  ),
+                  boss = turnStartState.boss.copy(hitPoints = turnStartState.boss.hitPoints - 2)
+                )
+              case eot: EffectOverTime =>
+                turnStartState.copy(
+                  cooldowns = turnStartState.cooldowns + (eot -> eot.turns),
+                  character = turnStartState.character.copy(
+                    hitPoints = turnStartState.character.hitPoints,
+                    mana = turnStartState.character.mana - eot.mana
+                  )
+                )
+            }
+            outcome <-
+              if endTurnState.boss.hitPoints <= 0 then {
+                atom.getAndUpdate(min => if spell.mana + spent < min then spent + spent else min)
+                (spell.mana + spent) :: Nil
+              } else if spell.mana + spent < atom.get then duel(false, spell.mana + spent, endTurnState)
+              else Nil
           yield outcome
         } else {
           val endTurnState = turnStartState.copy(character =

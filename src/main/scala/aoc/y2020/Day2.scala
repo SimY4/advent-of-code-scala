@@ -12,7 +12,7 @@ object Day2 {
 
   def solve(input: String): Int =
     (for
-      line                          <- input.linesIterator
+      line <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
       count                          = pwd.toSeq.count(_ == char)
       if low <= count && count <= high
@@ -20,7 +20,7 @@ object Day2 {
 
   def solve2(input: String): Int =
     (for
-      line                          <- input.linesIterator
+      line <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
       pwdFunc                        = pwd.toList.lift
       if pwdFunc(low - 1).exists(_ == char) ^ pwdFunc(high - 1).exists(_ == char)

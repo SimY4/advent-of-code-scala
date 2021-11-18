@@ -5,22 +5,22 @@ object Day6 {
     (for
       i <- 0 until input.linesIterator.next.length
       ch = input.linesIterator
-             .map(_.charAt(i))
-             .toList
-             .groupBy(identity)
-             .maxBy((_, list) => list.size)
-             ._1
+        .map(_.charAt(i))
+        .toList
+        .groupBy(identity)
+        .maxBy((_, list) => list.size)
+        ._1
     yield ch).toList
 
   def solve2(input: String): List[Char] =
     (for
       i <- 0 until input.linesIterator.next.length
       ch = input.linesIterator
-             .map(_.charAt(i))
-             .toList
-             .groupBy(identity)
-             .minBy((_, list) => list.size)
-             ._1
+        .map(_.charAt(i))
+        .toList
+        .groupBy(identity)
+        .minBy((_, list) => list.size)
+        ._1
     yield ch).toList
 
   val input = """blrqqadw

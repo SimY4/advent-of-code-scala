@@ -9,7 +9,7 @@ object Day8 {
 
       def sumMeta2: Int = node.children match {
         case Nil => node.meta.reduce(_ + _)
-        case ch  =>
+        case ch =>
           node.meta.foldLeft(0) { (acc, m) =>
             acc + node.children.lift(m - 1).fold(0)(_.sumMeta2)
           }
@@ -18,7 +18,7 @@ object Day8 {
   }
 
   private def parse(input: String): Node = {
-    val nums                                      = input.split(" ").map(_.toInt).toList
+    val nums = input.split(" ").map(_.toInt).toList
     def child(list: List[Int]): (Node, List[Int]) = list match {
       case num_ch :: num_meta :: rest =>
         val (children, r) = (1 to num_ch).foldLeft(Vector.empty[Node] -> rest) { (childrenTail, _) =>

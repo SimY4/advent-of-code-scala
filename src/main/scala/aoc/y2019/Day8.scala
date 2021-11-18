@@ -14,10 +14,10 @@ object Day8 {
     println(
       (for
         pixel <- 0 until (25 * 6)
-        color  = layers
-                   .map(_.charAt(pixel))
-                   .find(_ != '2')
-                   .getOrElse('0')
+        color = layers
+          .map(_.charAt(pixel))
+          .find(_ != '2')
+          .getOrElse('0')
       yield color)
         .sliding(25, 25)
         .map {

@@ -11,7 +11,7 @@ object Day5 {
 
   def solve(input: String): String =
     (for
-      i  <- LazyList.from(0)
+      i <- LazyList.from(0)
       hex = {
         md.update((input + i).getBytes(StandardCharsets.UTF_8))
         md.digest().printHexBinary
@@ -23,7 +23,7 @@ object Day5 {
 
   def solve2(input: String): Option[String] =
     (for
-      i  <- LazyList.from(0)
+      i <- LazyList.from(0)
       hex = {
         md.update((input + i).getBytes(StandardCharsets.UTF_8))
         md.digest().printHexBinary

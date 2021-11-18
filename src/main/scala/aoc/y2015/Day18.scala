@@ -25,10 +25,10 @@ object Day18 {
       .from(0)
       .scanLeft(grid) { (g, _) =>
         (for
-          i  <- 0 until g.size
+          i <- 0 until g.size
           row = (0 until g.size)
-                  .map(j => changeSwitch(g, Coord(i.toLong, j.toLong)))
-                  .toArray
+            .map(j => changeSwitch(g, Coord(i.toLong, j.toLong)))
+            .toArray
         yield row).toArray
       }
       .drop(100)
@@ -49,10 +49,10 @@ object Day18 {
       .from(0)
       .scanLeft(grid) { (g, _) =>
         (for
-          i  <- 0 until g.size
+          i <- 0 until g.size
           row = (0 until g.size)
-                  .map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong)))
-                  .toArray
+            .map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong)))
+            .toArray
         yield row).toArray
       }
       .drop(100)

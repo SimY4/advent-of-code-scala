@@ -6,12 +6,12 @@ object Day5 {
     LazyList
       .iterate(ProgramState(0, opCodes, inputs, None)) { case ProgramState(pointer, opCodes, inputs, _) =>
         opCodes.drop(pointer) match {
-          case 1 :: x :: y :: z :: _    =>
+          case 1 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, opCodes(x) + opCodes(y)), inputs, None)
           case 101 :: x :: y :: z :: _  => ProgramState(pointer + 4, opCodes.updated(z, x + opCodes(y)), inputs, None)
           case 1001 :: x :: y :: z :: _ => ProgramState(pointer + 4, opCodes.updated(z, opCodes(x) + y), inputs, None)
           case 1101 :: x :: y :: z :: _ => ProgramState(pointer + 4, opCodes.updated(z, x + y), inputs, None)
-          case 2 :: x :: y :: z :: _    =>
+          case 2 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, opCodes(x) * opCodes(y)), inputs, None)
           case 102 :: x :: y :: z :: _  => ProgramState(pointer + 4, opCodes.updated(z, x * opCodes(y)), inputs, None)
           case 1002 :: x :: y :: z :: _ => ProgramState(pointer + 4, opCodes.updated(z, opCodes(x) * y), inputs, None)
@@ -19,33 +19,33 @@ object Day5 {
           case 3 :: x :: _              => ProgramState(pointer + 2, opCodes.updated(x, inputs.head), inputs.tail, None)
           case 4 :: x :: _              => ProgramState(pointer + 2, opCodes, inputs, Some(opCodes(x)))
           case 104 :: x :: _            => ProgramState(pointer + 2, opCodes, inputs, Some(x))
-          case 5 :: x :: y :: _         =>
+          case 5 :: x :: y :: _ =>
             ProgramState(if opCodes(x) != 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
-          case 105 :: x :: y :: _       => ProgramState(if x != 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
-          case 1005 :: x :: y :: _      => ProgramState(if opCodes(x) != 0 then y else pointer + 3, opCodes, inputs, None)
-          case 1105 :: x :: y :: _      => ProgramState(if x != 0 then y else pointer + 3, opCodes, inputs, None)
-          case 6 :: x :: y :: _         =>
+          case 105 :: x :: y :: _  => ProgramState(if x != 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
+          case 1005 :: x :: y :: _ => ProgramState(if opCodes(x) != 0 then y else pointer + 3, opCodes, inputs, None)
+          case 1105 :: x :: y :: _ => ProgramState(if x != 0 then y else pointer + 3, opCodes, inputs, None)
+          case 6 :: x :: y :: _ =>
             ProgramState(if opCodes(x) == 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
-          case 106 :: x :: y :: _       => ProgramState(if x == 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
-          case 1006 :: x :: y :: _      => ProgramState(if opCodes(x) == 0 then y else pointer + 3, opCodes, inputs, None)
-          case 1106 :: x :: y :: _      => ProgramState(if x == 0 then y else pointer + 3, opCodes, inputs, None)
-          case 7 :: x :: y :: z :: _    =>
+          case 106 :: x :: y :: _  => ProgramState(if x == 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
+          case 1006 :: x :: y :: _ => ProgramState(if opCodes(x) == 0 then y else pointer + 3, opCodes, inputs, None)
+          case 1106 :: x :: y :: _ => ProgramState(if x == 0 then y else pointer + 3, opCodes, inputs, None)
+          case 7 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if opCodes(x) < opCodes(y) then 1 else 0), inputs, None)
-          case 107 :: x :: y :: z :: _  =>
+          case 107 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if x < opCodes(y) then 1 else 0), inputs, None)
           case 1007 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if opCodes(x) < y then 1 else 0), inputs, None)
           case 1107 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if x < y then 1 else 0), inputs, None)
-          case 8 :: x :: y :: z :: _    =>
+          case 8 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if opCodes(x) == opCodes(y) then 1 else 0), inputs, None)
-          case 108 :: x :: y :: z :: _  =>
+          case 108 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if x == opCodes(y) then 1 else 0), inputs, None)
           case 1008 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if opCodes(x) == y then 1 else 0), inputs, None)
           case 1108 :: x :: y :: z :: _ =>
             ProgramState(pointer + 4, opCodes.updated(z, if x == y then 1 else 0), inputs, None)
-          case _                        => ProgramState(-1, Nil, inputs, None)
+          case _ => ProgramState(-1, Nil, inputs, None)
         }
       }
       .takeWhile(_.pointer >= 0)

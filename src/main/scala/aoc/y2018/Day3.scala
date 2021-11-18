@@ -4,7 +4,7 @@ object Day3 {
   private case class Claim(id: Int, h1: Int, v1: Int, h2: Int, v2: Int)
 
   def fabric(input: String): Array[Array[Set[Int]]] = {
-    def parse(line: String): Claim     =
+    def parse(line: String): Claim =
       "\\d+".r.findAllIn(line).map(_.toInt).toList match {
         case id :: h1 :: v1 :: h2 :: v2 :: Nil => Claim(id, h1, v1, h2, v2)
       }

@@ -3,7 +3,7 @@ package aoc.y2016
 object Day3 {
   def solve(input: String): Int =
     (for
-      line            <- input.linesIterator
+      line <- input.linesIterator
       f :: s :: t :: _ = "\\d+".r.findAllIn(line).map(_.toInt).toList: @unchecked
       if f + s > t && s + t > f && f + t > s
     yield ()).size

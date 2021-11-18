@@ -39,8 +39,8 @@ object Day6 {
       rect.map(_._2).groupBy(identity).view.mapValues(_.size).toMap
 
     val rect = for
-      x     <- minX to maxX
-      y     <- minY to maxY
+      x <- minX to maxX
+      y <- minY to maxY
       coords = Coord(x, y)
     yield coords -> closest(coords)
 
@@ -62,8 +62,8 @@ object Day6 {
     val rect = for
       x <- minX to maxX
       y <- minY to maxY
-      c  = Coord(x, y)
-      d  = coord.map(_.dist(c)).reduce(_ + _)
+      c = Coord(x, y)
+      d = coord.map(_.dist(c)).reduce(_ + _)
       if d < 10000
     yield c
 

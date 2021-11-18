@@ -34,7 +34,7 @@ object Day8 {
 
   def solve2(input: String): Int = {
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
-    val jumpAndNops  = instructions.collect {
+    val jumpAndNops = instructions.collect {
       case j: Jmp => j
       case n: Nop => n
     }

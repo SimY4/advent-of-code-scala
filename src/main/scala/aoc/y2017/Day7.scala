@@ -12,7 +12,7 @@ object Day7 {
     def findRoot(nodes: Map[String, TreeNode]): String =
       (for
         (name, _) <- nodes
-        children   = nodes.values.flatMap(_.children).toSet
+        children = nodes.values.flatMap(_.children).toSet
         if !(children contains name)
       yield name).head
 
@@ -20,7 +20,7 @@ object Day7 {
       case linePattern(name, weight, children) <- input.linesIterator
       childrenNormalized = Option(children).map(_.split(", ").toList).getOrElse(Nil)
     yield name -> TreeNode(weight.toInt, childrenNormalized)).toMap
-    val root  = findRoot(nodes)
+    val root = findRoot(nodes)
     nodes -> root
   }
 

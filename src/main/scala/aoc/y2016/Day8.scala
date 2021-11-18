@@ -21,7 +21,7 @@ object Day8 {
     .map(parseLine)
     .foldLeft(Array.fill(6, 50)(false)) { (grid, action) =>
       action match {
-        case Rect(x, y)          =>
+        case Rect(x, y) =>
           for i <- 0 until y; j <- 0 until x do grid(i)(j) = true
           grid
         case RotateRow(y, shift) =>

@@ -19,7 +19,7 @@ object Day5 {
 
   def solve2(input: String): Int =
     (for
-      ch           <- ('a' to 'z').par
+      ch <- ('a' to 'z').par
       filteredInput = s"[$ch${ch.toUpper}]".r.replaceAllIn(input, "")
     yield (solve0(filteredInput).length)).min
 

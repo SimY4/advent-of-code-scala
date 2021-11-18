@@ -12,7 +12,7 @@ object Day3 {
 
     @tailrec def loop(coord: Coord, acc: Int = 0): Int =
       area.lift((coord.y + 1L).toInt) match {
-        case None       => acc
+        case None => acc
         case Some(axis) =>
           loop(Coord(x = coord.x + 3L, y = coord.y + 1L), if axis((coord.x + 3L).toInt) == '#' then acc + 1 else acc)
       }
@@ -28,7 +28,7 @@ object Day3 {
 
     @tailrec def loop(coord: Coord, slope: Coord, acc: Int = 0): Long =
       area.lift((coord.y + slope.y).toInt) match {
-        case None       => acc.toLong
+        case None => acc.toLong
         case Some(axis) =>
           loop(
             Coord(x = coord.x + slope.x, y = coord.y + slope.y),

@@ -27,7 +27,7 @@ object Day21 {
     }.toList
 
     @tailrec def simplify(allergens: Map[String, Set[String]]): Map[String, Set[String]] = {
-      val singles    = allergens.collect {
+      val singles = allergens.collect {
         case (k, v) if v.size == 1 => k -> v.iterator.next
       }
       val simplified = allergens.view

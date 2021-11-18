@@ -33,7 +33,7 @@ object Day4 {
         matcher.group("ac") match {
           case s if s.startsWith("wakes up")     => WakesUp
           case s if s.startsWith("falls asleep") => FallsAsleep
-          case s if s.startsWith("Guard #")      =>
+          case s if s.startsWith("Guard #") =>
             "\\d+".r
               .findFirstIn(s)
               .map { g =>
@@ -52,8 +52,8 @@ object Day4 {
       schedule: Map[Int, List[SleepSchedule]]
     ): Map[Int, List[SleepSchedule]] =
       records match {
-        case Nil                                                      => schedule
-        case Record(_, BeginsDuty(d)) :: rs                           => schedule0(rs, d, schedule)
+        case Nil                            => schedule
+        case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
           schedule0(
             rs,
@@ -75,7 +75,7 @@ object Day4 {
   def solve(input: String): Int =
     val sched                        = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy((_, list) => list.map(_.durationBetween).reduce(_.plus(_)))
-    val maxMinuteSleeping            = (for
+    val maxMinuteSleeping = (for
       s      <- sched(id)
       minute <- s.minutes
     yield minute)
@@ -85,7 +85,7 @@ object Day4 {
     id * maxMinuteSleeping
 
   def solve2(input: String): Int =
-    val sched                        = schedule(input)
+    val sched = schedule(input)
     val (id, (maxMinuteSleeping, _)) = sched.view.mapValues { list =>
       (for
         s      <- list

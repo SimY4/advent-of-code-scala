@@ -11,7 +11,7 @@ object Day19 {
   private val refParser: Parser[Int | Char] = span(_.isDigit).map(_.toInt) <|> (char('"') *> any <* char('"'))
   private val consParser: Parser[Cons]      = refParser.many(char(' ')).map(Cons(_))
   private val orParser: Parser[List[Cons]]  = consParser.many(literal(" | "))
-  private val ruleParser: Parser[Rule]      = (span(_.isDigit).map(_.toInt) <* literal(": ") <*> orParser).map(Rule(_, _))
+  private val ruleParser: Parser[Rule] = (span(_.isDigit).map(_.toInt) <* literal(": ") <*> orParser).map(Rule(_, _))
 
   def solve(input: String): Int =
     input.split(System.lineSeparator * 2).toList match {
@@ -28,7 +28,7 @@ object Day19 {
                 case i: Int   => toRegex(rulesMap(i))
                 case ch: Char => ch.toString
               }.mkString
-            case rest          =>
+            case rest =>
               rest.map {
                 _.ref.map {
                   case i: Int   => toRegex(rulesMap(i))
@@ -62,12 +62,12 @@ object Day19 {
               (1 to 10).map { i =>
                 s"(?:${toRegex(rulesMap(f1))}){$i}?(?:${toRegex(rulesMap(s1))}){$i}"
               }.mkString("(?:", "|", ")")
-            case simple :: Nil                                                                               =>
+            case simple :: Nil =>
               simple.ref.map {
                 case i: Int   => toRegex(rulesMap(i))
                 case ch: Char => ch.toString
               }.mkString
-            case rest                                                                                        =>
+            case rest =>
               rest.map {
                 _.ref.map {
                   case i: Int   => toRegex(rulesMap(i))

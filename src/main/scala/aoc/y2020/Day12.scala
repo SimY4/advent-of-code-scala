@@ -28,17 +28,17 @@ object Day12 {
 
   def solve(input: String): Long = {
     val (pos, _) = input.linesIterator.map(parseLine).foldLeft(Coord(0L, 0L) -> Right) {
-      case ((pos, d), N(steps))  => List.fill(steps)(Up).foldLeft(pos)(_ + _.direction)    -> d
-      case ((pos, d), S(steps))  => List.fill(steps)(Down).foldLeft(pos)(_ + _.direction)  -> d
-      case ((pos, d), E(steps))  => List.fill(steps)(Right).foldLeft(pos)(_ + _.direction) -> d
-      case ((pos, d), W(steps))  => List.fill(steps)(Left).foldLeft(pos)(_ + _.direction)  -> d
+      case ((pos, d), N(steps)) => List.fill(steps)(Up).foldLeft(pos)(_ + _.direction)    -> d
+      case ((pos, d), S(steps)) => List.fill(steps)(Down).foldLeft(pos)(_ + _.direction)  -> d
+      case ((pos, d), E(steps)) => List.fill(steps)(Right).foldLeft(pos)(_ + _.direction) -> d
+      case ((pos, d), W(steps)) => List.fill(steps)(Left).foldLeft(pos)(_ + _.direction)  -> d
       case ((pos, d), L(degree)) =>
         val directions = Direction.hvOnly.reverse
         pos -> directions(math.abs(directions.indexOf(d) + degree / 90) % directions.size)
       case ((pos, d), R(degree)) =>
         val directions = Direction.hvOnly
         pos -> directions((directions.indexOf(d) + degree / 90) % directions.size)
-      case ((pos, d), F(steps))  => List.fill(steps)(d).foldLeft(pos)(_ + _.direction)     -> d
+      case ((pos, d), F(steps)) => List.fill(steps)(d).foldLeft(pos)(_ + _.direction) -> d
     }
     math.abs(pos.x) + math.abs(pos.y)
   }

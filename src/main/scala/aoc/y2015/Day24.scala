@@ -2,7 +2,7 @@ package aoc.y2015
 
 object Day24 {
   def solve(input: String, nGroups: Int = 3): Long = {
-    val weights   = input.linesIterator
+    val weights = input.linesIterator
       .map(_.toInt)
       .toList
     val maxWeight = weights.sum / nGroups
@@ -10,7 +10,7 @@ object Day24 {
     def groups: Seq[List[Int]] = {
       val tooSmall =
         input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
-      val tooBig   =
+      val tooBig =
         input.linesIterator.map(_.toInt).toList.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toList
       for
         i     <- tooBig.size until tooSmall.size

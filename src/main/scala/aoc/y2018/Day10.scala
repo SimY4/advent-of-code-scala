@@ -41,7 +41,7 @@ object Day10 {
       val nextPoints = points.map { point =>
         point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
       }
-      val nextArea   = Area(nextPoints).area
+      val nextArea = Area(nextPoints).area
       if area > nextArea then solve0(nextPoints, time + 1, nextArea)
       else println(s"time: $time, area:\n${show(points)}")
     }

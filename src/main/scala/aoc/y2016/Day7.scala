@@ -12,7 +12,7 @@ object Day7 {
 
   def solve(input: Iterable[String]): Int =
     (for
-      line    <- input
+      line <- input
       hypernet = line.split("\\[[^\\]]+]")
       tls      = line.substring(line.indexOf('[') + 1, line.lastIndexOf(']')).split("][^\\[]+\\[")
       if hypernet.exists(_.toSeq.sliding(4).exists(abba))
@@ -21,7 +21,7 @@ object Day7 {
 
   def solve2(input: Iterable[String]): Int =
     (for
-      line    <- input.view
+      line <- input.view
       hypernet = line.split("\\[[^\\]]+]")
       tls      = line.substring(line.indexOf('[') + 1, line.lastIndexOf(']')).split("][^\\[]+\\[")
       if (
@@ -29,7 +29,7 @@ object Day7 {
           seg <- hypernet
           aba <- seg.toSeq.sliding(3)
           if abba(aba)
-          _    = println(s"$aba -> ${bab(aba)}")
+          _ = println(s"$aba -> ${bab(aba)}")
         yield bab(aba)
       ).exists(bab => tls.exists(_.toSeq.sliding(3).exists(_ == bab)))
     yield ()).size

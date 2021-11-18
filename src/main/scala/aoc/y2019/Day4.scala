@@ -17,7 +17,7 @@ object Day4 {
   def solve(input: String): Int = {
     val range = input.split("-").map(_.toInt)
     (for
-      pass      <- range(0) to range(1)
+      pass <- range(0) to range(1)
       passDigits = pass.digits
       if passDigits.sliding(2, 1).exists(pair => pair.head == pair.tail.head)
       if passDigits.sliding(2, 1).forall(pair => pair.head <= pair.tail.head)
@@ -27,7 +27,7 @@ object Day4 {
   def solve2(input: String): Int = {
     val range = input.split("-").map(_.toInt)
     (for
-      pass      <- range(0) to range(1)
+      pass <- range(0) to range(1)
       passDigits = pass.digits
       if passDigits
         .foldRight(Nil: List[(Int, Int)]) { (digit, acc) =>

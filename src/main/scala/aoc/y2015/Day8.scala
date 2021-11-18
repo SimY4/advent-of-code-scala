@@ -20,7 +20,7 @@ object Day8 {
 
   def solve(input: String): Int =
     (for
-      line         <- input.linesIterator
+      line <- input.linesIterator
       totalStr      = countEscaping(str = line.substring(1, line.length - 1))
       totalInMemory = line.length
     yield (totalStr, totalInMemory))
@@ -28,7 +28,7 @@ object Day8 {
 
   def solve2(input: String): Int =
     (for
-      line          <- input.linesIterator
+      line <- input.linesIterator
       totalUnescaped = countUnescaping(str = line)
       totalInMemory  = line.length
     yield (totalUnescaped, totalInMemory))

@@ -15,7 +15,7 @@ object Day6 {
         val memoryBankBlock  = memoryBanks(maxMemoryBankIdx)
 
         val newMemoryBank = (for
-          i  <- 1 to memoryBankBlock
+          i <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
         yield pos)
           .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>

@@ -19,7 +19,7 @@ object Day3 {
   def solve2(input: Int): Option[Int] = {
     def indexes(x: Long): Seq[Coord] = x match {
       case 0L => Seq(Coord(0, 0))
-      case n  =>
+      case n =>
         (-n + 1 to n).map(Coord(n, _)) ++
           ((n - 1) to (-n, -1)).map(Coord(_, n)) ++
           ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++
@@ -31,7 +31,7 @@ object Day3 {
       .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) =>
         val res = (for
           neighbour <- coord.neighbours()
-          v          = acc.getOrElse(neighbour, 0)
+          v = acc.getOrElse(neighbour, 0)
         yield v).sum
         acc + (coord -> res)
       }

@@ -28,7 +28,7 @@ extension (bytes: Array[Byte])
   }
 
 final case class Coord(x: Long, y: Long)
-object Coord     {
+object Coord {
   extension (coord: Coord) {
     def +(other: Coord): Coord =
       Coord(coord.x + other.x, coord.y + other.y)

@@ -10,7 +10,7 @@ object Day14 {
 
   private def parseLine(line: String): Ins =
     line match {
-      case s"mask = $mask"        =>
+      case s"mask = $mask" =>
         Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])) {
           case (mask, ('X', i)) => mask
           case (mask, ('0', i)) => mask.updated(i, Some(false))
@@ -23,7 +23,7 @@ object Day14 {
     input.linesIterator
       .map(parseLine)
       .foldLeft(Map.empty[Long, Long] -> Array.empty[Option[Boolean]]) {
-        case ((mem, _), Mask(mask))          => mem -> mask
+        case ((mem, _), Mask(mask)) => mem -> mask
         case ((mem, mask), Mem(addr, value)) =>
           mem.updated(
             addr,
@@ -42,13 +42,13 @@ object Day14 {
     input.linesIterator
       .map(parseLine)
       .foldLeft(Map.empty[String, Long] -> Array.empty[Option[Boolean]]) {
-        case ((mem, _), Mask(mask))          => mem -> mask
+        case ((mem, _), Mask(mask)) => mem -> mask
         case ((mem, mask), Mem(addr, value)) =>
           val binaryAddr = addr.toBinaryString.reverse.padTo(36, '0')
-          val addrs      = mask.zipWithIndex.foldLeft(List(binaryAddr)) {
+          val addrs = mask.zipWithIndex.foldLeft(List(binaryAddr)) {
             case (acc, (Some(false), i)) => acc
             case (acc, (Some(true), i))  => acc.map(_.updated(i, '1'))
-            case (acc, (None, i))        =>
+            case (acc, (None, i)) =>
               acc.flatMap(mask =>
                 List(
                   mask.updated(i, '1'),

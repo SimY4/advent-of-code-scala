@@ -12,12 +12,12 @@ object Day2 {
 
   def solve2(input: String): String =
     (for
-      line1  <- input.linesIterator
-      line2  <- input.linesIterator
+      line1 <- input.linesIterator
+      line2 <- input.linesIterator
       if line1 < line2
       indexes = line1.zip(line2).zipWithIndex.collect { case ((l, r), i) if l != r => i }
       if indexes.size == 1
-      index  <- indexes.headOption
+      index <- indexes.headOption
     yield (line1.substring(0, index) + line1.substring(index + 1))).toList.head
 
   val input = """uqcipadzntnheslgvjjozmkfyr

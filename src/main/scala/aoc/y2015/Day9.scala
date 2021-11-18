@@ -11,10 +11,10 @@ object Day9 {
     def expandPath(path: List[Route], rest: Map[String, Seq[Route]]): Iterable[List[Route]] =
       (for
         nextRoutes <- rest.get(path.head.to)
-        filtered    = nextRoutes.filter(nextRoute => path.forall(_.from != nextRoute.to))
+        filtered = nextRoutes.filter(nextRoute => path.forall(_.from != nextRoute.to))
         if filtered.nonEmpty
       yield filtered) match {
-        case None             => path :: Nil
+        case None => path :: Nil
         case Some(nextRoutes) =>
           (for
             nextRoute <- nextRoutes.par

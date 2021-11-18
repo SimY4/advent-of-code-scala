@@ -5,14 +5,14 @@ object Day3 {
   private def wire(line: String): List[Coord] =
     (for
       instruction <- line.split(",").toList
-      (d, m)       = instruction.splitAt(1)
-      coord       <- List.fill(m.toInt) {
-                       d match
-                         case "R" => Coord(1L, 0L)
-                         case "U" => Coord(0L, -1L)
-                         case "L" => Coord(-1L, 0L)
-                         case "D" => Coord(0L, 1L)
-                     }
+      (d, m) = instruction.splitAt(1)
+      coord <- List.fill(m.toInt) {
+        d match
+          case "R" => Coord(1L, 0L)
+          case "U" => Coord(0L, -1L)
+          case "L" => Coord(-1L, 0L)
+          case "D" => Coord(0L, 1L)
+      }
     yield coord)
       .scanLeft(Coord(0, 0))(_ + _)
 

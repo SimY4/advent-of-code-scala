@@ -9,7 +9,7 @@ object Day19 {
       .takeWhile(_.nonEmpty)
       .map { case replacementsRegex(from, to) => from -> to }
       .toList
-    val molecule     = input.linesIterator.foldLeft(null: String)((acc, line) => line)
+    val molecule = input.linesIterator.foldLeft(null: String)((acc, line) => line)
     Input(replacements, molecule)
   }
 

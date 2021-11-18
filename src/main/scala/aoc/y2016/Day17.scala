@@ -21,7 +21,7 @@ object Day17 {
       val hex = md.digest().printHexBinary
 
       val directions = for
-        d   <- Direction.hvOnly
+        d <- Direction.hvOnly
         next = current + d.direction
         if 0 <= next.x && next.x <= 3 && 0 <= next.y && next.y <= 3
         if "BCDEF".toSet.contains(d match {

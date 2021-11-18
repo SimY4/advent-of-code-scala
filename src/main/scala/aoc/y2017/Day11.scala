@@ -29,7 +29,7 @@ object Day11 {
   }
 
   private def optimise(path: Seq[Direction], max: Coord = Coord(0, 0)): (Long, Long) = {
-    val start      = Coord(0, 0)
+    val start = Coord(0, 0)
     val (end, max) = path.foldLeft((start, 0L)) { case ((current, mx), direction) =>
       val next         = track(current, direction)
       val nextDistance = next.distance
@@ -42,15 +42,15 @@ object Day11 {
 
   println(for
     (input, res) <- Map(
-                      "ne,ne,ne"       -> 3,
-                      "ne,ne,sw,sw"    -> 0,
-                      "ne,ne,s,s"      -> 2,
-                      "se,sw,se,sw,sw" -> 3
-                    )
-    parsed        = parse(input)
-    r @ (min, _)  = optimise(parsed)
-    _             = println(r)
-    _             = println(min == res)
+      "ne,ne,ne"       -> 3,
+      "ne,ne,sw,sw"    -> 0,
+      "ne,ne,s,s"      -> 2,
+      "se,sw,se,sw,sw" -> 3
+    )
+    parsed       = parse(input)
+    r @ (min, _) = optimise(parsed)
+    _            = println(r)
+    _            = println(min == res)
   yield r)
 
 }

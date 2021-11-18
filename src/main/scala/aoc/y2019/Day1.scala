@@ -6,13 +6,13 @@ object Day1 {
   def solve(input: String): Long =
     (for
       line <- input.linesIterator
-      d     = line.toLong
+      d = line.toLong
     yield math.floor(d.toDouble / 3).toLong - 2).sum
 
   def solve2(input: String): Long =
     (for
       line <- input.linesIterator
-      d     = line.toLong
+      d = line.toLong
     yield LazyList
       .iterate(d)(d0 => math.floor(d0.toDouble / 3).toLong - 2)
       .drop(1)

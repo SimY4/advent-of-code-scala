@@ -12,7 +12,7 @@ object Day9 {
     LazyList
       .iterate(ProgramState(0, opCodes, 0, inputs, None)) {
         case state @ ProgramState(pointer, opCodes, relativeBase, inputs, _) =>
-          val instruction                  = opCodes(pointer)
+          val instruction = opCodes(pointer)
           val (op, param1, param2, param3) =
             (instruction % 100, instruction / 100 % 10, instruction / 1000 % 10, instruction / 10000 % 10)
 
@@ -23,17 +23,17 @@ object Day9 {
               case 2L      => relativeBase + arg
             }
           }
-          def getValue(param: Long, i: Int): Long  =
+          def getValue(param: Long, i: Int): Long =
             param match {
               case 1L => opCodes(pointer + i)
               case _  => opCodes(getPointer(param, i))
             }
-          def xP                                   = getPointer(param1, 1)
-          def xV                                   = getValue(param1, 1)
-          def yP                                   = getPointer(param2, 2)
-          def yV                                   = getValue(param2, 2)
-          def zP                                   = getPointer(param3, 3)
-          def zV                                   = getValue(param3, 3)
+          def xP = getPointer(param1, 1)
+          def xV = getValue(param1, 1)
+          def yP = getPointer(param2, 2)
+          def yV = getValue(param2, 2)
+          def zP = getPointer(param3, 3)
+          def zV = getValue(param3, 3)
 
           op match {
             case 1L  => state.copy(pointer + 4, opCodes.updated(zP, xV + yV), output = None)

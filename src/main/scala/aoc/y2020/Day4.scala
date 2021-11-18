@@ -28,7 +28,7 @@ object Day4 {
 
   def solve(input: String): Int =
     (for
-      raw     <- input.split(System.lineSeparator * 2).toSeq
+      raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).map(passportField).toSet
       if passport.count {
         case CountryId => false
@@ -38,23 +38,23 @@ object Day4 {
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
     field.split(':').toList match {
-      case "byr" :: value :: Nil        =>
+      case "byr" :: value :: Nil =>
         value.toIntOption
           .filter(y => 1920 <= y && y <= 2002)
           .map(BirthYear(_))
-      case "iyr" :: value :: Nil        =>
+      case "iyr" :: value :: Nil =>
         value.toIntOption
           .filter(y => 2010 <= y && y <= 2020)
           .map(IssueYear(_))
-      case "eyr" :: value :: Nil        =>
+      case "eyr" :: value :: Nil =>
         value.toIntOption
           .filter(y => 2020 <= y && y <= 2030)
           .map(ExpirationYear(_))
-      case "hgt" :: s"${hgt}cm" :: Nil  =>
+      case "hgt" :: s"${hgt}cm" :: Nil =>
         hgt.toIntOption
           .filter(y => 150 <= y && y <= 193)
           .map(Height(_, "cm"))
-      case "hgt" :: s"${hgt}in" :: Nil  =>
+      case "hgt" :: s"${hgt}in" :: Nil =>
         hgt.toIntOption
           .filter(y => 59 <= y && y <= 76)
           .map(Height(_, "in"))
@@ -67,7 +67,7 @@ object Day4 {
 
   def solve2(input: String): Int =
     (for
-      raw     <- input.split(System.lineSeparator * 2).toSeq
+      raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).flatMap(passportFieldStrict).toSet
       if passport.count {
         case CountryId => false

@@ -19,7 +19,7 @@ object Day5 {
         case Some(hop) =>
           val offset = if hop >= 3 then hop - 1 else hop + 1
           countHops(count + 1, list.updated(index, offset), index + hop)
-        case None      => count
+        case None => count
       }
 
     countHops(0, input.linesIterator.map(_.toInt).toList, 0)
