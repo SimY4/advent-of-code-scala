@@ -11,10 +11,12 @@ lazy val root = project
       "org.scalacheck"         %% "scalacheck"                 % "1.15.4" % Test
     ),
     scalacOptions ++= Seq(
-      "-release",
+      "-release", 
       "11",
       "-encoding",
       "UTF-8",
+      "-explain",
+      "-explain-types",
       "-feature",
       "-unchecked",
       "-deprecation",
@@ -24,6 +26,6 @@ lazy val root = project
     )
   )
 
-console / initialCommands := "import aoc.y2015.Day19._"
+console / initialCommands := "import aoc.y2020.Day20.*"
 
 addCommandAlias("fmt", "; compile:scalafmt; test:scalafmt; scalafmtSbt")
