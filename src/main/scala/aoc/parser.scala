@@ -23,6 +23,13 @@ private object Parser:
 
   val any: Parser[Char] = { input => input.headOption.map((_, input.tail)) }
 
+  def not(first: Char, rest: Char*): Parser[Char] = { input =>
+    for
+      ch <- input.headOption
+      if first != ch && !rest.contains(ch)
+    yield (ch, input.tail)
+  }
+
   def nothing[A](empty: A): Parser[A] = Some(empty, _)
 
   val eof: Parser[Unit] = { input => Option.when(input.isEmpty)(((), input)) }
