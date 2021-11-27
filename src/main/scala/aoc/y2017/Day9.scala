@@ -2,31 +2,31 @@ package aoc
 package y2017
 
 object Day9:
-  private case class Group(groups: List[Garbage Either Group])
+  private case class Group(groups: List[Garbage | Group])
   private case class Garbage(value: String)
 
-  private def score(acc: Coord, g: Garbage Either Group): Coord = g match
-    case Right(Group(groupsOrGarbage)) =>
+  private def score(acc: Coord, g: Garbage | Group): Coord = g match
+    case Group(groupsOrGarbage) =>
       val next = Coord(acc.x + 1, acc.y)
       groupsOrGarbage.foldLeft(next) { (a, gg) =>
         a + score(Coord(next.x, 0), gg)
       }
-    case Left(Garbage(garbage)) => Coord(0, (acc.y + garbage.length))
+    case Garbage(garbage) => Coord(0, (acc.y + garbage.length))
 
   import Parser.*
 
   private lazy val groupParser: Parser[Group] =
     char('{') *> groupOrGarbageParser.many(char(',')).map(Group(_)) <* char('}')
-  private lazy val groupOrGarbageParser: Parser[Garbage Either Group] =
-    groupParser.map(Right(_)) <|> garbageParser.map(Left(_))
+  private lazy val groupOrGarbageParser: Parser[Garbage | Group] =
+    groupParser <|> garbageParser
   private lazy val garbageParser: Parser[Garbage] =
-    char('<') *> ((char('!') *> any).as(None)
+    char('<') *> (char('!') *> any.as(None)
       <|> not('>').map(Some(_))).many().map(cs => Garbage(cs.flatten.mkString))
       <* char('>')
 
-  private lazy val inputParser: Parser[Garbage Either Group] = groupOrGarbageParser <* eof
+  private lazy val inputParser: Parser[Garbage | Group] = groupOrGarbageParser <* eof
 
-  private def parseInput(input: String): Garbage Either Group =
+  private def parseInput(input: String): Garbage | Group =
     inputParser.run(input)
 
   def solve(input: String): Long =
