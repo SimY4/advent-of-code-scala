@@ -1,15 +1,14 @@
 package aoc.y2015
 
-object Day11 {
+object Day11:
   private val forbidden = Set('i', 'o', 'l')
 
   extension (s: List[Char])
     private def increment: List[Char] =
-      s.reverse match {
+      s.reverse match
         case 'z' :: tail => tail.reverse.increment :+ 'a'
         case x :: tail   => ((x + 1).toChar :: tail).reverse
         case Nil         => 'a' :: Nil
-      }
 
   private def meetRequirements(pass: List[Char]): Boolean =
     (for
@@ -43,4 +42,3 @@ object Day11 {
       .mkString
 
   val input = "hxbxwxba"
-}

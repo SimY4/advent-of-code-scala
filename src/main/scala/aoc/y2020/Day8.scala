@@ -2,37 +2,33 @@ package aoc.y2020
 
 import scala.annotation.tailrec
 
-object Day8 {
-  private enum Ins {
+object Day8:
+  private enum Ins:
     case Acc(acc: Int, idx: Int)
     case Jmp(jmp: Int, idx: Int)
     case Nop(nop: Int, idx: Int)
-  }
 
   import Ins.*
 
   private def parseLine(line: String, idx: Int): Ins =
-    line match {
+    line match
       case s"acc $ins" => Acc(ins.toInt, idx)
       case s"jmp $ins" => Jmp(ins.toInt, idx)
       case s"nop $nop" => Nop(nop.toInt, idx)
-    }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
 
     @tailrec def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int =
-      instructions.lift(cur) match {
+      instructions.lift(cur) match
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(cur + jmp, visited + i, state)
         case Some(i @ Nop(_, _)) if !visited.contains(i)   => loop(cur + 1, visited + i, state)
         case _                                             => state
-      }
 
     loop(0)
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
     val jumpAndNops = instructions.collect {
       case j: Jmp => j
@@ -45,13 +41,12 @@ object Day8 {
       visited: Set[Ins] = Set.empty,
       state: Int = 0
     ): Option[Int] =
-      instructions.lift(cur) match {
+      instructions.lift(cur) match
         case Some(i @ Acc(acc, _)) if !visited.contains(i) => loop(instructions, cur + 1, visited + i, state + acc)
         case Some(i @ Jmp(jmp, _)) if !visited.contains(i) => loop(instructions, cur + jmp, visited + i, state)
         case Some(i @ Nop(_, _)) if !visited.contains(i)   => loop(instructions, cur + 1, visited + i, state)
         case _ if cur >= (instructions.size - 1)           => Some(state)
         case _                                             => None
-      }
 
     jumpAndNops.map {
       case Jmp(jmp, i) => instructions.updated(i, Nop(jmp, i))
@@ -59,7 +54,6 @@ object Day8 {
     }
       .flatMap(loop(_))
       .head
-  }
 
   val input = """jmp +254
                 |jmp +1
@@ -662,4 +656,3 @@ object Day8 {
                 |acc +23
                 |acc +43
                 |jmp +1""".stripMargin
-}

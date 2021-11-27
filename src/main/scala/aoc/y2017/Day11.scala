@@ -3,10 +3,9 @@ package y2017
 
 import scala.language.implicitConversions
 
-object Day11 {
-  private enum Direction {
+object Day11:
+  private enum Direction:
     case N, NE, SE, S, SW, NW
-  }
 
   import Direction.*
 
@@ -19,16 +18,15 @@ object Day11 {
     case "nw" => NW
   }
 
-  private def track(current: Coord, direction: Direction): Coord = direction match {
+  private def track(current: Coord, direction: Direction): Coord = direction match
     case N  => current.copy(x = current.x + 1)
     case NE => current.copy(current.x + 1, current.y + 1)
     case SE => current.copy(y = current.y + 1)
     case S  => current.copy(x = current.x - 1)
     case SW => current.copy(current.x - 1, current.y - 1)
     case NW => current.copy(y = current.y - 1)
-  }
 
-  private def optimise(path: Seq[Direction], max: Coord = Coord(0, 0)): (Long, Long) = {
+  private def optimise(path: Seq[Direction], max: Coord = Coord(0, 0)): (Long, Long) =
     val start = Coord(0, 0)
     val (end, max) = path.foldLeft((start, 0L)) { case ((current, mx), direction) =>
       val next         = track(current, direction)
@@ -38,7 +36,6 @@ object Day11 {
     }
     println(end)
     (end.distance, max)
-  }
 
   println(for
     (input, res) <- Map(
@@ -53,4 +50,3 @@ object Day11 {
     _            = println(min == res)
   yield r)
 
-}

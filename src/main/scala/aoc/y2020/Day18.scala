@@ -1,15 +1,14 @@
 package aoc
 package y2020
 
-object Day18 {
+object Day18:
   import Parser.{ given, * }
 
-  private enum Expr {
+  private enum Expr:
     case Digit(d: Int)
     case Sum(l: Expr, r: Expr)
     case Prod(l: Expr, r: Expr)
-  }
-  private object Expr {
+  private object Expr:
     private val digitParser: Parser[Digit] = span(_.isDigit).map(i => Digit(i.toInt))
 
     private lazy val bracketParser1: Parser[Expr] = char(')') *> parser1 <* char('(')
@@ -29,16 +28,14 @@ object Day18 {
       case Nil     => Digit(0)
     }
     lazy val parser2: Parser[Expr] = prodParser2
-  }
 
   import Expr.*
 
   private def eval(expr: Expr): Long =
-    expr match {
+    expr match
       case Digit(d)   => d.toLong
       case Sum(l, r)  => eval(l) + eval(r)
       case Prod(l, r) => eval(l) * eval(r)
-    }
 
   def solve(input: String): Long =
     input.linesIterator
@@ -429,4 +426,3 @@ object Day18 {
       |(9 * (7 * 4 + 6) * 8 * (7 * 4 + 2 + 3 * 6)) * ((8 * 6) * 5) * (7 + 5 * 5 * (4 + 7) * 8 * 6) * 8
       |4 + 7 * 4 + ((2 + 2 * 2 * 4 + 2 + 9) + 7 + (9 * 5 + 3)) * 9 + (7 * 6 * 3 * 3)
       |5 + 4 * (5 * (7 + 2 * 6 + 2 + 5 * 8) + 2)""".stripMargin
-}

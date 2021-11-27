@@ -4,7 +4,7 @@ package y2015
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
-object Day4 {
+object Day4:
   private val md = MessageDigest.getInstance("MD5")
 
   def solve(input: String, prefix: String = "00000"): Option[Int] = LazyList.from(1).find { i =>
@@ -14,4 +14,3 @@ object Day4 {
   }
 
   def solve2(input: String): Option[Int] = solve(input, "000000")
-}

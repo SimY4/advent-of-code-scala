@@ -1,26 +1,25 @@
 package aoc.y2015
 
-object Day9 {
+object Day9:
   import scala.collection.parallel.CollectionConverters.*
 
   final private case class Route(from: String, to: String, distance: Int)
 
   private val linePattern = "(\\w+) to (\\w+) = (\\d+)".r
 
-  private def paths(input: String): Iterable[List[Route]] = {
+  private def paths(input: String): Iterable[List[Route]] =
     def expandPath(path: List[Route], rest: Map[String, Seq[Route]]): Iterable[List[Route]] =
       (for
         nextRoutes <- rest.get(path.head.to)
         filtered = nextRoutes.filter(nextRoute => path.forall(_.from != nextRoute.to))
         if filtered.nonEmpty
-      yield filtered) match {
+      yield filtered) match
         case None => path :: Nil
         case Some(nextRoutes) =>
           (for
             nextRoute <- nextRoutes.par
             nextPath  <- expandPath(nextRoute :: path, rest - path.head.to)
           yield nextPath).seq
-      }
 
     val routes = (for
       case linePattern(from, to, distance) <- input.linesIterator.toSeq
@@ -33,7 +32,6 @@ object Day9 {
       path         <- expandPath(initialRoute :: Nil, routes - initialRoute.from)
       if path.size >= ((routes.size / 2) - 1)
     yield path).seq
-  }
 
   def solve(input: String): Int =
     paths(input).map(_.map(_.distance).sum).min
@@ -69,4 +67,3 @@ object Day9 {
                 |Straylight to Tristram = 27
                 |Straylight to Arbre = 81
                 |Tristram to Arbre = 90""".stripMargin
-}

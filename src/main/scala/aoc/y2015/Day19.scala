@@ -1,20 +1,19 @@
 package aoc.y2015
 
-object Day19 {
+object Day19:
   private val replacementsRegex = "(\\w+) => (\\w+)".r
   final private case class Input(replacements: List[(String, String)], molecule: String)
 
-  private def parseInput(input: String): Input = {
+  private def parseInput(input: String): Input =
     val replacements = input.linesIterator
       .takeWhile(_.nonEmpty)
       .map { case replacementsRegex(from, to) => from -> to }
       .toList
     val molecule = input.linesIterator.foldLeft(null: String)((acc, line) => line)
     Input(replacements, molecule)
-  }
 
   extension (replacement: (String, String))
-    private def scanReplace(input: String): LazyList[String] = {
+    private def scanReplace(input: String): LazyList[String] =
       val (from, to) = replacement
       val idx        = input.indexOf(from, 0)
       if idx < 0 then LazyList.empty
@@ -23,17 +22,15 @@ object Day19 {
           .iterate(idx)(i => input.indexOf(from, i + 1))
           .takeWhile(0 <= _)
           .map(idx => new StringBuilder(input).replace(idx, idx + from.length, to).toString)
-    }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val Input(replacements, molecule) = parseInput(input)
     replacements
       .flatMap(_.scanReplace(molecule).map(_.hashCode))
       .distinct
       .size
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val Input(replacements, medicine) = parseInput(input)
     LazyList
       .iterate(List(medicine)) { molecules =>
@@ -43,7 +40,6 @@ object Day19 {
         yield nextMolecule).distinct
       }
       .indexWhere(_.exists(_ == "e"))
-  }
 
   val input =
     """Al => ThF
@@ -91,4 +87,3 @@ object Day19 {
       |e => OMg
       |
       |CRnSiRnCaPTiMgYCaPTiRnFArSiThFArCaSiThSiThPBCaCaSiRnSiRnTiTiMgArPBCaPMgYPTiRnFArFArCaSiRnBPMgArPRnCaPTiRnFArCaSiThCaCaFArPBCaCaPTiTiRnFArCaSiRnSiAlYSiThRnFArArCaSiRnBFArCaCaSiRnSiThCaCaCaFYCaPTiBCaSiThCaSiThPMgArSiRnCaPBFYCaCaFArCaCaCaCaSiThCaSiRnPRnFArPBSiThPRnFArSiRnMgArCaFYFArCaSiRnSiAlArTiTiTiTiTiTiTiRnPMgArPTiTiTiBSiRnSiAlArTiTiRnPMgArCaFYBPBPTiRnSiRnMgArSiThCaFArCaSiThFArPRnFArCaSiRnTiBSiThSiRnSiAlYCaFArPRnFArSiThCaFArCaCaSiThCaCaCaSiRnPRnCaFArFYPMgArCaPBCaPBSiRnFYPBCaFArCaSiAl""".stripMargin
-}

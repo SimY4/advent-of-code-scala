@@ -1,14 +1,13 @@
 package aoc.y2019
 
-object Day10 {
-  def solve(input: String): Int = {
+object Day10:
+  def solve(input: String): Int =
     val layer = input.toSeq
       .sliding(25 * 6, 25 * 6)
       .minBy(_.filter('0' == _).length)
     layer.filter('1' == _).length * layer.filter('2' == _).length
-  }
 
-  def solve2(input: String): Unit = {
+  def solve2(input: String): Unit =
     val layers = input.toList.sliding(25 * 6, 25 * 6).map(_.mkString)
 
     println(
@@ -29,7 +28,6 @@ object Day10 {
         }
         .mkString("\n")
     )
-  }
 
   val input = """#.#....#.#......#.....#......####.
                 |#....#....##...#..#..##....#.##..#
@@ -65,4 +63,3 @@ object Day10 {
                 |....##......#.#..#....###....##...
                 |......#..#.#####.#................
                 |.#....#.#..#.###....##.......##.#.""".stripMargin
-}

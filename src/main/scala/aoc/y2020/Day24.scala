@@ -3,9 +3,9 @@ package y2020
 
 import scala.annotation.tailrec
 
-object Day24 {
+object Day24:
   @tailrec private def navigate(line: String, acc: Coord = Coord(0L, 0L)): Coord =
-    line match {
+    line match
       case _ if line.startsWith("e") =>
         navigate(line.substring(1), acc + Direction.Right.direction + Direction.Right.direction)
       case _ if line.startsWith("se") => navigate(line.substring(2), acc + Direction.DownRight.direction)
@@ -15,7 +15,6 @@ object Day24 {
       case _ if line.startsWith("ne") => navigate(line.substring(2), acc + Direction.UpRight.direction)
       case _ if line.startsWith("nw") => navigate(line.substring(2), acc + Direction.UpLeft.direction)
       case ""                         => acc
-    }
 
   def solve(input: String): Int =
     input.linesIterator
@@ -35,7 +34,7 @@ object Day24 {
         c + Direction.UpLeft.direction
       )
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val floor = input.linesIterator
       .map(navigate(_))
       .toList
@@ -57,7 +56,6 @@ object Day24 {
           .groupMapReduce(_._1)(_._2)(_ || _)
       }
       .count((_, v) => v)
-  }
 
   val input = """seesweseseeeeeeeeeenweeee
                 |wswneseseseswseswseseseseswsesesesesese
@@ -551,4 +549,3 @@ object Day24 {
                 |sewnenenenwnenenenenenenenenenenesenwnene
                 |swnweswnwnwsenwnenenwswnwswweeeswenw
                 |wnenenwneenwseswnwwswnwswwwswwnwne""".stripMargin
-}

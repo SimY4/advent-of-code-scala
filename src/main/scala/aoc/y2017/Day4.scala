@@ -1,6 +1,6 @@
 package aoc.y2017
 
-object Day4 {
+object Day4:
   def solve(input: String): Int = (for
     passphrase <- input.linesIterator
     arr = passphrase.split("\\s+")
@@ -527,4 +527,3 @@ object Day4 {
                 |maudjy okgjga uadjmy dzfrk omd
                 |azz ajdcqkd bcafn zaz dcjaqdk gylyzo
                 |xzvfbf fopmfxu mvftgr mfupoxf coyhof talcc vpkslo""".stripMargin
-}

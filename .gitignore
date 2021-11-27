@@ -4,5 +4,3 @@
 .metals/
 .vscode/
 target/
-.dotty*
-*.log

@@ -1,17 +1,16 @@
 package aoc.y2016
 
-object Day21 {
-  private enum Operation {
+object Day21:
+  private enum Operation:
     case SwapPos(x: Int, y: Int)
     case SwapLetter(x: Char, y: Char)
     case RotatePos(right: Boolean, x: Int)
     case RotateLetter(x: Char)
     case Reverse(x: Int, y: Int)
     case Move(x: Int, y: Int)
-  }
   import Operation.*
 
-  private def parseLine(line: String): Operation = line match {
+  private def parseLine(line: String): Operation = line match
     case s"swap position $x with position $y"     => SwapPos(x.toInt, y.toInt)
     case s"swap letter $x with letter $y"         => SwapLetter(x.head, y.head)
     case s"rotate left $x step$_"                 => RotatePos(false, x.toInt)
@@ -19,7 +18,6 @@ object Day21 {
     case s"rotate based on position of letter $x" => RotateLetter(x.head)
     case s"reverse positions $x through $y"       => Reverse(x.toInt, y.toInt)
     case s"move position $x to position $y"       => Move(x.toInt, y.toInt)
-  }
 
   def solve(input: String): String =
     input.linesIterator
@@ -48,7 +46,7 @@ object Day21 {
         case (pwd, RotatePos(true, x))  => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
         case (pwd, RotateLetter(x)) =>
           val i = pwd.indexOf(x)
-          val times = i match {
+          val times = i match
             case 0 | 1 => 1
             case 2     => 6
             case 3     => 2
@@ -56,7 +54,6 @@ object Day21 {
             case 5     => 3
             case 6     => 0
             case 7     => 4
-          }
           (0 until pwd.size).map(i => pwd((i + times) % pwd.size)).mkString
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y))    => pwd.patch(y, Nil, 1).patch(x, Seq(pwd(y)), 0)
@@ -162,4 +159,3 @@ object Day21 {
                 |move position 0 to position 7
                 |move position 1 to position 3
                 |reverse positions 4 through 7""".stripMargin
-}

@@ -1,7 +1,7 @@
 package aoc
 package y2020
 
-object Day19 {
+object Day19:
   final private case class Cons(ref: List[Int | Char])
   final private case class Rule(id: Int, or: List[Cons])
 
@@ -14,7 +14,7 @@ object Day19 {
   private val ruleParser: Parser[Rule] = (span(_.isDigit).map(_.toInt) <* literal(": ") <*> orParser).map(Rule(_, _))
 
   def solve(input: String): Int =
-    input.split(System.lineSeparator * 2).toList match {
+    input.split(System.lineSeparator * 2).toList match
       case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
           .map(ruleParser.run(_))
@@ -22,7 +22,7 @@ object Day19 {
           .toMap
 
         def toRegex(rule: Rule): String =
-          rule.or match {
+          rule.or match
             case simple :: Nil =>
               simple.ref.map {
                 case i: Int   => toRegex(rulesMap(i))
@@ -35,16 +35,14 @@ object Day19 {
                   case ch: Char => ch.toString
                 }.mkString
               }.mkString("(?:", "|", ")")
-          }
 
         val regex = toRegex(rulesMap(0)).r
 
         inputs.linesIterator
           .count(regex.matches)
-    }
 
   def solve2(input: String): Int =
-    input.split(System.lineSeparator * 2).toList match {
+    input.split(System.lineSeparator * 2).toList match
       case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
           .map(ruleParser.run(_))
@@ -54,7 +52,7 @@ object Day19 {
           .updated(11, Rule(11, List(Cons(List(42, 31)), Cons(List(42, 11, 31)))))
 
         def toRegex(rule: Rule): String =
-          rule.or match {
+          rule.or match
             case Cons(List(f1: Int)) :: Cons(List(f2: Int, self: Int)) :: Nil if f1 == f2 && self == rule.id =>
               s"(?:${toRegex(rulesMap(f1))})+"
             case Cons(List(f1: Int, s1: Int)) :: Cons(List(f2: Int, self: Int, s2: Int)) :: Nil
@@ -74,13 +72,11 @@ object Day19 {
                   case ch: Char => ch.toString
                 }.mkString
               }.mkString("(?:", "|", ")")
-          }
 
         val regex = toRegex(rulesMap(0)).r
 
         inputs.linesIterator
           .count(regex.matches)
-    }
 
   val input = """2: 12 16 | 41 26
                 |55: 92 16 | 84 26
@@ -620,4 +616,3 @@ object Day19 {
                 |aaabaaaaaabbaaaabbaabbba
                 |aabaabbababbabbaaabbabbbababbaab
                 |bbbbbaabaaabaaabaabbaabbbbaababa""".stripMargin
-}

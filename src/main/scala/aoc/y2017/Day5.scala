@@ -2,28 +2,24 @@ package aoc.y2017
 
 import scala.annotation.tailrec
 
-object Day5 {
-  def solve(input: String): Int = {
+object Day5:
+  def solve(input: String): Int =
     @tailrec def countHops(count: Int, list: List[Int], index: Int): Int =
-      list.lift(index) match {
+      list.lift(index) match
         case Some(hop) => countHops(count + 1, list.updated(index, hop + 1), index + hop)
         case None      => count
-      }
 
     countHops(0, input.linesIterator.map(_.toInt).toList, 0)
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     @tailrec def countHops(count: Int, list: List[Int], index: Int): Int =
-      list.lift(index) match {
+      list.lift(index) match
         case Some(hop) =>
           val offset = if hop >= 3 then hop - 1 else hop + 1
           countHops(count + 1, list.updated(index, offset), index + hop)
         case None => count
-      }
 
     countHops(0, input.linesIterator.map(_.toInt).toList, 0)
-  }
 
   val input = """0
                 |1
@@ -1069,4 +1065,3 @@ object Day5 {
                 |-924
                 |-924
                 |-365""".stripMargin
-}

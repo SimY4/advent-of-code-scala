@@ -1,7 +1,7 @@
 package aoc
 package y2015
 
-object Day25 {
+object Day25:
   final private case class Cell(coord: Coord, incRow: Long)
 
   def solve(input: Coord): Option[Long] =
@@ -14,4 +14,3 @@ object Day25 {
       .collectFirst { case (Cell(coord, _), value) if coord == input => value }
 
   val input = Coord(2947L, 3029L)
-}

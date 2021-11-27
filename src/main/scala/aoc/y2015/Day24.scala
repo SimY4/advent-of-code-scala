@@ -1,13 +1,13 @@
 package aoc.y2015
 
-object Day24 {
-  def solve(input: String, nGroups: Int = 3): Long = {
+object Day24:
+  def solve(input: String, nGroups: Int = 3): Long =
     val weights = input.linesIterator
       .map(_.toInt)
       .toList
     val maxWeight = weights.sum / nGroups
 
-    def groups: Seq[List[Int]] = {
+    def groups: Seq[List[Int]] =
       val tooSmall =
         input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
       val tooBig =
@@ -17,7 +17,6 @@ object Day24 {
         group <- weights.combinations(i)
         if group.sum == maxWeight
       yield group
-    }
 
     groups
       .take(1)
@@ -30,7 +29,6 @@ object Day24 {
       ._2
       .map(_.map(_.toLong).product)
       .max
-  }
 
   def solve2(input: String): Long = solve(input, 4)
 
@@ -62,4 +60,3 @@ object Day24 {
                 |107
                 |109
                 |113""".stripMargin
-}

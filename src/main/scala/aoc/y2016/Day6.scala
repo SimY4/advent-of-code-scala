@@ -1,6 +1,6 @@
 package aoc.y2016
 
-object Day6 {
+object Day6:
   def solve(input: String): List[Char] =
     (for
       i <- 0 until input.linesIterator.next.length
@@ -595,4 +595,3 @@ object Day6 {
                 |vejkuvii
                 |uhfrombz
                 |clgrjlys""".stripMargin
-}

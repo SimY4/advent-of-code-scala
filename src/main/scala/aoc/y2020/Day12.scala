@@ -1,8 +1,8 @@
 package aoc
 package y2020
 
-object Day12 {
-  private enum Move {
+object Day12:
+  private enum Move:
     case N(steps: Int)
     case S(steps: Int)
     case E(steps: Int)
@@ -10,13 +10,12 @@ object Day12 {
     case L(degrees: Int)
     case R(degrees: Int)
     case F(steps: Int)
-  }
 
   import Direction.*
   import Move.*
 
   private def parseLine(line: String): Move =
-    line match {
+    line match
       case s"N$steps"   => N(steps.toInt)
       case s"S$steps"   => S(steps.toInt)
       case s"E$steps"   => E(steps.toInt)
@@ -24,9 +23,8 @@ object Day12 {
       case s"L$degrees" => L(degrees.toInt)
       case s"R$degrees" => R(degrees.toInt)
       case s"F$steps"   => F(steps.toInt)
-    }
 
-  def solve(input: String): Long = {
+  def solve(input: String): Long =
     val (pos, _) = input.linesIterator.map(parseLine).foldLeft(Coord(0L, 0L) -> Right) {
       case ((pos, d), N(steps)) => List.fill(steps)(Up).foldLeft(pos)(_ + _.direction)    -> d
       case ((pos, d), S(steps)) => List.fill(steps)(Down).foldLeft(pos)(_ + _.direction)  -> d
@@ -41,9 +39,8 @@ object Day12 {
       case ((pos, d), F(steps)) => List.fill(steps)(d).foldLeft(pos)(_ + _.direction) -> d
     }
     math.abs(pos.x) + math.abs(pos.y)
-  }
 
-  def solve2(input: String): Long = {
+  def solve2(input: String): Long =
     val (pos, _) = input.linesIterator.map(parseLine).foldLeft(Coord(0L, 0L) -> Coord(10L, 1L)) {
       case ((pos, waypoint), N(steps)) => pos -> List.fill(steps)(Up).foldLeft(waypoint)(_ + _.direction)
       case ((pos, waypoint), S(steps)) => pos -> List.fill(steps)(Down).foldLeft(waypoint)(_ + _.direction)
@@ -59,7 +56,6 @@ object Day12 {
         (1 to steps).foldLeft(pos)((acc, _) => Coord(acc.x + waypoint.x, acc.y + waypoint.y)) -> waypoint
     }
     math.abs(pos.x) + math.abs(pos.y)
-  }
 
   val input = """N2
                 |S5
@@ -832,4 +828,3 @@ object Day12 {
                 |N2
                 |E5
                 |F51""".stripMargin
-}

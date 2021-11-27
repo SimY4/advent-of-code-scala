@@ -1,15 +1,14 @@
 package aoc.y2020
 
-object Day14 {
-  private enum Ins {
+object Day14:
+  private enum Ins:
     case Mask(mask: Array[Option[Boolean]])
     case Mem(addr: Long, value: Long)
-  }
 
   import Ins.*
 
   private def parseLine(line: String): Ins =
-    line match {
+    line match
       case s"mask = $mask" =>
         Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])) {
           case (mask, ('X', i)) => mask
@@ -17,7 +16,6 @@ object Day14 {
           case (mask, ('1', i)) => mask.updated(i, Some(true))
         })
       case s"mem[$addr] = $value" => Mem(addr.toLong, value.toLong)
-    }
 
   def solve(input: String): Long =
     input.linesIterator
@@ -636,4 +634,3 @@ object Day14 {
                 |mem[45872] = 5853
                 |mem[45920] = 814440
                 |mem[39231] = 193428""".stripMargin
-}

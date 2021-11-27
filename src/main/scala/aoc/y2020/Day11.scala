@@ -3,11 +3,11 @@ package y2020
 
 import scala.annotation.tailrec
 
-object Day11 {
-  def solve(input: String): Int = {
+object Day11:
+  def solve(input: String): Int =
     val layout = input.linesIterator.map(_.toArray).toArray
 
-    @tailrec def loop(layout: Array[Array[Char]]): Int = {
+    @tailrec def loop(layout: Array[Array[Char]]): Int =
       val newLayout = layout.zipWithIndex.map { (col, y) =>
         col.zipWithIndex.map {
           case ('L', x)
@@ -28,15 +28,13 @@ object Day11 {
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
-    }
 
     loop(layout)
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val layout = input.linesIterator.map(_.toArray).toArray
 
-    @tailrec def loop(layout: Array[Array[Char]]): Int = {
+    @tailrec def loop(layout: Array[Array[Char]]): Int =
       val newLayout = layout.zipWithIndex.map { (col, y) =>
         col.zipWithIndex.map {
           case ('L', x)
@@ -65,10 +63,8 @@ object Day11 {
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
-    }
 
     loop(layout)
-  }
 
   val input =
     """LLLLLLLLL.LLLLLLL.LLLLLLLLLL.LLLLL.LLLLLL.LLLLLLLL.L.LLLLLL..L.LLLLL.LLLLLLLLLL.LLLLLLLLLLL
@@ -161,4 +157,3 @@ object Day11 {
       |LLLLLLLLL.LLLLLLL.LLLLLLLLLLLLLLLLLLLLLLL.LLLLLLLL.LLLLLLLLL.LLLLLLL.LLLLLLLLLLLLLLLLLLLLLL
       |LLLLLLLLL.LLLLLLL.LLLL.LLLLL.LLLLL.LLLLLL.LLLLLLLLLLLLLLLLL..LLLLL.L.LLLLL.LLLLLLLLLLLLLLLL
       |LLLLLLLLLLLLLLLLL.LLLL.LLLLL.LLL.L.LLLLLL.LLLLLLLL...LLLLLLLLLLLLLLL.LLLLL.LLL..LLLL.LLLLLL""".stripMargin
-}

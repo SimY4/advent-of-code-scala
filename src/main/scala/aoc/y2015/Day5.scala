@@ -1,6 +1,6 @@
 package aoc.y2015
 
-object Day5 {
+object Day5:
   private val vowels = "aeiou"
   private val bad    = List("ab", "cd", "pq", "xy")
 
@@ -1019,4 +1019,3 @@ object Day5 {
                 |mfifrjamczjncuym
                 |otmgvsykuuxrluky
                 |oiuroieurpyejuvm""".stripMargin
-}

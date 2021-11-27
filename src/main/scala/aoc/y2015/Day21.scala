@@ -1,11 +1,10 @@
 package aoc.y2015
 
-object Day21 {
-  private enum Item(name: String, cost: Int, damage: Int, armor: Int) {
+object Day21:
+  private enum Item(name: String, cost: Int, damage: Int, armor: Int):
     case Weapon(name: String, cost: Int, damage: Int) extends Item(name, cost, damage, 0)
     case Armor(name: String, cost: Int, armor: Int) extends Item(name, cost, 0, armor)
     case Ring(name: String, cost: Int, damage: Int, armor: Int) extends Item(name, cost, damage, armor)
-  }
 
   final private case class Character(hitPoints: Int, damage: Int, armor: Int)
 
@@ -31,7 +30,7 @@ object Day21 {
   )
 
   extension (p1: Character)
-    private def duel(p2: Character): Boolean = {
+    private def duel(p2: Character): Boolean =
       val p1Damage = math.max(p1.damage - p2.armor, 1)
       val p2Damage = math.max(p2.damage - p1.armor, 1)
 
@@ -43,14 +42,12 @@ object Day21 {
         else (p1.hitPoints / p2Damage) + 1
 
       p1Strikes <= p2Strikes
-    }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val boss = input.linesIterator
       .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match {
+      .toList match
       case hp :: damage :: armor :: Nil => Character(hp, damage, armor)
-    }
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
@@ -66,14 +63,12 @@ object Day21 {
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if char.`duel`(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).min
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val boss = input.linesIterator
       .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match {
+      .toList match
       case hp :: damage :: armor :: Nil => Character(hp, damage, armor)
-    }
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
@@ -89,9 +84,7 @@ object Day21 {
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
       if !char.`duel`(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).max
-  }
 
   val input = """Hit Points: 103
                 |Damage: 9
                 |Armor: 2""".stripMargin
-}

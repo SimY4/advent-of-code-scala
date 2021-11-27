@@ -1,6 +1,6 @@
 package aoc.y2020
 
-object Day6 {
+object Day6:
   def solve(input: String): Int =
     (for
       group <- input.split(System.lineSeparator * 2).toSeq
@@ -2212,4 +2212,3 @@ object Day6 {
                 |dkzgura
                 |zdagrk
                 |gdrakz""".stripMargin
-}

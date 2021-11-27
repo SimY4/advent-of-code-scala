@@ -1,6 +1,6 @@
 package aoc.y2017
 
-object Day2 {
+object Day2:
   def solve(input: String): Int = (for
     line <- input.linesIterator
     arr = "\\d+".r.findAllIn(line).map(_.toInt).toList
@@ -30,4 +30,3 @@ object Day2 {
                 |1240	45	254	1008	1186	306	633	1232	1457	808	248	1166	775	1418	1175	287
                 |851	132	939	1563	539	1351	1147	117	1484	100	123	490	152	798	1476	543
                 |1158	2832	697	113	121	397	1508	118	2181	2122	809	2917	134	2824	3154	2791""".stripMargin
-}

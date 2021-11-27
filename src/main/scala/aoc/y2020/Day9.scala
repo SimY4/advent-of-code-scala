@@ -1,6 +1,6 @@
 package aoc.y2020
 
-object Day9 {
+object Day9:
   def solve(input: String): Long =
     input.linesIterator
       .map(_.toLong)
@@ -1027,4 +1027,3 @@ object Day9 {
                 |96847100796205
                 |102492291737870
                 |103054528613349""".stripMargin
-}

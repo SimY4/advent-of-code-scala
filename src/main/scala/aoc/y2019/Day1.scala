@@ -2,7 +2,7 @@ package aoc.y2019
 
 import scala.annotation.tailrec
 
-object Day1 {
+object Day1:
   def solve(input: String): Long =
     (for
       line <- input.linesIterator
@@ -119,4 +119,3 @@ object Day1 {
                 |88137
                 |57609
                 |54921""".stripMargin
-}

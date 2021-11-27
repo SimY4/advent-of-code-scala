@@ -1,17 +1,17 @@
 package aoc
 package y2018
 
-object Day6 {
+object Day6:
   def coords(input: String): List[Coord] =
     input.linesIterator.map {
       _.split(", ").map(_.toLong).toList match
         case x :: y :: Nil => Coord(x, y)
     }.toList
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val coord = coords(input)
 
-    def closest(c: Coord): String = {
+    def closest(c: Coord): String =
       val dists   = coord.map(_.dist(c))
       val minDist = dists.min
       val indexes = dists.zipWithIndex.filter(_._1 == minDist)
@@ -20,7 +20,6 @@ object Day6 {
         val idx    = indexes.head._2
         val letter = ('a'.toInt + idx).toChar
         s"$letter$idx"
-    }
 
     val minX = coord.map(_.x).min
     val maxX = coord.map(_.x).max
@@ -49,9 +48,8 @@ object Day6 {
     val safe    = freqs -- bndries
 
     safe.map(_._2).max
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val coord = coords(input)
 
     val minX = coord.map(_.x).min
@@ -68,7 +66,6 @@ object Day6 {
     yield c
 
     rect.size
-  }
 
   val input = """1, 1
                 |1, 6
@@ -76,4 +73,3 @@ object Day6 {
                 |3, 4
                 |5, 5
                 |8, 9""".stripMargin
-}

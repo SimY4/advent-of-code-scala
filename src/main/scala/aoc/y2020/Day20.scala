@@ -1,11 +1,13 @@
 package aoc.y2020
 
-object Day20 {
+object Day20:
   private case class Tile(id: Int, tile: Array[Array[Char]])
 
   extension (t: Tile)
     private def borders: List[Array[Char]] =
       List(t.tile.head, t.tile.map(_.last).toArray, t.tile.last.reverse, t.tile.reverse.map(_.head).toArray)
+    private def borderless: Tile =
+      Tile(t.id, t.tile.tail.init.map(_.tail.init))
 
   private def parse(input: String): List[Tile] =
     input
@@ -32,6 +34,25 @@ object Day20 {
     }
 
     corners.map(_.id.toLong).product
+
+  private def parse(tiles: List[Tile]): Vector[Vector[Tile]] =
+    val corner = tiles.find { tile =>
+      tile.borders.count { border =>
+        (for
+          t <- tiles
+          if t.id != tile.id
+          b  <- t.borders
+          b1 <- List(b, b.reverse)
+        yield b1).exists(_ sameElements border)
+      } == 2
+    }
+    ???
+
+  def solve2(input: String): Int =
+    val tiles = parse(input)
+    val image = parse(tiles)
+
+    ???
 
   val input = """TTile 3923:
                 |...##.....
@@ -1760,4 +1781,3 @@ object Day20 {
                 |#...##...#
                 |###.#.#.#.
                 |.##..##...""".stripMargin
-}

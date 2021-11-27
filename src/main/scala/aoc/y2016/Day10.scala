@@ -2,32 +2,29 @@ package aoc.y2016
 
 import scala.annotation.tailrec
 
-object Day10 {
+object Day10:
   private val lineRegex = "bot (\\d+) gives low to (bot|output) (\\d+) and high to (bot|output) (\\d+)".r
 
-  private enum Out {
+  private enum Out:
     case Bot(n: Int)
     case Output(n: Int)
-  }
 
   import Out.*
 
-  private enum Action {
+  private enum Action:
     case SetValue(value: Int, bot: Int)
     case BotGives(bot: Int, low: Out, high: Out)
-  }
 
   import Action.*
 
-  private def parseLine(line: String): Action = line match {
+  private def parseLine(line: String): Action = line match
     case lineRegex(bot, lowBotOut, low, highBotOut, high) =>
       val lowOut  = if "bot" == lowBotOut then Bot(low.toInt) else Output(low.toInt)
       val highOut = if "bot" == highBotOut then Bot(high.toInt) else Output(high.toInt)
       BotGives(bot.toInt, lowOut, highOut)
     case s"value ${value} goes to bot ${bot}" => SetValue(value.toInt, bot.toInt)
-  }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val parsed = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
       case (map, SetValue(value, bot)) =>
@@ -38,7 +35,7 @@ object Day10 {
       case (map, _) => map
     }
 
-    @tailrec def go(botState: Map[Int, List[Int]]): Int = {
+    @tailrec def go(botState: Map[Int, List[Int]]): Int =
       val newBotState = parsed.foldLeft(botState) {
         case (botState, BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           botState
@@ -57,16 +54,13 @@ object Day10 {
       }
       newBotState.collectFirst {
         case (key, value) if value.contains(61) && value.contains(17) => key
-      } match {
+      } match
         case Some(bot) => bot
         case None      => go(newBotState)
-      }
-    }
 
     go(initState)
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val parsed = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
       case (map, SetValue(value, bot)) =>
@@ -77,7 +71,7 @@ object Day10 {
       case (map, _) => map
     }
 
-    @tailrec def go(botState: Map[Int, List[Int]], outState: Map[Int, List[Int]] = Map.empty): Int = {
+    @tailrec def go(botState: Map[Int, List[Int]], outState: Map[Int, List[Int]] = Map.empty): Int =
       val (newBotState, newOutState) = parsed.foldLeft((botState, outState)) {
         case ((botState, outState), BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           (
@@ -114,14 +108,11 @@ object Day10 {
         f <- newOutState.get(0).flatMap(_.headOption)
         s <- newOutState.get(1).flatMap(_.headOption)
         t <- newOutState.get(2).flatMap(_.headOption)
-      yield f * s * t) match {
+      yield f * s * t) match
         case Some(n) => n
         case None    => go(newBotState, newOutState)
-      }
-    }
 
     go(initState)
-  }
 
   val input = """bot 135 gives low to bot 27 and high to bot 166
                 |bot 57 gives low to bot 4 and high to bot 186
@@ -354,4 +345,3 @@ object Day10 {
                 |value 3 goes to bot 67
                 |bot 68 gives low to bot 96 and high to bot 183
                 |bot 111 gives low to bot 125 and high to bot 51""".stripMargin
-}

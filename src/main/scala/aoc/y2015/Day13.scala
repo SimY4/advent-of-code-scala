@@ -1,11 +1,11 @@
 package aoc
 package y2015
 
-object Day13 {
+object Day13:
   private val linePattern =
     "^([A-Z][a-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([A-Z][a-z]+)\\.$".r
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val rels = (for
       case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
@@ -16,9 +16,8 @@ object Day13 {
       .permutations
       .map(_.pairs.map((a, b) => rels((a, b)) + rels((b, a))).sum)
       .max
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val rels = (for
       case linePattern(first, gl, points, second) <- input.linesIterator
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
@@ -30,7 +29,6 @@ object Day13 {
     ("Me" :: guests.toList).permutations
       .map(_.pairs.map((a, b) => relsWithMe((a, b)) + relsWithMe((b, a))).sum)
       .max
-  }
 
   val input = """Alice would lose 57 happiness units by sitting next to Bob.
                 |Alice would lose 62 happiness units by sitting next to Carol.
@@ -88,4 +86,3 @@ object Day13 {
                 |Mallory would gain 22 happiness units by sitting next to Eric.
                 |Mallory would gain 79 happiness units by sitting next to Frank.
                 |Mallory would lose 16 happiness units by sitting next to George.""".stripMargin
-}

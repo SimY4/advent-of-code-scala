@@ -1,8 +1,8 @@
 package aoc.y2020
 
-object Day10 {
+object Day10:
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val adapters = input.linesIterator.map(_.toInt).toList.sorted
 
     val res = adapters
@@ -14,9 +14,8 @@ object Day10 {
       .toMap
 
     (res(1) + 1) * (res(3) + 1)
-  }
 
-  def solve2(input: String): Long = {
+  def solve2(input: String): Long =
     val adapters = input.linesIterator.map(_.toInt).toList.sorted
 
     val arr = Array(1L, 0L, 0L, 0L)
@@ -28,7 +27,6 @@ object Day10 {
       ad
     }
     arr(0)
-  }
 
   val input = """152
                 |18
@@ -135,4 +133,3 @@ object Day10 {
                 |77
                 |65""".stripMargin
 
-}

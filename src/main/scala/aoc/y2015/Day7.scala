@@ -2,32 +2,29 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day7 {
-  private enum Gate {
+object Day7:
+  private enum Gate:
     case Ref(s: String)
     case Value(i: Int)
-  }
 
-  private object Gate {
+  private object Gate:
     def apply(s: String): Gate =
       try Value(s.toInt)
       catch { case _: NumberFormatException => Ref(s) }
-  }
 
   import Gate.*
 
-  private enum Wire {
+  private enum Wire:
     case Identity(g: Gate, to: Ref)
     case Not(e: Gate, to: Ref)
     case And(x: Gate, y: Gate, to: Ref)
     case Or(x: Gate, y: Gate, to: Ref)
     case LShift(p: Gate, shift: Int, to: Ref)
     case RShift(p: Gate, shift: Int, to: Ref)
-  }
 
   import Wire.*
 
-  private def parseLine(line: String): Wire = line match {
+  private def parseLine(line: String): Wire = line match
     case s"$x AND $y -> $to" => And(Gate(x), Gate(y), new Ref(to))
     case s"$x OR $y -> $to"  => Or(Gate(x), Gate(y), new Ref(to))
     case s"$p LSHIFT $num -> $to" if num.matches("\\d+") =>
@@ -37,13 +34,12 @@ object Day7 {
     case s"NOT $e -> $to" =>
       Not(Gate(e), new Ref(to))
     case s"$g -> $to" => Identity(Gate(g), new Ref(to))
-  }
 
   extension (i: Int) private def u: Int = i << 16 >>> 16
 
   @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] =
     if logicGates.isEmpty then signals
-    else {
+    else
       val (newSignals, rest) = logicGates.partitionMap {
         case Not(e @ Ref(_), to) if signals.contains(e) =>
           Left(to -> (~signals(e)).u)
@@ -80,14 +76,12 @@ object Day7 {
         case w => Right(w)
       }
       iterate(signals ++ newSignals, rest)
-    }
 
-  def solve(input: String): Option[Int] = {
+  def solve(input: String): Option[Int] =
     val logicGates = input.linesIterator.map(parseLine).toList
     iterate(Map.empty, logicGates).get(new Ref("a"))
-  }
 
-  def solve2(input: String): Option[Int] = {
+  def solve2(input: String): Option[Int] =
     val logicGates = input.linesIterator.map(parseLine).toList
     val a          = iterate(Map.empty, logicGates)(new Ref("a"))
     iterate(
@@ -97,7 +91,6 @@ object Day7 {
         case _                      => true
       }
     ).get(new Ref("a"))
-  }
 
   val input = """NOT dq -> dr
                 |kg OR kf -> kh
@@ -438,4 +431,3 @@ object Day7 {
                 |gj RSHIFT 3 -> gl
                 |fo RSHIFT 3 -> fq
                 |he RSHIFT 2 -> hf""".stripMargin
-}

@@ -1,9 +1,8 @@
 package aoc.y2015
 
-object Day16 {
-  private enum Dogs {
+object Day16:
+  private enum Dogs:
     case Samoyeds, Pomeranians, Akitas, Vizslas
-  }
 
   final private case class AuntSue(
     children: Option[Int] = None,
@@ -37,7 +36,7 @@ object Day16 {
       .drop(2)
       .sliding(2, 2)
       .foldLeft(AuntSue()) { (sue, pair) =>
-        pair match {
+        pair match
           case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
           case "cats:" :: num :: Nil     => sue.copy(cats = num.replace(",", "").toIntOption)
           case "samoyeds:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
@@ -50,10 +49,9 @@ object Day16 {
           case "cars:" :: num :: Nil     => sue.copy(cars = num.replace(",", "").toIntOption)
           case "perfumes:" :: num :: Nil => sue.copy(perfumes = num.replace(",", "").toIntOption)
           case _                         => sue
-        }
       }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     def equiv(sue: AuntSue): Boolean =
       (for
         a <- Some(sue)
@@ -73,9 +71,8 @@ object Day16 {
       sue = parseLine(line)
       if equiv(sue)
     yield idx + 1).head
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     def equiv(sue: AuntSue): Boolean =
       (for
         a <- Some(sue)
@@ -105,7 +102,6 @@ object Day16 {
       sue = parseLine(line)
       if equiv(sue)
     yield idx + 1).head
-  }
 
   val input = """Sue 1: goldfish: 6, trees: 9, akitas: 0
                 |Sue 2: goldfish: 7, trees: 1, akitas: 0
@@ -607,4 +603,3 @@ object Day16 {
                 |Sue 498: perfumes: 7, vizslas: 6, cats: 9
                 |Sue 499: vizslas: 8, perfumes: 1, akitas: 3
                 |Sue 500: perfumes: 4, cars: 9, trees: 4""".stripMargin
-}

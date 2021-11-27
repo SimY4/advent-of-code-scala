@@ -1,16 +1,15 @@
 package aoc
 package y2018
 
-object Day11 {
+object Day11:
   import scala.collection.parallel.CollectionConverters.*
 
   extension (cell: Coord)
-    def power(grid: Int): Long = {
+    def power(grid: Int): Long =
       def hundreds(i: Long): Long = i % 1000 / 100
 
       val rackId = cell.x + 10
       hundreds(((rackId * cell.y) + grid) * rackId) - 5
-    }
 
   def solve(grid: Int, size: Long = 3): (Long, Coord) =
     (for
@@ -25,12 +24,10 @@ object Day11 {
     yield power -> Coord(x, y))
       .maxBy(_._1)
 
-  def solve2(grid: Int): (Coord, Long) = {
+  def solve2(grid: Int): (Coord, Long) =
     val max = (for
       size <- (1L to 300L).toSeq.par
       (power, cell) = solve(grid, size)
     yield (power, cell, size))
       .maxBy(_._1)
     max._2 -> max._3
-  }
-}

@@ -3,7 +3,7 @@ package aoc.y2016
 import java.nio.file.Files
 import java.nio.file.Paths
 
-object Day7 {
+object Day7:
   import scala.jdk.CollectionConverters.*
 
   private def abba(s: Seq[Char]): Boolean = s(0) != s(1) && s == s.reverse
@@ -35,4 +35,3 @@ object Day7 {
     yield ()).size
 
   def input = Files.readAllLines(Paths.get(getClass.getResource("/aoc/y2016/day7-input.txt").toURI)).asScala
-}

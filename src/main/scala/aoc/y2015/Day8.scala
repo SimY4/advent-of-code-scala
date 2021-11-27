@@ -2,21 +2,19 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day8 {
-  @tailrec private def countEscaping(acc: Int = 0, str: String): Int = str match {
+object Day8:
+  @tailrec private def countEscaping(acc: Int = 0, str: String): Int = str match
     case ""                         => acc
     case _ if str.startsWith("\\x") => countEscaping(acc + 1, str.substring(4))
     case _ if str.startsWith("\\")  => countEscaping(acc + 1, str.substring(2))
     case _                          => countEscaping(acc + 1, str.substring(1))
-  }
 
-  @tailrec private def countUnescaping(acc: Int = 2, str: String): Int = str match {
+  @tailrec private def countUnescaping(acc: Int = 2, str: String): Int = str match
     case ""                          => acc
     case _ if str.startsWith("\\\"") => countUnescaping(acc + 4, str.substring(2))
     case _ if str.startsWith("\"")   => countUnescaping(acc + 2, str.substring(1))
     case _ if str.startsWith("\\")   => countUnescaping(acc + 2, str.substring(1))
     case _                           => countUnescaping(acc + 1, str.substring(1))
-  }
 
   def solve(input: String): Int =
     (for
@@ -334,4 +332,3 @@ object Day8 {
                 |"nywbv\\"
                 |"twc\\ehfqxhgomgrgwpxyzmnkioj"
                 |"qludrkkvljljd\\xvdeum\x4e"""".stripMargin
-}

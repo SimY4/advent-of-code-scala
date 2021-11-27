@@ -1,7 +1,7 @@
 package aoc
 package y2015
 
-object Day20 {
+object Day20:
   def solve(input: Int): Int =
     LazyList
       .iterate(0L)(_ + 1)
@@ -15,4 +15,3 @@ object Day20 {
       .indexWhere(input <= _)
 
   val input = 29000000
-}

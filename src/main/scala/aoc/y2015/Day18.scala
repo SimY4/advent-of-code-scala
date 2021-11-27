@@ -1,8 +1,8 @@
 package aoc
 package y2015
 
-object Day18 {
-  private def changeSwitch(grid: Array[Array[Boolean]], coord: Coord): Boolean = {
+object Day18:
+  private def changeSwitch(grid: Array[Array[Boolean]], coord: Coord): Boolean =
     val lightsOn = coord.neighbours().count { neighbour =>
       grid
         .lift(neighbour.x.toInt)
@@ -14,9 +14,8 @@ object Day18 {
     }
     if grid(coord.x.toInt)(coord.y.toInt) then 2 == lightsOn || 3 == lightsOn
     else 3 == lightsOn
-  }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val grid = input.linesIterator
       .map(_.toArray.map(_ == '#'))
       .toArray
@@ -35,9 +34,8 @@ object Day18 {
       .head
       .map(_.count(identity))
       .sum
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val grid = input.linesIterator
       .map(_.toArray.map(_ == '#'))
       .toArray
@@ -59,7 +57,6 @@ object Day18 {
       .head
       .map(_.count(identity))
       .sum
-  }
 
   val input =
     """###.##..##.#..#.##...#..#.####..#.##.##.##..###...#....#...###..#..###..###.#.#.#..#.##..#...##.#..#
@@ -162,4 +159,3 @@ object Day18 {
       |.#.###...#.#.#.##.###..###...##..#.##.##..##..#.....###.#..#.##.##.####........##.#####.#.#....#...#
       |##...##..#.##.#######.###.#.##.#####....##.....##.#.....#.#.##.#....#.##.#....##.#..#.###..#..#.#...
       |.#..#.#.#.#...#.##...###.##.#.#...###.##...#.#..###....###.#.###...##..###..#..##.##....###...###.##""".stripMargin
-}

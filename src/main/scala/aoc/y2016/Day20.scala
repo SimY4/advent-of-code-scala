@@ -1,16 +1,15 @@
 package aoc.y2016
 
-object Day20 {
-  def solve(input: String): Long = {
+object Day20:
+  def solve(input: String): Long =
     val data = input.linesIterator.map { case s"$begin-$end" => begin.toLong -> end.toLong }.toList.sorted
 
     data.foldLeft(0L) { case (h, (begin, end)) =>
       if begin > h then h
       else math.max(h, end + 1)
     }
-  }
 
-  def solve2(input: String): Long = {
+  def solve2(input: String): Long =
     val data = input.linesIterator.map { case s"$begin-$end" =>
       begin.toLong -> end.toLong
     }.toList.sorted :+ (1L << 32, 1L << 32)
@@ -21,7 +20,6 @@ object Day20 {
         else math.max(h, end + 1) -> c
       }
       ._2
-  }
 
   val input = """919958672-920375477
                 |886049087-888249849
@@ -1098,4 +1096,3 @@ object Day20 {
                 |1513199351-1529351133
                 |914180376-940277913
                 |760395312-770866764""".stripMargin
-}

@@ -1,13 +1,12 @@
 package aoc.y2018
 
-object Day3 {
+object Day3:
   private case class Claim(id: Int, h1: Int, v1: Int, h2: Int, v2: Int)
 
-  def fabric(input: String): Array[Array[Set[Int]]] = {
+  def fabric(input: String): Array[Array[Set[Int]]] =
     def parse(line: String): Claim =
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match {
+      "\\d+".r.findAllIn(line).map(_.toInt).toList match
         case id :: h1 :: v1 :: h2 :: v2 :: Nil => Claim(id, h1, v1, h2, v2)
-      }
     val fabric: Array[Array[Set[Int]]] = Array.fill(1000, 1000)(Set.empty[Int])
     input.linesIterator.map(parse).foreach { claim =>
       (for
@@ -18,25 +17,22 @@ object Day3 {
       }
     }
     fabric
-  }
 
   def solve(input: String): Int = fabric(input).foldLeft(0) { (i, arr) =>
     i + arr.count(_.size > 1)
   }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val res = Array.fill(input.linesIterator.size)(true)
     fabric(input).foreach { arr =>
       arr.foreach { ids =>
-        if ids.size > 1 then {
+        if ids.size > 1 then
           ids.foreach { id =>
             res(id - 1) = false
           }
-        }
       }
     }
     res.indexOf(true) + 1
-  }
 
   val input = """#1 @ 661,227: 29x11
                 |#2 @ 391,45: 27x20
@@ -1391,4 +1387,3 @@ object Day3 {
                 |#1351 @ 543,467: 29x25
                 |#1352 @ 406,632: 11x27
                 |#1353 @ 743,209: 14x21""".stripMargin
-}

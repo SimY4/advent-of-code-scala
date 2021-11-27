@@ -1,26 +1,24 @@
 package aoc.y2016
 
-object Day8 {
+object Day8:
   private type Grid = Array[Array[Boolean]]
 
-  private enum Action {
+  private enum Action:
     case Rect(x: Int, y: Int)
     case RotateRow(y: Int, shift: Int)
     case RotateCol(x: Int, shift: Int)
-  }
 
   import Action.*
 
-  private def parseLine(line: String): Action = line match {
+  private def parseLine(line: String): Action = line match
     case s"rect ${x}x$y"                 => Rect(x.toInt, y.toInt)
     case s"rotate row y=$y by $shift"    => RotateRow(y.toInt, shift.toInt)
     case s"rotate column x=$x by $shift" => RotateCol(x.toInt, shift.toInt)
-  }
 
   private def decode(input: String): Grid = input.linesIterator
     .map(parseLine)
     .foldLeft(Array.fill(6, 50)(false)) { (grid, action) =>
-      action match {
+      action match
         case Rect(x, y) =>
           for i <- 0 until y; j <- 0 until x do grid(i)(j) = true
           grid
@@ -34,7 +32,6 @@ object Day8 {
           val col = for i <- 0 until grid.length yield grid(i)(x)
           for i <- 0 until grid.length do grid((i + shift) % grid.length)(x) = col(i)
           grid
-      }
     }
 
   def solve(input: String): Int = decode(input).map(_.count(identity)).sum
@@ -186,4 +183,3 @@ object Day8 {
                 |rotate column x=3 by 5
                 |rotate column x=2 by 5
                 |rotate column x=1 by 5""".stripMargin
-}

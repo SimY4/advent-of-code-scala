@@ -3,8 +3,8 @@ package aoc.y2020
 import scala.annotation.tailrec
 import scala.collection.immutable
 
-object Day21 {
-  def solve(input: String): Int = {
+object Day21:
+  def solve(input: String): Int =
     val food = input.linesIterator.map { case s"$ingredients (contains $understood)" =>
       ingredients.split(' ').toList -> understood.split(", ").toList
     }.toList
@@ -19,14 +19,13 @@ object Day21 {
       .flatMap((ing, _) => ing)
       .filter(!allergens.contains(_))
       .size
-  }
 
-  def solve2(input: String): String = {
+  def solve2(input: String): String =
     val food = input.linesIterator.map { case s"$ingredients (contains $understood)" =>
       ingredients.split(' ').toList -> understood.split(", ").toList
     }.toList
 
-    @tailrec def simplify(allergens: Map[String, Set[String]]): Map[String, Set[String]] = {
+    @tailrec def simplify(allergens: Map[String, Set[String]]): Map[String, Set[String]] =
       val singles = allergens.collect {
         case (k, v) if v.size == 1 => k -> v.iterator.next
       }
@@ -35,14 +34,12 @@ object Day21 {
         .toMap
       if allergens == simplified then allergens
       else simplify(simplified)
-    }
 
     immutable.SortedMap
       .from(simplify(food.flatMap((ing, all) => all.map(_ -> ing.toSet)).groupMapReduce(_._1)(_._2)(_ intersect _)))
       .values
       .flatMap(identity)
       .mkString(",")
-  }
 
   val input =
     """smfnh svztk rqqf sfhvsx xctnhp bvn krv gkcplx ngpq hmhll dq mqr vnvgrb xbp dqsbql dlx mgvr cqvpp nqfjgtsj zscj jbndg gz xrkckp srzsljf mzmph gbxk mvqkdj frkpm vnhn sjfcj rgfx fjbqn lvrsl dvvsn rgpbkp vhdzgz pvq ktlh pzvvlgt knpp sbpkr bbzn rrjjt tsfx brnsf gfxb qmcj fdfr glllxz cmkqcs fctjm fmrdsr xmrd bpdfhd cjxgg gszbq gtqsr ftds qrdtdv vjmfl phbhgqh nbhpx sjlk xhzj kmfj xdsxjv hcrz xzxth xxcq kpnl pbhvldj msfmt sttj fdrzd bprg jdbpd hbhsx dfllj frvs fltn xxgp vlhnhf ggsz dmxdkc qbrqsr cgbgf gbgf szp zrtfglg (contains nuts)
@@ -81,4 +78,3 @@ object Day21 {
       |kctf bxpdm tmsn cgbgf kpnl vnvgrb rggl bpxggt kddggl pvq msfmt xvrvnt lxkbs xxgp npjrb knpp svztk gz fvgpcjh ndtf fdrzd sqzhc gfxb fqxcjh sbpkr gbxk hcrz zsxfl zgvqnlv nx blbl llhld sjfcj rqqf cdrm ggsz xqxgc ftds sfhvsx fctjm krtlhc srzsljf jdbpd mvvbb dqsbql nvsd dmxdkc lcqn gkcplx fjbqn glllxz ktlh vhchvg ssbrn gxgbkd dvvsn kxmgm pbcptj xbp tmkc hbhsx mvqkdj (contains wheat, nuts, shellfish)
       |fmrdsr gtqsr sqxsf fvgpcjh lpgptlj mvqkdj frvs nkmxp zrtr bxpdm ccxlqzv msfmt vjmfl dvvsn hnxc zgvqnlv nqfjgtsj mzmph rrjjt gkcplx pgtrjst mvvbb vbn tllxsfs bhtxd nlh qsx vpsv npjrb jbndg gxgbkd tclx xhksjm sjfcj ktv rxtp hcxhl xzxth qjjxv hbhsx ggsz xxgp tmsn ktlh dqsbql dlx kctf gszbq bbzn pzvvlgt gbgf cqvpp fqrtvrv szp pbhvldj (contains eggs, sesame)
       |xhksjm mhzdcc kvgbhx ngpq rkgb nlh ppdplc qbrqsr gbxk ngqg drnrd phbrht zrtr dq rgfx qvxntmh dnkcf phbhgqh mvqkdj rrjjt fjbqn nkmxp xdsxjv cjxgg ktlh kctf xmrd zgvqnlv blbl msfmt fdfr cjcvh tsfx sjlk lgxx vhchvg ggsz sqzfbq svztk lhtqk zsxfl nvsd vhdzgz gkcplx ssbrn lcqn rqqf kmfj vcnrl mvvbb hbhsx pbhvldj gspk tmkc hpqf kddggl nmdv xbp cdvdt ktv xctnhp (contains eggs)""".stripMargin
-}

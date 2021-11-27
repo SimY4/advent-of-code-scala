@@ -2,18 +2,17 @@ package aoc.y2020
 
 import scala.annotation.tailrec
 
-object Day16 {
+object Day16:
   final private case class Range(start: Int, end: Int)
   final private case class Rule(field: String, ranges: List[Range])
 
   private def parseRule(rule: String): Rule =
-    rule match {
+    rule match
       case s"$name: $r1s-$r1e or $r2s-$r2e" =>
         Rule(name, List(Range(r1s.toInt, r1e.toInt), Range(r2s.toInt, r2e.toInt)))
-    }
 
   def solve(input: String): Int =
-    input.split(System.lineSeparator * 2).toList match {
+    input.split(System.lineSeparator * 2).toList match
       case rules :: _ :: nearbyTickets :: Nil =>
         val parsedRules = rules.linesIterator.map(parseRule).toList
         nearbyTickets.linesIterator
@@ -21,10 +20,9 @@ object Day16 {
           .map(_.split(',').map(_.toInt).toList)
           .flatMap(_.filter(v => !parsedRules.flatMap(_.ranges).exists(range => range.start <= v && v <= range.end)))
           .sum
-    }
 
   def solve2(input: String): Long =
-    input.split(System.lineSeparator * 2).toList match {
+    input.split(System.lineSeparator * 2).toList match
       case rules :: ticket :: nearbyTickets :: Nil =>
         val parsedRules = rules.linesIterator.map(parseRule).toSet
         val parsedTicket = ticket
@@ -43,7 +41,7 @@ object Day16 {
           })
         }
 
-        @tailrec def simplify(fields: Map[Int, Set[Rule]]): Map[Int, Set[Rule]] = {
+        @tailrec def simplify(fields: Map[Int, Set[Rule]]): Map[Int, Set[Rule]] =
           val singles = fields.collect {
             case (k, v) if v.size == 1 => k -> v.iterator.next
           }
@@ -52,7 +50,6 @@ object Day16 {
             .toMap
           if fields == simplified then fields
           else simplify(simplified)
-        }
 
         val fields = simplify(matchingFields)
 
@@ -61,7 +58,6 @@ object Day16 {
           .filter((_, v) => v.field.startsWith("departure"))
           .map((i, _) => parsedTicket(i).toLong)
           .product
-    }
 
   val input = """departure location: 47-691 or 713-954
                 |departure station: 44-776 or 799-969
@@ -329,4 +325,3 @@ object Day16 {
                 |928,295,468,728,293,338,539,753,83,542,190,227,468,384,737,719,878,860,818,396
                 |139,532,360,184,436,415,503,423,388,316,989,910,644,180,362,669,641,571,810,238
                 |327,727,426,729,331,446,372,679,534,899,727,734,335,117,935,923,551,545,627,503""".stripMargin
-}

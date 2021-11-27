@@ -1,9 +1,9 @@
 package aoc.y2016
 
-object Day4 {
+object Day4:
   private val lineRegex = "(\\w+(?:-\\w+)+)-(\\d+)\\[(\\w+)]".r
 
-  private def decoy(name: String, checksum: String): Boolean = {
+  private def decoy(name: String, checksum: String): Boolean =
     val mostCommon = name
       .replace("-", "")
       .toSeq
@@ -20,7 +20,6 @@ object Day4 {
       .map(_._1)
       .mkString
     mostCommon == checksum
-  }
 
   def solve(input: String): Int =
     (for
@@ -977,4 +976,3 @@ object Day4 {
                 |wbhsfbohwcboz-qobrm-zcuwghwqg-298[bwhoc]
                 |shoewudys-tou-ixyffydw-478[uszty]""".stripMargin
 
-}

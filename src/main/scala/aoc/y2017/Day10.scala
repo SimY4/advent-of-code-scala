@@ -1,14 +1,14 @@
 package aoc
 package y2017
 
-object Day10 {
+object Day10:
   final case class State(list: List[Int], lengths: List[Int], count: Int, pos: Int)
 
   private val lengths = "3,4,1,5".split(",").map(_.toInt).toList
 
   def list(n: Int): List[Int] = LazyList.from(0).take(n).toList
 
-  def knotHash(state: State): State = {
+  def knotHash(state: State): State =
     val State(list, lengths, count, pos) = state
     val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)) { case ((ls, c, p), length) =>
       val reversed = Iterator
@@ -31,7 +31,6 @@ object Day10 {
     }
 
     State(nextList, lengths, nextCount, nextPos)
-  }
 
   val state: State                      = State(list(5), lengths, 0, 0)
   val State(l @ x1 :: x2 :: _, _, _, _) = knotHash(state): @unchecked
@@ -52,7 +51,7 @@ object Day10 {
     ascii = input.map(_.toInt).toList ++ rest
   yield ascii -> result
 
-  def denseHash(state: State): String = {
+  def denseHash(state: State): String =
     val State(list, _, _, _) = LazyList.from(0).take(64).foldLeft(state) { (acc, _) =>
       knotHash(acc)
     }
@@ -60,7 +59,6 @@ object Day10 {
       ls <- list.sliding(16, 16).toList
       hex = s"0${ls.reduce(_ ^ _).toHexString}".takeRight(2)
     yield hex).mkString("")
-  }
 
   for
     (i, r) <- lengthsList
@@ -70,4 +68,3 @@ object Day10 {
     _            = println(res == r)
   yield res
 
-}

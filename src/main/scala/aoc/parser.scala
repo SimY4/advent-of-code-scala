@@ -2,7 +2,7 @@ package aoc
 
 private opaque type Parser[+A] = String => Option[(A, String)]
 
-private object Parser {
+private object Parser:
   def char(ch: Char): Parser[Char] = { input =>
     for
       head <- input.headOption
@@ -27,7 +27,7 @@ private object Parser {
 
   val eof: Parser[Unit] = { input => Option.when(input.isEmpty)(((), input)) }
 
-  extension [A, B](p: Parser[A]) {
+  extension [A, B](p: Parser[A])
     def as(b: => B): Parser[B] = p.map(_ => b)
 
     def many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] =
@@ -40,11 +40,10 @@ private object Parser {
     def optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
     def run(input: String): A =
-      p(input) match {
+      p(input) match
         case Some(res, "")  => res
         case Some(res, rem) => sys.error(s"parsed string didn't match. parsed: $res, rest: '$rem'")
         case None           => sys.error("parsed string didn't match.")
-      }
 
     def <|>(other: => Parser[A]): Parser[A] = { input =>
       p(input).orElse(other(input))
@@ -62,5 +61,3 @@ private object Parser {
 
     def *>(other: => Parser[B]): Parser[B] =
       (p <*> other).map(_._2)
-  }
-}

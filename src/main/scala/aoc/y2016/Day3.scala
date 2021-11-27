@@ -1,6 +1,6 @@
 package aoc.y2016
 
-object Day3 {
+object Day3:
   def solve(input: String): Int =
     (for
       line <- input.linesIterator
@@ -1657,4 +1657,3 @@ object Day3 {
                 |  509   95  409
                 |  510  103  362
                 |  194   69  754""".stripMargin
-}

@@ -2,32 +2,30 @@ package aoc.y2015
 
 import scala.annotation.tailrec
 
-object Day23 {
-  private enum Instruction {
+object Day23:
+  private enum Instruction:
     case hlf(r: String)
     case tpl(r: String)
     case inc(r: String)
     case jmp(offset: Int)
     case jie(r: String, offset: Int)
     case jio(r: String, offset: Int)
-  }
 
   import Instruction.*
 
   private def parseLine(line: String): Instruction =
-    "[a-z\\-+0-9]+".r.findAllIn(line).toList match {
+    "[a-z\\-+0-9]+".r.findAllIn(line).toList match
       case "hlf" :: r :: Nil           => hlf(r)
       case "tpl" :: r :: Nil           => tpl(r)
       case "inc" :: r :: Nil           => inc(r)
       case "jmp" :: offset :: Nil      => jmp(offset.toInt)
       case "jie" :: r :: offset :: Nil => jie(r, offset.toInt)
       case "jio" :: r :: offset :: Nil => jio(r, offset.toInt)
-    }
 
   @tailrec private def runProgram(program: List[Instruction], state: Map[String, Int], cursor: Int): Map[String, Int] =
     if cursor >= program.size then state
     else
-      program(cursor) match {
+      program(cursor) match
         case hlf(r: String)   => runProgram(program, state.updatedWith(r)(_.map(_ / 2)), cursor + 1)
         case tpl(r: String)   => runProgram(program, state.updatedWith(r)(_.map(_ * 3)), cursor + 1)
         case inc(r: String)   => runProgram(program, state.updatedWith(r)(_.map(_ + 1)), cursor + 1)
@@ -35,23 +33,20 @@ object Day23 {
         case jie(r: String, offset: Int) =>
           runProgram(program, state, cursor + (if (state(r) & 1) == 0 then offset else 1))
         case jio(r: String, offset: Int) => runProgram(program, state, cursor + (if state(r) == 1 then offset else 1))
-      }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val program = input.linesIterator
       .map(parseLine)
       .toList
 
     runProgram(program, Map("a" -> 0, "b" -> 0), 0)("b")
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val program = input.linesIterator
       .map(parseLine)
       .toList
 
     runProgram(program, Map("a" -> 1, "b" -> 0), 0)("b")
-  }
 
   val input = """jio a, +18
                 |inc a
@@ -100,4 +95,3 @@ object Day23 {
                 |jmp +2
                 |hlf a
                 |jmp -7""".stripMargin
-}

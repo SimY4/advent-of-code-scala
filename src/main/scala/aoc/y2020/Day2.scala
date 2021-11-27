@@ -1,14 +1,13 @@
 package aoc.y2020
 
-object Day2 {
+object Day2:
   final private case class Policy(low: Int, high: Int, char: Char)
 
   private val lineRegex = "(\\d+)-(\\d+) (\\w): (\\w+)".r
 
   private def parse(line: String): (Policy, String) =
-    line match {
+    line match
       case lineRegex(low, high, ch, pwd) => Policy(low.toInt, high.toInt, ch.head) -> pwd
-    }
 
   def solve(input: String): Int =
     (for
@@ -1026,4 +1025,3 @@ object Day2 {
                 |12-15 q: qqqqqqqqqqqvqqqq
                 |6-10 t: tttttbttktt
                 |1-18 c: ccdczcvccvclcccvkccb""".stripMargin
-}

@@ -1,39 +1,34 @@
 package aoc.y2020
 
-object Day7 {
+object Day7:
   private def parseLine(line: String): (String, List[(Int, String)]) =
-    line.split(" contain ").toList match {
+    line.split(" contain ").toList match
       case bags :: "no other bags." :: Nil => bags.substring(0, bags.lastIndexOf(' ')) -> Nil
       case bags :: contains :: Nil =>
         bags.substring(0, bags.lastIndexOf(' ')) ->
           contains.split(", ").toList.map { bags =>
             bags.substring(0, bags.indexOf(' ')).toInt -> bags.substring(bags.indexOf(' ') + 1, bags.lastIndexOf(' '))
           }
-    }
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val bags = input.linesIterator.map(parseLine).toMap
 
-    def loop(color: String, acc: Set[String] = Set.empty): Set[String] = {
+    def loop(color: String, acc: Set[String] = Set.empty): Set[String] =
       val canContain = bags.view.filter((_, c) => c.map(_._2).contains(color)).keySet
       if canContain.isEmpty then acc + color
       else canContain.toList.map(loop(_, acc + color)).reduce(_ union _)
-    }
 
     (loop("shiny gold") - "shiny gold").size
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val bags = input.linesIterator.map(parseLine).toMap
 
-    def loop(color: String): Int = {
+    def loop(color: String): Int =
       val consists = bags(color)
       if consists.isEmpty then 0
       else consists.map((n, c) => n * (loop(c) + 1)).sum
-    }
 
     loop("shiny gold")
-  }
 
   val input =
     """dark maroon bags contain 2 striped silver bags, 4 mirrored maroon bags, 5 shiny gold bags, 1 dotted gold bag.
@@ -630,4 +625,3 @@ object Day7 {
       |muted purple bags contain 4 striped purple bags.
       |faded silver bags contain 1 light purple bag, 3 bright tomato bags, 1 mirrored magenta bag.
       |vibrant olive bags contain 3 muted turquoise bags, 5 wavy blue bags, 1 dotted silver bag, 5 striped tan bags.""".stripMargin
-}

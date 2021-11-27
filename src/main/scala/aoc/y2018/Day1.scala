@@ -2,29 +2,26 @@ package aoc.y2018
 
 import scala.language.implicitConversions
 
-object Day1 {
+object Day1:
   def solve(input: String): Int = input.linesIterator.map(_.toInt).sum
 
-  private enum State {
+  private enum State:
     case NotFound(st: Int, viewed: Set[Int])
     case Found(st: Int)
-  }
 
   import State.*
 
-  def solve2(input: String): Option[Int] = {
+  def solve2(input: String): Option[Int] =
     def infinite: LazyList[Int] = input.linesIterator.map(_.toInt).to(LazyList) #::: infinite
     infinite
       .scanLeft(NotFound(0, Set.empty)) { (state, cal) =>
-        state match {
+        state match
           case Found(_) => state
           case NotFound(acc, set) =>
             val nextCal = acc + cal.toInt
             if set contains nextCal then Found(nextCal) else NotFound(nextCal, set + nextCal)
-        }
       }
       .collectFirst { case Found(st) => st }
-  }
 
   val input = """+4
                 |+3
@@ -1015,4 +1012,3 @@ object Day1 {
                 |-9
                 |+10
                 |-130255""".stripMargin
-}

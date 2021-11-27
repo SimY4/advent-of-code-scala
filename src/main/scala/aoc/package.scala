@@ -7,29 +7,27 @@ extension [A](as: List[A])
 extension (n: Long)
   def factors: Seq[Long] =
     (1L to math.sqrt(n.toDouble).toLong).flatMap { i =>
-      if n % i == 0L then {
+      if n % i == 0L then
         val div = n / i
         if i != div then i :: div :: Nil
         else i :: Nil
-      } else Nil
+      else Nil
     }
 
 private val hexArray = "0123456789ABCDEF".toCharArray
 
 extension (bytes: Array[Byte])
-  def printHexBinary: String = {
+  def printHexBinary: String =
     val hexChars = new Array[Char](bytes.length * 2)
-    for i <- 0 until bytes.length do {
+    for i <- 0 until bytes.length do
       val v = bytes(i) & 0xff
       hexChars(i * 2) = hexArray(v >>> 4)
       hexChars(i * 2 + 1) = hexArray(v & 0x0f)
-    }
     new String(hexChars)
-  }
 
 final case class Coord(x: Long, y: Long)
-object Coord {
-  extension (coord: Coord) {
+object Coord:
+  extension (coord: Coord)
     def +(other: Coord): Coord =
       Coord(coord.x + other.x, coord.y + other.y)
 
@@ -40,10 +38,8 @@ object Coord {
 
     def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
       directions.map(coord + _.direction)
-  }
-}
 
-enum Direction(val direction: Coord) {
+enum Direction(val direction: Coord):
   case Up extends Direction(Coord(0L, 1L))
   case UpRight extends Direction(Coord(1L, 1L))
   case Right extends Direction(Coord(1L, 0L))
@@ -52,12 +48,11 @@ enum Direction(val direction: Coord) {
   case DownLeft extends Direction(Coord(-1L, -1L))
   case Left extends Direction(Coord(-1L, 0L))
   case UpLeft extends Direction(Coord(-1L, 1L))
-}
-object Direction {
+object Direction:
   val hvOnly: List[Direction] = List(Up, Right, Down, Left)
 
-  extension (d: Direction) {
-    def oposite: Direction = d match {
+  extension (d: Direction)
+    def oposite: Direction = d match
       case Up        => Down
       case UpRight   => DownLeft
       case Right     => Left
@@ -66,6 +61,3 @@ object Direction {
       case DownLeft  => UpRight
       case Left      => Right
       case UpLeft    => DownRight
-    }
-  }
-}

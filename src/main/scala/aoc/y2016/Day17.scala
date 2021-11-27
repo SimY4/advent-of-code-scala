@@ -4,14 +4,14 @@ package y2016
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
-object Day17 {
+object Day17:
   import Direction.*
 
   private val md = MessageDigest.getInstance("MD5")
 
   private def paths(current: Coord, path: List[Direction] = Nil): List[List[Direction]] =
     if Coord(3L, 0L) == current then List(path)
-    else {
+    else
       md.update((input + path.reverse.map {
         case Up    => 'U'
         case Right => 'R'
@@ -33,7 +33,6 @@ object Day17 {
       yield d
 
       directions.flatMap(d => paths(current + d.direction, d :: path))
-    }
 
   def solve(input: String): List[Direction] =
     paths(Coord(0L, 3L)).minBy(_.size).reverse
@@ -42,4 +41,3 @@ object Day17 {
     paths(Coord(0L, 3L)).maxBy(_.size).size
 
   val input = "pvhmgsws"
-}

@@ -1,6 +1,6 @@
 package aoc.y2020
 
-object Day1 {
+object Day1:
   def solve(input: String): Int =
     (for
       x <- input.linesIterator.map(_.toInt)
@@ -218,4 +218,3 @@ object Day1 {
                 |1754
                 |1569
                 |1532""".stripMargin
-}

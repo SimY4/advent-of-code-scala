@@ -3,10 +3,10 @@ package y2018
 
 import scala.annotation.tailrec
 
-object Day10 {
+object Day10:
   final private case class Point(coord: Coord, vcoord: Coord)
   final private case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
-  private object Area {
+  private object Area:
     def apply(points: List[Point]): Area = Area(
       points.map(_.coord.x).min,
       points.map(_.coord.x).max,
@@ -15,7 +15,6 @@ object Day10 {
     )
 
     extension (a: Area) def area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
-  }
 
   import Area.*
 
@@ -25,8 +24,8 @@ object Day10 {
         case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
     }.toList
 
-  def solve(input: String): Unit = {
-    def show(points: List[Point]): String = {
+  def solve(input: String): Unit =
+    def show(points: List[Point]): String =
       val area   = Area(points)
       val coords = points.map(_.coord).toSet
       (area.y1 to area.y2).map { y =>
@@ -35,20 +34,17 @@ object Day10 {
           else " "
         }.mkString
       }.mkString("\n")
-    }
 
-    @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit = {
+    @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit =
       val nextPoints = points.map { point =>
         point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
       }
       val nextArea = Area(nextPoints).area
       if area > nextArea then solve0(nextPoints, time + 1, nextArea)
       else println(s"time: $time, area:\n${show(points)}")
-    }
 
     val pts = parse(input)
     solve0(pts, 0, Area(pts).area)
-  }
 
   val input = """position=< 9,  1> velocity=< 0,  2>
                 |position=< 7,  0> velocity=<-1,  0>
@@ -81,4 +77,3 @@ object Day10 {
                 |position=< 5,  9> velocity=< 1, -2>
                 |position=<14,  7> velocity=<-2,  0>
                 |position=<-3,  6> velocity=< 2, -1>""".stripMargin
-}

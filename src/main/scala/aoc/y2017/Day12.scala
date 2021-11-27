@@ -3,25 +3,22 @@ package y2017
 
 import scala.annotation.tailrec
 
-object Day12 {
+object Day12:
   private type Group = Set[Int]
 
-  def group(program: Int, input: Map[Int, Seq[Int]]): Group = {
+  def group(program: Int, input: Map[Int, Seq[Int]]): Group =
     @tailrec def group0(acc: Set[Int], current: Set[Int]): Group =
-      if current.isEmpty then {
+      if current.isEmpty then
         acc
-      } else {
+      else
         val connects = acc ++ current.flatMap(input)
         group0(connects, connects.diff(acc))
-      }
 
     group0(Set(program), Set(program))
-  }
 
   val map = input.linesIterator.map { line =>
-    "\\d+".r.findAllIn(line).map(_.toInt).toList match {
+    "\\d+".r.findAllIn(line).map(_.toInt).toList match
       case i :: is => i -> is
-    }
   }.toMap
   val gr   = group(0, map)
   val diff = map.keySet.diff(gr)
@@ -29,16 +26,14 @@ object Day12 {
 
   // PART 2
 
-  def groups(input: Map[Int, Seq[Int]]): Set[Group] = {
+  def groups(input: Map[Int, Seq[Int]]): Set[Group] =
     @tailrec def groups0(acc: Set[Group], i: Map[Int, Seq[Int]]): Set[Group] =
       if i.isEmpty then acc
-      else {
+      else
         val groups = acc + group(i.keySet.head, i)
         groups0(groups, i -- groups.flatten)
-      }
 
     groups0(Set.empty, input)
-  }
 
   val grs = groups(map)
   println(grs.size)
@@ -50,4 +45,3 @@ object Day12 {
                 |4 <-> 2, 3, 6
                 |5 <-> 6
                 |6 <-> 4, 5""".stripMargin
-}

@@ -1,7 +1,7 @@
 package aoc.y2020
 
-object Day4 {
-  private enum PasswordField {
+object Day4:
+  private enum PasswordField:
     case BirthYear(year: Int)
     case IssueYear(year: Int)
     case ExpirationYear(year: Int)
@@ -10,12 +10,11 @@ object Day4 {
     case EyeColor(color: String)
     case PassportId(id: Int)
     case CountryId
-  }
 
   import PasswordField.*
 
   private def passportField(field: String): PasswordField =
-    field.split(':').toList match {
+    field.split(':').toList match
       case "byr" :: _ :: Nil => BirthYear(1920)
       case "iyr" :: _ :: Nil => IssueYear(2010)
       case "eyr" :: _ :: Nil => ExpirationYear(2020)
@@ -24,7 +23,6 @@ object Day4 {
       case "ecl" :: _ :: Nil => EyeColor("amb")
       case "pid" :: _ :: Nil => PassportId(111111111)
       case "cid" :: _ :: Nil => CountryId
-    }
 
   def solve(input: String): Int =
     (for
@@ -37,7 +35,7 @@ object Day4 {
     yield ()).size
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
-    field.split(':').toList match {
+    field.split(':').toList match
       case "byr" :: value :: Nil =>
         value.toIntOption
           .filter(y => 1920 <= y && y <= 2002)
@@ -63,7 +61,6 @@ object Day4 {
       case "pid" :: id :: Nil           => Option.when(id.matches("\\d{9}"))(PassportId(id.toInt))
       case "cid" :: _ :: Nil            => Some(CountryId)
       case _                            => None
-    }
 
   def solve2(input: String): Int =
     (for
@@ -1064,4 +1061,3 @@ object Day4 {
                 |
                 |iyr:2010 pid:623705680
                 |ecl:hzl hgt:181cm byr:1980 hcl:#341e13 eyr:2028""".stripMargin
-}

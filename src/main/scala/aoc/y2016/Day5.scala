@@ -6,7 +6,7 @@ import scala.collection.immutable.SortedMap
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
-object Day5 {
+object Day5:
   private val md = MessageDigest.getInstance("MD5")
 
   def solve(input: String): String =
@@ -38,4 +38,3 @@ object Day5 {
       .map(_.values.mkString)
 
   val input = "ugkcyxxp"
-}

@@ -1,10 +1,10 @@
 package aoc.y2020
 
-object Day17 {
+object Day17:
   import scala.collection.parallel.CollectionConverters.*
 
   final private case class Coord(x: Long, y: Long, z: Long, w: Long)
-  extension (c: Coord) {
+  extension (c: Coord)
     private def neighbours: List[Coord] =
       (for
         x <- -1 to 1
@@ -15,7 +15,6 @@ object Day17 {
       yield c + Coord(x, y, z, w)).toList
 
     private def +(other: Coord): Coord = Coord(c.x + other.x, c.y + other.y, c.z + other.z, c.w + other.w)
-  }
 
   extension [A](v: Vector[Vector[Vector[A]]])
     private def get3(c: Coord): Option[A] =
@@ -34,7 +33,7 @@ object Day17 {
         x  <- xs.lift(c.x.toInt)
       yield x
 
-  def solve(input: String): Int = {
+  def solve(input: String): Int =
     val initial = Vector.fill(10)(Vector.empty) ++ Vector(
       Vector
         .fill(20)(Vector.empty) ++ input.linesIterator.map(Vector.fill(20)(false) ++ _.map(_ == '#').toVector).toVector
@@ -61,9 +60,8 @@ object Day17 {
       .head
       .map(_.map(_.count(identity)).sum)
       .sum
-  }
 
-  def solve2(input: String): Int = {
+  def solve2(input: String): Int =
     val initial = Vector.fill(10)(Vector.empty) ++ Vector(
       Vector.fill(10)(Vector.empty) ++ Vector(
         Vector.fill(20)(Vector.empty) ++ input.linesIterator
@@ -93,7 +91,6 @@ object Day17 {
       .head
       .map(_.map(_.map(_.count(identity)).sum).sum)
       .sum
-  }
 
   val input = """...#..#.
                 |#..#...#
@@ -103,4 +100,3 @@ object Day17 {
                 |........
                 |.#......
                 |##...#..""".stripMargin
-}

@@ -1,40 +1,35 @@
 package aoc
 package y2015
 
-object Day6 {
+object Day6:
   private type Grid[A] = Array[Array[A]]
 
-  private enum Action {
+  private enum Action:
     case TurnOn(coord1: Coord, coord2: Coord)
     case TurnOff(coord1: Coord, coord2: Coord)
     case Toggle(coord1: Coord, coord2: Coord)
-  }
 
   import Action.*
 
   private def parseLine(line: String): Action =
-    "\\d+".r.findAllIn(line).map(_.toLong).toList match {
+    "\\d+".r.findAllIn(line).map(_.toLong).toList match
       case x1 :: y1 :: x2 :: y2 :: Nil =>
-        line match {
+        line match
           case _ if line.startsWith("turn on")  => TurnOn(Coord(x1, y1), Coord(x2, y2))
           case _ if line.startsWith("turn off") => TurnOff(Coord(x1, y1), Coord(x2, y2))
           case _ if line.startsWith("toggle")   => Toggle(Coord(x1, y1), Coord(x2, y2))
-        }
-    }
 
-  private def update[A](grid: Grid[A], coord1: Coord, coord2: Coord)(f: A => A): Grid[A] = {
+  private def update[A](grid: Grid[A], coord1: Coord, coord2: Coord)(f: A => A): Grid[A] =
     for i <- coord1.x.toInt to coord2.x.toInt; j <- coord1.y.toInt to coord2.y.toInt do grid(i)(j) = f(grid(i)(j))
     grid
-  }
 
   def solve(input: String): Int = input.linesIterator
     .map(parseLine)
     .foldLeft(Array.fill(1000, 1000)(false)) { (grid, action) =>
-      action match {
+      action match
         case TurnOn(coord1, coord2)  => update(grid, coord1, coord2)(_ => true)
         case TurnOff(coord1, coord2) => update(grid, coord1, coord2)(_ => false)
         case Toggle(coord1, coord2)  => update(grid, coord1, coord2)(b => !b)
-      }
     }
     .map(_.count(identity))
     .sum
@@ -42,11 +37,10 @@ object Day6 {
   def solve2(input: String): Int = input.linesIterator
     .map(parseLine)
     .foldLeft(Array.fill(1000, 1000)(0)) { (grid, action) =>
-      action match {
+      action match
         case TurnOn(coord1, coord2)  => update(grid, coord1, coord2)(_ + 1)
         case TurnOff(coord1, coord2) => update(grid, coord1, coord2)(i => math.max(0, i - 1))
         case Toggle(coord1, coord2)  => update(grid, coord1, coord2)(_ + 2)
-      }
     }
     .map(_.sum)
     .sum
@@ -351,4 +345,3 @@ object Day6 {
                 |turn off 209,780 through 572,894
                 |turn on 766,112 through 792,868
                 |turn on 222,12 through 856,241""".stripMargin
-}

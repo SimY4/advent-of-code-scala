@@ -2,7 +2,7 @@ package aoc.y2016
 
 import scala.annotation.tailrec
 
-object Day16 {
+object Day16:
   def solve(input: String, length: Int = 272): String =
     LazyList
       .iterate(input) { data =>
@@ -16,7 +16,7 @@ object Day16 {
       .dropWhile(_.size < length)
       .map(_.substring(0, length))
       .map { data =>
-        @tailrec def checksum(d: String): String = {
+        @tailrec def checksum(d: String): String =
           val cs = d
             .sliding(2, 2)
             .map { pair =>
@@ -26,7 +26,6 @@ object Day16 {
             .mkString
           if (cs.length & 1) == 0 then checksum(cs)
           else cs
-        }
         checksum(data)
       }
       .head
@@ -34,4 +33,3 @@ object Day16 {
   def solve2(input: String): String = solve(input, 35651584)
 
   val input = "01111001100111011"
-}
