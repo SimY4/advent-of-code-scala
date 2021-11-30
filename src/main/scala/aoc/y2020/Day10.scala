@@ -132,4 +132,3 @@ object Day10:
                 |94
                 |77
                 |65""".stripMargin
-

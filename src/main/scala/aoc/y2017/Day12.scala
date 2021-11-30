@@ -8,8 +8,7 @@ object Day12:
 
   def group(program: Int, input: Map[Int, Seq[Int]]): Group =
     @tailrec def group0(acc: Set[Int], current: Set[Int]): Group =
-      if current.isEmpty then
-        acc
+      if current.isEmpty then acc
       else
         val connects = acc ++ current.flatMap(input)
         group0(connects, connects.diff(acc))

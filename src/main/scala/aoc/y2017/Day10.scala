@@ -67,4 +67,3 @@ object Day10:
     _            = println(s"$res -> $r")
     _            = println(res == r)
   yield res
-

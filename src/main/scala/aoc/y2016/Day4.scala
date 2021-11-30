@@ -975,4 +975,3 @@ object Day4:
                 |ojk-nzxmzo-xviyt-xjvodib-omvdidib-265[iodvx]
                 |wbhsfbohwcboz-qobrm-zcuwghwqg-298[bwhoc]
                 |shoewudys-tou-ixyffydw-478[uszty]""".stripMargin
-
