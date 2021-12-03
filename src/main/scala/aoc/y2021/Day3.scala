@@ -21,16 +21,13 @@ object Day3:
     r * e
 
   def solve2(input: String): Int =
-    @tailrec def loop(lines: List[String], i: Int = 0, num: List[Int] = Nil)(using
-      O: Ordering[(Char, List[Char])]
-    ): Int =
-      if lines.isEmpty || lines.head.size <= i then num.zipWithIndex.reverse.map(_ << _).reduce(_ | _)
+    @tailrec def loop(lines: List[String], i: Int = 0, num: List[Int] = Nil)(using Ordering[(Char, List[Char])]): Int =
+      if lines.isEmpty || lines.head.size <= i then num.zipWithIndex.map(_ << _).reduce(_ | _)
       else
         val (n, _) = lines
           .map(_(i))
           .groupBy(identity)
-          .toSeq
-          .max(O)
+          .max
         loop(lines.filter(_(i) == n), i + 1, n.toString.toInt :: num)
 
     val maxOrd = Ordering.by[(Char, List[Char]), Int](_._2.size).orElse(Ordering.by(_._1))
