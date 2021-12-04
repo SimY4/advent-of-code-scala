@@ -13,10 +13,9 @@ object Day3:
           .groupBy(identity)
           .toSeq
           .maxBy((_, ls) => ls.size)
-        n match {
+        n match
           case '1' => (r | (1 << i), e)
           case '0' => (r, e | (1 << i))
-        }
       }
     r * e
 
@@ -30,7 +29,7 @@ object Day3:
           .max
         loop(lines.filter(_(i) == n), i + 1, n.toString.toInt :: num)
 
-    val maxOrd = Ordering.by[(Char, List[Char]), Int](_._2.size).orElse(Ordering.by(_._1))
+    val maxOrd = Ordering.by[(Char, List[Char]), (Int, Char)]((ch, cs) => cs.size -> ch)
     val minOrd = maxOrd.reverse
     loop(input.linesIterator.toList)(using maxOrd) * loop(input.linesIterator.toList)(using minOrd)
 
