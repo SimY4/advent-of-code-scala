@@ -66,10 +66,8 @@ object Day8:
         val newCurrent = instruction.command match
           case Command.Inc(n) => currentVal + n
           case Command.Dec(n) => currentVal - n
-        if maxVal >= newCurrent then
-          registers.updated(instruction.register, (newCurrent, maxVal))
-        else
-          registers.updated(instruction.register, (newCurrent, newCurrent))
+        if maxVal >= newCurrent then registers.updated(instruction.register, (newCurrent, maxVal))
+        else registers.updated(instruction.register, (newCurrent, newCurrent))
       else registers
     }
 
