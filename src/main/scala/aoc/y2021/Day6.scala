@@ -30,10 +30,7 @@ object Day6:
               counts(i) = 0
               add
           }
-        counts.zipWithIndex.foreach { case (count, i) =>
-          counts(i) += add(i)
-        }
-        counts
+        counts.zip(add).map(_ + _)
       }
       .sum
 
