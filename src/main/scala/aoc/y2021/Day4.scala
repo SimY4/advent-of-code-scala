@@ -16,11 +16,10 @@ object Day4:
       .tail
       .zip(numbers)
       .flatMap { (boards, number) =>
-        boards
-          .flatMap(board =>
-            Option.when(board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed)))(board)
-          )
-          .map(_.map(_.filterNot(_.crossed).map(_.n).sum).sum * number)
+        for
+          board <- boards
+          if board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed))
+        yield board.map(_.filterNot(_.crossed).map(_.n).sum).sum * number
       }
       .head
 

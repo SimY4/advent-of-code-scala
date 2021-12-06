@@ -15,7 +15,7 @@ object Day5:
       yield Coord(x, y)
     }.groupMapReduce(identity)(_ => 1)(_ + _).count((_, is) => is > 1)
 
-  def solve2(input: String): Any =
+  def solve2(input: String): Int =
     input.linesIterator.toSeq.view.collect { case linePattern(x1, y1, x2, y2) =>
       Coord(x1.toLong, y1.toLong) -> Coord(x2.toLong, y2.toLong)
     }.flatMap { case (Coord(x1, y1), Coord(x2, y2)) =>
