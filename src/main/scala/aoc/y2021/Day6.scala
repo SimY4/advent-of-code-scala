@@ -15,22 +15,12 @@ object Day6:
 
   def solve2(input: String): Long =
     val days   = input.split(',').map(_.toInt).toList
-    val counts = (0 to 8).map(i => days.filter(_ == i).size.toLong).toArray
+    val counts = (0 to 8).map(i => days.count(_ == i).toLong).toVector
     (0 until 256)
       .foldLeft(counts) { (counts, _) =>
-        val add =
-          counts.zipWithIndex.foldLeft(Array.fill(9)(0L)) {
-            case (add, (count, 0)) =>
-              add(6) = counts(0)
-              add(8) = counts(0)
-              counts(0) = 0
-              add
-            case (add, (count, i)) =>
-              add(i - 1) += counts(i)
-              counts(i) = 0
-              add
-          }
-        counts.zip(add).map(_ + _)
+        val zeros = counts.head
+        val next  = counts.tail :+ zeros
+        next.updated(6, next(6) + zeros)
       }
       .sum
 
