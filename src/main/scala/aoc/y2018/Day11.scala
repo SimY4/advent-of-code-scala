@@ -31,3 +31,5 @@ object Day11:
     yield (power, cell, size))
       .maxBy(_._1)
     max._2 -> max._3
+
+  val input = 5719

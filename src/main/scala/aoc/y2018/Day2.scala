@@ -3,7 +3,7 @@ package aoc.y2018
 object Day2:
   def solve(input: String): Int =
     val (fst, snd) = input.linesIterator.foldLeft(0 -> 0) { (acc, line) =>
-      val grouped = line.toSeq.groupBy(identity).values.map(_.length)
+      val grouped = line.toSeq.groupBy(identity).values.map(_.size)
       val (x, y)  = if grouped.exists(_ == 2) then (acc._1 + 1, acc._2) else acc
       if grouped.exists(_ == 3) then (x, y + 1) else (x, y)
     }
