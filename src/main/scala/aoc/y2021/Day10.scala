@@ -41,7 +41,7 @@ object Day10:
       .many()
       .map(_.foldLeft(0L)(_ * 5 + _))
 
-  def solve2(input: String): Any =
+  def solve2(input: String): Long =
     val result = input.linesIterator
       .filter(line => parser.run(line).isEmpty)
       .map(line => parser2.run(line))
