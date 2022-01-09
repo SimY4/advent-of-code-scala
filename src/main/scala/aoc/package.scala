@@ -40,14 +40,14 @@ object Coord:
       directions.map(coord + _.direction)
 
 enum Direction(val direction: Coord):
-  case Up extends Direction(Coord(0L, 1L))
-  case UpRight extends Direction(Coord(1L, 1L))
-  case Right extends Direction(Coord(1L, 0L))
+  case Up        extends Direction(Coord(0L, 1L))
+  case UpRight   extends Direction(Coord(1L, 1L))
+  case Right     extends Direction(Coord(1L, 0L))
   case DownRight extends Direction(Coord(1L, -1L))
-  case Down extends Direction(Coord(0L, -1L))
-  case DownLeft extends Direction(Coord(-1L, -1L))
-  case Left extends Direction(Coord(-1L, 0L))
-  case UpLeft extends Direction(Coord(-1L, 1L))
+  case Down      extends Direction(Coord(0L, -1L))
+  case DownLeft  extends Direction(Coord(-1L, -1L))
+  case Left      extends Direction(Coord(-1L, 0L))
+  case UpLeft    extends Direction(Coord(-1L, 1L))
 object Direction:
   val hvOnly: List[Direction] = List(Up, Right, Down, Left)
 

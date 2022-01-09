@@ -2,8 +2,8 @@ package aoc.y2015
 
 object Day21:
   private enum Item(name: String, cost: Int, damage: Int, armor: Int):
-    case Weapon(name: String, cost: Int, damage: Int) extends Item(name, cost, damage, 0)
-    case Armor(name: String, cost: Int, armor: Int) extends Item(name, cost, 0, armor)
+    case Weapon(name: String, cost: Int, damage: Int)           extends Item(name, cost, damage, 0)
+    case Armor(name: String, cost: Int, armor: Int)             extends Item(name, cost, 0, armor)
     case Ring(name: String, cost: Int, damage: Int, armor: Int) extends Item(name, cost, damage, armor)
 
   final private case class Character(hitPoints: Int, damage: Int, armor: Int)
