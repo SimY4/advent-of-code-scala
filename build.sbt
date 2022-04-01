@@ -1,6 +1,6 @@
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version      := "0.1.0"
-ThisBuild / scalaVersion := "3.1.1"
+ThisBuild / scalaVersion := "3.1.2"
 Global / cancelable      := true
 
 lazy val root = project
@@ -9,10 +9,10 @@ lazy val root = project
     name := "advent-of-code",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4",
-      "org.scalacheck"         %% "scalacheck"                 % "1.15.4" % Test
+      "org.scalameta"          %% "munit"                      % "0.7.29" % Test
     ),
     scalacOptions ++= Seq(
-      "-release", 
+      "-release",
       "11",
       "-encoding",
       "UTF-8",
@@ -28,5 +28,7 @@ lazy val root = project
   )
 
 console / initialCommands := "import aoc.y2020.Day20.*"
+
+testFrameworks += new TestFramework("munit.Framework")
 
 addCommandAlias("fmt", "; Compile / scalafmt; Test / scalafmt; scalafmtSbt")
