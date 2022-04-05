@@ -5,7 +5,7 @@ object Day6:
     LazyList
       .iterate(input.split(',').map(_.toInt).toList) { days =>
         val updated = days.map(_ - 1).map { day =>
-          if (day < 0) 6 else day
+          if day < 0 then 6 else day
         }
         updated ::: List.fill(days.count(_ - 1 < 0))(8)
       }

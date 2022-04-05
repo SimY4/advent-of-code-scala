@@ -26,22 +26,22 @@ object Day8:
         combined
           .filter(_.size == 6)
           .find(s => s.intersect(four).size < 4 && s.intersect(seven) == seven)
-          .map(_                                                             -> 0),
-        Some(one                                                             -> 1),
+          .map(_ -> 0),
+        Some(one -> 1),
         combined.filter(_.size == 5).find(_.intersect(four).size == 2).map(_ -> 2),
         combined
           .filter(_.size == 5)
           .find(s => s.intersect(four).size == 3 && s.intersect(seven) == seven)
-          .map(_  -> 3),
+          .map(_ -> 3),
         Some(four -> 4),
         combined
           .filter(_.size == 5)
           .find(s => s.intersect(four).size == 3 && s.intersect(seven).size < 3)
-          .map(_                                                              -> 5),
+          .map(_ -> 5),
         combined.filter(_.size == 6).find(_.intersect(seven).size == 2).map(_ -> 6),
-        Some(seven                                                            -> 7),
-        Some(eight                                                            -> 8),
-        combined.filter(_.size == 6).find(_.intersect(four) == four).map(_    -> 9)
+        Some(seven -> 7),
+        Some(eight -> 8),
+        combined.filter(_.size == 6).find(_.intersect(four) == four).map(_ -> 9)
       ).flatten.toMap
       output.map(mappings).reverse.zipWithIndex.foldLeft(0) { case (acc, (n, i)) =>
         acc + (n * math.pow(10, i).toInt)

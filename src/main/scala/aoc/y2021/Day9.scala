@@ -6,18 +6,18 @@ import scala.collection.mutable
 object Day9:
   def solve(input: String): Int =
     val grid = input.linesIterator.map(_.toArray.map(_.toString.toInt)).toArray
-    (for {
+    (for
       (row, x) <- grid.zipWithIndex
       (v, y)   <- row.zipWithIndex
       if Coord(x, y)
         .neighbours(Direction.hvOnly)
         .flatMap { case Coord(x, y) => grid.lift(x.toInt).flatMap(_.lift(y.toInt)) }
         .forall(_ > v)
-    } yield v + 1).sum
+    yield v + 1).sum
 
   def solve2(input: String): Int =
     val grid = input.linesIterator.map(_.toArray.map(_.toString.toInt)).toArray
-    (for {
+    (for
       (row, x) <- grid.zipWithIndex
       (v, y)   <- row.zipWithIndex
       point = Coord(x, y)
@@ -25,7 +25,7 @@ object Day9:
         .neighbours(Direction.hvOnly)
         .flatMap { case Coord(x, y) => grid.lift(x.toInt).flatMap(_.lift(y.toInt)) }
         .forall(_ > v)
-    } yield point).map { case point =>
+    yield point).map { case point =>
       val visited = mutable.HashSet.empty[Coord]
       def loop(c: Coord): Int =
         1 + (for

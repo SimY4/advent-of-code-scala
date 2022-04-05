@@ -11,7 +11,7 @@ object Day4:
 
     numbers.view
       .scanLeft(boards) { (boards, number) =>
-        boards.map(_.map(_.map(state => if (state.n == number) state.copy(crossed = true) else state)))
+        boards.map(_.map(_.map(state => if state.n == number then state.copy(crossed = true) else state)))
       }
       .tail
       .zip(numbers)
@@ -31,7 +31,7 @@ object Day4:
 
     numbers.view
       .scanLeft(boards -> List.empty[Int]) { case ((boards, winners), number) =>
-        val updated = boards.map(_.map(_.map(state => if (state.n == number) state.copy(crossed = true) else state)))
+        val updated = boards.map(_.map(_.map(state => if state.n == number then state.copy(crossed = true) else state)))
         val (cont, won) = updated.partitionMap { board =>
           Either.cond(
             board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed)),
