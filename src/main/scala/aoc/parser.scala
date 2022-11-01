@@ -34,13 +34,13 @@ private object Parser:
 
   val eof: Parser[Unit] = { input => Option.when(input.isEmpty)(((), input)) }
 
-  extension [A, B](p: Parser[A])
-    def as(b: => B): Parser[B] = p.map(_ => b)
+  extension [A](p: Parser[A])
+    def as[B](b: => B): Parser[B] = p.map(_ => b)
 
     def many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] =
       (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing(Nil)
 
-    def map(f: A => B): Parser[B] = { input =>
+    def map[B](f: A => B): Parser[B] = { input =>
       p(input).map((a, rest) => (f(a), rest))
     }
 
@@ -56,7 +56,7 @@ private object Parser:
       p(input).orElse(other(input))
     }
 
-    def <*>(other: => Parser[B]): Parser[(A, B)] =
+    def <*>[B](other: => Parser[B]): Parser[(A, B)] =
       p.andThen { op =>
         op.flatMap { (a, rest) =>
           other(rest).map((b, rest2) => ((a, b), rest2))
@@ -66,5 +66,5 @@ private object Parser:
     def <*(other: => Parser[Any]): Parser[A] =
       (p <*> other).map(_._1)
 
-    def *>(other: => Parser[B]): Parser[B] =
+    def *>[B](other: => Parser[B]): Parser[B] =
       (p <*> other).map(_._2)
