@@ -21,9 +21,6 @@ object Day23:
     case s"tgl ${reg}"             => Tgl(reg)
 
   @tailrec private def runProgram(instructions: List[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] =
-    println(state)
-    if state("a") > 100 then sys.error("stop")
-    if Thread.currentThread().isInterrupted() then sys.error("interrupted")
     instructions.lift(pos) match
       case None                        => state
       case Some(Cpy(Left(i), reg))     => runProgram(instructions, state.updated(reg, i), pos + 1)
