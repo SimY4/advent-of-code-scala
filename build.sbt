@@ -27,8 +27,8 @@ lazy val root = project
     )
   )
 
-console / initialCommands := "import aoc.y2020.Day20.*"
+console / initialCommands := "import aoc.y2016.Day23.*"
 
 testFrameworks += new TestFramework("munit.Framework")
 
-addCommandAlias("fmt", "; Compile / scalafmt; Test / scalafmt; scalafmtSbt")
+addCommandAlias("fmt", ";scalafmtAll;scalafmtSbt")

@@ -30,9 +30,9 @@ object Day5:
       }
       if hex.startsWith("00000") && '0' <= hex(5) && hex(5) <= '7'
     yield hex(5).asDigit -> hex(6))
-      .scanLeft(SortedMap.empty[Int, Char]) { (map, pair) =>
-        if map.contains(pair._1) then map
-        else map.updated(pair._1, pair._2)
+      .scanLeft(SortedMap.empty[Int, Char]) { case (map, (k, v)) =>
+        if map.contains(k) then map
+        else map.updated(k, v)
       }
       .find(_.size == 8)
       .map(_.values.mkString)

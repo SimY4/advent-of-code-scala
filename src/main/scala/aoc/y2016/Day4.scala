@@ -17,7 +17,7 @@ object Day4:
           .orElse(Ordering.by[(Char, Int), Char]((ch, _) => ch))
       )
       .take(5)
-      .map(_._1)
+      .map((ch, _) => ch)
       .mkString
     mostCommon == checksum
 

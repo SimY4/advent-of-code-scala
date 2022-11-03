@@ -5,6 +5,8 @@ extension [A](as: List[A])
     (as.head -> as.last) :: (as.zip(as.tail))
 
 extension (n: Long)
+  def factorial: Long = (1L to n).product
+
   def factors: Seq[Long] =
     (1L to math.sqrt(n.toDouble).toLong).flatMap { i =>
       if n % i == 0L then
