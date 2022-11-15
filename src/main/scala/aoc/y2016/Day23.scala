@@ -58,7 +58,7 @@ object Day23:
     runProgram(instructions, Map("a" -> 7).withDefaultValue(0)).get("a")
 
   def solve2(input: String): Option[Long] =
-    Some(12L.factorial + 6699L)
+    Some(12L.factorial + (77L * 87L))
 
   val input = """cpy a b
                 |dec b
