@@ -7,7 +7,7 @@ object Day14:
   final private case class Raindeer(name: String, speed: Int, flyTime: Int, restTime: Int)
   final private case class State(distance: Int, score: Int, switch: Int, status: Status)
 
-  private enum Status:
+  private enum Status extends Enum[Status]:
     case Flying, Resting
 
   def solve(input: String): Int =

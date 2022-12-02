@@ -41,7 +41,7 @@ object Coord:
     def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
       directions.map(coord + _.direction)
 
-enum Direction(val direction: Coord):
+enum Direction(val direction: Coord) extends Enum[Direction]:
   case Up        extends Direction(Coord(0L, 1L))
   case UpRight   extends Direction(Coord(1L, 1L))
   case Right     extends Direction(Coord(1L, 0L))
@@ -50,16 +50,16 @@ enum Direction(val direction: Coord):
   case DownLeft  extends Direction(Coord(-1L, -1L))
   case Left      extends Direction(Coord(-1L, 0L))
   case UpLeft    extends Direction(Coord(-1L, 1L))
+
+  def oposite: Direction = this match
+    case Up        => Down
+    case UpRight   => DownLeft
+    case Right     => Left
+    case DownRight => UpLeft
+    case Down      => Up
+    case DownLeft  => UpRight
+    case Left      => Right
+    case UpLeft    => DownRight
+
 object Direction:
   val hvOnly: List[Direction] = List(Up, Right, Down, Left)
-
-  extension (d: Direction)
-    def oposite: Direction = d match
-      case Up        => Down
-      case UpRight   => DownLeft
-      case Right     => Left
-      case DownRight => UpLeft
-      case Down      => Up
-      case DownLeft  => UpRight
-      case Left      => Right
-      case UpLeft    => DownRight

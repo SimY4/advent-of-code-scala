@@ -5,7 +5,7 @@ object Day1:
     input.split("\n\n").view.map(_.linesIterator.map(_.toInt).sum).max
 
   def solve2(input: String): Int =
-    input.split("\n\n").view.map(_.linesIterator.map(_.toInt).sum).sorted(Ordering[Int].reverse).take(3).sum
+    input.split("\n\n").view.map(_.linesIterator.map(_.toInt).sum).sorted.takeRight(3).sum
 
   val input = """5118
                 |5554

@@ -1,7 +1,7 @@
 package aoc.y2015
 
 object Day16:
-  private enum Dogs:
+  private enum Dogs extends Enum[Dogs]:
     case Samoyeds, Pomeranians, Akitas, Vizslas
 
   final private case class AuntSue(
