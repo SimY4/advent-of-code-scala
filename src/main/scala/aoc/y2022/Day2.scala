@@ -25,10 +25,11 @@ object Day2:
 
   def solve2(input: String): Int =
     input.linesIterator.map { case pattern(p1, p2) =>
+      val pp1 = RPS(p1)
       RPS(p2) match
-        case Rock     => ((RPS(p1).ordinal + 3 - 1) % 3) + 1
-        case Paper    => RPS(p1).ordinal + 1 + 3
-        case Scissors => ((RPS(p1).ordinal + 1)     % 3) + 1 + 6
+        case Rock     => pp1.round(RPS.fromOrdinal((pp1.ordinal + 3 - 1) % 3))
+        case Paper    => pp1.round(pp1)
+        case Scissors => pp1.round(RPS.fromOrdinal((pp1.ordinal + 1) % 3))
     }.sum
 
   val input = """C Z
