@@ -13,13 +13,13 @@ object Day11:
           case ('L', x)
               if !Coord(x, y)
                 .neighbours()
-                .flatMap(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt)))
+                .flatMap(layout.get)
                 .exists(_ == '#') =>
             '#'
           case ('#', x)
               if 4 <= Coord(x, y)
                 .neighbours()
-                .flatMap(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt)))
+                .flatMap(layout.get)
                 .count(_ == '#') =>
             'L'
           case (c, _) => c
@@ -41,7 +41,7 @@ object Day11:
               if !Direction.values.exists(d =>
                 LazyList
                   .iterate(Coord(x, y))(_ + d.direction)
-                  .map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt)))
+                  .map(layout.get)
                   .drop(1)
                   .takeWhile(_.filter(_ != 'L').isDefined)
                   .exists(_.exists(_ == '#'))
@@ -51,7 +51,7 @@ object Day11:
               if 5 <= Direction.values.count(d =>
                 LazyList
                   .iterate(Coord(x, y))(_ + d.direction)
-                  .map(n => layout.lift(n.y.toInt).flatMap(_.lift(n.x.toInt)))
+                  .map(layout.get)
                   .drop(1)
                   .takeWhile(_.filter(_ != 'L').isDefined)
                   .exists(_.exists(_ == '#'))

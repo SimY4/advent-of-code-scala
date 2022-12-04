@@ -3,15 +3,7 @@ package y2015
 
 object Day18:
   private def changeSwitch(grid: Array[Array[Boolean]], coord: Coord): Boolean =
-    val lightsOn = coord.neighbours().count { neighbour =>
-      grid
-        .lift(neighbour.x.toInt)
-        .exists(row =>
-          row
-            .lift(neighbour.y.toInt)
-            .exists(identity)
-        )
-    }
+    val lightsOn = coord.neighbours().count(grid.get(_).contains(true))
     if grid(coord.x.toInt)(coord.y.toInt) then 2 == lightsOn || 3 == lightsOn
     else 3 == lightsOn
 

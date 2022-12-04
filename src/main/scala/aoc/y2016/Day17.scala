@@ -9,7 +9,7 @@ object Day17:
 
   private val md = MessageDigest.getInstance("MD5")
 
-  private def paths(current: Coord, path: List[Direction] = Nil): List[List[Direction]] =
+  private def paths(current: Coord, path: List[Direction & HV] = Nil): List[List[Direction & HV]] =
     if Coord(3L, 0L) == current then List(path)
     else
       md.update((input + path.reverse.map {

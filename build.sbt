@@ -13,7 +13,7 @@ lazy val root = project
     ),
     scalacOptions ++= Seq(
       "-release",
-      "11",
+      "17",
       "-encoding",
       "UTF-8",
       "-explain",

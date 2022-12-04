@@ -27,28 +27,31 @@ extension (bytes: Array[Byte])
       hexChars(i * 2 + 1) = hexArray(v & 0x0f)
     new String(hexChars)
 
-final case class Coord(x: Long, y: Long)
-object Coord:
-  extension (coord: Coord)
-    def +(other: Coord): Coord =
-      Coord(coord.x + other.x, coord.y + other.y)
+final case class Coord(x: Long, y: Long):
+  def +(other: Coord): Coord =
+    Coord(x + other.x, y + other.y)
 
-    def dist(to: Coord): Long =
-      math.abs(to.x - coord.x) + math.abs(to.y - coord.y)
+  def dist(to: Coord): Long =
+    math.abs(to.x - x) + math.abs(to.y - y)
 
-    def distance: Long = math.max(math.max(math.abs(coord.x), math.abs(coord.y)), math.abs(coord.x - coord.y))
+  def distance: Long = math.max(math.max(math.abs(x), math.abs(y)), math.abs(x - y))
 
-    def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
-      directions.map(coord + _.direction)
+  def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
+    directions.map(this + _.direction)
 
+extension [A](dd: Array[Array[A]])
+  def apply(coord: Coord): A       = dd(coord.y.toInt)(coord.x.toInt)
+  def get(coord: Coord): Option[A] = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
+
+sealed trait HV
 enum Direction(val direction: Coord) extends Enum[Direction]:
-  case Up        extends Direction(Coord(0L, 1L))
+  case Up        extends Direction(Coord(0L, 1L)) with HV
   case UpRight   extends Direction(Coord(1L, 1L))
-  case Right     extends Direction(Coord(1L, 0L))
+  case Right     extends Direction(Coord(1L, 0L)) with HV
   case DownRight extends Direction(Coord(1L, -1L))
-  case Down      extends Direction(Coord(0L, -1L))
+  case Down      extends Direction(Coord(0L, -1L)) with HV
   case DownLeft  extends Direction(Coord(-1L, -1L))
-  case Left      extends Direction(Coord(-1L, 0L))
+  case Left      extends Direction(Coord(-1L, 0L)) with HV
   case UpLeft    extends Direction(Coord(-1L, 1L))
 
   def oposite: Direction = this match
@@ -62,4 +65,4 @@ enum Direction(val direction: Coord) extends Enum[Direction]:
     case UpLeft    => DownRight
 
 object Direction:
-  val hvOnly: List[Direction] = List(Up, Right, Down, Left)
+  val hvOnly: List[Direction & HV] = List(Up, Right, Down, Left)

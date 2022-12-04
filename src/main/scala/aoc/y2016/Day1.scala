@@ -4,7 +4,7 @@ package y2016
 object Day1:
   import Direction.*
 
-  private def navigate(direction: Direction, instruction: String): (Direction, List[Direction]) =
+  private def navigate(direction: Direction, instruction: String): (Direction & HV, List[Direction & HV]) =
     val steps = instruction.tail.toInt
     val nextDirection = (instruction.head, direction) match
       case ('R', Up)    => Right

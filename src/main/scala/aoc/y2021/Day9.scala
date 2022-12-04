@@ -11,7 +11,7 @@ object Day9:
       (v, y)   <- row.zipWithIndex
       if Coord(x, y)
         .neighbours(Direction.hvOnly)
-        .flatMap { case Coord(x, y) => grid.lift(x.toInt).flatMap(_.lift(y.toInt)) }
+        .flatMap(grid.get)
         .forall(_ > v)
     yield v + 1).sum
 
@@ -23,7 +23,7 @@ object Day9:
       point = Coord(x, y)
       if point
         .neighbours(Direction.hvOnly)
-        .flatMap { case Coord(x, y) => grid.lift(x.toInt).flatMap(_.lift(y.toInt)) }
+        .flatMap(grid.get)
         .forall(_ > v)
     yield point).map { case point =>
       val visited = mutable.HashSet.empty[Coord]
