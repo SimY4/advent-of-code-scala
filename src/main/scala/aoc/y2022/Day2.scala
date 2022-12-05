@@ -16,20 +16,18 @@ object Day2:
       case "C" | "Z" => Scissors
   import RPS.*
 
-  private val pattern = "([ABC]) ([XYZ])".r
-
   def solve(input: String): Int =
-    input.linesIterator.map { case pattern(p1, p2) =>
-      RPS(p1).round(RPS(p2))
+    input.linesIterator.map { line =>
+      line.split(" ").map(RPS(_)).toList match
+        case p1 :: p2 :: Nil => p1.round(p2)
     }.sum
 
   def solve2(input: String): Int =
-    input.linesIterator.map { case pattern(p1, p2) =>
-      val pp1 = RPS(p1)
-      RPS(p2) match
-        case Rock     => pp1.round(RPS.fromOrdinal((pp1.ordinal + 3 - 1) % 3))
-        case Paper    => pp1.round(pp1)
-        case Scissors => pp1.round(RPS.fromOrdinal((pp1.ordinal + 1) % 3))
+    input.linesIterator.map { line =>
+      line.split(" ").map(RPS(_)).toList match
+        case p1 :: Rock :: Nil     => p1.round(RPS.fromOrdinal((p1.ordinal + 3 - 1) % 3))
+        case p1 :: Paper :: Nil    => p1.round(p1)
+        case p1 :: Scissors :: Nil => p1.round(RPS.fromOrdinal((p1.ordinal + 1) % 3))
     }.sum
 
   val input = """C Z
