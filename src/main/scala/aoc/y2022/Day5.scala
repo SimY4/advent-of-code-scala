@@ -1,18 +1,17 @@
 package aoc.y2022
 
 object Day5:
-  case class Move(qty: Int, from: Int, to: Int)
+  private case class Move(qty: Int, from: Int, to: Int)
 
-  def parse(input: String): (List[List[String]], List[Move]) =
+  private def parse(input: String): (List[List[String]], List[Move]) =
     val crates = input
       .substring(0, input.indexOf("\n\n"))
       .linesIterator
       .toVector
-    val init = List.fill("\\d+".r.findAllIn(crates.last).size)(Nil: List[String])
 
     (
-      crates.init.reverse
-        .foldLeft(init) { (acc, line) =>
+      crates.init
+        .foldRight(List.fill("\\d+".r.findAllIn(crates.last).size)(Nil: List[String])) { (line, acc) =>
           line.sliding(3, 4).zipWithIndex.foldLeft(acc) {
             case (acc, (s"[$s]", i)) => acc.updated(i, s :: acc(i))
             case (acc, _)            => acc
