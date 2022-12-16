@@ -1,8 +1,6 @@
 package aoc
 package y2022
 
-import scala.math.Equiv.apply
-
 object Day13:
   import Parser.*
 
@@ -28,7 +26,7 @@ object Day13:
     char('[') *> (span(_.isDigit).map(s => Packet.Single(s.toInt)) <|> parser.map(Packet.Multi(_)))
       .many(char(',')) <* char(']')
 
-  def solve(input: String): Any =
+  def solve(input: String): Int =
     (for
       (pairs, i) <- input.split("\n\n").zipWithIndex
       first :: second :: Nil = pairs.linesIterator.toList: @unchecked
