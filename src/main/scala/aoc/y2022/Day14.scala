@@ -1,6 +1,7 @@
 package aoc
 package y2022
 
+import scala.annotation.tailrec
 import scala.collection.immutable.SortedSet
 
 object Day14:
@@ -36,7 +37,7 @@ object Day14:
       .continually(start)
       .scanLeft(Some(walls): Option[Map[Long, SortedSet[Coord]]]) {
         case (Some(acc), sand) =>
-          def loop(sand: Coord): Option[Map[Long, SortedSet[Coord]]] =
+          @tailrec def loop(sand: Coord): Option[Map[Long, SortedSet[Coord]]] =
             val ys = acc.getOrElse(sand.x, SortedSet.empty)
             ys.dropWhile(_.y < sand.y) match
               case set if set.isEmpty => None
@@ -61,7 +62,7 @@ object Day14:
     LazyList
       .continually(start)
       .scanLeft(walls) { (acc, sand) =>
-        def loop(sand: Coord): Map[Long, SortedSet[Coord]] =
+        @tailrec def loop(sand: Coord): Map[Long, SortedSet[Coord]] =
           val ys = acc.getOrElse(sand.x, SortedSet.empty)
           ys.dropWhile(_.y < sand.y) match
             case set if set.isEmpty => acc.updated(sand.x, ys + Coord(sand.x, floor))
