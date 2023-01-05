@@ -3,36 +3,32 @@ package aoc
 private opaque type Parser[+A] = String => Option[(A, String)]
 
 private object Parser:
-  def char(ch: Char): Parser[Char] = { input =>
+  def char(ch: Char): Parser[Char] = input =>
     for
       head <- input.headOption
       if head == ch
     yield (head, input.tail)
-  }
 
-  def literal(literal: String): Parser[String] = { input =>
+  def literal(literal: String): Parser[String] = input =>
     if input.startsWith(literal) then Some(literal, input.substring(literal.length))
     else None
-  }
 
-  def span(p: Char => Boolean): Parser[String] = { input =>
+  def span(p: Char => Boolean): Parser[String] = input =>
     val matches = input.takeWhile(p)
     if matches.isEmpty then None
     else Some(matches, input.substring(matches.length))
-  }
 
-  val any: Parser[Char] = { input => input.headOption.map((_, input.tail)) }
+  val any: Parser[Char] = input => input.headOption.map((_, input.tail))
 
-  def not(first: Char, rest: Char*): Parser[Char] = { input =>
+  def not(first: Char, rest: Char*): Parser[Char] = input =>
     for
       ch <- input.headOption
       if first != ch && !rest.contains(ch)
     yield (ch, input.tail)
-  }
 
   def nothing[A](empty: A): Parser[A] = Some(empty, _)
 
-  val eof: Parser[Unit] = { input => Option.when(input.isEmpty)(((), input)) }
+  val eof: Parser[Unit] = input => Option.when(input.isEmpty)(((), input))
 
   extension [A](p: Parser[A])
     def as[B](b: => B): Parser[B] = p.map(_ => b)
@@ -40,9 +36,8 @@ private object Parser:
     def many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] =
       (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing(Nil)
 
-    def map[B](f: A => B): Parser[B] = { input =>
+    def map[B](f: A => B): Parser[B] = input =>
       p(input).map((a, rest) => (f(a), rest))
-    }
 
     def optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
@@ -52,9 +47,8 @@ private object Parser:
         case Some(res, rem) => sys.error(s"parsed string didn't match. parsed: $res, rest: '$rem'")
         case None           => sys.error("parsed string didn't match.")
 
-    def <|>(other: => Parser[A]): Parser[A] = { input =>
+    def <|>(other: => Parser[A]): Parser[A] = input =>
       p(input).orElse(other(input))
-    }
 
     def <*>[B](other: => Parser[B]): Parser[(A, B)] =
       p.andThen { op =>

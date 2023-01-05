@@ -33,10 +33,10 @@ object Day9:
           if !visited.contains(neighbour)
           nv <- grid.lift(neighbour.x.toInt).flatMap(_.lift(neighbour.y.toInt))
           if 9 > nv && nv > grid(c.x.toInt)(c.y.toInt)
-        yield {
+        yield
           visited.add(neighbour)
           loop(neighbour)
-        }).sum
+        ).sum
       loop(point)
     }.sorted
       .takeRight(3)

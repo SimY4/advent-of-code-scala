@@ -25,13 +25,12 @@ object Day17:
           Coord(2L, 4L)
         )
       ) { case (grid, rock, move, coord) =>
-        val (nextCoord, curRock) = {
+        val (nextCoord, curRock) =
           val nc = coord + moves((move % moves.size).toInt).direction
           val cs = rocks((rock % rocks.size).toInt).map(nc + _)
           if cs.exists(c => c.x < 0 || 6 < c.x || grid.contains(c))
           then (coord, rocks((rock % rocks.size).toInt).map(coord + _))
           else (nc, cs)
-        }
         if curRock.exists(c => grid.contains(c + Direction.Down.direction)) then
           val newGrid  = grid ++ curRock
           val tallestY = newGrid.map(_.y).max

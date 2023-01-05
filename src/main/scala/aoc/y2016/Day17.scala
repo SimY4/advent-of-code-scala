@@ -24,12 +24,12 @@ object Day17:
         d <- Direction.hvOnly
         next = current + d.direction
         if 0 <= next.x && next.x <= 3 && 0 <= next.y && next.y <= 3
-        if "BCDEF".toSet.contains(d match {
+        if "BCDEF".toSet.contains(d match
           case Up    => hex(0)
           case Down  => hex(1)
           case Left  => hex(2)
           case Right => hex(3)
-        })
+        )
       yield d
 
       directions.flatMap(d => paths(current + d.direction, d :: path))

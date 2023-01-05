@@ -29,7 +29,7 @@ object Day4:
       matcher.find
       Record(
         dateFormat.parse(matcher.group("ts")).toInstant,
-        matcher.group("ac") match {
+        matcher.group("ac") match
           case s if s.startsWith("wakes up")     => WakesUp
           case s if s.startsWith("falls asleep") => FallsAsleep
           case s if s.startsWith("Guard #") =>
@@ -39,7 +39,6 @@ object Day4:
                 BeginsDuty(g.toInt)
               }
               .get
-        }
       )
 
     implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)

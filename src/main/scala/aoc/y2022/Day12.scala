@@ -21,10 +21,9 @@ object Day12:
               if 'E' == nch then 'z' == ch
               else ch.toInt + 1 >= nch.toInt
             }
-          yield {
+          yield
             visited.add(neighbour)
             neighbour :: path
-          }
         } match
           case Nil =>
             paths.map(_.map(grid(_)).mkString)

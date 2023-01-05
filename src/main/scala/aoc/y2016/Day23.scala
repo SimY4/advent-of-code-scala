@@ -40,13 +40,12 @@ object Day23:
           runProgram(
             instructions.updated(
               n,
-              instructions(n) match {
+              instructions(n) match
                 case Inc(reg)              => Dec(reg)
                 case Dec(reg)              => Inc(reg)
                 case Tgl(reg)              => Inc(reg)
                 case Jnz(iOrR, Right(reg)) => Cpy(iOrR, reg)
                 case Cpy(iOrR, reg)        => Jnz(iOrR, Right(reg))
-              }
             ),
             state,
             pos + 1

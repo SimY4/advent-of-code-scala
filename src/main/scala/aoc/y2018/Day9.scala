@@ -4,11 +4,11 @@ import scala.annotation.tailrec
 import scala.language.implicitConversions
 
 object Day9:
-  final private class Node(val value: Long) { self =>
+  final private class Node(val value: Long):
+    self =>
     var prev: Node                = self
     var next: Node                = self
     override def toString: String = value.toString
-  }
 
   private object Node:
     def apply(prev: Node, value: Int, next: Node): Node =

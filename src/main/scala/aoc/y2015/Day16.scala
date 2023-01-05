@@ -84,10 +84,9 @@ object Day16:
               .get(dog)
               .forall(ld =>
                 a.dogs.get(dog).forall { rd =>
-                  dog match {
+                  dog match
                     case Dogs.Pomeranians => ld > rd
                     case _                => ld == rd
-                  }
                 }
               )
           )

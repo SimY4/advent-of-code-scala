@@ -10,7 +10,7 @@ object Day7:
   private object Gate:
     def apply(s: String): Gate =
       try Value(s.toInt)
-      catch { case _: NumberFormatException => Ref(s) }
+      catch case _: NumberFormatException => Ref(s)
 
   import Gate.*
 

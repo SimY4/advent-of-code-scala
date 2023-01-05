@@ -21,8 +21,6 @@ lazy val root = project
       "-feature",
       "-unchecked",
       "-deprecation",
-      "-rewrite",
-      "-new-syntax",
       "-source:future-migration"
     )
   )
