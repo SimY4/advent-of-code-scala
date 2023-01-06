@@ -7,7 +7,7 @@ object Day12:
     case Cpy(value: Int Either String, reg: String)
     case Inc(reg: String)
     case Dec(reg: String)
-    case Jnz(reg: Int Either String, n: Int)
+    case Jnz(value: Int Either String, n: Int)
 
   import Code.*
 

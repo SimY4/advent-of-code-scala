@@ -1,16 +1,16 @@
 package aoc.y2015
 
 object Day11:
-  private val forbidden = Set('i', 'o', 'l')
+  private val forbidden = "iol"
 
-  extension (s: List[Char])
-    private def increment: List[Char] =
+  extension (s: Vector[Char])
+    private def increment: Vector[Char] =
       s.reverse match
-        case 'z' :: tail => tail.reverse.increment :+ 'a'
-        case x :: tail   => ((x + 1).toChar :: tail).reverse
-        case Nil         => 'a' :: Nil
+        case 'z' +: tail => tail.reverse.increment :+ 'a'
+        case x +: tail   => ((x.toInt + 1).toChar +: tail).reverse
+        case _           => Vector('a')
 
-  private def meetRequirements(pass: List[Char]): Boolean =
+  private def meetRequirements(pass: Vector[Char]): Boolean =
     (for
       p <- Some(pass)
       if p.sliding(3).exists { triple =>
@@ -20,22 +20,21 @@ object Day11:
       if p
         .sliding(2)
         .zipWithIndex
-        .filter(pair => pair.size == 2 && pair._1(0) == pair._1(1))
-        .map(_._2)
+        .collect { case (pair, idx) if pair.size == 2 && pair(0) == pair(1) => idx }
         .sliding(2)
         .exists(pair => pair.size == 2 && pair(0) + 1 != pair(1))
     yield ()).isDefined
 
   def solve(input: String): String =
     LazyList
-      .iterate(input.toList)(_.increment)
+      .iterate(input.toVector)(_.increment)
       .filter(meetRequirements)
       .head
       .mkString
 
   def solve2(input: String): String =
     LazyList
-      .iterate(input.toList)(_.increment)
+      .iterate(input.toVector)(_.increment)
       .filter(meetRequirements)
       .drop(1)
       .head

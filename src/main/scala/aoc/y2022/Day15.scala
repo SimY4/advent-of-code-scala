@@ -3,7 +3,7 @@ package y2022
 
 object Day15:
   private def range(y: Long)(sensor: Coord, closestBeacon: Coord): Option[(Long, Long)] =
-    val dist   = sensor.dist(closestBeacon)
+    val dist   = sensor.manhattan(closestBeacon)
     val offset = dist - math.abs(sensor.y - y)
     if offset < 0L then None
     else

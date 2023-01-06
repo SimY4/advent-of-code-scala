@@ -1,16 +1,15 @@
-package aoc.y2015
+package aoc
+package y2015
 
 import scala.annotation.tailrec
 
 object Day7:
   private enum Gate:
     case Ref(s: String)
-    case Value(i: Int)
+    case Value(v: Long)
 
   private object Gate:
-    def apply(s: String): Gate =
-      try Value(s.toInt)
-      catch case _: NumberFormatException => Ref(s)
+    def apply(s: String): Gate = s.toLongOption.map(Value.apply).getOrElse(Ref(s))
 
   import Gate.*
 
@@ -35,9 +34,7 @@ object Day7:
       Not(Gate(e), new Ref(to))
     case s"$g -> $to" => Identity(Gate(g), new Ref(to))
 
-  extension (i: Int) private def u: Int = i << 16 >>> 16
-
-  @tailrec private def iterate(signals: Map[Ref, Int], logicGates: List[Wire]): Map[Ref, Int] =
+  @tailrec private def iterate(signals: Map[Ref, Long], logicGates: List[Wire]): Map[Ref, Long] =
     if logicGates.isEmpty then signals
     else
       val (newSignals, rest) = logicGates.partitionMap {
@@ -77,11 +74,11 @@ object Day7:
       }
       iterate(signals ++ newSignals, rest)
 
-  def solve(input: String): Option[Int] =
+  def solve(input: String): Option[Long] =
     val logicGates = input.linesIterator.map(parseLine).toList
     iterate(Map.empty, logicGates).get(new Ref("a"))
 
-  def solve2(input: String): Option[Int] =
+  def solve2(input: String): Option[Long] =
     val logicGates = input.linesIterator.map(parseLine).toList
     val a          = iterate(Map.empty, logicGates)(new Ref("a"))
     iterate(

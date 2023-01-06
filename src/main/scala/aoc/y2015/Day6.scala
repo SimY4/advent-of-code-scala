@@ -12,12 +12,10 @@ object Day6:
   import Action.*
 
   private def parseLine(line: String): Action =
-    "\\d+".r.findAllIn(line).map(_.toLong).toList match
-      case x1 :: y1 :: x2 :: y2 :: Nil =>
-        line match
-          case _ if line.startsWith("turn on")  => TurnOn(Coord(x1, y1), Coord(x2, y2))
-          case _ if line.startsWith("turn off") => TurnOff(Coord(x1, y1), Coord(x2, y2))
-          case _ if line.startsWith("toggle")   => Toggle(Coord(x1, y1), Coord(x2, y2))
+    line match
+      case s"turn on $x1,$y1 through $x2,$y2"  => TurnOn(Coord(x1.toLong, y1.toLong), Coord(x2.toLong, y2.toLong))
+      case s"turn off $x1,$y1 through $x2,$y2" => TurnOff(Coord(x1.toLong, y1.toLong), Coord(x2.toLong, y2.toLong))
+      case s"toggle $x1,$y1 through $x2,$y2"   => Toggle(Coord(x1.toLong, y1.toLong), Coord(x2.toLong, y2.toLong))
 
   private def update[A](grid: Grid[A], coord1: Coord, coord2: Coord)(f: A => A): Grid[A] =
     for i <- coord1.x.toInt to coord2.x.toInt; j <- coord1.y.toInt to coord2.y.toInt do grid(i)(j) = f(grid(i)(j))

@@ -21,16 +21,14 @@ object Day8:
       line <- input.linesIterator
       totalStr      = countEscaping(str = line.substring(1, line.length - 1))
       totalInMemory = line.length
-    yield (totalStr, totalInMemory))
-      .foldLeft(0)((acc, p) => acc + p._2 - p._1)
+    yield totalInMemory - totalStr).sum
 
   def solve2(input: String): Int =
     (for
       line <- input.linesIterator
       totalUnescaped = countUnescaping(str = line)
       totalInMemory  = line.length
-    yield (totalUnescaped, totalInMemory))
-      .foldLeft(0)((acc, p) => acc + p._1 - p._2)
+    yield totalUnescaped - totalInMemory).sum
 
   val input = """"\xa8br\x8bjr\""
                 |"nq"

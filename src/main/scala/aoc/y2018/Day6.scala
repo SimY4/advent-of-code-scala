@@ -10,7 +10,7 @@ object Day6:
     val coord = coords(input)
 
     def closest(c: Coord): String =
-      val dists   = coord.map(_.dist(c))
+      val dists   = coord.map(_.manhattan(c))
       val minDist = dists.min
       val indexes = dists.zipWithIndex.filter(_._1 == minDist)
       if indexes.size > 1 then "."
@@ -59,7 +59,7 @@ object Day6:
       x <- minX to maxX
       y <- minY to maxY
       c = Coord(x, y)
-      d = coord.map(_.dist(c)).reduce(_ + _)
+      d = coord.map(_.manhattan(c)).reduce(_ + _)
       if d < 10000
     yield c
 

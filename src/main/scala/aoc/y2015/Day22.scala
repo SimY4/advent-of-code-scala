@@ -3,27 +3,16 @@ package aoc.y2015
 import java.util.concurrent.atomic.AtomicInteger
 
 object Day22:
-  sealed trait Spell:
-    def mana: Int
-  object Spell:
+  private sealed trait EffectOverTime(val turns: Int)
+  private enum Spell(val mana: Int) extends Enum[Spell]:
+    case MagicMisile extends Spell(53)
+    case Drain       extends Spell(73)
+    case Shield      extends Spell(113) with EffectOverTime(6)
+    case Poison      extends Spell(173) with EffectOverTime(6)
+    case Recharge    extends Spell(229) with EffectOverTime(5)
+
+  private object Spell:
     val book: List[Spell] = List(MagicMisile, Drain, Shield, Poison, Recharge)
-
-    sealed trait EffectOverTime extends Spell:
-      def turns: Int
-
-    case object MagicMisile extends Spell:
-      override val mana: Int = 53
-    case object Drain extends Spell:
-      override val mana: Int = 73
-    case object Shield extends EffectOverTime:
-      override val mana: Int  = 113
-      override val turns: Int = 6
-    case object Poison extends EffectOverTime:
-      override val mana: Int  = 173
-      override val turns: Int = 6
-    case object Recharge extends EffectOverTime:
-      override val mana: Int  = 229
-      override val turns: Int = 5
 
   import Spell.*
 
@@ -32,10 +21,8 @@ object Day22:
   final private case class GameState(cooldowns: Map[EffectOverTime, Int], character: Character, boss: Boss)
 
   def solve(input: String): Int =
-    val boss = input.linesIterator
-      .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match
-      case hp :: damage :: Nil => Boss(hp, damage)
+    val boss = input.linesIterator.toList match
+      case s"Hit Points: $hp" :: s"Damage: $damage" :: Nil => Boss(hp.toInt, damage.toInt)
 
     val atom = new AtomicInteger(Int.MaxValue)
 
@@ -95,10 +82,8 @@ object Day22:
     duel(true, 0, GameState(Map.empty, Character(50, 500), boss)).min
 
   def solve2(input: String): Int =
-    val boss = input.linesIterator
-      .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match
-      case hp :: damage :: Nil => Boss(hp, damage)
+    val boss = input.linesIterator.toList match
+      case s"Hit Points: $hp" :: s"Damage: $damage" :: Nil => Boss(hp.toInt, damage.toInt)
 
     val atom = new AtomicInteger(Int.MaxValue)
 

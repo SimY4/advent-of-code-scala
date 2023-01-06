@@ -18,7 +18,7 @@ object Day24:
         if group.sum == maxWeight
       yield group
 
-    groups
+    val (_, group) = groups
       .take(1)
       .foldLeft(Int.MaxValue -> List.empty[List[Int]]) { (acc, group) =>
         val compare = acc._1.compare(group.size)
@@ -26,9 +26,7 @@ object Day24:
         else if compare > 0 then group.size -> (group :: Nil)
         else acc._1                         -> (group :: acc._2)
       }
-      ._2
-      .map(_.map(_.toLong).product)
-      .max
+    group.map(_.map(_.toLong).product).max
 
   def solve2(input: String): Long = solve(input, 4)
 

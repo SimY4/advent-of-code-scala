@@ -44,10 +44,9 @@ object Day21:
       p1Strikes <= p2Strikes
 
   def solve(input: String): Int =
-    val boss = input.linesIterator
-      .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match
-      case hp :: damage :: armor :: Nil => Character(hp, damage, armor)
+    val boss = input.linesIterator.toList match
+      case s"Hit Points: $hp" :: s"Damage: $damage" :: s"Armor: $armor" :: Nil =>
+        Character(hp.toInt, damage.toInt, armor.toInt)
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
@@ -65,10 +64,9 @@ object Day21:
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).min
 
   def solve2(input: String): Int =
-    val boss = input.linesIterator
-      .flatMap(line => "\\d+".r.findFirstIn(line).map(_.toInt))
-      .toList match
-      case hp :: damage :: armor :: Nil => Character(hp, damage, armor)
+    val boss = input.linesIterator.toList match
+      case s"Hit Points: $hp" :: s"Damage: $damage" :: s"Armor: $armor" :: Nil =>
+        Character(hp.toInt, damage.toInt, armor.toInt)
 
     val weapons = items.collect { case w: Weapon => w }
     val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)

@@ -4,7 +4,7 @@ package y2015
 object Day18:
   private def changeSwitch(grid: Array[Array[Boolean]], coord: Coord): Boolean =
     val lightsOn = coord.neighbours().count(grid.get(_).contains(true))
-    if grid(coord.x.toInt)(coord.y.toInt) then 2 == lightsOn || 3 == lightsOn
+    if grid(coord) then 2 == lightsOn || 3 == lightsOn
     else 3 == lightsOn
 
   def solve(input: String): Int =
@@ -13,14 +13,10 @@ object Day18:
       .toArray
 
     LazyList
-      .from(0)
-      .scanLeft(grid) { (g, _) =>
-        (for
-          i <- 0 until g.size
-          row = (0 until g.size)
-            .map(j => changeSwitch(g, Coord(i.toLong, j.toLong)))
-            .toArray
-        yield row).toArray
+      .iterate(grid) { g =>
+        g.indices
+          .map(i => g(i).indices.map(j => changeSwitch(g, Coord(i.toLong, j.toLong))).toArray)
+          .toArray
       }
       .drop(100)
       .head
@@ -36,14 +32,12 @@ object Day18:
     alwaysOn.foreach { case (i, j) => grid(i)(j) = true }
 
     LazyList
-      .from(0)
-      .scanLeft(grid) { (g, _) =>
-        (for
-          i <- 0 until g.size
-          row = (0 until g.size)
-            .map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong)))
-            .toArray
-        yield row).toArray
+      .iterate(grid) { g =>
+        g.indices
+          .map(i =>
+            g(i).indices.map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong))).toArray
+          )
+          .toArray
       }
       .drop(100)
       .head

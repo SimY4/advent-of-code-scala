@@ -18,7 +18,7 @@ object Day18:
         case x :: y :: z :: Nil => (x, y, z)
     }.toList)
 
-  def solve2(input: String): Long =
+  def solve2(input: String): Int =
     val cubes = input.linesIterator.map { line =>
       "\\d+".r.findAllIn(line).map(_.toInt).toList match
         case x :: y :: z :: Nil => (x, y, z)

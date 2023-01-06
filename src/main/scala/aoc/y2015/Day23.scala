@@ -14,13 +14,13 @@ object Day23:
   import Instruction.*
 
   private def parseLine(line: String): Instruction =
-    "[a-z\\-+0-9]+".r.findAllIn(line).toList match
-      case "hlf" :: r :: Nil           => hlf(r)
-      case "tpl" :: r :: Nil           => tpl(r)
-      case "inc" :: r :: Nil           => inc(r)
-      case "jmp" :: offset :: Nil      => jmp(offset.toInt)
-      case "jie" :: r :: offset :: Nil => jie(r, offset.toInt)
-      case "jio" :: r :: offset :: Nil => jio(r, offset.toInt)
+    line match
+      case s"hlf $r"          => hlf(r)
+      case s"tpl $r"          => tpl(r)
+      case s"inc $r"          => inc(r)
+      case s"jmp $offset"     => jmp(offset.toInt)
+      case s"jie $r, $offset" => jie(r, offset.toInt)
+      case s"jio $r, $offset" => jio(r, offset.toInt)
 
   @tailrec private def runProgram(program: List[Instruction], state: Map[String, Int], cursor: Int): Map[String, Int] =
     if cursor >= program.size then state
