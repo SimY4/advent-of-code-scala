@@ -8,7 +8,7 @@ object Day2:
     Array(7, 8, 9)
   )
 
-  def solve(input: String): List[Int] =
+  def solve(input: String): String =
     input.linesIterator
       .scanLeft(Coord(1L, 1L)) { (ccord, instructions) =>
         instructions.foldLeft(ccord) { (coord, instruction) =>
@@ -21,8 +21,8 @@ object Day2:
         }
       }
       .drop(1)
-      .map { case Coord(x, y) => field1(y.toInt)(x.toInt) }
-      .toList
+      .map(field1(_))
+      .mkString
 
   private val field2 = Array(
     Array('_', '_', '1', '_', '_'),
@@ -32,7 +32,7 @@ object Day2:
     Array('_', '_', 'D', '_', '_')
   )
 
-  def solve2(input: String): List[Char] =
+  def solve2(input: String): String =
     input.linesIterator
       .scanLeft(Coord(0L, 2L)) { (ccord, instructions) =>
         instructions.foldLeft(ccord) { (coord, instruction) =>
@@ -46,8 +46,8 @@ object Day2:
         }
       }
       .drop(1)
-      .map { case Coord(x, y) => field2(y.toInt)(x.toInt) }
-      .toList
+      .map(field2(_))
+      .mkString
 
   val input =
     """LRULLRLDUUUDUDDDRLUDRDLDDLUUDLDDLRDRLDRLLURRULURLDRLDUDURLURRULLDDDUDDRRRDLRRDDLDURDULLRDLLLDRDLLDULDUDLLDLDRUDLLDLDDRRRDRLUDRDDLUDRRDUDUDLLDDUUDLRDUDRRUDUDRULRULUDRUUDLDLULLRLDLDDRULLRLLLULUULDURURLUUULDURLDDDURRUUDURDDDULDLURLRDRURDRUDRLLDLDRUURLLLRDRURUDLRLUDULLDDURLRURDLRDUUURRLULRRLDDULUUURLRRRLLLLLURDDRUULUDRRRUDDLLULRRUULDRDDULRLDDDRRUULUDRLRUDURUUULDLDULUUDURLLLRRDDRDLURDDDLDDDLRDRLDDURLRLLRUDRRLLDDDDDURDURRDDULDULLRULDRUURDRRDUDDUDDDDRRDULDUURDRUDRLDULRULURLLRRDRDRDLUUDRRLRLDULDDLUUUUUURRLRRRULLDDDRLRDRRRRRRRDUUDLLUDURUDDLURRUDL
