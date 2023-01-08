@@ -31,8 +31,8 @@ object Day4:
       if passDigits
         .foldRight(Nil: List[(Int, Int)]) { (digit, acc) =>
           acc match
-            case (d, cnt) :: tail if d == digit => (digit, cnt + 1) :: tail
-            case _                              => (digit, 1) :: acc
+            case (`digit`, cnt) :: tail => (digit, cnt + 1) :: tail
+            case _                      => (digit, 1) :: acc
         }
         .exists((_, cnt) => cnt == 2)
       if passDigits.sliding(2, 1).forall(pair => pair.head <= pair.tail.head)

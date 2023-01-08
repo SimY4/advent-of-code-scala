@@ -4,8 +4,9 @@ package y2022
 object Day9:
   private def moveTail(head: Coord, tail: List[Coord]): List[Coord] =
     tail match
-      case Nil                                                                              => Nil
-      case tailHead :: tailTail if head == tailHead || head.neighbours().contains(tailHead) => tail
+      case Nil                                                   => Nil
+      case `head` :: _                                           => tail
+      case tailHead :: _ if head.neighbours().contains(tailHead) => tail
       case tailHead :: tailTail =>
         val newTailHead = Coord(
           tailHead.x + (-1L max (head.x - tailHead.x) min 1L),

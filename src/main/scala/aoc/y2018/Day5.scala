@@ -11,8 +11,8 @@ object Day5:
 
   @tailrec def solve0(acc: String): String =
     regex.replaceFirstIn(acc, "") match
-      case res if acc == res => res
-      case res               => solve0(res)
+      case `acc` => acc
+      case res   => solve0(res)
 
   def solve(input: String): Int = solve0(input).length
 

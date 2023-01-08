@@ -11,6 +11,6 @@ object Day25:
         if incRow == col then Cell(Coord(incRow + 1L, 1L), incRow + 1L) -> nextValue
         else Cell(Coord(row - 1L, col + 1L), incRow)                    -> nextValue
       }
-      .collectFirst { case (Cell(coord, _), value) if coord == input => value }
+      .collectFirst { case (Cell(`input`, _), value) => value }
 
   val input = Coord(2947L, 3029L)
