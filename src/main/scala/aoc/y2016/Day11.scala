@@ -19,7 +19,7 @@ object Day11:
   private case class State(elevator: Int, items: Map[Facility, Int])
 
   def solve(input: List[Set[Facility]]): Int =
-    val seen        = HashSet.empty[State]
+    val seen        = HashSet.empty[(Int, Int)]
     val startState  = input.zipWithIndex.flatMap((floor, i) => floor.map(_ -> i)).toMap
     val statesQueue = Queue(State(0, startState) -> 0)
 
@@ -34,13 +34,13 @@ object Day11:
 
     def nextStates(elevator: Int, items: Map[Facility, Int]): Seq[State] =
       val onThisFloor = itemsOnFloor(elevator, State(elevator, items))
-      val moves = for
+      val moves = (for
         i <- onThisFloor.indices
         j <- i until onThisFloor.size
         a = onThisFloor(i)
         b = onThisFloor(j)
         if canGoInElevator(a, b)
-      yield Set(a, b)
+      yield Set(a, b)).sortBy(_.size)(Ordering[Int].reverse)
 
       def getStates(newFloor: Int, moves: Seq[Set[Facility]]): Seq[State] =
         for
@@ -60,8 +60,8 @@ object Day11:
       if items.forall((_, floor) => floor == 3) then n
       else
         for
-          nextState <- nextStates(el, items)
-          if seen.add(nextState)
+          nextState @ State(el, items) <- nextStates(el, items)
+          if seen.add(el -> items.##)
         do statesQueue.enqueue(nextState -> (n + 1))
         go()
 
@@ -85,7 +85,10 @@ object Day11:
     Set.empty[Facility]
   )
 
-  val input2 = input1.updated(
-    0,
-    input1(0) ++ Set(Microchip("elerium"), Generator("elerium"), Microchip("dilithium"), Generator("dilithium"))
-  )
+  val input2 =
+    (input1.head ++ Set(
+      Microchip("elerium"),
+      Generator("elerium"),
+      Microchip("dilithium"),
+      Generator("dilithium")
+    )) :: input1.tail

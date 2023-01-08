@@ -12,7 +12,7 @@ object Day20:
   def solve2(input: String): Long =
     val data = input.linesIterator.map { case s"$begin-$end" =>
       begin.toLong -> end.toLong
-    }.toList.sorted :+ (1L << 32, 1L << 32)
+    }.toVector.sorted :+ (1L << 32, 1L << 32)
 
     data
       .foldLeft((0L, 0L)) { case ((h, c), (begin, end)) =>

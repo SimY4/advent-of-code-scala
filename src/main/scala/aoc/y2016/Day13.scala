@@ -2,11 +2,13 @@ package aoc
 package y2016
 
 object Day13:
-  private def isWall(coord: Coord): Boolean =
-    val f = (coord.x * coord.x) + (3L * coord.x) + (2L * coord.x * coord.y) + coord.y + (coord.y * coord.y) + input
-    (f.toBinaryString.count('1' == _) & 1) != 0
+  extension (input: Int)
+    private def isWall(coord: Coord): Boolean =
+      val f = (coord.x * coord.x) + (3L * coord.x) + (2L * coord.x * coord.y) + coord.y + (coord.y * coord.y) + input
+      (f.toBinaryString.count('1' == _) & 1) != 0
 
-  def solve: Option[Int] =
+  def solve(input: Int): Option[Int] =
+    val destination = Coord(31L, 39L)
     def loop(current: Coord, visited: Set[Coord] = Set.empty): Option[Int] =
       if destination == current then Some(0)
       else
@@ -14,7 +16,7 @@ object Day13:
         val neighbours = current
           .neighbours(Direction.hvOnly)
           .filter(n => n.x >= 0 && n.y >= 0 && !newVisited.contains(n))
-          .filterNot(isWall)
+          .filterNot(input.isWall)
 
         neighbours
           .flatMap(loop(_, newVisited))
@@ -23,7 +25,7 @@ object Day13:
 
     loop(Coord(1L, 1L))
 
-  def solve2: Int =
+  def solve2(input: Int): Int =
     def loop(current: Coord, step: Int = 0, visited: Set[Coord] = Set.empty): Set[Coord] =
       if step > 50 then visited
       else
@@ -31,7 +33,7 @@ object Day13:
         val neighbours = current
           .neighbours(Direction.hvOnly)
           .filter(n => n.x >= 0 && n.y >= 0 && !newVisited.contains(n))
-          .filterNot(isWall)
+          .filterNot(input.isWall)
 
         neighbours
           .map(loop(_, step + 1, newVisited))
@@ -39,5 +41,4 @@ object Day13:
 
     loop(Coord(1L, 1L)).size
 
-  val destination = Coord(31L, 39L)
-  val input       = 1362L
+  val input = 1362L
