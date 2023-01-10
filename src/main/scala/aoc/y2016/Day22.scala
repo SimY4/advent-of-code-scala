@@ -1,8 +1,6 @@
 package aoc
 package y2016
 
-import scala.annotation.tailrec
-
 object Day22:
   private case class Node(path: Coord, size: Long, used: Long, avail: Long, use: Int)
 
