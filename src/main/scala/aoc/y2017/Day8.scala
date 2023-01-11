@@ -20,8 +20,6 @@ object Day8:
 
   private case class Instruction(register: String, command: Command, condition: Condition)
 
-  type CurrentAndMax = (Int, Int)
-
   private def parseLine(line: String): Instruction =
     line match
       case linePattern(r, "inc", n1, r1, "<", n2) =>
@@ -49,8 +47,8 @@ object Day8:
       case linePattern(r, "dec", n1, r1, "!=", n2) =>
         Instruction(r, Command.Dec(n1.toInt), Condition.Ne(r1, n2.toInt))
 
-  private def eval(instructions: Seq[Instruction]): Map[String, CurrentAndMax] =
-    def evalCondition(registers: Map[String, CurrentAndMax], condition: Condition): Boolean =
+  private def eval(instructions: Seq[Instruction]): Map[String, (Int, Int)] =
+    def evalCondition(registers: Map[String, (Int, Int)], condition: Condition): Boolean =
       val (registerVal, _) = registers.getOrElse(condition.register, 0 -> 0)
       condition match
         case Gt(_, n) => registerVal > n
@@ -60,7 +58,7 @@ object Day8:
         case Eq(_, n) => registerVal == n
         case Ne(_, n) => registerVal != n
 
-    instructions.foldLeft(Map.empty[String, CurrentAndMax]) { (registers, instruction) =>
+    instructions.foldLeft(Map.empty[String, (Int, Int)]) { (registers, instruction) =>
       if evalCondition(registers, instruction.condition) then
         val (currentVal, maxVal) = registers.getOrElse(instruction.register, 0 -> 0)
         val newCurrent = instruction.command match
@@ -73,11 +71,11 @@ object Day8:
 
   def solve(input: String): Int =
     val instructions = input.linesIterator.map(parseLine).toList
-    eval(instructions).values.map(_._1).max
+    eval(instructions).values.map((current, _) => current).max
 
   def solve2(input: String): Int =
     val instructions = input.linesIterator.map(parseLine).toList
-    eval(instructions).values.map(_._2).max
+    eval(instructions).values.map((_, max) => max).max
 
   val input = """q inc -541 if c != 4
                 |s inc -555 if o > -5

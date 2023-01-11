@@ -5,51 +5,45 @@ import scala.annotation.tailrec
 object Day7:
   private val linePattern = "(\\w+) \\((\\d+)\\)(?: -> ((?:\\w+)(?:, (?:\\w+))*))?".r
 
-  private type Tree = (Map[String, TreeNode], String)
-  final case class TreeNode(weight: Int, children: Seq[String])
+  private case class TreeNode(weight: Int, children: List[String])
 
-  private def tree(input: String): Tree =
-    def findRoot(nodes: Map[String, TreeNode]): String =
-      (for
-        (name, _) <- nodes
-        children = nodes.values.flatMap(_.children).toSet
-        if !(children contains name)
-      yield name).head
-
-    val nodes = (for
+  private def parseInput(input: String): Map[String, TreeNode] =
+    (for
       case linePattern(name, weight, children) <- input.linesIterator
       childrenNormalized = Option(children).map(_.split(", ").toList).getOrElse(Nil)
     yield name -> TreeNode(weight.toInt, childrenNormalized)).toMap
-    val root = findRoot(nodes)
-    nodes -> root
 
-  def solve(input: String): String = tree(input)._2
+  def solve(input: String): Option[String] =
+    val tree = parseInput(input)
+    tree.collectFirst { case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name }
 
-  private def findUnbalancedSubtree(tree: Tree): Option[String] =
-    val (nodes, root) = tree
-
+  private def findUnbalancedSubtree(root: String, tree: Map[String, TreeNode]): Option[Any] =
     def calculateWeight(node: String): Int =
-      val TreeNode(weight, children) = nodes(node)
+      val TreeNode(weight, children) = tree(node)
       weight + children.map(calculateWeight).sum
 
-    def findUnbalancedSubtree0(node: String): Option[String] =
-      val weightsToNodes = nodes(node).children.groupBy(calculateWeight)
+    def loop(node: String, counterWeight: Option[Int] = None): Option[Any] =
+      val treeNode       = tree(node)
+      val weightsToNodes = treeNode.children.groupBy(calculateWeight)
 
       weightsToNodes.size match
         case 0 => None
-        case 1 => Some(node)
+        case 1 =>
+          counterWeight.map(cw => treeNode.weight + cw - calculateWeight(node))
         case _ =>
           (for
             smallest    <- weightsToNodes.values.minBy(_.size)
-            unballanced <- findUnbalancedSubtree0(smallest)
+            unballanced <- loop(smallest, weightsToNodes.maxByOption(_.size).map((weight, _) => weight))
           yield unballanced).headOption
 
-    findUnbalancedSubtree0(root)
+    loop(root)
 
-  def solve2(input: String): Option[TreeNode] =
-    val t       = tree(input)
-    val subtree = findUnbalancedSubtree(t)
-    subtree.flatMap(s => t._1.get(s))
+  def solve2(input: String): Option[Any] =
+    val tree = parseInput(input)
+    val Some(root) = tree.collectFirst {
+      case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name
+    }
+    findUnbalancedSubtree(root, tree)
 
   val input = """wdysq (135) -> sxldvex, wiasj
                 |vjwuuft (33) -> inuci, neddz, rwamq

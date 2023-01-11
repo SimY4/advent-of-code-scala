@@ -4,22 +4,22 @@ import scala.annotation.tailrec
 
 object Day5:
   def solve(input: String): Int =
-    @tailrec def countHops(count: Int, list: List[Int], index: Int): Int =
+    @tailrec def loop(list: Vector[Int], count: Int = 0, index: Int = 0): Int =
       list.lift(index) match
-        case Some(hop) => countHops(count + 1, list.updated(index, hop + 1), index + hop)
+        case Some(hop) => loop(list.updated(index, hop + 1), count + 1, index + hop)
         case None      => count
 
-    countHops(0, input.linesIterator.map(_.toInt).toList, 0)
+    loop(input.linesIterator.map(_.toInt).toVector)
 
   def solve2(input: String): Int =
-    @tailrec def countHops(count: Int, list: List[Int], index: Int): Int =
+    @tailrec def loop(list: Vector[Int], count: Int = 0, index: Int = 0): Int =
       list.lift(index) match
         case Some(hop) =>
           val offset = if hop >= 3 then hop - 1 else hop + 1
-          countHops(count + 1, list.updated(index, offset), index + hop)
+          loop(list.updated(index, offset), count + 1, index + hop)
         case None => count
 
-    countHops(0, input.linesIterator.map(_.toInt).toList, 0)
+    loop(input.linesIterator.map(_.toInt).toVector)
 
   val input = """0
                 |1

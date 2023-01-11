@@ -16,22 +16,23 @@ object Day3:
     else center - pos + diag
 
   def solve2(input: Int): Option[Int] =
-    def indexes(x: Long): Seq[Coord] = x match
-      case 0L => Seq(Coord(0, 0))
-      case n =>
-        (-n + 1 to n).map(Coord(n, _)) ++
-          ((n - 1) to (-n, -1)).map(Coord(_, n)) ++
-          ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++
-          ((-n + 1) to n).map(Coord(_, -n))
-
-    val coords = LazyList.iterate(0L)(_ + 1L).flatMap(indexes)
-    coords.tail
+    LazyList
+      .iterate(0L)(_ + 1L)
+      .flatMap {
+        case 0L => Seq(Coord(0L, 0L))
+        case n =>
+          (-n + 1 to n).map(Coord(n, _)) ++
+            ((n - 1) to (-n, -1)).map(Coord(_, n)) ++
+            ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++
+            ((-n + 1) to n).map(Coord(_, -n))
+      }
+      .tail
       .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) =>
         val res = (for
           neighbour <- coord.neighbours()
           v = acc.getOrElse(neighbour, 0)
         yield v).sum
-        acc + (coord -> res)
+        acc.updated(coord, res)
       }
       .map(_.values.max)
       .find(_ > input)
