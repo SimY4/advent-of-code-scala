@@ -26,5 +26,4 @@ object Day14:
       j <- 0 to 127
     yield remove(i, j)).sum
 
-  val sample = "flqrgnkx"
-  val input  = "ljoxqyyw"
+  val input = "ljoxqyyw"
