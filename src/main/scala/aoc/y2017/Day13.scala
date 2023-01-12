@@ -37,8 +37,8 @@ object Day13:
         }
       }
       .tails
-      .indexWhere { states =>
-        states.zipWithIndex
+      .indexWhere {
+        _.zipWithIndex
           .take(config.keys.max + 1)
           .forall(_.getOrElse(_, (-1, 0))._1 != 0)
       }

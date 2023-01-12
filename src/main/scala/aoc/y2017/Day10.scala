@@ -29,19 +29,16 @@ object Day10:
     State(nextList, lengths, nextCount, nextPos)
 
   def solve(input: String, n: Int = 256): Int =
-    val lengths                       = input.split(",").map(_.toInt).toList
-    val State(x1 :: x2 :: _, _, _, _) = knotHash(State(List.range(0, n), lengths))
-    x1 * x2
+    val lengths = input.split(",").map(_.toInt).toList
+    knotHash(State(List.range(0, n), lengths)).list.take(2).sum
 
-  private def denseHash(state: State): String =
-    val State(list, _, _, _) = LazyList.iterate(state)(knotHash).drop(64).head
-    (for
-      ls <- list.sliding(16, 16).toList
-      hex = s"0${ls.reduce(_ ^ _).toHexString}".takeRight(2)
-    yield hex).mkString("")
-
-  def solve2(input: String): String =
-    val ascii = input.map(_.toInt).toList ::: List(17, 31, 73, 47, 23)
-    denseHash(State(List.range(0, 256), ascii))
+  def solve2(input: String, encoding: Int => String = i => f"$i%02x"): String =
+    val list = LazyList
+      .iterate(State(List.range(0, 256), input.map(_.toInt).toList ::: List(17, 31, 73, 47, 23)))(knotHash)
+      .drop(64)
+      .head
+      .list
+    (for ls <- list.sliding(16, 16).toList
+    yield encoding(ls.reduce(_ ^ _))).mkString
 
   val input = "18,1,0,161,255,137,254,252,14,95,165,33,181,168,2,188"
