@@ -17,25 +17,23 @@ object Day12:
     case s"dec ${reg}"          => Dec(reg)
     case s"jnz ${value} ${n}"   => Jnz(value.toIntOption.toLeft(value), n.toInt)
 
-  private def runProgram(instructions: List[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] =
+  private def runProgram(instructions: Vector[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] =
     @tailrec def go(state: Map[String, Int], pos: Int): Map[String, Int] =
       instructions.lift(pos) match
-        case None                     => state
-        case Some(Cpy(Left(i), reg))  => go(state.updated(reg, i), pos + 1)
-        case Some(Cpy(Right(r), reg)) => go(state.updated(reg, state(r)), pos + 1)
-        case Some(Inc(reg))           => go(state.updated(reg, state(reg) + 1), pos + 1)
-        case Some(Dec(reg))           => go(state.updated(reg, state(reg) - 1), pos + 1)
-        case Some(Jnz(Left(i), n))    => go(state, if i == 0 then pos + 1 else pos + n)
-        case Some(Jnz(Right(reg), n)) => go(state, if state(reg) == 0 then pos + 1 else pos + n)
+        case None                  => state
+        case Some(Cpy(value, reg)) => go(state.updated(reg, value.fold(identity, state)), pos + 1)
+        case Some(Inc(reg))        => go(state.updated(reg, state(reg) + 1), pos + 1)
+        case Some(Dec(reg))        => go(state.updated(reg, state(reg) - 1), pos + 1)
+        case Some(Jnz(value, n))   => go(state, if value.fold(identity, state) == 0 then pos + 1 else pos + n)
 
     go(state, pos)
 
   def solve(input: String): Option[Int] =
-    val instructions = input.linesIterator.map(parseLine).toList
+    val instructions = input.linesIterator.map(parseLine).toVector
     runProgram(instructions, Map.empty.withDefaultValue(0)).get("a")
 
   def solve2(input: String): Option[Int] =
-    val instructions = input.linesIterator.map(parseLine).toList
+    val instructions = input.linesIterator.map(parseLine).toVector
     runProgram(instructions, Map("c" -> 1).withDefaultValue(0)).get("a")
 
   val input = """cpy 1 a

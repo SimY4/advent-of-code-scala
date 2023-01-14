@@ -20,20 +20,18 @@ object Day23:
     case s"jnz ${value} ${nOrReg}" => Jnz(value.toIntOption.toLeft(value), nOrReg.toIntOption.toLeft(nOrReg))
     case s"tgl ${reg}"             => Tgl(reg)
 
-  @tailrec private def runProgram(instructions: List[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] =
+  @tailrec private def runProgram(instructions: Vector[Code], state: Map[String, Int], pos: Int = 0): Map[String, Int] =
     instructions.lift(pos) match
-      case None                        => state
-      case Some(Cpy(Left(i), reg))     => runProgram(instructions, state.updated(reg, i), pos + 1)
-      case Some(Cpy(Right(r), reg))    => runProgram(instructions, state.updated(reg, state(r)), pos + 1)
-      case Some(Inc(reg))              => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1)
-      case Some(Dec(reg))              => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1)
-      case Some(Jnz(Left(i), Left(n))) => runProgram(instructions, state, if i == 0 then pos + 1 else pos + n)
-      case Some(Jnz(Left(i), Right(reg))) =>
-        runProgram(instructions, state, if i == 0 then pos + 1 else pos + state(reg))
-      case Some(Jnz(Right(reg), Left(n))) =>
-        runProgram(instructions, state, if state(reg) == 0 then pos + 1 else pos + n)
-      case Some(Jnz(Right(reg), Right(jnz))) =>
-        runProgram(instructions, state, if state(reg) == 0 then pos + 1 else pos + state(reg))
+      case None                  => state
+      case Some(Cpy(value, reg)) => runProgram(instructions, state.updated(reg, value.fold(identity, state)), pos + 1)
+      case Some(Inc(reg))        => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1)
+      case Some(Dec(reg))        => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1)
+      case Some(Jnz(value, nOrReg)) =>
+        runProgram(
+          instructions,
+          state,
+          if value.fold(identity, state) == 0 then pos + 1 else pos + nOrReg.fold(identity, state)
+        )
       case Some(Tgl(reg)) =>
         val n = pos + state(reg)
         if 0 <= n && n < instructions.size then
@@ -53,7 +51,7 @@ object Day23:
         else runProgram(instructions, state, pos + 1)
 
   def solve(input: String): Option[Int] =
-    val instructions = input.linesIterator.map(parseLine).toList
+    val instructions = input.linesIterator.map(parseLine).toVector
     runProgram(instructions, Map("a" -> 7).withDefaultValue(0)).get("a")
 
   def solve2(input: String): Option[Long] =

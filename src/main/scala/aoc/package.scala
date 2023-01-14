@@ -45,6 +45,10 @@ extension [A](dd: Array[Array[A]])
   def apply(coord: Coord): A       = dd(coord.y.toInt)(coord.x.toInt)
   def get(coord: Coord): Option[A] = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
 
+extension (lines: Seq[String])
+  def apply(coord: Coord): Char       = lines(coord.y.toInt).charAt(coord.x.toInt)
+  def get(coord: Coord): Option[Char] = lines.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
+
 sealed trait HV
 enum Direction(val direction: Coord) extends Enum[Direction]:
   case Up        extends Direction(Coord(0L, 1L)) with HV

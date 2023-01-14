@@ -17,7 +17,7 @@ object Day5:
         md.digest().printHexBinary
       }
       if hex.startsWith("00000")
-    yield hex(5))
+    yield hex.charAt(5))
       .take(8)
       .mkString
 
@@ -28,8 +28,8 @@ object Day5:
         md.update((input + i).getBytes(StandardCharsets.UTF_8))
         md.digest().printHexBinary
       }
-      if hex.startsWith("00000") && '0' <= hex(5) && hex(5) <= '7'
-    yield hex(5).asDigit -> hex(6))
+      if hex.startsWith("00000") && '0' <= hex.charAt(5) && hex.charAt(5) <= '7'
+    yield hex.charAt(5).asDigit -> hex.charAt(6))
       .scanLeft(SortedMap.empty[Int, Char]) { case (map, (k, v)) =>
         if map.contains(k) then map
         else map.updated(k, v)

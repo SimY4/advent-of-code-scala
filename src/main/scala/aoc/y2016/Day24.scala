@@ -5,17 +5,13 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 
 object Day24:
-  extension (maze: String)
-    private def apply(coord: Coord): Char =
-      maze.linesIterator.toVector(coord.y.toInt).charAt(coord.x.toInt)
-    private def get(coord: Coord): Option[Char] =
-      maze.linesIterator.toVector.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
+  extension (maze: Vector[String])
     private def find(ch: Char): Option[Coord] =
       (for
-        (line, y) <- maze.linesIterator.zipWithIndex
+        (line, y) <- maze.zipWithIndex
         (c, x)    <- line.zipWithIndex
         if c == ch
-      yield Coord(x, y)).nextOption()
+      yield Coord(x, y)).headOption
     private def shortestFrom(start: Coord): List[(Coord, Int)] =
       val startc = maze(start)
       val dist   = mutable.HashMap.empty[Coord, Int]
@@ -38,12 +34,13 @@ object Day24:
       search()
 
   def solve(input: String, pois: Int = 7): Int =
+    val maze = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
       ch = poi.toString().head
-      coord    <- input.find(ch).toList
-      (pos, d) <- input.shortestFrom(coord)
-    yield ch -> input(pos) -> d).toMap
+      coord    <- maze.find(ch).toList
+      (pos, d) <- maze.shortestFrom(coord)
+    yield ch -> maze(pos) -> d).toMap
 
     println(lookup.keySet)
 
@@ -63,12 +60,13 @@ object Day24:
     search().min
 
   def solve2(input: String, pois: Int = 7): Int =
+    val maze = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
       ch = poi.toString().head
-      coord    <- input.find(ch).toList
-      (pos, d) <- input.shortestFrom(coord)
-    yield ch -> input(pos) -> d).toMap
+      coord    <- maze.find(ch).toList
+      (pos, d) <- maze.shortestFrom(coord)
+    yield ch -> maze(pos) -> d).toMap
 
     def search(
       toVisit: List[Char] = (1 to pois).map(_.toString().head).toList,

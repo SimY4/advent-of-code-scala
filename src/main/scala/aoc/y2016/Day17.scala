@@ -25,10 +25,10 @@ object Day17:
         next = current + d.direction
         if 0 <= next.x && next.x <= 3 && 0 <= next.y && next.y <= 3
         if "BCDEF".toSet.contains(d match
-          case Up    => hex(0)
-          case Down  => hex(1)
-          case Left  => hex(2)
-          case Right => hex(3)
+          case Up    => hex.charAt(0)
+          case Down  => hex.charAt(1)
+          case Left  => hex.charAt(2)
+          case Right => hex.charAt(3)
         )
       yield d
 

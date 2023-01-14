@@ -23,7 +23,7 @@ object Day25:
     case s"out ${value}"           => Out(value.toIntOption.toLeft(value))
 
   @tailrec private def runProgram(
-    instructions: List[Code],
+    instructions: Vector[Code],
     state: Map[String, Int],
     pos: Int = 0,
     out: List[Int] = Nil
@@ -31,18 +31,16 @@ object Day25:
     if out.size > 10 then out
     else
       instructions.lift(pos) match
-        case None                        => out
-        case Some(Cpy(Left(i), reg))     => runProgram(instructions, state.updated(reg, i), pos + 1, out)
-        case Some(Cpy(Right(r), reg))    => runProgram(instructions, state.updated(reg, state(r)), pos + 1, out)
-        case Some(Inc(reg))              => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1, out)
-        case Some(Dec(reg))              => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1, out)
-        case Some(Jnz(Left(i), Left(n))) => runProgram(instructions, state, if i == 0 then pos + 1 else pos + n, out)
-        case Some(Jnz(Left(i), Right(reg))) =>
-          runProgram(instructions, state, if i == 0 then pos + 1 else pos + state(reg), out)
-        case Some(Jnz(Right(reg), Left(n))) =>
-          runProgram(instructions, state, if state(reg) == 0 then pos + 1 else pos + n, out)
-        case Some(Jnz(Right(reg), Right(jnz))) =>
-          runProgram(instructions, state, if state(reg) == 0 then pos + 1 else pos + state(reg), out)
+        case None                  => out
+        case Some(Cpy(value, reg)) => runProgram(instructions, state.updated(reg, value.fold(identity, state)), pos + 1)
+        case Some(Inc(reg))        => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1)
+        case Some(Dec(reg))        => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1)
+        case Some(Jnz(value, nOrReg)) =>
+          runProgram(
+            instructions,
+            state,
+            if value.fold(identity, state) == 0 then pos + 1 else pos + nOrReg.fold(identity, state)
+          )
         case Some(Tgl(reg)) =>
           val n = pos + state(reg)
           if 0 <= n && n < instructions.size then
@@ -61,13 +59,12 @@ object Day25:
               out
             )
           else runProgram(instructions, state, pos + 1)
-        case Some(Out(Left(i)))    => runProgram(instructions, state, pos + 1, i :: out)
-        case Some(Out(Right(reg))) => runProgram(instructions, state, pos + 1, state(reg) :: out)
+        case Some(Out(value)) => runProgram(instructions, state, pos + 1, value.fold(identity, state) :: out)
 
   def solve(input: String): Option[Int] =
     (0 to 10000)
       .find(a =>
-        runProgram(input.linesIterator.map(parseLine).toList, Map("a" -> a)).zipWithIndex.forall((out, idx) =>
+        runProgram(input.linesIterator.map(parseLine).toVector, Map("a" -> a)).zipWithIndex.forall((out, idx) =>
           out == idx % 2
         )
       )

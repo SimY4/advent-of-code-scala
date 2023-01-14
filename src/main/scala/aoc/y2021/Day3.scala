@@ -8,7 +8,7 @@ object Day3:
     val (r, e) = (0 until input.linesIterator.next.size)
       .foldLeft(0 -> 0) { case ((r, e), i) =>
         val (n, _) = input.linesIterator
-          .map(_.reverse(i))
+          .map(_.reverse.charAt(i))
           .toList
           .groupBy(identity)
           .toSeq
@@ -24,10 +24,10 @@ object Day3:
       if lines.isEmpty || lines.head.size <= i then num.zipWithIndex.map(_ << _).reduce(_ | _)
       else
         val (n, _) = lines
-          .map(_(i))
+          .map(_.charAt(i))
           .groupBy(identity)
           .max
-        loop(lines.filter(_(i) == n), i + 1, n.toString.toInt :: num)
+        loop(lines.filter(_.charAt(i) == n), i + 1, n.toString.toInt :: num)
 
     val maxOrd = Ordering.by[(Char, List[Char]), (Int, Char)]((ch, cs) => cs.size -> ch)
     val minOrd = maxOrd.reverse
