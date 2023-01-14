@@ -31,8 +31,8 @@ object Day21:
 
   extension (p1: Character)
     private def duel(p2: Character): Boolean =
-      val p1Damage = math.max(p1.damage - p2.armor, 1)
-      val p2Damage = math.max(p2.damage - p1.armor, 1)
+      val p1Damage = (p1.damage - p2.armor) max 1
+      val p2Damage = (p2.damage - p1.armor) max 1
 
       val p1Strikes =
         if p2.hitPoints % p1Damage == 0 then p2.hitPoints / p1Damage

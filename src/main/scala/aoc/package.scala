@@ -36,7 +36,7 @@ final case class Coord(x: Long, y: Long):
   def manhattan(to: Coord): Long =
     math.abs(to.x - x) + math.abs(to.y - y)
 
-  def distance: Long = math.max(math.max(math.abs(x), math.abs(y)), math.abs(x - y))
+  def distance: Long = x.abs max y.abs max math.abs(x - y)
 
   def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
     directions.map(this + _.direction)

@@ -1,8 +1,6 @@
 package aoc
 package y2017
 
-import scala.annotation.tailrec
-
 object Day19 extends Input(2017, 19):
   private def parseInput(input: String): LazyList[Char] =
     val maze  = input.linesIterator.toVector

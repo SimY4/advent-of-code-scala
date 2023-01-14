@@ -25,7 +25,7 @@ object Day15:
         .zip(ingredients)
         .map((fr, stats) => stats.init.map(_ * fr))
         .reduce((is1, is2) => is1.zip(is2).map(_ + _))
-        .map(math.max(_, 0))
+        .map(_ max 0)
         .product
     }.max
 
@@ -40,7 +40,7 @@ object Day15:
         .zip(ingredients)
         .map((fr, stats) => stats.map(_ * fr))
         .reduce((is1, is2) => is1.zip(is2).map(_ + _))
-        .map(math.max(_, 0))
+        .map(_ max 0)
       Option.when(recipe.last == 500) {
         recipe.init.product
       }

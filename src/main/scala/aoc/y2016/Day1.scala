@@ -24,7 +24,7 @@ object Day1:
         val (direction, coords) = navigate(state._1, instruction)
         direction -> coords.foldLeft(state._2)(_ + _.direction)
       }
-    math.abs(x) + math.abs(y)
+    x.abs + y.abs
 
   def solve2(input: String): Option[Long] =
     val (_, path) = input
@@ -35,7 +35,7 @@ object Day1:
       }
     path.tails.collectFirst {
       case Coord(x, y) :: tail if tail.size == tail.toSet.size =>
-        math.abs(x) + math.abs(y)
+        x.abs + y.abs
     }
 
   val input =
