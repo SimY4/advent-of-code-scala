@@ -36,8 +36,7 @@ private object Parser:
     def many(separatedBy: Parser[Any] = nothing("")): Parser[List[A]] =
       (p <*> (separatedBy *> p).many()).map(_ :: _) <|> nothing(Nil)
 
-    def map[B](f: A => B): Parser[B] = input =>
-      p(input).map((a, rest) => (f(a), rest))
+    def map[B](f: A => B): Parser[B] = input => p(input).map((a, rest) => (f(a), rest))
 
     def optional: Parser[Option[A]] = p.map(Some(_)) <|> nothing(None)
 
@@ -47,8 +46,7 @@ private object Parser:
         case Some(res, rem) => sys.error(s"parsed string didn't match. parsed: $res, rest: '$rem'")
         case None           => sys.error("parsed string didn't match.")
 
-    def <|>(other: => Parser[A]): Parser[A] = input =>
-      p(input).orElse(other(input))
+    def <|>(other: => Parser[A]): Parser[A] = input => p(input).orElse(other(input))
 
     def <*>[B](other: => Parser[B]): Parser[(A, B)] =
       p.andThen { op =>
