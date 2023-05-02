@@ -11,14 +11,13 @@ object Day3:
   def solve2(input: String): Int =
     (for
       lines3 <- input.linesIterator.sliding(3, 3)
-      case f :: s :: t :: _ <- {
+      case f :: s :: t :: _ <-
         val triplet = lines3.map(line => "\\d+".r.findAllIn(line).map(_.toInt).toList).toList
         List(
           triplet(0)(0) :: triplet(1)(0) :: triplet(2)(0) :: Nil,
           triplet(0)(1) :: triplet(1)(1) :: triplet(2)(1) :: Nil,
           triplet(0)(2) :: triplet(1)(2) :: triplet(2)(2) :: Nil
         )
-      }
       if f + s > t && s + t > f && f + t > s
     yield ()).size
 

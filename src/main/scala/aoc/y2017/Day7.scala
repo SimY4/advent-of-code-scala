@@ -40,9 +40,9 @@ object Day7:
 
   def solve2(input: String): Option[Any] =
     val tree = parseInput(input)
-    val Some(root) = tree.collectFirst {
+    val root = tree.collectFirst {
       case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name
-    }
+    }.get
     findUnbalancedSubtree(root, tree)
 
   val input = """wdysq (135) -> sxldvex, wiasj

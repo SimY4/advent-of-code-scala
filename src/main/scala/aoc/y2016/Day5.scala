@@ -12,10 +12,9 @@ object Day5:
   def solve(input: String): String =
     (for
       i <- LazyList.from(0)
-      hex = {
+      hex =
         md.update((input + i).getBytes(StandardCharsets.UTF_8))
         md.digest().printHexBinary
-      }
       if hex.startsWith("00000")
     yield hex.charAt(5))
       .take(8)
@@ -24,10 +23,9 @@ object Day5:
   def solve2(input: String): Option[String] =
     (for
       i <- LazyList.from(0)
-      hex = {
+      hex =
         md.update((input + i).getBytes(StandardCharsets.UTF_8))
         md.digest().printHexBinary
-      }
       if hex.startsWith("00000") && '0' <= hex.charAt(5) && hex.charAt(5) <= '7'
     yield hex.charAt(5).asDigit -> hex.charAt(6))
       .scanLeft(SortedMap.empty[Int, Char]) { case (map, (k, v)) =>
