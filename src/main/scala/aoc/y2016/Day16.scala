@@ -7,10 +7,9 @@ object Day16:
     LazyList
       .iterate(input) { data =>
         val a = data
-        val b = a.reverse.map {
+        val b = a.reverse.map:
           case '0' => '1'
           case '1' => '0'
-        }
         a + "0" + b
       }
       .dropWhile(_.size < length)

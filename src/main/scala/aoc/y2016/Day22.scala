@@ -26,13 +26,12 @@ object Day22:
     val empty       = grid.flatMap(_.find(_.used == 0L)).head
 
     grid.foreach { row =>
-      row.foreach {
+      row.foreach:
         case `destination`                  => print("D")
         case `target`                       => print("G")
         case `empty`                        => print("_")
         case Node(_, _, u, _, _) if u > 100 => print("#")
         case _                              => print(".")
-      }
       println()
     }
 

@@ -4,10 +4,9 @@ object Day4:
   extension (i: Int)
     private def digits: Seq[Int] =
       LazyList
-        .iterate(Some(i): Option[Int]) {
+        .iterate(Some(i): Option[Int]):
           case Some(i) if i > 0 => Some(i / 10)
           case _                => None
-        }
         .takeWhile(_.isDefined)
         .flatten
         .map(_ % 10)

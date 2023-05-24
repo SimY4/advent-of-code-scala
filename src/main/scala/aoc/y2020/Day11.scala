@@ -9,7 +9,7 @@ object Day11:
 
     @tailrec def loop(layout: Array[Array[Char]]): Int =
       val newLayout = layout.zipWithIndex.map { (col, y) =>
-        col.zipWithIndex.map {
+        col.zipWithIndex.map:
           case ('L', x)
               if !Coord(x, y)
                 .neighbours()
@@ -23,7 +23,6 @@ object Day11:
                 .count(_ == '#') =>
             'L'
           case (c, _) => c
-        }
       }
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
@@ -36,7 +35,7 @@ object Day11:
 
     @tailrec def loop(layout: Array[Array[Char]]): Int =
       val newLayout = layout.zipWithIndex.map { (col, y) =>
-        col.zipWithIndex.map {
+        col.zipWithIndex.map:
           case ('L', x)
               if !Direction.values.exists(d =>
                 LazyList
@@ -58,7 +57,6 @@ object Day11:
               ) =>
             'L'
           case (c, _) => c
-        }
       }
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum

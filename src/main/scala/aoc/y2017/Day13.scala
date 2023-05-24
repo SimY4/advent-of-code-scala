@@ -8,14 +8,13 @@ object Day13:
     }.toMap
 
     LazyList
-      .iterate(config.keys.map(_ -> (0 -> 1)).toMap) {
+      .iterate(config.keys.map(_ -> (0 -> 1)).toMap):
         _.map { case (i, (pos, inc)) =>
           val n       = config(i)
           val nextPos = pos + inc
           if nextPos < 0 || n <= nextPos then i -> (pos + -inc, -inc)
           else i                                -> (nextPos, inc)
         }
-      }
       .zipWithIndex
       .take(config.keys.max + 1)
       .collect { case (state, i) if state.getOrElse(i, (-1, 0))._1 == 0 => i * config(i) }
@@ -28,20 +27,18 @@ object Day13:
     }.toMap
 
     LazyList
-      .iterate(config.keys.map(_ -> (0 -> 1)).toMap) {
+      .iterate(config.keys.map(_ -> (0 -> 1)).toMap):
         _.map { case (i, (pos, inc)) =>
           val n       = config(i)
           val nextPos = pos + inc
           if nextPos < 0 || n <= nextPos then i -> (pos + -inc, -inc)
           else i                                -> (nextPos, inc)
         }
-      }
       .tails
-      .indexWhere {
+      .indexWhere:
         _.zipWithIndex
           .take(config.keys.max + 1)
           .forall(_.getOrElse(_, (-1, 0))._1 != 0)
-      }
 
   val input = """0: 3
                 |1: 2

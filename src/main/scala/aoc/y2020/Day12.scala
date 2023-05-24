@@ -25,36 +25,38 @@ object Day12:
       case s"F$steps"   => F(steps.toInt)
 
   def solve(input: String): Long =
-    val (pos, _) = input.linesIterator.map(parseLine).foldLeft(Coord(0L, 0L) -> Right) {
-      case ((pos, d), N(steps)) => List.fill(steps)(Up).foldLeft(pos)(_ + _.direction)    -> d
-      case ((pos, d), S(steps)) => List.fill(steps)(Down).foldLeft(pos)(_ + _.direction)  -> d
-      case ((pos, d), E(steps)) => List.fill(steps)(Right).foldLeft(pos)(_ + _.direction) -> d
-      case ((pos, d), W(steps)) => List.fill(steps)(Left).foldLeft(pos)(_ + _.direction)  -> d
-      case ((pos, d), L(degree)) =>
-        val directions = Direction.hvOnly.reverse
-        pos -> directions(math.abs(directions.indexOf(d) + degree / 90) % directions.size)
-      case ((pos, d), R(degree)) =>
-        val directions = Direction.hvOnly
-        pos -> directions((directions.indexOf(d) + degree / 90) % directions.size)
-      case ((pos, d), F(steps)) => List.fill(steps)(d).foldLeft(pos)(_ + _.direction) -> d
-    }
+    val (pos, _) = input.linesIterator
+      .map(parseLine)
+      .foldLeft(Coord(0L, 0L) -> Right):
+        case ((pos, d), N(steps)) => List.fill(steps)(Up).foldLeft(pos)(_ + _.direction)    -> d
+        case ((pos, d), S(steps)) => List.fill(steps)(Down).foldLeft(pos)(_ + _.direction)  -> d
+        case ((pos, d), E(steps)) => List.fill(steps)(Right).foldLeft(pos)(_ + _.direction) -> d
+        case ((pos, d), W(steps)) => List.fill(steps)(Left).foldLeft(pos)(_ + _.direction)  -> d
+        case ((pos, d), L(degree)) =>
+          val directions = Direction.hvOnly.reverse
+          pos -> directions(math.abs(directions.indexOf(d) + degree / 90) % directions.size)
+        case ((pos, d), R(degree)) =>
+          val directions = Direction.hvOnly
+          pos -> directions((directions.indexOf(d) + degree / 90) % directions.size)
+        case ((pos, d), F(steps)) => List.fill(steps)(d).foldLeft(pos)(_ + _.direction) -> d
     math.abs(pos.x) + math.abs(pos.y)
 
   def solve2(input: String): Long =
-    val (pos, _) = input.linesIterator.map(parseLine).foldLeft(Coord(0L, 0L) -> Coord(10L, 1L)) {
-      case ((pos, waypoint), N(steps)) => pos -> List.fill(steps)(Up).foldLeft(waypoint)(_ + _.direction)
-      case ((pos, waypoint), S(steps)) => pos -> List.fill(steps)(Down).foldLeft(waypoint)(_ + _.direction)
-      case ((pos, waypoint), E(steps)) => pos -> List.fill(steps)(Right).foldLeft(waypoint)(_ + _.direction)
-      case ((pos, waypoint), W(steps)) => pos -> List.fill(steps)(Left).foldLeft(waypoint)(_ + _.direction)
-      case ((pos, waypoint), L(90))    => pos -> Coord(x = -waypoint.y, y = waypoint.x)
-      case ((pos, waypoint), L(180))   => pos -> Coord(x = -waypoint.x, y = -waypoint.y)
-      case ((pos, waypoint), L(270))   => pos -> Coord(x = waypoint.y, y = -waypoint.x)
-      case ((pos, waypoint), R(90))    => pos -> Coord(x = waypoint.y, y = -waypoint.x)
-      case ((pos, waypoint), R(180))   => pos -> Coord(x = -waypoint.x, y = -waypoint.y)
-      case ((pos, waypoint), R(270))   => pos -> Coord(x = -waypoint.y, y = waypoint.x)
-      case ((pos, waypoint), F(steps)) =>
-        (1 to steps).foldLeft(pos)((acc, _) => Coord(acc.x + waypoint.x, acc.y + waypoint.y)) -> waypoint
-    }
+    val (pos, _) = input.linesIterator
+      .map(parseLine)
+      .foldLeft(Coord(0L, 0L) -> Coord(10L, 1L)):
+        case ((pos, waypoint), N(steps)) => pos -> List.fill(steps)(Up).foldLeft(waypoint)(_ + _.direction)
+        case ((pos, waypoint), S(steps)) => pos -> List.fill(steps)(Down).foldLeft(waypoint)(_ + _.direction)
+        case ((pos, waypoint), E(steps)) => pos -> List.fill(steps)(Right).foldLeft(waypoint)(_ + _.direction)
+        case ((pos, waypoint), W(steps)) => pos -> List.fill(steps)(Left).foldLeft(waypoint)(_ + _.direction)
+        case ((pos, waypoint), L(90))    => pos -> Coord(x = -waypoint.y, y = waypoint.x)
+        case ((pos, waypoint), L(180))   => pos -> Coord(x = -waypoint.x, y = -waypoint.y)
+        case ((pos, waypoint), L(270))   => pos -> Coord(x = waypoint.y, y = -waypoint.x)
+        case ((pos, waypoint), R(90))    => pos -> Coord(x = waypoint.y, y = -waypoint.x)
+        case ((pos, waypoint), R(180))   => pos -> Coord(x = -waypoint.x, y = -waypoint.y)
+        case ((pos, waypoint), R(270))   => pos -> Coord(x = -waypoint.y, y = waypoint.x)
+        case ((pos, waypoint), F(steps)) =>
+          (1 to steps).foldLeft(pos)((acc, _) => Coord(acc.x + waypoint.x, acc.y + waypoint.y)) -> waypoint
     math.abs(pos.x) + math.abs(pos.y)
 
   val input = """N2

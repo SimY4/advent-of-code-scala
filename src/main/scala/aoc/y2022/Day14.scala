@@ -21,10 +21,9 @@ object Day14:
           yield Coord(x, y))
         }
         .foldLeft(acc) { (acc, coord) =>
-          acc.updatedWith(coord.x) {
+          acc.updatedWith(coord.x):
             case Some(coords) => Some(coords + coord)
             case None         => Some(SortedSet(coord))
-          }
         }
     }
 
@@ -35,7 +34,7 @@ object Day14:
 
     LazyList
       .continually(start)
-      .scanLeft(Some(walls): Option[Map[Long, SortedSet[Coord]]]) {
+      .scanLeft(Some(walls): Option[Map[Long, SortedSet[Coord]]]):
         case (Some(acc), sand) =>
           @tailrec def loop(sand: Coord): Option[Map[Long, SortedSet[Coord]]] =
             val ys = acc.getOrElse(sand.x, SortedSet.empty)
@@ -48,7 +47,6 @@ object Day14:
                   case side :: _ => loop(side)
           loop(sand)
         case _ => None
-      }
       .drop(1)
       .takeWhile(_.isDefined)
       .size

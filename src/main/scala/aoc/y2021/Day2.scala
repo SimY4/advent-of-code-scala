@@ -3,19 +3,17 @@ package y2021
 
 object Day2:
   def solve(input: String): Long =
-    val Coord(x, y) = input.linesIterator.foldLeft(Coord(0L, 0L)) {
+    val Coord(x, y) = input.linesIterator.foldLeft(Coord(0L, 0L)):
       case (coord, s"forward $n") => coord.copy(x = coord.x + n.toInt)
       case (coord, s"up $n")      => coord.copy(y = coord.y - n.toInt)
       case (coord, s"down $n")    => coord.copy(y = coord.y + n.toInt)
-    }
     x * y
 
   def solve2(input: String): Long =
-    val (_, Coord(x, y)) = input.linesIterator.foldLeft(0L -> Coord(0L, 0L)) {
+    val (_, Coord(x, y)) = input.linesIterator.foldLeft(0L -> Coord(0L, 0L)):
       case ((aim, coord), s"forward $n") => aim           -> Coord(coord.x + n.toInt, coord.y + aim * n.toInt)
       case ((aim, coord), s"up $n")      => aim - n.toInt -> coord
       case ((aim, coord), s"down $n")    => aim + n.toInt -> coord
-    }
     x * y
 
   val input = """forward 7

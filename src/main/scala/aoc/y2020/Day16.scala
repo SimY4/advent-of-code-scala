@@ -42,9 +42,8 @@ object Day16:
         }
 
         @tailrec def simplify(fields: Map[Int, Set[Rule]]): Map[Int, Set[Rule]] =
-          val singles = fields.collect {
+          val singles = fields.collect:
             case (k, v) if v.size == 1 => k -> v.iterator.next
-          }
           val simplified = fields.view
             .map((k, v) => k -> (v -- singles.filter((sk, _) => k != sk).values))
             .toMap

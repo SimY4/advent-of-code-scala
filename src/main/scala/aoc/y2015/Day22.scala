@@ -29,11 +29,10 @@ object Day22:
     def duel(myTurn: Boolean, spent: Int, state: GameState): List[Int] =
       // turn start effects
       val turnStartState = state.cooldowns.keys
-        .foldLeft(state) {
+        .foldLeft(state):
           case (state, Poison)   => state.copy(boss = state.boss.copy(hitPoints = state.boss.hitPoints - 3))
           case (state, Recharge) => state.copy(character = state.character.copy(mana = state.character.mana + 101))
           case (state, _)        => state
-        }
         .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
       val armor = state.cooldowns.keys.collect { case Shield => 7 }.sum
 
@@ -95,11 +94,10 @@ object Day22:
       else
         // turn start effects
         val turnStartState = initialState.cooldowns.keys
-          .foldLeft(initialState) {
+          .foldLeft(initialState):
             case (state, Poison)   => state.copy(boss = state.boss.copy(hitPoints = state.boss.hitPoints - 3))
             case (state, Recharge) => state.copy(character = state.character.copy(mana = state.character.mana + 101))
             case (state, _)        => state
-          }
           .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
         val armor = initialState.cooldowns.keys.collect { case Shield => 7 }.sum
 

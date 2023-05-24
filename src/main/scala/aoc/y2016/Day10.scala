@@ -26,17 +26,15 @@ object Day10:
 
   def solve(input: String): Int =
     val parsed = input.linesIterator.map(parseLine).toList
-    val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
+    val initState = parsed.foldLeft(Map.empty[Int, List[Int]]):
       case (map, SetValue(value, bot)) =>
-        map.updatedWith(bot) {
+        map.updatedWith(bot):
           case Some(list) => Some(value :: list)
           case None       => Some(value :: Nil)
-        }
       case (map, _) => map
-    }
 
     @tailrec def go(botState: Map[Int, List[Int]]): Int =
-      val newBotState = parsed.foldLeft(botState) {
+      val newBotState = parsed.foldLeft(botState):
         case (botState, BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           botState
             .updatedWith(n1)(o => Some(botState(bot).min :: o.toList.flatten))
@@ -51,10 +49,9 @@ object Day10:
             .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
             .updated(bot, Nil)
         case (acc, _) => acc
-      }
-      newBotState.collectFirst {
+      newBotState.collectFirst:
         case (key, value) if value.contains(61) && value.contains(17) => key
-      } match
+      match
         case Some(bot) => bot
         case None      => go(newBotState)
 
@@ -62,17 +59,15 @@ object Day10:
 
   def solve2(input: String): Int =
     val parsed = input.linesIterator.map(parseLine).toList
-    val initState = parsed.foldLeft(Map.empty[Int, List[Int]]) {
+    val initState = parsed.foldLeft(Map.empty[Int, List[Int]]):
       case (map, SetValue(value, bot)) =>
-        map.updatedWith(bot) {
+        map.updatedWith(bot):
           case Some(list) => Some(value :: list)
           case None       => Some(value :: Nil)
-        }
       case (map, _) => map
-    }
 
     @tailrec def go(botState: Map[Int, List[Int]], outState: Map[Int, List[Int]] = Map.empty): Int =
-      val (newBotState, newOutState) = parsed.foldLeft((botState, outState)) {
+      val (newBotState, newOutState) = parsed.foldLeft((botState, outState)):
         case ((botState, outState), BotGives(bot, Bot(n1), Bot(n2))) if botState.get(bot).exists(_.size == 2) =>
           (
             botState
@@ -103,7 +98,6 @@ object Day10:
               .updatedWith(n2)(o => Some(botState(bot).max :: o.toList.flatten))
           )
         case (acc, _) => acc
-      }
       (for
         f <- newOutState.get(0).flatMap(_.headOption)
         s <- newOutState.get(1).flatMap(_.headOption)

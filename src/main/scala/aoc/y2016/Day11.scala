@@ -11,10 +11,9 @@ object Day11:
   import Facility.*
 
   private def isValid(f: Seq[Facility]): Boolean =
-    f.forall {
+    f.forall:
       case Microchip(name) => f.forall(_.isInstanceOf[Microchip]) || f.contains(Generator(name))
       case Generator(name) => true
-    }
 
   private case class State(elevator: Int, items: Map[Facility, Int])
 

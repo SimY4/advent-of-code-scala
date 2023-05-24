@@ -22,7 +22,7 @@ object Day21:
   def solve(input: String): String =
     input.linesIterator
       .map(parseLine)
-      .foldLeft("abcdefgh") {
+      .foldLeft("abcdefgh"):
         case (pwd, SwapPos(x, y))       => pwd.updated(y, pwd(x)).updated(x, pwd(y))
         case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(y), x).updated(pwd.indexOf(x), y)
         case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
@@ -32,14 +32,13 @@ object Day21:
           (0 until pwd.size).map(i => pwd.reverse((i + times) % pwd.size)).mkString.reverse
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y))    => pwd.patch(x, Nil, 1).patch(y, Seq(pwd(x)), 0)
-      }
 
   def solve2(input: String): String =
     input.linesIterator
       .map(parseLine)
       .toList
       .reverse
-      .foldLeft("fbgdceah") {
+      .foldLeft("fbgdceah"):
         case (pwd, SwapPos(x, y))       => pwd.updated(x, pwd(y)).updated(y, pwd(x))
         case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(x), y).updated(pwd.indexOf(y), x)
         case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
@@ -57,7 +56,6 @@ object Day21:
           (0 until pwd.size).map(i => pwd((i + times) % pwd.size)).mkString
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y))    => pwd.patch(y, Nil, 1).patch(x, Seq(pwd(y)), 0)
-      }
 
   val input = """rotate right 3 steps
                 |swap letter b with letter a

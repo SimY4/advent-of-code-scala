@@ -1,11 +1,9 @@
 package aoc.y2017
 
 import scala.annotation.tailrec
-import scala.compiletime.uninitialized
 
 import java.util.concurrent.{ BlockingQueue, LinkedBlockingQueue, TimeUnit }
 import java.util.concurrent.atomic.AtomicInteger
-import scala.util.Try
 
 object Day18:
   private enum Ins:
@@ -66,7 +64,7 @@ object Day18:
     id: Long,
     rcv: BlockingQueue[Long],
     snd: BlockingQueue[Long]
-  ) extends Thread:
+  ) extends Thread(s"Agent-$id"):
     setDaemon(true)
 
     val sent = AtomicInteger(0)

@@ -20,7 +20,7 @@ object Day14:
   def solve(input: String): Long =
     input.linesIterator
       .map(parseLine)
-      .foldLeft(Map.empty[Long, Long] -> Array.empty[Option[Boolean]]) {
+      .foldLeft(Map.empty[Long, Long] -> Array.empty[Option[Boolean]]):
         case ((mem, _), Mask(mask)) => mem -> mask
         case ((mem, mask), Mem(addr, value)) =>
           mem.updated(
@@ -31,7 +31,6 @@ object Day14:
               case (acc, _)                => acc
             }
           ) -> mask
-      }
       ._1
       .values
       .sum
@@ -39,11 +38,11 @@ object Day14:
   def solve2(input: String): Long =
     input.linesIterator
       .map(parseLine)
-      .foldLeft(Map.empty[String, Long] -> Array.empty[Option[Boolean]]) {
+      .foldLeft(Map.empty[String, Long] -> Array.empty[Option[Boolean]]):
         case ((mem, _), Mask(mask)) => mem -> mask
         case ((mem, mask), Mem(addr, value)) =>
           val binaryAddr = addr.toBinaryString.reverse.padTo(36, '0')
-          val addrs = mask.zipWithIndex.foldLeft(List(binaryAddr)) {
+          val addrs = mask.zipWithIndex.foldLeft(List(binaryAddr)):
             case (acc, (Some(false), i)) => acc
             case (acc, (Some(true), i))  => acc.map(_.updated(i, '1'))
             case (acc, (None, i)) =>
@@ -53,9 +52,7 @@ object Day14:
                   mask.updated(i, '0')
                 )
               )
-          }
           addrs.foldLeft(mem)(_.updated(_, value)) -> mask
-      }
       ._1
       .values
       .sum

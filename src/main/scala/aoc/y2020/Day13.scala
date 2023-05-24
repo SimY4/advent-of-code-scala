@@ -40,10 +40,9 @@ object Day13:
               val p = prod / modulus
               modInv(p, modulus).map(m => residue * m * p)
             }
-            .reduce {
+            .reduce:
               case (Some(m1), Some(m2)) => Some(m1 + m2)
               case _                    => None
-            }
           sum.map(_ % prod)
 
         chineseRemainder(res, parsedBusses)

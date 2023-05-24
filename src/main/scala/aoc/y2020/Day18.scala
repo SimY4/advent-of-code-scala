@@ -19,14 +19,16 @@ object Day18:
 
     private lazy val bracketParser2: Parser[Expr] = char('(') *> parser2 <* char(')')
     private lazy val valParser2: Parser[Expr]     = digitParser <|> bracketParser2
-    private lazy val sumParser2: Parser[Expr] = valParser2.many(literal(" + ")).map {
-      case h :: ss => ss.foldRight(h)(Sum(_, _))
-      case Nil     => Digit(0)
-    }
-    private lazy val prodParser2: Parser[Expr] = sumParser2.many(literal(" * ")).map {
-      case h :: ps => ps.foldRight(h)(Prod(_, _))
-      case Nil     => Digit(0)
-    }
+    private lazy val sumParser2: Parser[Expr] = valParser2
+      .many(literal(" + "))
+      .map:
+        case h :: ss => ss.foldRight(h)(Sum(_, _))
+        case Nil     => Digit(0)
+    private lazy val prodParser2: Parser[Expr] = sumParser2
+      .many(literal(" * "))
+      .map:
+        case h :: ps => ps.foldRight(h)(Prod(_, _))
+        case Nil     => Digit(0)
     lazy val parser2: Parser[Expr] = prodParser2
 
   import Expr.*

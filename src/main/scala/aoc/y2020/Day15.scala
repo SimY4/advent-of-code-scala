@@ -5,7 +5,7 @@ object Day15:
     val init = input.split(',').map(_.toInt)
     LazyList
       .from(0)
-      .scanLeft(Map.empty[Int, List[Int]] -> 0) {
+      .scanLeft(Map.empty[Int, List[Int]] -> 0):
         case ((acc, last), i) if i < init.length => acc.updated(init(i), List(i + 1)) -> init(i)
         case ((acc, last), i) =>
           acc.get(last).flatMap(_.dropWhile(_ >= i).headOption) match
@@ -20,7 +20,6 @@ object Day15:
                 case Some(js) => Some((i + 1) :: js)
                 case None     => Some(List(i + 1))
               } -> 0
-      }
       .drop(n)
       .head
       ._2

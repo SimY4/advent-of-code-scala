@@ -41,10 +41,9 @@ object Day11:
             val newItem = monkey.ops(item) / 3
             val throwTo = monkey.test(newItem)
             acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
-          } -> counter.updatedWith(id) {
+          } -> counter.updatedWith(id):
             case Some(cnt) => Some(cnt + monkey.items.size)
             case None      => Some(monkey.items.size)
-          }
         }
       }
       .drop(20)
@@ -64,10 +63,9 @@ object Day11:
             val newItem = monkey.ops(item) % modulus
             val throwTo = monkey.test(newItem)
             acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
-          } -> counter.updatedWith(id) {
+          } -> counter.updatedWith(id):
             case Some(cnt) => Some(cnt + monkey.items.size)
             case None      => Some(monkey.items.size)
-          }
         }
       }
       .drop(10000)

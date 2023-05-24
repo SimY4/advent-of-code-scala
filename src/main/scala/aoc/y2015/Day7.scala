@@ -37,7 +37,7 @@ object Day7:
   @tailrec private def iterate(signals: Map[Ref, Long], logicGates: List[Wire]): Map[Ref, Long] =
     if logicGates.isEmpty then signals
     else
-      val (newSignals, rest) = logicGates.partitionMap {
+      val (newSignals, rest) = logicGates.partitionMap:
         case Not(e @ Ref(_), to) if signals.contains(e) =>
           Left(to -> (~signals(e)).u)
         case Not(Value(v), to) =>
@@ -71,7 +71,6 @@ object Day7:
         case Identity(Value(v), to) =>
           Left(to -> v)
         case w => Right(w)
-      }
       iterate(signals ++ newSignals, rest)
 
   def solve(input: String): Option[Long] =

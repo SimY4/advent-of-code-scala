@@ -13,11 +13,10 @@ object Day13:
         case (Packet.Single(i), Packet.Single(j)) => Option.unless(i == j)(i < j)
         case (Packet.Multi(i), Packet.Multi(j)) =>
           i.zipAll[Packet | Unit, Packet | Unit](j, (), ())
-            .flatMap {
+            .flatMap:
               case (left: Packet, right: Packet) => left <= right
               case (_, ())                       => Some(false)
               case ((), _)                       => Some(true)
-            }
             .headOption
         case (i @ Packet.Single(_), j @ Packet.Multi(_)) => Packet.Multi(List(i)) <= j
         case (i @ Packet.Multi(_), j @ Packet.Single(_)) => i <= Packet.Multi(List(j))

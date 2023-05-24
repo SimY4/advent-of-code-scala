@@ -41,9 +41,8 @@ object Day15:
         .map((fr, stats) => stats.map(_ * fr))
         .reduce((is1, is2) => is1.zip(is2).map(_ + _))
         .map(_ max 0)
-      Option.when(recipe.last == 500) {
+      Option.when(recipe.last == 500):
         recipe.init.product
-      }
     }.max
 
   val input = """Frosting: capacity 4, durability -2, flavor 0, texture 0, calories 5

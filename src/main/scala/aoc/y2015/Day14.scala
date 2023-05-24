@@ -22,14 +22,13 @@ object Day14:
     LazyList
       .from(1)
       .scanLeft(raindeers) { (states, second) =>
-        states.transform {
+        states.transform:
           case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) =>
             if second < switch then State(distance + speed, score, switch, Status.Flying)
             else State(distance + speed, score, second + restTime, Status.Resting)
           case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
             if second < switch then s
             else State(distance, score, second + flyTime, Status.Flying)
-        }
       }
       .drop(2502)
       .head
@@ -49,14 +48,13 @@ object Day14:
     LazyList
       .from(1)
       .scanLeft(raindeers) { (states, second) =>
-        val updatedStates = states.transform {
+        val updatedStates = states.transform:
           case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) =>
             if second < switch then State(distance + speed, score, switch, Status.Flying)
             else State(distance + speed, score, second + restTime, Status.Resting)
           case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
             if second < switch then s
             else State(distance, score, second + flyTime, Status.Flying)
-        }
         val leaders = updatedStates.toList
           .groupMap(_._2.distance)(_._1)
           .maxBy(_._1)

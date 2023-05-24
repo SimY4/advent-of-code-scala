@@ -25,18 +25,16 @@ object Day7:
       .split("\\$ ")
       .drop(2)
       .map(parse)
-      .foldLeft((Nil: List[String], Map.empty[String, Int])) {
+      .foldLeft((Nil: List[String], Map.empty[String, Int])):
         case ((path, sizes), Output.LS(output)) =>
           val size = output.collect { case LS.File(size, _) => size }.sum
           path -> path.tails.foldLeft(sizes) { (acc, path) =>
-            acc.updatedWith(path.mkString("/")) {
+            acc.updatedWith(path.mkString("/")):
               case None          => Some(size)
               case Some(oldSize) => Some(oldSize + size)
-            }
           }
         case ((_ :: rest, sizes), Output.CDOut) => rest          -> sizes
         case ((path, sizes), Output.CD(dir))    => (dir :: path) -> sizes
-      }
       ._2
       .values
       .filter(_ <= 100000)
@@ -48,18 +46,16 @@ object Day7:
         .split("\\$ ")
         .drop(2)
         .map(parse)
-        .foldLeft((Nil: List[String], Map.empty[String, Int])) {
+        .foldLeft((Nil: List[String], Map.empty[String, Int])):
           case ((path, sizes), Output.LS(output)) =>
             val size = output.collect { case LS.File(size, _) => size }.sum
             path -> path.tails.foldLeft(sizes) { (acc, path) =>
-              acc.updatedWith(path.mkString("/")) {
+              acc.updatedWith(path.mkString("/")):
                 case None          => Some(size)
                 case Some(oldSize) => Some(oldSize + size)
-              }
             }
           case ((_ :: rest, sizes), Output.CDOut) => rest          -> sizes
           case ((path, sizes), Output.CD(dir))    => (dir :: path) -> sizes
-        }
     val freeSpace   = 70000000 - fs("")
     val spaceNeeded = 30000000 - freeSpace
 

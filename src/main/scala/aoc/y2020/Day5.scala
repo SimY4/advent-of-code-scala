@@ -51,9 +51,8 @@ object Day5:
         ._1
     yield row * 8 + col).toList.sorted
       .sliding(2)
-      .collectFirst {
+      .collectFirst:
         case f :: s :: Nil if f + 1 != s => f + 1
-      }
 
   val input = """BBFFFBFRLL
                 |FBBBBBFLRL

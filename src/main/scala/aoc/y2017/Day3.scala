@@ -18,14 +18,13 @@ object Day3:
   def solve2(input: Int): Option[Int] =
     LazyList
       .iterate(0L)(_ + 1L)
-      .flatMap {
+      .flatMap:
         case 0L => Seq(Coord(0L, 0L))
         case n =>
           (-n + 1 to n).map(Coord(n, _)) ++
             ((n - 1) to (-n, -1)).map(Coord(_, n)) ++
             ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++
             ((-n + 1) to n).map(Coord(_, -n))
-      }
       .tail
       .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) =>
         val res = (for

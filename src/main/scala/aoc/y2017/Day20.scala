@@ -40,9 +40,11 @@ object Day20 extends Input(2017, 20):
       if round % 10000 == 0 then Some(round) else None
     }
 
-    tsInt.groupBy(identity).toList.collectFirst {
-      case (t, ts) if ts.size == 3 - nans => t
-    }
+    tsInt
+      .groupBy(identity)
+      .toList
+      .collectFirst:
+        case (t, ts) if ts.size == 3 - nans => t
 
   def solve2(input: String): Int =
     val particles = input.linesIterator.map(parseLine).toVector

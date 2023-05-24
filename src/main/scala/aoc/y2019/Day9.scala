@@ -10,7 +10,7 @@ object Day9:
       output: Option[Long]
     )
     LazyList
-      .iterate(ProgramState(0, opCodes, 0, inputs, None)) {
+      .iterate(ProgramState(0, opCodes, 0, inputs, None)):
         case state @ ProgramState(pointer, opCodes, relativeBase, inputs, _) =>
           val instruction = opCodes(pointer)
           val (op, param1, param2, param3) =
@@ -43,7 +43,6 @@ object Day9:
             case 8L  => state.copy(pointer + 4, opCodes.updated(zP, if xV == yV then 1L else 0L), output = None)
             case 9L  => state.copy(pointer + 2, relativeBase = relativeBase + xV.toInt, output = None)
             case 99L => ProgramState(-1, Nil, -1, inputs, None)
-      }
       .takeWhile(_.pointer >= 0)
       .collect { case ProgramState(_, _, _, _, Some(output)) => output }
 

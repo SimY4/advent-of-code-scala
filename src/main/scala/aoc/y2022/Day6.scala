@@ -2,9 +2,11 @@ package aoc.y2022
 
 object Day6:
   def solve(input: String, distinct: Int = 4): Option[Int] =
-    input.sliding(distinct, 1).zipWithIndex.collectFirst {
-      case (s, i) if s.distinct.size == s.size => i + s.size
-    }
+    input
+      .sliding(distinct, 1)
+      .zipWithIndex
+      .collectFirst:
+        case (s, i) if s.distinct.size == s.size => i + s.size
 
   def solve2(input: String): Option[Int] = solve(input, 14)
 
