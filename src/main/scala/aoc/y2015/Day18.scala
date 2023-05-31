@@ -15,7 +15,7 @@ object Day18:
     LazyList
       .iterate(grid) { g =>
         g.indices
-          .map(i => g(i).indices.map(j => changeSwitch(g, Coord(i.toLong, j.toLong))).toArray)
+          .map(i => g(i).indices.map(j => changeSwitch(g, Coord(i, j))).toArray)
           .toArray
       }
       .drop(100)
@@ -34,9 +34,7 @@ object Day18:
     LazyList
       .iterate(grid) { g =>
         g.indices
-          .map(i =>
-            g(i).indices.map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i.toLong, j.toLong))).toArray
-          )
+          .map(i => g(i).indices.map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i, j))).toArray)
           .toArray
       }
       .drop(100)

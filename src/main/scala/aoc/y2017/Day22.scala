@@ -22,7 +22,7 @@ object Day22:
         case Direction.Down  => Direction.Left
         case Direction.Left  => Direction.Up
 
-  def solve(input: String): Int =
+  def solve(input: String, n: Int = 10000): Int =
     val center = input.linesIterator.size / 2
     val grid = (for
       (line, j) <- input.linesIterator.zipWithIndex
@@ -40,10 +40,10 @@ object Day22:
         val nextPos = pos + nextDir.direction
         Some(!infected -> State(nextGrid, nextPos, nextDir))
       }
-      .take(10000)
+      .take(n)
       .count(identity)
 
-  def solve2(input: String): Int =
+  def solve2(input: String, n: Int = 10000000): Int =
     val center = input.linesIterator.size / 2
     val grid = (for
       (line, j) <- input.linesIterator.zipWithIndex
@@ -67,7 +67,7 @@ object Day22:
         val nextPos = pos + nextDir.direction
         Some(infected -> State(nextGrid, nextPos, nextDir))
       }
-      .take(10000000)
+      .take(n)
       .count(identity)
 
   val input = """..##.##.######...#.######

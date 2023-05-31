@@ -41,6 +41,12 @@ final case class Coord(x: Long, y: Long):
   def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
     directions.map(this + _.direction)
 
+object Coord extends ((Long, Long) => Coord):
+  def apply[I: Integral](x: I, y: I): Coord =
+    import Integral.Implicits.*
+
+    Coord(x.toLong, y.toLong)
+
 extension [A](dd: Array[Array[A]])
   def apply(coord: Coord): A       = dd(coord.y.toInt)(coord.x.toInt)
   def get(coord: Coord): Option[A] = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
