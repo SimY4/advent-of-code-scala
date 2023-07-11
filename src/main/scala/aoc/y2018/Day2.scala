@@ -2,11 +2,11 @@ package aoc.y2018
 
 object Day2:
   def solve(input: String): Int =
-    val (fst, snd) = input.linesIterator.foldLeft(0 -> 0) { (acc, line) =>
-      val grouped = line.toSeq.groupBy(identity).values.map(_.size)
-      val (x, y)  = if grouped.exists(_ == 2) then (acc._1 + 1, acc._2) else acc
-      if grouped.exists(_ == 3) then (x, y + 1) else (x, y)
-    }
+    val (fst, snd) = input.linesIterator.foldLeft(0 -> 0):
+      case ((accX, accY), line) =>
+        val grouped = line.toSeq.groupBy(identity).values.map(_.size)
+        val (x, y)  = if grouped.exists(_ == 2) then (accX + 1, accY) else (accX, accY)
+        if grouped.exists(_ == 3) then (x, y + 1) else (x, y)
     fst * snd
 
   def solve2(input: String): String =
@@ -14,10 +14,14 @@ object Day2:
       line1 <- input.linesIterator
       line2 <- input.linesIterator
       if line1 < line2
-      indexes = line1.zip(line2).zipWithIndex.collect { case ((l, r), i) if l != r => i }
+      indexes = line1
+        .zip(line2)
+        .zipWithIndex
+        .collect:
+          case ((l, r), i) if l != r => i
       if indexes.size == 1
       index <- indexes.headOption
-    yield (line1.substring(0, index) + line1.substring(index + 1))).toList.head
+    yield line1.substring(0, index) + line1.substring(index + 1)).next
 
   val input = """uqcipadzntnheslgvjjozmkfyr
                 |uqcipadzwtnhexlzvxjobmkfkr

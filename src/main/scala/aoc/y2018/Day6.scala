@@ -2,9 +2,11 @@ package aoc
 package y2018
 
 object Day6:
-  private val linePattern = "(\\d+), (\\d+)".r
-  def coords(input: String): List[Coord] =
-    input.linesIterator.collect { case linePattern(x, y) => Coord(x.toLong, y.toLong) }.toList
+  private def coords(input: String): List[Coord] =
+    input.linesIterator
+      .collect:
+        case s"$x, $y" => Coord(x.toLong, y.toLong)
+      .toList
 
   def solve(input: String): Int =
     val coord = coords(input)

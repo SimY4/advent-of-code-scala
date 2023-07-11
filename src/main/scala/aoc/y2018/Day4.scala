@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat
 import java.time.{ Duration, Instant, LocalDateTime, ZoneOffset }
 
 import scala.annotation.tailrec
-import scala.language.implicitConversions
 
 object Day4:
   private val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -18,30 +17,20 @@ object Day4:
 
   import Action.*
 
-  final private case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime)
+  final private case class SleepSchedule(sleepStart: LocalDateTime, sleepEnd: LocalDateTime):
+    def durationBetween: Duration = Duration.between(sleepStart, sleepEnd)
+    def minutes: Seq[Int]         = sleepStart.getMinute until sleepEnd.getMinute
 
-  extension (s: SleepSchedule) private def durationBetween: Duration = Duration.between(s.sleepStart, s.sleepEnd)
-  extension (s: SleepSchedule) private def minutes: Seq[Int]         = s.sleepStart.getMinute until s.sleepEnd.getMinute
+  private val linePattern = raw"\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (.+)".r
+
+  private def parseLine(line: String): Record =
+    line match
+      case linePattern(ts, "wakes up")                => Record(dateFormat.parse(ts).toInstant, WakesUp)
+      case linePattern(ts, "falls asleep")            => Record(dateFormat.parse(ts).toInstant, FallsAsleep)
+      case linePattern(ts, s"Guard #$g begins shift") => Record(dateFormat.parse(ts).toInstant, BeginsDuty(g.toInt))
 
   private def schedule(input: String): Map[Int, List[SleepSchedule]] =
-    def parse(line: String): Record =
-      val matcher = raw"\[(?<ts>\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (?<ac>.+)".r.pattern.matcher(line)
-      matcher.find
-      Record(
-        dateFormat.parse(matcher.group("ts")).toInstant,
-        matcher.group("ac") match
-          case s if s.startsWith("wakes up")     => WakesUp
-          case s if s.startsWith("falls asleep") => FallsAsleep
-          case s if s.startsWith("Guard #") =>
-            "\\d+".r
-              .findFirstIn(s)
-              .map { g =>
-                BeginsDuty(g.toInt)
-              }
-              .get
-      )
-
-    implicit def toLocalDateTime(i: Instant): LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
+    extension (i: Instant) def toLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
 
     @tailrec def schedule0(
       records: List[Record],
@@ -55,12 +44,14 @@ object Day4:
           schedule0(
             rs,
             current,
-            schedule + (current -> (schedule.getOrElse(current, Nil) ++ List(SleepSchedule(start, end))))
+            schedule + (current -> (schedule.getOrElse(current, Nil) ::: List(
+              SleepSchedule(start.toLocalDateTime, end.toLocalDateTime)
+            )))
           )
 
     schedule0(
       input.linesIterator
-        .map(parse)
+        .map(parseLine)
         .toList
         .sortBy(_.ts),
       -1,
@@ -70,27 +61,27 @@ object Day4:
   def solve(input: String): Int =
     val sched                        = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy((_, list) => list.map(_.durationBetween).reduce(_.plus(_)))
-    val maxMinuteSleeping = (for
+    val (maxMinuteSleeping, _) = (for
       s      <- sched(id)
       minute <- s.minutes
     yield minute)
       .groupBy(identity)
       .maxBy((_, list) => list.size)
-      ._1
     id * maxMinuteSleeping
 
   def solve2(input: String): Int =
     val sched = schedule(input)
-    val (id, (maxMinuteSleeping, _)) = sched.view.mapValues { list =>
-      (for
-        s      <- list
-        minute <- s.minutes
-      yield minute)
-        .groupBy(identity)
-        .view
-        .mapValues(_.size)
-        .maxBy((_, size) => size)
-    }.maxBy { case (_, (min, count)) => count }
+    val (id, (maxMinuteSleeping, _)) = sched.view
+      .mapValues: list =>
+        (for
+          s      <- list
+          minute <- s.minutes
+        yield minute)
+          .groupBy(identity)
+          .view
+          .mapValues(_.size)
+          .maxBy((_, size) => size)
+      .maxBy { case (_, (_, count)) => count }
     id * maxMinuteSleeping
 
   val input = """[1518-08-12 00:43] falls asleep
