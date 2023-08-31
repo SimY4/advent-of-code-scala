@@ -1,16 +1,16 @@
 package aoc.y2015
 
 object Day15:
-  private def split(number: Int, parts: Int): List[List[Int]] =
+  private def split(number: Int, parts: Int): Vector[List[Int]] =
     LazyList
-      .iterate(List.range(1, number).map(_ :: Nil)): acc =>
+      .iterate(Vector.range(1, number + 1).map(_ :: Nil)): acc =>
         for
           xxs <- acc
           xs  <- 1 until number
           concat = xs :: xxs
           if concat.sum <= number
         yield concat
-      .drop(parts)
+      .drop(parts - 1)
       .head
       .filter(_.sum == number)
 

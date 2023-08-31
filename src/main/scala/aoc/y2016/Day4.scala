@@ -27,20 +27,22 @@ object Day4:
       if decoy(name, checksum)
     yield id.toInt).sum
 
-  def solve2(input: String): List[(String, String)] =
+  def solve2(input: String): Option[String] =
     (for
       case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
-    yield id -> name.map:
-      case '-' => ' '
-      case ch =>
-        LazyList
-          .iterate(ch):
-            case 'z' => 'a'
-            case c   => (c.toInt + 1).toChar
-          .drop(id.toInt)
-          .head
-    ).toList
+      if name
+        .map:
+          case '-' => ' '
+          case ch =>
+            LazyList
+              .iterate(ch):
+                case 'z' => 'a'
+                case c   => (c.toInt + 1).toChar
+              .drop(id.toInt)
+              .head
+        .startsWith("northpole")
+    yield id).head
 
   val input = """vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
                 |mbiyqoxsm-pvygob-nocsqx-900[obmqs]
