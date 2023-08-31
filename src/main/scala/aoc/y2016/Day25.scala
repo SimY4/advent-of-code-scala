@@ -31,15 +31,17 @@ object Day25:
     if out.size > 10 then out
     else
       instructions.lift(pos) match
-        case None                  => out
-        case Some(Cpy(value, reg)) => runProgram(instructions, state.updated(reg, value.fold(identity, state)), pos + 1)
-        case Some(Inc(reg))        => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1)
-        case Some(Dec(reg))        => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1)
+        case None => out
+        case Some(Cpy(value, reg)) =>
+          runProgram(instructions, state.updated(reg, value.fold(identity, state)), pos + 1, out)
+        case Some(Inc(reg)) => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1, out)
+        case Some(Dec(reg)) => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1, out)
         case Some(Jnz(value, nOrReg)) =>
           runProgram(
             instructions,
             state,
-            if value.fold(identity, state) == 0 then pos + 1 else pos + nOrReg.fold(identity, state)
+            if value.fold(identity, state) == 0 then pos + 1 else pos + nOrReg.fold(identity, state),
+            out
           )
         case Some(Tgl(reg)) =>
           val n = pos + state(reg)
@@ -58,7 +60,7 @@ object Day25:
               pos + 1,
               out
             )
-          else runProgram(instructions, state, pos + 1)
+          else runProgram(instructions, state, pos + 1, out)
         case Some(Out(value)) => runProgram(instructions, state, pos + 1, value.fold(identity, state) :: out)
 
   def solve(input: String): Option[Int] =
