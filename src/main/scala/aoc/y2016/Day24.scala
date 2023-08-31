@@ -42,8 +42,6 @@ object Day24:
       (pos, d) <- maze.shortestFrom(coord)
     yield ch -> maze(pos) -> d).toMap
 
-    println(lookup.keySet)
-
     def search(
       toVisit: List[Char] = (1 to pois).map(_.toString().head).toList,
       current: Char = '0',

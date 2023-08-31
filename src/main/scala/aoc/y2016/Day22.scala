@@ -35,7 +35,7 @@ object Day22:
       println()
     }
 
-    // visuallly solved
+    // visually solved
     17 + 22 + 35 + 34 * 5
 
   val input = """root@ebhq-gridcenter# df -h

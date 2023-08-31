@@ -27,7 +27,7 @@ object Day4:
       if decoy(name, checksum)
     yield id.toInt).sum
 
-  def solve2(input: String): Option[String] =
+  def solve2(input: String): String =
     (for
       case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
@@ -42,7 +42,7 @@ object Day4:
               .drop(id.toInt)
               .head
         .startsWith("northpole")
-    yield id).head
+    yield id).next
 
   val input = """vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
                 |mbiyqoxsm-pvygob-nocsqx-900[obmqs]
