@@ -33,12 +33,11 @@ object Day19:
   def solve2(input: String): Int =
     val Input(replacements, medicine) = parseInput(input)
     LazyList
-      .iterate(List(medicine)) { molecules =>
+      .iterate(List(medicine)): molecules =>
         (for
           (from, to)   <- replacements
           nextMolecule <- (to, from).scanReplace(molecules.head)
         yield nextMolecule).distinct
-      }
       .indexWhere(_.exists(_ == "e"))
 
   val input =

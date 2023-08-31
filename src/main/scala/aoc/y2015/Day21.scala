@@ -48,11 +48,15 @@ object Day21:
       case s"Hit Points: $hp" :: s"Damage: $damage" :: s"Armor: $armor" :: Nil =>
         Character(hp.toInt, damage.toInt, armor.toInt)
 
-    val weapons = items.collect { case w: Weapon => w }
-    val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
+    val weapons = items.collect:
+      case w: Weapon => w
+    val armor = items
+      .collect:
+        case a: Armor => a
+      .foldRight(List(Option.empty[Armor]))(Some(_) :: _)
     val rings = (List.empty[Ring] :: (for
-      r1 <- items.collect { case r: Ring => r }
-      r2 <- items.collect { case r: Ring => r }
+      case r1: Ring <- items
+      case r2: Ring <- items
     yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil)).distinct
 
     (for
@@ -60,7 +64,7 @@ object Day21:
       ar     <- armor
       rngs   <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if char.`duel`(boss)
+      if char.duel(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).min
 
   def solve2(input: String): Int =
@@ -68,11 +72,15 @@ object Day21:
       case s"Hit Points: $hp" :: s"Damage: $damage" :: s"Armor: $armor" :: Nil =>
         Character(hp.toInt, damage.toInt, armor.toInt)
 
-    val weapons = items.collect { case w: Weapon => w }
-    val armor   = items.collect { case a: Armor => a }.foldRight(List(Option.empty[Armor]))(Some(_) :: _)
+    val weapons = items.collect:
+      case w: Weapon => w
+    val armor = items
+      .collect:
+        case a: Armor => a
+      .foldRight(List(Option.empty[Armor]))(Some(_) :: _)
     val rings = (List.empty[Ring] :: (for
-      r1 <- items.collect { case r: Ring => r }
-      r2 <- items.collect { case r: Ring => r }
+      case r1: Ring <- items
+      case r2: Ring <- items
     yield if r1 == r2 then r1 :: Nil else r1 :: r2 :: Nil)).distinct
 
     (for
@@ -80,7 +88,7 @@ object Day21:
       ar     <- armor
       rngs   <- rings
       char = Character(100, weapon.damage + rngs.map(_.damage).sum, ar.fold(0)(_.armor) + rngs.map(_.armor).sum)
-      if !char.`duel`(boss)
+      if !char.duel(boss)
     yield weapon.cost + ar.fold(0)(_.cost) + rngs.map(_.cost).sum).max
 
   val input = """Hit Points: 103

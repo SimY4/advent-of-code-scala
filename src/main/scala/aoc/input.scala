@@ -1,15 +1,14 @@
 package aoc
 
+import java.net.URI
 import scala.util.Using
 
 trait Input(year: Int, day: Int):
   lazy val input: String =
-    val url        = new java.net.URL(s"https://adventofcode.com/$year/day/$day/input")
+    val url        = URI.create(s"https://adventofcode.com/$year/day/$day/input").toURL
     val connection = url.openConnection()
     connection.addRequestProperty("Cookie", s"session=${Input.SESSION}")
-    Using.resource(connection.getInputStream) { in =>
-      scala.io.Source.fromInputStream(in).getLines.mkString(System.lineSeparator)
-    }
+    Using.resource(connection.getInputStream)(scala.io.Source.fromInputStream(_).mkString)
 
 object Input:
-  val SESSION = System.getProperty("aoc.session", "SESSION")
+  val SESSION: String = System.getProperty("aoc.session", "SESSION")

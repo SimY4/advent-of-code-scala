@@ -23,23 +23,21 @@ object Day6:
 
   def solve(input: String): Int = input.linesIterator
     .map(parseLine)
-    .foldLeft(Array.fill(1000, 1000)(false)) { (grid, action) =>
+    .foldLeft(Array.fill(1000, 1000)(false)): (grid, action) =>
       action match
         case TurnOn(coord1, coord2)  => update(grid, coord1, coord2)(_ => true)
         case TurnOff(coord1, coord2) => update(grid, coord1, coord2)(_ => false)
         case Toggle(coord1, coord2)  => update(grid, coord1, coord2)(b => !b)
-    }
     .map(_.count(identity))
     .sum
 
   def solve2(input: String): Int = input.linesIterator
     .map(parseLine)
-    .foldLeft(Array.fill(1000, 1000)(0)) { (grid, action) =>
+    .foldLeft(Array.fill(1000, 1000)(0)): (grid, action) =>
       action match
         case TurnOn(coord1, coord2)  => update(grid, coord1, coord2)(_ + 1)
         case TurnOff(coord1, coord2) => update(grid, coord1, coord2)(i => math.max(0, i - 1))
         case Toggle(coord1, coord2)  => update(grid, coord1, coord2)(_ + 2)
-    }
     .map(_.sum)
     .sum
 

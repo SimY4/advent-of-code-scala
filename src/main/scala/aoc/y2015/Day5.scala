@@ -7,7 +7,7 @@ object Day5:
   def solve(input: String): Int =
     (for
       line <- input.linesIterator
-      if line.filter(vowels.contains).size >= 3
+      if line.count(vowels.contains) >= 3
       if line.toSeq.sliding(2).exists(s => s.head == s.last)
       if bad.forall(!line.contains(_))
     yield line).size

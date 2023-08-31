@@ -13,10 +13,10 @@ object Day3:
 
   def solve2(input: String): Int =
     input.toSeq.zipWithIndex
-      .scanLeft(Coord(0, 0) -> Coord(0, 0)) { case ((one, two), (ch, i)) =>
-        if (i & 1) == 0 then (navigate(one, ch), two) else (one, navigate(two, ch))
-      }
-      .flatMap((one, two) => List(one, two))
+      .scanLeft(Coord(0, 0) -> Coord(0, 0)):
+        case ((one, two), (ch, i)) =>
+          if (i & 1) == 0 then (navigate(one, ch), two) else (one, navigate(two, ch))
+      .flatMap(_ :: _ :: Nil)
       .distinct
       .size
 

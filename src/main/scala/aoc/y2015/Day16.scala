@@ -35,7 +35,7 @@ object Day16:
       .toList
       .drop(2)
       .sliding(2, 2)
-      .foldLeft(AuntSue()) { (sue, pair) =>
+      .foldLeft(AuntSue()): (sue, pair) =>
         pair match
           case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
           case "cats:" :: num :: Nil     => sue.copy(cats = num.replace(",", "").toIntOption)
@@ -49,7 +49,6 @@ object Day16:
           case "cars:" :: num :: Nil     => sue.copy(cars = num.replace(",", "").toIntOption)
           case "perfumes:" :: num :: Nil => sue.copy(perfumes = num.replace(",", "").toIntOption)
           case _                         => sue
-      }
 
   def solve(input: String): Int =
     def equiv(sue: AuntSue): Boolean =
@@ -57,9 +56,8 @@ object Day16:
         a <- Some(sue)
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc == rc))
-        if (auntSue.dogs.keySet ++ a.dogs.keySet).forall(dog =>
+        if (auntSue.dogs.keySet ++ a.dogs.keySet).forall: dog =>
           auntSue.dogs.get(dog).forall(ld => a.dogs.get(dog).forall(rd => ld == rd))
-        )
         if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg == rg))
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt == rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))
@@ -79,17 +77,16 @@ object Day16:
         if auntSue.children.forall(lc => a.children.forall(rc => lc == rc))
         if auntSue.cats.forall(lc => a.cats.forall(rc => lc < rc))
         if (auntSue.dogs.keySet ++ a.dogs.keySet)
-          .forall(dog =>
+          .forall: dog =>
             auntSue.dogs
               .get(dog)
-              .forall(ld =>
-                a.dogs.get(dog).forall { rd =>
-                  dog match
-                    case Dogs.Pomeranians => ld > rd
-                    case _                => ld == rd
-                }
-              )
-          )
+              .forall: ld =>
+                a.dogs
+                  .get(dog)
+                  .forall: rd =>
+                    dog match
+                      case Dogs.Pomeranians => ld > rd
+                      case _                => ld == rd
         if auntSue.goldfish.forall(lg => a.goldfish.forall(rg => lg > rg))
         if auntSue.trees.forall(lt => a.trees.forall(rt => lt < rt))
         if auntSue.cars.forall(lc => a.cars.forall(rc => lc == rc))

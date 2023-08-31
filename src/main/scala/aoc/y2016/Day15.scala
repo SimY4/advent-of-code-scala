@@ -9,19 +9,19 @@ object Day15:
 
   def solve(input: String): Option[Int] =
     val disks = input.linesIterator.map(parseLine).toList
-    LazyList.from(0).find { time =>
-      disks.forall { disk =>
-        (disk.initPos + time + disk.n) % disk.posNum == 0
-      }
-    }
+    LazyList
+      .from(0)
+      .find: time =>
+        disks.forall: disk =>
+          (disk.initPos + time + disk.n) % disk.posNum == 0
 
   def solve2(input: String): Option[Int] =
     val disks = input.linesIterator.map(parseLine).toList :+ Disc(7, 11, 0)
-    LazyList.from(0).find { time =>
-      disks.forall { disk =>
-        (disk.initPos + time + disk.n) % disk.posNum == 0
-      }
-    }
+    LazyList
+      .from(0)
+      .find: time =>
+        disks.forall: disk =>
+          (disk.initPos + time + disk.n) % disk.posNum == 0
 
   val input = """Disc #1 has 13 positions; at time=0, it is at position 11.
                 |Disc #2 has 5 positions; at time=0, it is at position 0.

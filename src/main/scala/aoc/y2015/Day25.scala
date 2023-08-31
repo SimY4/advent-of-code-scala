@@ -6,11 +6,12 @@ object Day25:
 
   def solve(input: Coord): Option[Long] =
     LazyList
-      .iterate(Cell(Coord(1L, 1L), 1L) -> 20151125L) { case (Cell(Coord(row, col), incRow), value) =>
-        val nextValue = value * 252533L % 33554393L
-        if incRow == col then Cell(Coord(incRow + 1L, 1L), incRow + 1L) -> nextValue
-        else Cell(Coord(row - 1L, col + 1L), incRow)                    -> nextValue
-      }
-      .collectFirst { case (Cell(`input`, _), value) => value }
+      .iterate(Cell(Coord(1L, 1L), 1L) -> 20151125L):
+        case (Cell(Coord(row, col), incRow), value) =>
+          val nextValue = value * 252533L % 33554393L
+          if incRow == col then Cell(Coord(incRow + 1L, 1L), incRow + 1L) -> nextValue
+          else Cell(Coord(row - 1L, col + 1L), incRow)                    -> nextValue
+      .collectFirst:
+        case (Cell(`input`, _), value) => value
 
   val input = Coord(2947L, 3029L)

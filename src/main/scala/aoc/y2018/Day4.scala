@@ -21,27 +21,25 @@ object Day4:
     def durationBetween: Duration = Duration.between(sleepStart, sleepEnd)
     def minutes: Seq[Int]         = sleepStart.getMinute until sleepEnd.getMinute
 
-  private val linePattern = raw"\[(\d{4}-\d{2}-\d{2} \d{2}:\d{2})\] (.+)".r
-
   private def parseLine(line: String): Record =
     line match
-      case linePattern(ts, "wakes up")                => Record(dateFormat.parse(ts).toInstant, WakesUp)
-      case linePattern(ts, "falls asleep")            => Record(dateFormat.parse(ts).toInstant, FallsAsleep)
-      case linePattern(ts, s"Guard #$g begins shift") => Record(dateFormat.parse(ts).toInstant, BeginsDuty(g.toInt))
+      case s"[$ts] wakes up"               => Record(dateFormat.parse(ts).toInstant, WakesUp)
+      case s"[$ts] falls asleep"           => Record(dateFormat.parse(ts).toInstant, FallsAsleep)
+      case s"[$ts] Guard #$g begins shift" => Record(dateFormat.parse(ts).toInstant, BeginsDuty(g.toInt))
 
   private def schedule(input: String): Map[Int, List[SleepSchedule]] =
     extension (i: Instant) def toLocalDateTime: LocalDateTime = LocalDateTime.ofInstant(i, ZoneOffset.UTC)
 
-    @tailrec def schedule0(
+    @tailrec def loop(
       records: List[Record],
-      current: Int,
-      schedule: Map[Int, List[SleepSchedule]]
+      current: Int = -1,
+      schedule: Map[Int, List[SleepSchedule]] = Map.empty
     ): Map[Int, List[SleepSchedule]] =
       records match
         case Nil                            => schedule
-        case Record(_, BeginsDuty(d)) :: rs => schedule0(rs, d, schedule)
+        case Record(_, BeginsDuty(d)) :: rs => loop(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
-          schedule0(
+          loop(
             rs,
             current,
             schedule + (current -> (schedule.getOrElse(current, Nil) ::: List(
@@ -49,13 +47,11 @@ object Day4:
             )))
           )
 
-    schedule0(
+    loop(
       input.linesIterator
         .map(parseLine)
         .toList
-        .sortBy(_.ts),
-      -1,
-      Map.empty
+        .sortBy(_.ts)
     )
 
   def solve(input: String): Int =

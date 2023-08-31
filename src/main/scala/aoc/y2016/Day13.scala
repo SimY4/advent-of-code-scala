@@ -41,4 +41,4 @@ object Day13:
 
     loop(Coord(1L, 1L)).size
 
-  val input = 1362L
+  val input = 1362

@@ -18,27 +18,26 @@ object Day12:
     private val nullParser: Parser[JNull.type] = literal("null").`as`(JNull)
     private val boolParser: Parser[JBool] =
       literal("true").as(new JBool(true)) <|> literal("false").as(new JBool(false))
-    private val numberParser: Parser[JNumber] = (char('-').optional <*> span(_.isDigit)).map { (oc, digits) =>
+    private val numberParser: Parser[JNumber] = (char('-').optional <*> span(_.isDigit)).map: (oc, digits) =>
       val i = digits.toInt
-      new JNumber(if oc.isDefined then -i else i)
-    }
+      JNumber(if oc.isDefined then -i else i)
     private val stringParser: Parser[String] = char('"') *> span(_ != '"') <* char('"')
     private val arrayParser: Parser[JArray] = (char('[') *> parser.many(char(',')) <* char(']'))
-      .map(new JArray(_))
+      .map(JArray.apply)
     private val objectParser: Parser[JObj] =
       (char('{') *> (stringParser <* char(':') <*> parser).many(char(',')) <* char('}'))
-        .map(list => new JObj(list.toMap))
+        .map(list => JObj(list.toMap))
     lazy val parser: Parser[Json] =
-      nullParser <|> boolParser <|> numberParser <|> stringParser.map(new JString(_)) <|> arrayParser <|> objectParser
+      nullParser <|> boolParser <|> numberParser <|> stringParser.map(JString(_)) <|> arrayParser <|> objectParser
 
   def solve2(input: String): Int =
     import Json.*
 
     def preprocess(i: Json): Json = i match
       case JObj(obj: Map[String, Json]) =>
-        if obj.values.toSet.contains(JString("red")) then new JObj(Map.empty)
-        else new JObj(obj.view.mapValues(preprocess).toMap)
-      case JArray(arr) => new JArray(arr.map(preprocess))
+        if obj.values.toSet.contains(JString("red")) then JObj(Map.empty)
+        else JObj(obj.view.mapValues(preprocess).toMap)
+      case JArray(arr) => JArray(arr.map(preprocess))
       case json        => json
 
     def count(i: Json): Int = i match

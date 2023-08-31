@@ -13,11 +13,10 @@ object Day18:
       .toArray
 
     LazyList
-      .iterate(grid) { g =>
+      .iterate(grid): g =>
         g.indices
           .map(i => g(i).indices.map(j => changeSwitch(g, Coord(i, j))).toArray)
           .toArray
-      }
       .drop(100)
       .head
       .map(_.count(identity))
@@ -29,14 +28,13 @@ object Day18:
       .toArray
 
     val alwaysOn = Set((0, 0), (0, grid.size - 1), (grid.size - 1, 0), (grid.size - 1, grid.size - 1))
-    alwaysOn.foreach { case (i, j) => grid(i)(j) = true }
+    for (i, j) <- alwaysOn do grid(i)(j) = true
 
     LazyList
-      .iterate(grid) { g =>
+      .iterate(grid): g =>
         g.indices
           .map(i => g(i).indices.map(j => alwaysOn.contains((i, j)) || changeSwitch(g, Coord(i, j))).toArray)
           .toArray
-      }
       .drop(100)
       .head
       .map(_.count(identity))

@@ -23,9 +23,8 @@ object Day13:
       adjPoints = if gl == "gain" then points.toInt else -points.toInt
     yield (first -> second, adjPoints)).toMap
     val guests = rels.keySet.map(_._1)
-    val relsWithMe = guests.foldLeft(rels) { (acc, guest) =>
+    val relsWithMe = guests.foldLeft(rels): (acc, guest) =>
       acc ++ Map(("Me" -> guest) -> 0, (guest -> "Me") -> 0)
-    }
     ("Me" :: guests.toList).permutations
       .map(_.pairs.map((a, b) => relsWithMe((a, b)) + relsWithMe((b, a))).sum)
       .max

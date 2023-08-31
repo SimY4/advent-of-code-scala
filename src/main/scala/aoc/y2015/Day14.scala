@@ -21,15 +21,14 @@ object Day14:
 
     LazyList
       .from(1)
-      .scanLeft(raindeers) { (states, second) =>
+      .scanLeft(raindeers): (states, second) =>
         states.transform:
           case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) =>
             if second < switch then State(distance + speed, score, switch, Status.Flying)
             else State(distance + speed, score, second + restTime, Status.Resting)
-          case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
+          case (Raindeer(_, _, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
             if second < switch then s
             else State(distance, score, second + flyTime, Status.Flying)
-      }
       .drop(2502)
       .head
       .values
@@ -47,12 +46,12 @@ object Day14:
 
     LazyList
       .from(1)
-      .scanLeft(raindeers) { (states, second) =>
+      .scanLeft(raindeers): (states, second) =>
         val updatedStates = states.transform:
           case (Raindeer(_, speed, _, restTime), State(distance, score, switch, Status.Flying)) =>
             if second < switch then State(distance + speed, score, switch, Status.Flying)
             else State(distance + speed, score, second + restTime, Status.Resting)
-          case (Raindeer(_, speed, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
+          case (Raindeer(_, _, flyTime, _), s @ State(distance, score, switch, Status.Resting)) =>
             if second < switch then s
             else State(distance, score, second + flyTime, Status.Flying)
         val leaders = updatedStates.toList
@@ -60,11 +59,9 @@ object Day14:
           .maxBy(_._1)
           ._2
         leaders
-          .foldLeft(updatedStates) { (s, leadingRaindeer) =>
+          .foldLeft(updatedStates): (s, leadingRaindeer) =>
             val state = s(leadingRaindeer)
             s.updated(leadingRaindeer, state.copy(score = state.score + 1))
-          }
-      }
       .drop(2502)
       .head
       .values

@@ -2,22 +2,20 @@ package aoc
 package y2018
 
 object Day6:
-  private def coords(input: String): List[Coord] =
-    input.linesIterator
-      .collect:
-        case s"$x, $y" => Coord(x.toLong, y.toLong)
-      .toList
-
   def solve(input: String): Int =
-    val coord = coords(input)
+    val coord = input.linesIterator
+      .map:
+        case s"$x, $y" => Coord(x.toLong, y.toLong)
+      .toVector
 
     def closest(c: Coord): String =
       val dists   = coord.map(_.manhattan(c))
       val minDist = dists.min
-      val indexes = dists.zipWithIndex.filter(_._1 == minDist)
+      val indexes = dists.zipWithIndex.collect:
+        case (`minDist`, i) => i
       if indexes.size > 1 then "."
       else
-        val idx    = indexes.head._2
+        val idx    = indexes.head
         val letter = ('a'.toInt + idx).toChar
         s"$letter$idx"
 
@@ -40,17 +38,21 @@ object Day6:
     val rect = for
       x <- minX to maxX
       y <- minY to maxY
-      coords = Coord(x, y)
-    yield coords -> closest(coords)
+    yield
+      val coords = Coord(x, y)
+      coords -> closest(coords)
 
     val bndries = boundaries(rect)
     val freqs   = frequencies(rect)
     val safe    = freqs -- bndries
 
-    safe.map(_._2).max
+    safe.values.max
 
   def solve2(input: String): Int =
-    val coord = coords(input)
+    val coord = input.linesIterator
+      .map:
+        case s"$x, $y" => Coord(x.toLong, y.toLong)
+      .toVector
 
     val minX = coord.map(_.x).min
     val maxX = coord.map(_.x).max
@@ -61,7 +63,7 @@ object Day6:
       x <- minX to maxX
       y <- minY to maxY
       c = Coord(x, y)
-      d = coord.map(_.manhattan(c)).reduce(_ + _)
+      d = coord.map(_.manhattan(c)).sum
       if d < 10000
     yield c
 

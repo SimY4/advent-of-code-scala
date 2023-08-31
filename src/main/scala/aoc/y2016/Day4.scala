@@ -31,14 +31,16 @@ object Day4:
     (for
       case lineRegex(name, id, checksum) <- input.linesIterator
       if decoy(name, checksum)
-    yield id -> name.map {
+    yield id -> name.map:
       case '-' => ' '
       case ch =>
-        (1 to id.toInt).foldLeft(ch) {
-          case ('z', _) => 'a'
-          case (c, _)   => (c.toInt + 1).toChar
-        }
-    }).toList
+        LazyList
+          .iterate(ch):
+            case 'z' => 'a'
+            case c   => (c.toInt + 1).toChar
+          .drop(id.toInt)
+          .head
+    ).toList
 
   val input = """vxupkizork-sgmtkzoi-pkrrehkgt-zxgototm-644[kotgr]
                 |mbiyqoxsm-pvygob-nocsqx-900[obmqs]

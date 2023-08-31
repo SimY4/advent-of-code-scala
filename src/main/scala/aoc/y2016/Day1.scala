@@ -20,19 +20,17 @@ object Day1:
   def solve(input: String): Long =
     val (_, Coord(x, y)) = input
       .split(", ")
-      .foldLeft(Up -> Coord(0L, 0L)) { (state, instruction) =>
+      .foldLeft(Up -> Coord(0L, 0L)): (state, instruction) =>
         val (direction, coords) = navigate(state._1, instruction)
         direction -> coords.foldLeft(state._2)(_ + _.direction)
-      }
     x.abs + y.abs
 
   def solve2(input: String): Option[Long] =
     val (_, path) = input
       .split(", ")
-      .foldLeft(Up -> List(Coord(0L, 0L))) { (state, instruction) =>
+      .foldLeft(Up -> List(Coord(0L, 0L))): (state, instruction) =>
         val (direction, coords) = navigate(state._1, instruction)
         direction -> coords.foldRight(state._2)((coord, list) => (coord.direction + list.head) :: list)
-      }
     path.tails.collectFirst:
       case Coord(x, y) :: tail if tail.size == tail.toSet.size =>
         x.abs + y.abs

@@ -24,15 +24,15 @@ object Day7:
   import Wire.*
 
   private def parseLine(line: String): Wire = line match
-    case s"$x AND $y -> $to" => And(Gate(x), Gate(y), new Ref(to))
-    case s"$x OR $y -> $to"  => Or(Gate(x), Gate(y), new Ref(to))
+    case s"$x AND $y -> $to" => And(Gate(x), Gate(y), Ref(to))
+    case s"$x OR $y -> $to"  => Or(Gate(x), Gate(y), Ref(to))
     case s"$p LSHIFT $num -> $to" if num.matches("\\d+") =>
-      LShift(Gate(p), num.toInt, new Ref(to))
+      LShift(Gate(p), num.toInt, Ref(to))
     case s"$p RSHIFT $num -> $to" if num.matches("\\d+") =>
-      RShift(Gate(p), num.toInt, new Ref(to))
+      RShift(Gate(p), num.toInt, Ref(to))
     case s"NOT $e -> $to" =>
-      Not(Gate(e), new Ref(to))
-    case s"$g -> $to" => Identity(Gate(g), new Ref(to))
+      Not(Gate(e), Ref(to))
+    case s"$g -> $to" => Identity(Gate(g), Ref(to))
 
   @tailrec private def iterate(signals: Map[Ref, Long], logicGates: List[Wire]): Map[Ref, Long] =
     if logicGates.isEmpty then signals
@@ -75,18 +75,17 @@ object Day7:
 
   def solve(input: String): Option[Long] =
     val logicGates = input.linesIterator.map(parseLine).toList
-    iterate(Map.empty, logicGates).get(new Ref("a"))
+    iterate(Map.empty, logicGates).get(Ref("a"))
 
   def solve2(input: String): Option[Long] =
     val logicGates = input.linesIterator.map(parseLine).toList
-    val a          = iterate(Map.empty, logicGates)(new Ref("a"))
+    val a          = iterate(Map.empty, logicGates)(Ref("a"))
     iterate(
-      Map(new Ref("b") -> a),
-      logicGates.filter {
-        case Identity(Ref("b"), to) => false
-        case _                      => true
-      }
-    ).get(new Ref("a"))
+      Map(Ref("b") -> a),
+      logicGates.filter:
+        case Identity(Ref("b"), _) => false
+        case _                     => true
+    ).get(Ref("a"))
 
   val input = """NOT dq -> dr
                 |kg OR kf -> kh

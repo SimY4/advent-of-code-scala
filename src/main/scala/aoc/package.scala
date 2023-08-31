@@ -1,8 +1,10 @@
 package aoc
 
+import scala.annotation.targetName
+
 extension [A](as: List[A])
   def pairs: List[(A, A)] =
-    (as.head -> as.last) :: (as.zip(as.tail))
+    (as.head -> as.last) :: as.zip(as.tail)
 
 extension (n: Long)
   def factorial: Long = (1L to n).product
@@ -10,27 +12,26 @@ extension (n: Long)
   def u: Long = n << 32 >>> 32
 
   def factors: Seq[Long] =
-    (1L to math.sqrt(n.toDouble).toLong).flatMap { i =>
+    (1L to math.sqrt(n.toDouble).toLong).flatMap: i =>
       if n % i == 0L then
         val div = n / i
         if i != div then i :: div :: Nil
         else i :: Nil
       else Nil
-    }
 
 private val hexArray = "0123456789ABCDEF".toCharArray
 
 extension (bytes: Array[Byte])
   def printHexBinary: String =
     val hexChars = new Array[Char](bytes.length * 2)
-    for i <- 0 until bytes.length do
+    for i <- bytes.indices do
       val v = bytes(i) & 0xff
       hexChars(i * 2) = hexArray(v >>> 4)
       hexChars(i * 2 + 1) = hexArray(v & 0x0f)
     new String(hexChars)
 
 final case class Coord(x: Long, y: Long):
-  def +(other: Coord): Coord =
+  @targetName("plus") def +(other: Coord): Coord =
     Coord(x + other.x, y + other.y)
 
   def manhattan(to: Coord): Long =
