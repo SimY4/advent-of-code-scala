@@ -25,7 +25,7 @@ def run(): Unit =
   println(s"    └ solution #2: ${Day7.solve2(Day7.input)}")
   println("  day8:")
   println(s"    ├ solution #1: ${Day8.solve(Day8.input)}")
-  println(s"    └ solution #2: ${Day8.solve2(Day8.input)}")
+  println(s"    └ solution #2:"); Day8.solve2(Day8.input)
   println("  day9:")
   println(s"    ├ solution #1: ${Day9.solve(Day9.input)}")
   println(s"    └ solution #2: ${Day9.solve2(Day9.input)}")
