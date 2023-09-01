@@ -7,16 +7,13 @@ object Day24:
       .toVector
     val maxWeight = weights.sum / nGroups
 
-    def groups: Vector[Long] =
-      val tooSmall = weights.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toVector
-      val tooBig   = weights.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toVector
-      (for
-        i     <- Iterator.range(tooBig.size, tooSmall.size)
-        group <- weights.combinations(i)
-        if group.sum == maxWeight
-      yield group).next
-
-    groups.product
+    val tooSmall = weights.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toVector
+    val tooBig   = weights.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toVector
+    (for
+      i     <- Iterator.range(tooBig.size, tooSmall.size)
+      group <- weights.combinations(i)
+      if group.sum == maxWeight
+    yield group.product).next
 
   def solve2(input: String): Long = solve(input, 4)
 
