@@ -3,29 +3,20 @@ package aoc.y2015
 object Day24:
   def solve(input: String, nGroups: Int = 3): Long =
     val weights = input.linesIterator
-      .map(_.toInt)
-      .toList
+      .map(_.toLong)
+      .toVector
     val maxWeight = weights.sum / nGroups
 
-    def groups: Seq[List[Int]] =
-      val tooSmall =
-        input.linesIterator.map(_.toInt).toList.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toList
-      val tooBig =
-        input.linesIterator.map(_.toInt).toList.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toList
-      for
-        i     <- tooBig.size until tooSmall.size
+    def groups: Vector[Long] =
+      val tooSmall = weights.inits.dropWhile(_.sum >= maxWeight).flatMap(_.lastOption).toVector
+      val tooBig   = weights.tails.dropWhile(_.sum >= maxWeight).flatMap(_.headOption).toVector
+      (for
+        i     <- Iterator.range(tooBig.size, tooSmall.size)
         group <- weights.combinations(i)
         if group.sum == maxWeight
-      yield group
+      yield group).next
 
-    val (_, group) = groups
-      .take(1)
-      .foldLeft(Int.MaxValue -> List.empty[List[Int]]): (acc, group) =>
-        val compare = acc._1.compare(group.size)
-        if compare < 0 then acc
-        else if compare > 0 then group.size -> (group :: Nil)
-        else acc._1                         -> (group :: acc._2)
-    group.map(_.map(_.toLong).product).max
+    groups.product
 
   def solve2(input: String): Long = solve(input, 4)
 
