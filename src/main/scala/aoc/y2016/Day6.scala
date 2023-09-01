@@ -1,7 +1,7 @@
 package aoc.y2016
 
 object Day6:
-  def solve(input: String): List[Char] =
+  def solve(input: String): String =
     (for
       i <- 0 until input.linesIterator.next.length
       (ch, _) = input.linesIterator
@@ -9,9 +9,9 @@ object Day6:
         .toList
         .groupBy(identity)
         .maxBy((_, list) => list.size)
-    yield ch).toList
+    yield ch).mkString
 
-  def solve2(input: String): List[Char] =
+  def solve2(input: String): String =
     (for
       i <- 0 until input.linesIterator.next.length
       (ch, _) = input.linesIterator
@@ -19,7 +19,7 @@ object Day6:
         .toList
         .groupBy(identity)
         .minBy((_, list) => list.size)
-    yield ch).toList
+    yield ch).mkString
 
   val input = """blrqqadw
                 |hxwteava

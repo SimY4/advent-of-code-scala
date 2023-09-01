@@ -23,7 +23,8 @@ object Day11:
     val statesQueue = mutable.Queue(State(0, startState) -> 0)
 
     def itemsOnFloor(floor: Int, state: State): Seq[Facility] =
-      state.items.toSeq.collect { case (item, `floor`) => item }
+      state.items.toSeq.collect:
+        case (item, `floor`) => item
 
     def canGoInElevator(a: Facility, b: Facility): Boolean =
       (a, b) match

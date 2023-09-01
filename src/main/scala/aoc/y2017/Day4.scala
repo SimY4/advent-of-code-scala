@@ -10,9 +10,8 @@ object Day4:
   def solve2(input: String): Int = (for
     passphrase <- input.linesIterator
     arr = passphrase.split("\\s+")
-    if arr.forall { w1 =>
+    if arr.forall: w1 =>
       arr.filter(_ ne w1).forall(w2 => !w1.toCharArray.sorted.sameElements(w2.toCharArray.sorted))
-    }
   yield 1).sum
 
   val input = """vxjtwn vjnxtw sxibvv mmws wjvtxn icawnd rprh

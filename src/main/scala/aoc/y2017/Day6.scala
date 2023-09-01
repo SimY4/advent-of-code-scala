@@ -16,9 +16,8 @@ object Day6:
           i <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
         yield pos)
-          .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>
+          .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)): (banks, i) =>
             banks.updated(i, banks(i) + 1)
-          }
 
         loop(newMemoryBank, states.updated(memoryBanks, states.size))
 
@@ -37,9 +36,8 @@ object Day6:
           i <- 1 to memoryBankBlock
           pos = (maxMemoryBankIdx + i) % memoryBanks.size
         yield pos)
-          .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)) { (banks, i) =>
+          .foldLeft(memoryBanks.updated(maxMemoryBankIdx, 0)): (banks, i) =>
             banks.updated(i, banks(i) + 1)
-          }
 
         loop(newMemoryBank, states.updated(memoryBanks, states.size))
 

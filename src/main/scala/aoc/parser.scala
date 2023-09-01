@@ -49,11 +49,9 @@ private object Parser:
     def <|>(other: => Parser[A]): Parser[A] = input => p(input).orElse(other(input))
 
     def <*>[B](other: => Parser[B]): Parser[(A, B)] =
-      p.andThen { op =>
-        op.flatMap { (a, rest) =>
+      p.andThen: op =>
+        op.flatMap: (a, rest) =>
           other(rest).map((b, rest2) => ((a, b), rest2))
-        }
-      }
 
     def <*(other: => Parser[Any]): Parser[A] =
       (p <*> other).map(_._1)

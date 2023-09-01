@@ -37,8 +37,8 @@ object Day17:
 
       directions.flatMap(d => paths(current + d.direction, d :: path))
 
-  def solve(input: String): List[Direction] =
-    paths(Coord(0L, 3L)).minBy(_.size).reverse
+  def solve(input: String): String =
+    paths(Coord(0L, 3L)).minBy(_.size).reverse.map(_.toString.head).mkString
 
   def solve2(input: String): Int =
     paths(Coord(0L, 3L)).maxBy(_.size).size

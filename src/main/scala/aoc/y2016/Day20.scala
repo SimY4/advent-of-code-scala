@@ -2,24 +2,31 @@ package aoc.y2016
 
 object Day20:
   def solve(input: String): Long =
-    val data = input.linesIterator.map { case s"$begin-$end" => begin.toLong -> end.toLong }.toList.sorted
+    val data = input.linesIterator
+      .map:
+        case s"$begin-$end" => begin.toLong -> end.toLong
+      .toList
+      .sorted
 
-    data.foldLeft(0L) { case (h, (begin, end)) =>
-      if begin > h then h
-      else math.max(h, end + 1)
-    }
+    data.foldLeft(0L):
+      case (h, (begin, end)) =>
+        if begin > h then h
+        else math.max(h, end + 1)
 
   def solve2(input: String): Long =
-    val data = input.linesIterator.map { case s"$begin-$end" =>
-      begin.toLong -> end.toLong
-    }.toVector.sorted :+ (1L << 32, 1L << 32)
+    val data = input.linesIterator
+      .map:
+        case s"$begin-$end" =>
+          begin.toLong -> end.toLong
+      .toVector
+      .sorted :+ (1L << 32, 1L << 32)
 
-    data
-      .foldLeft((0L, 0L)) { case ((h, c), (begin, end)) =>
-        if begin > h then (end + 1, c + begin - h)
-        else math.max(h, end + 1) -> c
-      }
-      ._2
+    (data
+      .foldLeft((0L, 0L)):
+        case ((h, c), (begin, end)) =>
+          if begin > h then (end + 1, c + begin - h)
+          else math.max(h, end + 1) -> c
+    )(1)
 
   val input = """919958672-920375477
                 |886049087-888249849

@@ -25,7 +25,7 @@ object Day22:
     val target      = grid(0)(dim.x.toInt - 1)
     val empty       = grid.flatMap(_.find(_.used == 0L)).head
 
-    grid.foreach { row =>
+    grid.foreach: row =>
       row.foreach:
         case `destination`                  => print("D")
         case `target`                       => print("G")
@@ -33,7 +33,6 @@ object Day22:
         case Node(_, _, u, _, _) if u > 100 => print("#")
         case _                              => print(".")
       println()
-    }
 
     // visually solved
     17 + 22 + 35 + 34 * 5

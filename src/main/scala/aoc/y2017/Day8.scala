@@ -58,7 +58,7 @@ object Day8:
         case Eq(_, n) => registerVal == n
         case Ne(_, n) => registerVal != n
 
-    instructions.foldLeft(Map.empty[String, (Int, Int)]) { (registers, instruction) =>
+    instructions.foldLeft(Map.empty[String, (Int, Int)]): (registers, instruction) =>
       if evalCondition(registers, instruction.condition) then
         val (currentVal, maxVal) = registers.getOrElse(instruction.register, 0 -> 0)
         val newCurrent = instruction.command match
@@ -67,7 +67,6 @@ object Day8:
         if maxVal >= newCurrent then registers.updated(instruction.register, (newCurrent, maxVal))
         else registers.updated(instruction.register, (newCurrent, newCurrent))
       else registers
-    }
 
   def solve(input: String): Int =
     val instructions = input.linesIterator.map(parseLine).toList

@@ -26,13 +26,12 @@ object Day3:
             ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++
             ((-n + 1) to n).map(Coord(_, -n))
       .tail
-      .scanLeft(Map(Coord(0L, 0L) -> 1)) { (acc, coord) =>
+      .scanLeft(Map(Coord(0L, 0L) -> 1)): (acc, coord) =>
         val res = (for
           neighbour <- coord.neighbours()
           v = acc.getOrElse(neighbour, 0)
         yield v).sum
         acc.updated(coord, res)
-      }
       .map(_.values.max)
       .find(_ > input)
 

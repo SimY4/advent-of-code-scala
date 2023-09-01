@@ -28,10 +28,10 @@ object Day5:
         md.digest().printHexBinary
       if hex.startsWith("00000") && '0' <= hex.charAt(5) && hex.charAt(5) <= '7'
     yield hex.charAt(5).asDigit -> hex.charAt(6))
-      .scanLeft(SortedMap.empty[Int, Char]) { case (map, (k, v)) =>
-        if map.contains(k) then map
-        else map.updated(k, v)
-      }
+      .scanLeft(SortedMap.empty[Int, Char]):
+        case (map, (k, v)) =>
+          if map.contains(k) then map
+          else map.updated(k, v)
       .find(_.size == 8)
       .map(_.values.mkString)
 

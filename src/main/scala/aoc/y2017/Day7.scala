@@ -15,14 +15,15 @@ object Day7:
 
   def solve(input: String): Option[String] =
     val tree = parseInput(input)
-    tree.collectFirst { case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name }
+    tree.collectFirst:
+      case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name
 
-  private def findUnbalancedSubtree(root: String, tree: Map[String, TreeNode]): Option[Any] =
+  private def findUnbalancedSubtree(root: String, tree: Map[String, TreeNode]): Option[Int] =
     def calculateWeight(node: String): Int =
       val TreeNode(weight, children) = tree(node)
       weight + children.map(calculateWeight).sum
 
-    def loop(node: String, counterWeight: Option[Int] = None): Option[Any] =
+    def loop(node: String, counterWeight: Option[Int] = None): Option[Int] =
       val treeNode       = tree(node)
       val weightsToNodes = treeNode.children.groupBy(calculateWeight)
 
@@ -38,12 +39,12 @@ object Day7:
 
     loop(root)
 
-  def solve2(input: String): Option[Any] =
+  def solve2(input: String): Option[Int] =
     val tree = parseInput(input)
-    val root = tree.collectFirst {
-      case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name
-    }.get
-    findUnbalancedSubtree(root, tree)
+    tree
+      .collectFirst:
+        case (name, _) if !tree.values.flatMap(_.children).toSet.contains(name) => name
+      .flatMap(findUnbalancedSubtree(_, tree))
 
   val input = """wdysq (135) -> sxldvex, wiasj
                 |vjwuuft (33) -> inuci, neddz, rwamq

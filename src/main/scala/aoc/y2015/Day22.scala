@@ -34,7 +34,10 @@ object Day22:
           case (state, Recharge) => state.copy(character = state.character.copy(mana = state.character.mana + 101))
           case (state, _)        => state
         .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
-      val armor = state.cooldowns.keys.collect { case Shield => 7 }.sum
+      val armor = state.cooldowns.keys
+        .collect:
+          case Shield => 7
+        .sum
 
       if turnStartState.boss.hitPoints <= 0 then
         atom.getAndUpdate(min => if spent < min then spent else min)
@@ -99,7 +102,10 @@ object Day22:
             case (state, Recharge) => state.copy(character = state.character.copy(mana = state.character.mana + 101))
             case (state, _)        => state
           .copy(cooldowns = state.cooldowns.view.mapValues(_ - 1).filter((_, v) => v > 0).toMap)
-        val armor = initialState.cooldowns.keys.collect { case Shield => 7 }.sum
+        val armor = initialState.cooldowns.keys
+          .collect:
+            case Shield => 7
+          .sum
 
         if turnStartState.boss.hitPoints <= 0 then
           atom.getAndUpdate(min => if spent < min then spent else min)

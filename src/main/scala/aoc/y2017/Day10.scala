@@ -6,25 +6,24 @@ object Day10:
 
   private def knotHash(state: State): State =
     val State(list, lengths, count, pos) = state
-    val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)) { case ((ls, c, p), length) =>
-      val reversed = Iterator
-        .continually(ls)
-        .flatten
-        .slice(p, p + length)
-        .toList
-        .reverse
-        .zipWithIndex
-        .map((a, i) => ((p + i) % ls.size, a))
-        .toMap
-      val updated = LazyList
-        .from(0)
-        .take(ls.size)
-        .map { i =>
-          reversed.getOrElse(i, ls(i))
-        }
-        .toList
-      (updated, c + 1, (p + length + c) % ls.size)
-    }
+    val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)):
+      case ((ls, c, p), length) =>
+        val reversed = Iterator
+          .continually(ls)
+          .flatten
+          .slice(p, p + length)
+          .toList
+          .reverse
+          .zipWithIndex
+          .map((a, i) => ((p + i) % ls.size, a))
+          .toMap
+        val updated = LazyList
+          .from(0)
+          .take(ls.size)
+          .map: i =>
+            reversed.getOrElse(i, ls(i))
+          .toList
+        (updated, c + 1, (p + length + c) % ls.size)
 
     State(nextList, lengths, nextCount, nextPos)
 

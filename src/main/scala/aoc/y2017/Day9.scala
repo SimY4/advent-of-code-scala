@@ -8,9 +8,8 @@ object Day9:
   private def score(acc: Coord, g: Garbage | Group): Coord = g match
     case Group(groupsOrGarbage) =>
       val next = Coord(acc.x + 1, acc.y)
-      groupsOrGarbage.foldLeft(next) { (a, gg) =>
+      groupsOrGarbage.foldLeft(next): (a, gg) =>
         a + score(Coord(next.x, 0), gg)
-      }
     case Garbage(garbage) => Coord(0, (acc.y + garbage.length))
 
   import Parser.*

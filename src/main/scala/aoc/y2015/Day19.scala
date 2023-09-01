@@ -7,7 +7,8 @@ object Day19:
   private def parseInput(input: String): Input =
     val replacements = input.linesIterator
       .takeWhile(_.nonEmpty)
-      .map { case replacementsRegex(from, to) => from -> to }
+      .map:
+        case replacementsRegex(from, to) => from -> to
       .toList
     val molecule = input.linesIterator.foldLeft(null: String)((acc, line) => line)
     Input(replacements, molecule)

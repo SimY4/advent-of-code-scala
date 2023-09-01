@@ -17,22 +17,20 @@ object Day8:
 
   private def decode(input: String): Grid = input.linesIterator
     .map(parseLine)
-    .foldLeft(Array.fill(6, 50)(false)) { (grid, action) =>
-      action match
-        case Rect(x, y) =>
-          for i <- 0 until y; j <- 0 until x do grid(i)(j) = true
-          grid
-        case RotateRow(y, shift) =>
-          val row    = grid(y)
-          val newRow = Array.ofDim[Boolean](row.length)
-          for i <- 0 until row.length do newRow((i + shift) % newRow.length) = row(i)
-          grid(y) = newRow
-          grid
-        case RotateCol(x, shift) =>
-          val col = for i <- 0 until grid.length yield grid(i)(x)
-          for i <- 0 until grid.length do grid((i + shift) % grid.length)(x) = col(i)
-          grid
-    }
+    .foldLeft(Array.fill(6, 50)(false)):
+      case (grid, Rect(x, y)) =>
+        for i <- 0 until y; j <- 0 until x do grid(i)(j) = true
+        grid
+      case (grid, RotateRow(y, shift)) =>
+        val row    = grid(y)
+        val newRow = Array.ofDim[Boolean](row.length)
+        for i <- 0 until row.length do newRow((i + shift) % newRow.length) = row(i)
+        grid(y) = newRow
+        grid
+      case (grid, RotateCol(x, shift)) =>
+        val col = for i <- 0 until grid.length yield grid(i)(x)
+        for i <- 0 until grid.length do grid((i + shift) % grid.length)(x) = col(i)
+        grid
 
   def solve(input: String): Int = decode(input).map(_.count(identity)).sum
 
