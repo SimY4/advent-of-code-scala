@@ -1,18 +1,14 @@
 package aoc.y2015
 
 object Day15:
-  private def split(number: Int, parts: Int): Vector[List[Int]] =
-    LazyList
-      .iterate(Vector.range(1, number + 1).map(_ :: Nil)): acc =>
-        for
-          xxs <- acc
-          xs  <- 1 until number
-          concat = xs :: xxs
-          if concat.sum <= number
-        yield concat
-      .drop(parts - 1)
-      .head
-      .filter(_.sum == number)
+  private def split(parts: Int, number: Int = 100): LazyList[List[Int]] =
+    parts match
+      case 1 => LazyList(List(number))
+      case i =>
+        LazyList
+          .range(1, number - i + 1)
+          .flatMap: n =>
+            split(i - 1, number - n).map(n :: _)
 
   def solve(input: String): Int =
     val ingredients = (for
@@ -20,7 +16,7 @@ object Day15:
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
 
-    split(100, ingredients.size)
+    split(ingredients.size)
       .map: fractions =>
         fractions
           .zip(ingredients)
@@ -36,7 +32,7 @@ object Day15:
       parsed = "-?\\d+".r.findAllIn(line).map(_.toInt).toList
     yield parsed).toList
 
-    split(100, ingredients.size)
+    split(ingredients.size)
       .flatMap: fractions =>
         val recipe = fractions
           .zip(ingredients)
