@@ -7,20 +7,26 @@ object Day9:
     val start = input.indexOf('(', pos)
     if start < 0 then input.toString
     else
-      val end                    = input.indexOf(')', start)
-      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList: @unchecked
-      val sample                 = input.substring(end + 1, end + nChar.toInt + 1)
-      val newInput               = input.replace(start, end + nChar.toInt + 1, sample * nTimes.toInt)
-      decompress(newInput, start + sample.size * nTimes.toInt)
+      val end      = input.indexOf(')', start)
+      val ins      = input.substring(start + 1, end)
+      val idx      = ins.indexOf('x')
+      val nChar    = ins.substring(0, idx).toInt
+      val nTimes   = ins.substring(idx + 1).toInt
+      val sample   = input.substring(end + 1, end + nChar + 1)
+      val newInput = input.replace(start, end + nChar + 1, sample * nTimes)
+      decompress(newInput, start + sample.size * nTimes)
 
   @tailrec private def decompressV2(input: StringBuilder, count: Long = 0): Long =
     val start = input.indexOf('(')
     if start < 0 then count + input.size.toLong
     else
-      val end                    = input.indexOf(')', start)
-      val nChar :: nTimes :: Nil = input.substring(start + 1, end).split('x').toList: @unchecked
-      val sample                 = input.substring(end + 1, end + nChar.toInt + 1)
-      val newInput               = input.replace(0, end + nChar.toInt + 1, sample * nTimes.toInt)
+      val end      = input.indexOf(')', start)
+      val ins      = input.substring(start + 1, end)
+      val idx      = ins.indexOf('x')
+      val nChar    = ins.substring(0, idx).toInt
+      val nTimes   = ins.substring(idx + 1).toInt
+      val sample   = input.substring(end + 1, end + nChar + 1)
+      val newInput = input.replace(0, end + nChar + 1, sample * nTimes)
       decompressV2(newInput, count + start.toLong)
 
   def solve(input: String): Int = decompress(StringBuilder(input)).size

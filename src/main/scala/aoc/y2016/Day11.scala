@@ -1,7 +1,7 @@
 package aoc.y2016
 
+import scala.collection.mutable
 import scala.annotation.tailrec
-import scala.collection.mutable.{ HashSet, Queue }
 
 object Day11:
   enum Facility(val name: String):
@@ -18,9 +18,9 @@ object Day11:
   private case class State(elevator: Int, items: Map[Facility, Int])
 
   def solve(input: List[Set[Facility]]): Int =
-    val seen        = HashSet.empty[(Int, Int)]
+    val seen        = mutable.HashSet.empty[(Int, Int)]
     val startState  = input.zipWithIndex.flatMap((floor, i) => floor.map(_ -> i)).toMap
-    val statesQueue = Queue(State(0, startState) -> 0)
+    val statesQueue = mutable.Queue(State(0, startState) -> 0)
 
     def itemsOnFloor(floor: Int, state: State): Seq[Facility] =
       state.items.toSeq.collect { case (item, `floor`) => item }

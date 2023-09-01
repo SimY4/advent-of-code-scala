@@ -7,7 +7,9 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 
 object Day14:
-  private val md = MessageDigest.getInstance("MD5")
+  private val md        = MessageDigest.getInstance("MD5")
+  private val triple    = "(.)\\1\\1".r
+  private val quintuple = "(.)\\1\\1\\1\\1".r
 
   def solve(input: String): Int =
     def hash(i: Int): String =
@@ -17,16 +19,12 @@ object Day14:
     LazyList
       .from(0)
       .filter: i =>
-        hash(i)
-          .sliding(3)
-          .find(_.toSet.size == 1)
+        val h = hash(i)
+        triple
+          .findFirstIn(h)
           .exists: triple =>
             ((i + 1) to (i + 1001)).exists: j =>
-              hash(j)
-                .sliding(5)
-                .filter(_.toSet.size == 1)
-                .find(_.contains(triple))
-                .isDefined
+              quintuple.findFirstIn(hash(j)).exists(_.contains(triple))
       .drop(63)
       .head
 
@@ -43,23 +41,18 @@ object Day14:
         .drop(2016)
         .head
 
-    (0 to 999).foreach(i => cache(i) = hash(i))
+    for i <- 0 to 999 do cache.put(i, hash(i))
 
     LazyList
       .from(0)
       .filter: i =>
         val cur = cache(i % 1000)
-        cache(i % 1000) = hash(i + 1000)
-        cur
-          .sliding(3)
-          .find(_.toSet.size == 1)
+        cache.put(i % 1000, hash(i + 1000))
+        triple
+          .findFirstIn(cur)
           .exists: triple =>
             cache.values.exists: hash =>
-              hash
-                .sliding(5)
-                .filter(_.toSet.size == 1)
-                .find(_.contains(triple))
-                .isDefined
+              quintuple.findFirstIn(hash).exists(_.contains(triple))
       .drop(63)
       .head
 
