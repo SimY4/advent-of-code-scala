@@ -16,8 +16,7 @@ object Day3:
     (for
       group      <- input.linesIterator.sliding(3, 3)
       groupBadge <- group.map(_.toSet).reduce(_ intersect _)
-      p = priority(groupBadge)
-    yield p).sum
+    yield priority(groupBadge)).sum
 
   val input = """BzRmmzZHzVBzgVQmZLPtqqffPqWqJmPLlL
                 |hpvvTDcrCjhpcrvcGGhfLHMlLtMCqflNlWPJlJ

@@ -2,30 +2,28 @@ package aoc
 package y2022
 
 object Day8:
-  private case class Tree(coord: Coord, height: Int):
+  final private case class Tree(coord: Coord, height: Int):
     def visible(grid: Array[Array[Tree]]): Boolean =
-      Direction.hvOnly.exists { d =>
+      Direction.hvOnly.exists: d =>
         LazyList
-          .unfold(coord) { c =>
+          .unfold(coord): c =>
             val next = c + d.direction
             grid.get(next).map(_ -> next)
-          }
           .forall(_.height < height)
-      }
 
     def scenicScore(grid: Array[Array[Tree]]): Int =
-      Direction.hvOnly.map { d =>
-        LazyList
-          .unfold(coord) { c =>
-            val next = c + d.direction
-            grid.get(next).filter(_ => c == coord || grid(c).height < height).map(_ -> next)
-          }
-          .size
-      }.product
+      Direction.hvOnly
+        .map: d =>
+          LazyList
+            .unfold(coord): c =>
+              val next = c + d.direction
+              grid.get(next).filter(_ => c == coord || grid(c).height < height).map(_ -> next)
+            .size
+        .product
 
   def solve(input: String): Int =
     val grid = input.linesIterator.zipWithIndex
-      .map((row, i) => row.zipWithIndex.map((ch, j) => Tree(Coord(j.toLong, i.toLong), ch.asDigit)).toArray)
+      .map((row, i) => row.zipWithIndex.map((ch, j) => Tree(Coord(j, i), ch.asDigit)).toArray)
       .toArray
 
     (for
@@ -36,7 +34,7 @@ object Day8:
 
   def solve2(input: String): Int =
     val grid = input.linesIterator.zipWithIndex
-      .map((row, i) => row.zipWithIndex.map((ch, j) => Tree(Coord(j.toLong, i.toLong), ch.asDigit)).toArray)
+      .map((row, i) => row.zipWithIndex.map((ch, j) => Tree(Coord(j, i), ch.asDigit)).toArray)
       .toArray
 
     (for

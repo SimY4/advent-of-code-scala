@@ -13,10 +13,10 @@ object Day7:
   private def parse(command: String): Output =
     command.linesIterator.toList match
       case "ls" :: output =>
-        Output.LS(output.map {
+        Output.LS(output.map:
           case s"dir $name"   => LS.Dir(name)
           case s"$size $name" => LS.File(size.toInt, name)
-        })
+        )
       case s"cd .." :: Nil   => Output.CDOut
       case s"cd $dir" :: Nil => Output.CD(dir)
 
@@ -27,12 +27,14 @@ object Day7:
       .map(parse)
       .foldLeft((Nil: List[String], Map.empty[String, Int])):
         case ((path, sizes), Output.LS(output)) =>
-          val size = output.collect { case LS.File(size, _) => size }.sum
-          path -> path.tails.foldLeft(sizes) { (acc, path) =>
+          val size = output
+            .collect:
+              case LS.File(size, _) => size
+            .sum
+          path -> path.tails.foldLeft(sizes): (acc, path) =>
             acc.updatedWith(path.mkString("/")):
               case None          => Some(size)
               case Some(oldSize) => Some(oldSize + size)
-          }
         case ((_ :: rest, sizes), Output.CDOut) => rest          -> sizes
         case ((path, sizes), Output.CD(dir))    => (dir :: path) -> sizes
       ._2
@@ -48,12 +50,14 @@ object Day7:
         .map(parse)
         .foldLeft((Nil: List[String], Map.empty[String, Int])):
           case ((path, sizes), Output.LS(output)) =>
-            val size = output.collect { case LS.File(size, _) => size }.sum
-            path -> path.tails.foldLeft(sizes) { (acc, path) =>
+            val size = output
+              .collect:
+                case LS.File(size, _) => size
+              .sum
+            path -> path.tails.foldLeft(sizes): (acc, path) =>
               acc.updatedWith(path.mkString("/")):
                 case None          => Some(size)
                 case Some(oldSize) => Some(oldSize + size)
-            }
           case ((_ :: rest, sizes), Output.CDOut) => rest          -> sizes
           case ((path, sizes), Output.CD(dir))    => (dir :: path) -> sizes
     val freeSpace   = 70000000 - fs("")

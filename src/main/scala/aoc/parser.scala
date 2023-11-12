@@ -54,7 +54,7 @@ private object Parser:
           other(rest).map((b, rest2) => ((a, b), rest2))
 
     def <*(other: => Parser[Any]): Parser[A] =
-      (p <*> other).map(_._1)
+      (p <*> other).map(_(0))
 
     def *>[B](other: => Parser[B]): Parser[B] =
-      (p <*> other).map(_._2)
+      (p <*> other).map(_(1))

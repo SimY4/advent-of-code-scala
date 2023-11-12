@@ -6,57 +6,71 @@ import scala.collection.immutable.{ SortedMap, SortedSet }
 object Day7:
   final private case class Arrow(from: String, to: String)
 
-  private def arrows(input: String): List[Arrow] =
-    input.linesIterator.map { line =>
-      "[A-Z]".r.findAllIn(line).toList match
-        case _ :: from :: to :: Nil => Arrow(from, to)
-    }.toList
-
-  private def graph(arrows: List[Arrow]): Map[String, SortedSet[String]] =
+  private def graph(arrows: Vector[Arrow]): Map[String, SortedSet[String]] =
     val steps = (arrows.map(_.from) ++ arrows.map(_.to)).zip(LazyList.continually(SortedSet.empty[String])).toMap
-    arrows.foldLeft(steps) { (map, arr) =>
+    arrows.foldLeft(steps): (map, arr) =>
       map + (arr.to -> (map(arr.to) + arr.from))
-    }
 
   def solve(input: String): String =
-    @tailrec def solve0(reqs: Map[String, SortedSet[String]], res: String): String =
-      if reqs.isEmpty then res
+    @tailrec def loop(reqs: Map[String, SortedSet[String]], res: StringBuilder = new StringBuilder()): String =
+      if reqs.isEmpty then res.toString
       else
-        val step = reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.head
+        val step = reqs
+          .collect:
+            case (step, set) if set.isEmpty => step
+          .toList
+          .sorted
+          .head
         val newReqs =
           for (k, set) <- reqs
           yield k -> (set - step)
-        solve0(newReqs - step, res + step)
+        loop(newReqs - step, res.append(step))
 
-    solve0(graph(arrows(input)), "")
+    loop(
+      graph(
+        input.linesIterator
+          .map:
+            case s"Step $from must be finished before step $to can begin." => Arrow(from, to)
+          .toVector
+      )
+    )
 
   def solve2(input: String): Long =
-    def duration(step: String): Long = step.head.toLong - 'A'.toLong + 61
-
     def work(queue: SortedMap[String, Long]): SortedMap[String, Long] =
-      queue.foldLeft(SortedMap.empty[String, Long]) { (q, e) =>
-        q + (e._1 -> (e._2 - 1))
-      }
+      queue.foldLeft(SortedMap.empty[String, Long]):
+        case (q, (step, duration)) =>
+          q + (step -> (duration - 1))
 
-    @tailrec def solve0(reqs: Map[String, SortedSet[String]], queue: SortedMap[String, Long], time: Long): Long =
-      if reqs.isEmpty && queue.isEmpty then time
-      else
-        queue.filter((_, time) => time == 0L).map(_._1).toList.headOption match
+    val grph = graph(
+      input.linesIterator
+        .map:
+          case s"Step $from must be finished before step $to can begin." => Arrow(from, to)
+        .toVector
+    )
+
+    LazyList
+      .iterate(grph -> SortedMap.empty[String, Long]): (reqs, queue) =>
+        queue
+          .collect:
+            case (step, 0L) => step
+          .toList
+          .headOption match
           case Some(step) =>
             val newReqs =
               for (k, set) <- reqs
               yield k -> (set - step)
-            solve0(newReqs - step, queue - step, time)
+            (newReqs - step, queue - step)
+          case None if queue.size >= 5 => (reqs, work(queue))
           case None =>
-            if queue.size >= 5 then solve0(reqs, work(queue), time + 1)
-            else
-              reqs.filter((_, set) => set.isEmpty).map(_._1).toList.sorted.headOption match
-                case Some(step) =>
-                  solve0(reqs - step, queue + (step -> duration(step)), time)
-                case None =>
-                  solve0(reqs, work(queue), time + 1)
-
-    solve0(graph(arrows(input)), SortedMap.empty, 0)
+            reqs
+              .collect:
+                case (step, set) if set.isEmpty => step
+              .toVector
+              .sorted
+              .headOption match
+              case Some(step) => (reqs - step, queue + (step -> (step.head.toLong - 'A'.toLong + 61)))
+              case None       => (reqs, work(queue))
+      .indexWhere((grph, queue) => grph.isEmpty && queue.isEmpty)
 
   val input = """Step S must be finished before step B can begin.
                 |Step B must be finished before step Y can begin.

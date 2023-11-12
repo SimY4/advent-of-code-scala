@@ -3,10 +3,10 @@ package aoc.y2022
 import scala.collection.immutable.ListMap
 
 object Day11:
-  private case class Test(divisibleBy: Long, ifTrue: String, ifFalse: String):
+  final private case class Test(divisibleBy: Long, ifTrue: String, ifFalse: String):
     def apply(item: Long): String = if item % divisibleBy == 0 then ifTrue else ifFalse
 
-  private case class Monkey(id: String, items: List[Long], ops: (Long) => Long, test: Test):
+  final private case class Monkey(id: String, items: List[Long], ops: (Long) => Long, test: Test):
     override def toString = items.mkString(", ")
 
   private def parse(input: String): Monkey =
@@ -34,18 +34,21 @@ object Day11:
 
     LazyList
       .from(0)
-      .scanLeft(monkeys -> Map.empty[String, Int]) { case ((monkeys, counter), _) =>
-        monkeys.keys.foldLeft(monkeys -> counter) { case ((acc, counter), id) =>
-          val monkey = acc(id)
-          monkey.items.foldLeft(acc.updated(id, monkey.copy(items = Nil))) { case (acc, item) =>
-            val newItem = monkey.ops(item) / 3
-            val throwTo = monkey.test(newItem)
-            acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
-          } -> counter.updatedWith(id):
-            case Some(cnt) => Some(cnt + monkey.items.size)
-            case None      => Some(monkey.items.size)
-        }
-      }
+      .scanLeft(monkeys -> Map.empty[String, Int]):
+        case ((monkeys, counter), _) =>
+          monkeys.keys.foldLeft(monkeys -> counter):
+            case ((acc, counter), id) =>
+              val monkey = acc(id)
+              (
+                monkey.items.foldLeft(acc.updated(id, monkey.copy(items = Nil))): (acc, item) =>
+                  val newItem = monkey.ops(item) / 3
+                  val throwTo = monkey.test(newItem)
+                  acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
+                ,
+                counter.updatedWith(id):
+                  case Some(cnt) => Some(cnt + monkey.items.size)
+                  case None      => Some(monkey.items.size)
+              )
       .drop(20)
       .map((_, counter) => counter.values.toList.sorted.takeRight(2).product)
       .head
@@ -56,18 +59,21 @@ object Day11:
 
     LazyList
       .from(0)
-      .scanLeft(monkeys -> Map.empty[String, Int]) { case ((monkeys, counter), _) =>
-        monkeys.keys.foldLeft(monkeys -> counter) { case ((acc, counter), id) =>
-          val monkey = acc(id)
-          monkey.items.foldLeft(acc.updated(id, monkey.copy(items = Nil))) { case (acc, item) =>
-            val newItem = monkey.ops(item) % modulus
-            val throwTo = monkey.test(newItem)
-            acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
-          } -> counter.updatedWith(id):
-            case Some(cnt) => Some(cnt + monkey.items.size)
-            case None      => Some(monkey.items.size)
-        }
-      }
+      .scanLeft(monkeys -> Map.empty[String, Int]):
+        case ((monkeys, counter), _) =>
+          monkeys.keys.foldLeft(monkeys -> counter):
+            case ((acc, counter), id) =>
+              val monkey = acc(id)
+              (
+                monkey.items.foldLeft(acc.updated(id, monkey.copy(items = Nil))): (acc, item) =>
+                  val newItem = monkey.ops(item) % modulus
+                  val throwTo = monkey.test(newItem)
+                  acc.updatedWith(throwTo)(_.map(m => m.copy(items = newItem :: m.items)))
+                ,
+                counter.updatedWith(id):
+                  case Some(cnt) => Some(cnt + monkey.items.size)
+                  case None      => Some(monkey.items.size)
+              )
       .drop(10000)
       .map((_, counter) => counter.values.toList.sorted.takeRight(2).map(BigInt(_)).product)
       .head

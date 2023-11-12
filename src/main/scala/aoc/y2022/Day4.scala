@@ -3,23 +3,19 @@ package aoc.y2022
 object Day4:
   def solve(input: String): Int =
     input.linesIterator
-      .map(line =>
+      .map: line =>
         "\\d+".r.findAllIn(line).map(_.toInt).toList match
-          case s1 :: e1 :: s2 :: e2 :: Nil => (s1 -> e1, s2 -> e2)
-      )
-      .count { case ((s1, e1), (s2, e2)) =>
+          case s1 :: e1 :: s2 :: e2 :: Nil => (s1, e1, s2, e2)
+      .count: (s1, e1, s2, e2) =>
         s2 <= s1 && e1 <= e2 || s1 <= s2 && e2 <= e1
-      }
 
   def solve2(input: String): Int =
     input.linesIterator
-      .map(line =>
+      .map: line =>
         "\\d+".r.findAllIn(line).map(_.toInt).toList match
-          case s1 :: e1 :: s2 :: e2 :: Nil => (s1 -> e1, s2 -> e2)
-      )
-      .count { case ((s1, e1), (s2, e2)) =>
+          case s1 :: e1 :: s2 :: e2 :: Nil => (s1, e1, s2, e2)
+      .count: (s1, e1, s2, e2) =>
         s1 <= s2 && s2 <= e1 || s2 <= s1 && s1 <= e2
-      }
 
   val input = """8-82,3-96
                 |13-95,99-99

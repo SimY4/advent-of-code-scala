@@ -1,9 +1,9 @@
 package aoc.y2022
 
 object Day5:
-  private case class Move(qty: Int, from: Int, to: Int)
+  final private case class Move(qty: Int, from: Int, to: Int)
 
-  private def parse(input: String): (List[List[String]], List[Move]) =
+  private def parse(input: String): (List[List[String]], Vector[Move]) =
     val crates = input
       .substring(0, input.indexOf("\n\n"))
       .linesIterator
@@ -11,42 +11,40 @@ object Day5:
 
     (
       crates.init
-        .foldRight(List.fill("\\d+".r.findAllIn(crates.last).size)(Nil: List[String])) { (line, acc) =>
-          line.sliding(3, 4).zipWithIndex.foldLeft(acc) {
-            case (acc, (s"[$s]", i)) => acc.updated(i, s :: acc(i))
-            case (acc, _)            => acc
-          }
-        }
+        .foldRight(List.fill("\\d+".r.findAllIn(crates.last).size)(Nil: List[String])): (line, acc) =>
+          line
+            .sliding(3, 4)
+            .zipWithIndex
+            .foldLeft(acc):
+              case (acc, (s"[$s]", i)) => acc.updated(i, s :: acc(i))
+              case (acc, _)            => acc
         .toList,
       input
         .substring(input.indexOf("\n\n") + 2)
         .linesIterator
-        .map(line =>
+        .map: line =>
           "\\d+".r.findAllIn(line).map(_.toInt).toList match
             case qty :: from :: to :: Nil => Move(qty, from - 1, to - 1)
-        )
-        .toList
+        .toVector
     )
 
   def solve(input: String): String =
     val (crates, rearangements) = parse(input)
     rearangements
-      .foldLeft(crates) { (acc, move) =>
+      .foldLeft(crates): (acc, move) =>
         val from = acc(move.from)
         val qty  = from.take(move.qty)
         acc.updated(move.from, from.drop(move.qty)).updated(move.to, qty.reverse ::: acc(move.to))
-      }
       .map(_.head)
       .mkString
 
   def solve2(input: String): String =
     val (crates, rearangements) = parse(input)
     rearangements
-      .foldLeft(crates) { (acc, move) =>
+      .foldLeft(crates): (acc, move) =>
         val from = acc(move.from)
         val qty  = from.take(move.qty)
         acc.updated(move.from, from.drop(move.qty)).updated(move.to, qty ::: acc(move.to))
-      }
       .map(_.head)
       .mkString
 

@@ -7,29 +7,31 @@ object Day10:
   import Ins.*
 
   def solve(input: String): Int =
-    input.linesIterator.flatMap {
-      case "noop"     => Noop :: Nil
-      case s"addx $n" => Noop :: AddX(n.toInt) :: Nil
-    }.scanLeft(1 -> 0) {
-      case ((x, before), Noop)    => (x + before) -> 0
-      case ((x, before), AddX(n)) => (x + before) -> n
-    }.zipWithIndex
+    input.linesIterator
+      .flatMap:
+        case "noop"     => Noop :: Nil
+        case s"addx $n" => Noop :: AddX(n.toInt) :: Nil
+      .scanLeft(1 -> 0):
+        case ((x, before), Noop)    => (x + before) -> 0
+        case ((x, before), AddX(n)) => (x + before) -> n
+      .zipWithIndex
       .filter((_, cycle) => List(20, 60, 100, 140, 180, 220).contains(cycle))
       .map(_._1 * _)
       .sum
 
   def solve2(input: String): String =
-    input.linesIterator.flatMap {
-      case "noop"     => Noop :: Nil
-      case s"addx $n" => Noop :: AddX(n.toInt) :: Nil
-    }.foldLeft((1, 0, java.lang.StringBuilder())) {
-      case ((x, before, sb), Noop) =>
-        val newX = x + before
-        (newX, 0, sb.append(if newX - 1 <= sb.length() % 40 && sb.length() % 40 <= newX + 1 then '#' else '.'))
-      case ((x, before, sb), AddX(n)) =>
-        val newX = x + before
-        (newX, n, sb.append(if newX - 1 <= sb.length() % 40 && sb.length() % 40 <= newX + 1 then '#' else '.'))
-    }._3
+    input.linesIterator
+      .flatMap:
+        case "noop"     => Noop :: Nil
+        case s"addx $n" => Noop :: AddX(n.toInt) :: Nil
+      .foldLeft((1, 0, java.lang.StringBuilder())):
+        case ((x, before, sb), Noop) =>
+          val newX = x + before
+          (newX, 0, sb.append(if newX - 1 <= sb.length() % 40 && sb.length() % 40 <= newX + 1 then '#' else '.'))
+        case ((x, before, sb), AddX(n)) =>
+          val newX = x + before
+          (newX, n, sb.append(if newX - 1 <= sb.length() % 40 && sb.length() % 40 <= newX + 1 then '#' else '.'))
+      ._3
       .insert(200, '\n')
       .insert(160, '\n')
       .insert(120, '\n')

@@ -15,16 +15,18 @@ object Day9:
         newTailHead :: moveTail(newTailHead, tailTail)
 
   def solve(input: String, n: Int = 2): Int =
-    input.linesIterator.flatMap {
-      case s"R $step" => List.fill(step.toInt)(Direction.Right)
-      case s"L $step" => List.fill(step.toInt)(Direction.Left)
-      case s"U $step" => List.fill(step.toInt)(Direction.Up)
-      case s"D $step" => List.fill(step.toInt)(Direction.Down)
-    }.foldLeft(List.fill(n)(Coord(0L, 0L)) -> Set(Coord(0L, 0L))) { case ((head :: tail, visited), direction) =>
-      val newHead = head + direction.direction
-      val newTail = moveTail(newHead, tail)
-      (newHead :: newTail) -> (visited + newTail.last)
-    }._2
+    input.linesIterator
+      .flatMap:
+        case s"R $step" => List.fill(step.toInt)(Direction.Right)
+        case s"L $step" => List.fill(step.toInt)(Direction.Left)
+        case s"U $step" => List.fill(step.toInt)(Direction.Up)
+        case s"D $step" => List.fill(step.toInt)(Direction.Down)
+      .foldLeft(List.fill(n)(Coord(0L, 0L)) -> Set(Coord(0L, 0L))):
+        case ((head :: tail, visited), direction) =>
+          val newHead = head + direction.direction
+          val newTail = moveTail(newHead, tail)
+          (newHead :: newTail) -> (visited + newTail.last)
+      ._2
       .size
 
   def solve2(input: String): Int = solve(input, 10)

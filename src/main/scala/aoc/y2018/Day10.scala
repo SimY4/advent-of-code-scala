@@ -1,50 +1,57 @@
 package aoc
 package y2018
 
-import scala.annotation.tailrec
-
 object Day10:
   final private case class Point(coord: Coord, vcoord: Coord)
-  final private case class Area(x1: Long, x2: Long, y1: Long, y2: Long)
-  private object Area:
-    def apply(points: List[Point]): Area = Area(
-      points.map(_.coord.x).min,
-      points.map(_.coord.x).max,
-      points.map(_.coord.y).min,
-      points.map(_.coord.y).max
-    )
 
-    extension (a: Area) def area: Long = (a.x2 - a.x1) * (a.y2 - a.y1)
-
-  import Area.*
-
-  private def parse(input: String): List[Point] =
-    input.linesIterator.map { line =>
-      "-?\\d+".r.findAllIn(line).map(_.toLong).toList match
-        case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
-    }.toList
+  private def area(points: List[Point]): Long =
+    val x1 = points.map(_.coord.x).min
+    val x2 = points.map(_.coord.x).max
+    val y1 = points.map(_.coord.y).min
+    val y2 = points.map(_.coord.y).max
+    (x2 - x1) * (y2 - y1)
 
   def solve(input: String): Unit =
     def show(points: List[Point]): String =
-      val area   = Area(points)
       val coords = points.map(_.coord).toSet
-      (area.y1 to area.y2).map { y =>
-        (area.x1 to area.x2).map { x =>
-          if coords contains Coord(x, y) then "X"
-          else " "
-        }.mkString
-      }.mkString("\n")
+      val x1     = coords.map(_.x).min
+      val x2     = coords.map(_.x).max
+      val y1     = coords.map(_.y).min
+      val y2     = coords.map(_.y).max
+      (y1 to y2)
+        .map: y =>
+          (x1 to x2)
+            .map: x =>
+              if coords contains Coord(x, y) then "X" else " "
+            .mkString
+        .mkString("\n")
 
-    @tailrec def solve0(points: List[Point], time: Int, area: Long): Unit =
-      val nextPoints = points.map { point =>
-        point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
-      }
-      val nextArea = Area(nextPoints).area
-      if area > nextArea then solve0(nextPoints, time + 1, nextArea)
-      else println(s"time: $time, area:\n${show(points)}")
+    val points = input.linesIterator
+      .map: line =>
+        "-?\\d+".r.findAllIn(line).map(_.toLong).toList match
+          case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
+      .toList
+    Iterator
+      .iterate(points):
+        _.map: point =>
+          point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
+      .sliding(2)
+      .collectFirst:
+        case points :: nextPoints :: Nil if area(points) <= area(nextPoints) => points
+      .foreach(show)
 
-    val pts = parse(input)
-    solve0(pts, 0, Area(pts).area)
+  def solve2(input: String): Int =
+    val points = input.linesIterator
+      .map: line =>
+        "-?\\d+".r.findAllIn(line).map(_.toLong).toList match
+          case x :: y :: vx :: vy :: Nil => Point(Coord(x, y), Coord(vx, vy))
+      .toList
+    LazyList
+      .unfold(points): points =>
+        val nextPoints = points.map: point =>
+          point.copy(coord = Coord(point.coord.x + point.vcoord.x, point.coord.y + point.vcoord.y))
+        Some((area(points), area(nextPoints)) -> nextPoints)
+      .indexWhere(_ <= _)
 
   val input = """position=< 50200,  10144> velocity=<-5, -1>
                 |position=< -9855,  -9873> velocity=< 1,  1>

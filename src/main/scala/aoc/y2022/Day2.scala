@@ -1,7 +1,7 @@
 package aoc.y2022
 
 object Day2:
-  enum RPS extends Enum[RPS]:
+  private enum RPS extends Enum[RPS]:
     case Rock, Paper, Scissors
 
     def round(p2: RPS): Int =
@@ -9,7 +9,7 @@ object Day2:
                         else if (this.ordinal + 1) % 3 == p2.ordinal then 6
                         else 0)
 
-  object RPS:
+  private object RPS:
     def apply(s: String): RPS = s match
       case "A" | "X" => Rock
       case "B" | "Y" => Paper
@@ -17,18 +17,20 @@ object Day2:
   import RPS.*
 
   def solve(input: String): Int =
-    input.linesIterator.map { line =>
-      line.split(" ").map(RPS(_)).toList match
-        case p1 :: p2 :: Nil => p1.round(p2)
-    }.sum
+    input.linesIterator
+      .map: line =>
+        line.split(" ").map(RPS(_)).toList match
+          case p1 :: p2 :: Nil => p1.round(p2)
+      .sum
 
   def solve2(input: String): Int =
-    input.linesIterator.map { line =>
-      line.split(" ").map(RPS(_)).toList match
-        case p1 :: Rock :: Nil     => p1.round(RPS.fromOrdinal((p1.ordinal + 3 - 1) % 3))
-        case p1 :: Paper :: Nil    => p1.round(p1)
-        case p1 :: Scissors :: Nil => p1.round(RPS.fromOrdinal((p1.ordinal + 1) % 3))
-    }.sum
+    input.linesIterator
+      .map: line =>
+        line.split(" ").map(RPS(_)).toList match
+          case p1 :: Rock :: Nil     => p1.round(RPS.fromOrdinal((p1.ordinal + 3 - 1) % 3))
+          case p1 :: Paper :: Nil    => p1.round(p1)
+          case p1 :: Scissors :: Nil => p1.round(RPS.fromOrdinal((p1.ordinal + 1) % 3))
+      .sum
 
   val input = """C Z
                 |A Y
