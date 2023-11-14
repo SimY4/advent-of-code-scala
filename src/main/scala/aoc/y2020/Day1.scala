@@ -7,7 +7,7 @@ object Day1:
       y <- input.linesIterator.map(_.toInt)
       if x < y
       if x + y == 2020
-    yield x * y).toList.head
+    yield x * y).next
 
   def solve2(input: String): Int =
     (for
@@ -16,7 +16,7 @@ object Day1:
       z <- input.linesIterator.map(_.toInt)
       if x < y && y < z
       if x + y + z == 2020
-    yield x * y * z).toList.head
+    yield x * y * z).next
 
   val input = """2004
                 |1671

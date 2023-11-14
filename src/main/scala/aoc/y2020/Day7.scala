@@ -6,9 +6,8 @@ object Day7:
       case bags :: "no other bags." :: Nil => bags.substring(0, bags.lastIndexOf(' ')) -> Nil
       case bags :: contains :: Nil =>
         bags.substring(0, bags.lastIndexOf(' ')) ->
-          contains.split(", ").toList.map { bags =>
+          contains.split(", ").toList.map: bags =>
             bags.substring(0, bags.indexOf(' ')).toInt -> bags.substring(bags.indexOf(' ') + 1, bags.lastIndexOf(' '))
-          }
 
   def solve(input: String): Int =
     val bags = input.linesIterator.map(parseLine).toMap

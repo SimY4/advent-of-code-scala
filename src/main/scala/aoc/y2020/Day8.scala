@@ -17,7 +17,7 @@ object Day8:
       case s"nop $nop" => Nop(nop.toInt, idx)
 
   def solve(input: String): Int =
-    val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
+    val instructions = input.linesIterator.zipWithIndex.map(parseLine).toVector
 
     @tailrec def loop(cur: Int, visited: Set[Ins] = Set.empty, state: Int = 0): Int =
       instructions.lift(cur) match
@@ -29,13 +29,13 @@ object Day8:
     loop(0)
 
   def solve2(input: String): Int =
-    val instructions = input.linesIterator.zipWithIndex.map(parseLine).toList
+    val instructions = input.linesIterator.zipWithIndex.map(parseLine).toVector
     val jumpAndNops = instructions.collect:
       case j: Jmp => j
       case n: Nop => n
 
     @tailrec def loop(
-      instructions: List[Ins],
+      instructions: Vector[Ins],
       cur: Int = 0,
       visited: Set[Ins] = Set.empty,
       state: Int = 0
@@ -47,10 +47,10 @@ object Day8:
         case _ if cur >= (instructions.size - 1)           => Some(state)
         case _                                             => None
 
-    jumpAndNops.map {
-      case Jmp(jmp, i) => instructions.updated(i, Nop(jmp, i))
-      case Nop(nop, i) => instructions.updated(i, Jmp(nop, i))
-    }
+    jumpAndNops
+      .map:
+        case Jmp(jmp, i) => instructions.updated(i, Nop(jmp, i))
+        case Nop(nop, i) => instructions.updated(i, Jmp(nop, i))
       .flatMap(loop(_))
       .head
 

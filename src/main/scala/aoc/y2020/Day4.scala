@@ -28,10 +28,10 @@ object Day4:
     (for
       raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).map(passportField).toSet
-      if passport.count {
+      if (passport.count:
         case CountryId => false
         case _         => true
-      } >= 7
+      ) >= 7
     yield ()).size
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
@@ -66,10 +66,9 @@ object Day4:
     (for
       raw <- input.split(System.lineSeparator * 2).toSeq
       passport = raw.linesIterator.flatMap(_.split(' ')).flatMap(passportFieldStrict).toSet
-      if passport.count {
+      if 7 <= passport.count:
         case CountryId => false
         case _         => true
-      } >= 7
     yield ()).size
 
   val input = """hgt:176cm

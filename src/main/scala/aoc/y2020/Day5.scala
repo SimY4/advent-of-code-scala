@@ -7,22 +7,20 @@ object Day5:
       row = line
         .substring(0, 7)
         .toSeq
-        .foldLeft(0 -> 127) {
+        .foldLeft(0 -> 127):
           case ((l, h), 'F') => l -> (h - ((h - l) / 2))
           case ((l, h), 'B') =>
             val upHalf = l + (h - l) / 2
             if ((h - l) % 2) == 0 then upHalf -> h else (upHalf + 1) -> h
-        }
         ._1
       col = line
         .substring(7)
         .toSeq
-        .foldLeft(0 -> 7) {
+        .foldLeft(0 -> 7):
           case ((l, h), 'L') => l -> (h - ((h - l) / 2))
           case ((l, h), 'R') =>
             val upHalf = l + (h - l) / 2
             if ((h - l) % 2) == 0 then upHalf -> h else (upHalf + 1) -> h
-        }
         ._1
     yield row * 8 + col).max
 
@@ -32,22 +30,20 @@ object Day5:
       row = line
         .substring(0, 7)
         .toSeq
-        .foldLeft(0 -> 127) {
+        .foldLeft(0 -> 127):
           case ((l, h), 'F') => l -> (h - ((h - l) / 2))
           case ((l, h), 'B') =>
             val upHalf = l + (h - l) / 2
             if ((h - l) % 2) == 0 then upHalf -> h else (upHalf + 1) -> h
-        }
         ._1
       col = line
         .substring(7)
         .toSeq
-        .foldLeft(0 -> 7) {
+        .foldLeft(0 -> 7):
           case ((l, h), 'L') => l -> (h - ((h - l) / 2))
           case ((l, h), 'R') =>
             val upHalf = l + (h - l) / 2
             if ((h - l) % 2) == 0 then upHalf -> h else (upHalf + 1) -> h
-        }
         ._1
     yield row * 8 + col).toList.sorted
       .sliding(2)

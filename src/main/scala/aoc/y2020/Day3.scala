@@ -5,10 +5,11 @@ import scala.annotation.tailrec
 
 object Day3:
   def solve(input: String): Int =
-    val area = input.linesIterator.map { line =>
-      def list: LazyList[Char] = LazyList(line.toList*) #::: list
-      list
-    }.toList
+    val area = input.linesIterator
+      .map: line =>
+        def list: LazyList[Char] = LazyList(line.toList*) #::: list
+        list
+      .toVector
 
     @tailrec def loop(coord: Coord, acc: Int = 0): Int =
       area.lift((coord.y + 1L).toInt) match
@@ -19,10 +20,11 @@ object Day3:
     loop(Coord(0L, 0L))
 
   def solve2(input: String): Long =
-    val area = input.linesIterator.map { line =>
-      def list: LazyList[Char] = LazyList(line.toList*) #::: list
-      list
-    }.toList
+    val area = input.linesIterator
+      .map: line =>
+        def list: LazyList[Char] = LazyList(line.toList*) #::: list
+        list
+      .toVector
 
     @tailrec def loop(coord: Coord, slope: Coord, acc: Int = 0): Long =
       area.lift((coord.y + slope.y).toInt) match

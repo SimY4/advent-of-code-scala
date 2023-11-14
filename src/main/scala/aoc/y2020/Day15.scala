@@ -11,15 +11,15 @@ object Day15:
           acc.get(last).flatMap(_.dropWhile(_ >= i).headOption) match
             case Some(j) =>
               val v = i - j
-              acc.updatedWith(v) {
+              acc.updatedWith(v):
                 case Some(js) => Some((i + 1) :: js)
                 case None     => Some(List(i + 1))
-              } -> v
+              -> v
             case None =>
-              acc.updatedWith(0) {
+              acc.updatedWith(0):
                 case Some(js) => Some((i + 1) :: js)
                 case None     => Some(List(i + 1))
-              } -> 0
+              -> 0
       .drop(n)
       .head
       ._2

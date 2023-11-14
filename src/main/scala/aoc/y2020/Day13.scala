@@ -7,12 +7,11 @@ object Day13:
         val (bus, minTs) = buses
           .split(',')
           .flatMap(_.toIntOption)
-          .map { bus =>
+          .map: bus =>
             bus -> LazyList
               .from(ts.toInt)
               .find(_ % bus == 0)
               .get
-          }
           .minBy(_._2)
         bus * (minTs - ts.toInt)
 
@@ -36,10 +35,9 @@ object Day13:
           val prod = modulii.product
           val sum = residues
             .zip(modulii)
-            .map { (residue, modulus) =>
+            .map: (residue, modulus) =>
               val p = prod / modulus
               modInv(p, modulus).map(m => residue * m * p)
-            }
             .reduce:
               case (Some(m1), Some(m2)) => Some(m1 + m2)
               case _                    => None

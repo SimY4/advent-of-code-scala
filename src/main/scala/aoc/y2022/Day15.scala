@@ -16,17 +16,17 @@ object Day15:
       "-?\\d+".r.findAllIn(line).toList match
         case sx :: sy :: cbx :: cby :: Nil =>
           Coord(sx.toLong, sy.toLong) -> Coord(cbx.toLong, cby.toLong)
-    }.toList
+    }.toVector
     val beacons = map.collect { case (_, Coord(x, `y`)) => x }.distinct.size
 
     map.view.flatMap(range(y)).flatMap(_ to _).toSet.size - beacons
 
-  def solve2(input: String, searchArea: Long = 4000000L): List[Long] =
+  def solve2(input: String, searchArea: Long = 4000000L): Long =
     val map = input.linesIterator.map { line =>
       "-?\\d+".r.findAllIn(line).toList match
         case sx :: sy :: cbx :: cby :: Nil =>
           Coord(sx.toLong, sy.toLong) -> Coord(cbx.toLong, cby.toLong)
-    }.toList
+    }.toVector
 
     (for
       y <- LazyList.range(0L, searchArea)
@@ -43,7 +43,7 @@ object Day15:
         }
         .reverse
       case (_, x) :: _ <- Some(ranges).filter(_.size > 1)
-    yield ((x + 1) * 4000000L) + y).toList
+    yield ((x + 1) * 4000000L) + y).head
 
   val input = """Sensor at x=2662540, y=1992627: closest beacon is at x=1562171, y=2000000
                 |Sensor at x=3577947, y=3994226: closest beacon is at x=3468220, y=3832344

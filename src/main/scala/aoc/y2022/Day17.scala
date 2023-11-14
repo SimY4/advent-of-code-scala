@@ -24,7 +24,7 @@ object Day17:
           0L,
           Coord(2L, 4L)
         )
-      ) { case (grid, rock, move, coord) =>
+      ): (grid, rock, move, coord) =>
         val (nextCoord, curRock) =
           val nc = coord + moves((move % moves.size).toInt).direction
           val cs = rocks((rock % rocks.size).toInt).map(nc + _)
@@ -41,11 +41,10 @@ object Day17:
             Coord(2, tallestY + rocks(((rock + 1) % rocks.size).toInt).map(_.y).size + 3)
           )
         else (grid, rock, move + 1, nextCoord + Direction.Down.direction)
-      }
       .dropWhile((_, rock, _, _) => rock < after)
-      .take(1)
-      .map((grid, _, _, _) => grid.map(_.y).max)
-      .head
+      .head(0)
+      .map(_.y)
+      .max
 
   def solve2(input: String): Long = solve(input, 1000000000000L)
 

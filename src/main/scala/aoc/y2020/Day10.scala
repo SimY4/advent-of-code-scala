@@ -3,7 +3,7 @@ package aoc.y2020
 object Day10:
 
   def solve(input: String): Int =
-    val adapters = input.linesIterator.map(_.toInt).toList.sorted
+    val adapters = input.linesIterator.map(_.toInt).toVector.sorted
 
     val res = adapters
       .zip(adapters.tail)
@@ -16,16 +16,15 @@ object Day10:
     (res(1) + 1) * (res(3) + 1)
 
   def solve2(input: String): Long =
-    val adapters = input.linesIterator.map(_.toInt).toList.sorted
+    val adapters = input.linesIterator.map(_.toInt).toVector.sorted
 
     val arr = Array(1L, 0L, 0L, 0L)
-    adapters.foldLeft(0) { (acc, ad) =>
+    adapters.foldLeft(0): (acc, ad) =>
       val d = ad - acc
       System.arraycopy(arr, 0, arr, d, arr.size - d)
       (0 until d).foreach(arr(_) = 0)
       arr(0) = arr.sum
       ad
-    }
     arr(0)
 
   val input = """152

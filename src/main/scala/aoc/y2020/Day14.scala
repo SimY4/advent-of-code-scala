@@ -10,11 +10,11 @@ object Day14:
   private def parseLine(line: String): Ins =
     line match
       case s"mask = $mask" =>
-        Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])) {
+        Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])):
           case (mask, ('X', i)) => mask
           case (mask, ('0', i)) => mask.updated(i, Some(false))
           case (mask, ('1', i)) => mask.updated(i, Some(true))
-        })
+        )
       case s"mem[$addr] = $value" => Mem(addr.toLong, value.toLong)
 
   def solve(input: String): Long =
@@ -25,11 +25,10 @@ object Day14:
         case ((mem, mask), Mem(addr, value)) =>
           mem.updated(
             addr,
-            mask.zipWithIndex.foldLeft(value) {
+            mask.zipWithIndex.foldLeft(value):
               case (acc, (Some(true), i))  => acc | (1L << i)
               case (acc, (Some(false), i)) => acc & ~(1L << i)
               case (acc, _)                => acc
-            }
           ) -> mask
       ._1
       .values

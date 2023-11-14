@@ -8,7 +8,7 @@ object Day11:
     val layout = input.linesIterator.map(_.toArray).toArray
 
     @tailrec def loop(layout: Array[Array[Char]]): Int =
-      val newLayout = layout.zipWithIndex.map { (col, y) =>
+      val newLayout = layout.zipWithIndex.map: (col, y) =>
         col.zipWithIndex.map:
           case ('L', x)
               if !Coord(x, y)
@@ -23,7 +23,6 @@ object Day11:
                 .count(_ == '#') =>
             'L'
           case (c, _) => c
-      }
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
@@ -34,7 +33,7 @@ object Day11:
     val layout = input.linesIterator.map(_.toArray).toArray
 
     @tailrec def loop(layout: Array[Array[Char]]): Int =
-      val newLayout = layout.zipWithIndex.map { (col, y) =>
+      val newLayout = layout.zipWithIndex.map: (col, y) =>
         col.zipWithIndex.map:
           case ('L', x)
               if !Direction.values.exists(d =>
@@ -57,7 +56,6 @@ object Day11:
               ) =>
             'L'
           case (c, _) => c
-      }
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)

@@ -5,25 +5,20 @@ object Day9:
     input.linesIterator
       .map(_.toLong)
       .sliding(26)
-      .flatMap { slide =>
-        val exists = slide.init.exists { x =>
-          slide.init.exists { y =>
+      .flatMap: slide =>
+        val exists = slide.init.exists: x =>
+          slide.init.exists: y =>
             x + y == slide.last
-          }
-        }
         Option.when(!exists)(slide.last)
-      }
-      .toList
-      .head
+      .next
 
   def solve2(input: String): Option[Long] =
     val n = solve(input)
-    input.linesIterator
-      .map(_.toLong)
-      .toSeq
-      .inits
-      .flatMap(_.tails)
-      .filter(_.size >= 2)
+    (for 
+      init <- input.linesIterator.map(_.toLong).toSeq.inits
+      tail <- init.tails
+      if tail.size >= 2
+    yield tail)
       .find(_.sum == n)
       .map(seq => seq.min + seq.max)
 
