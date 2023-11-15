@@ -5,13 +5,14 @@ import scala.collection.immutable
 
 object Day21:
   def solve(input: String): Int =
-    val food = input.linesIterator.map { case s"$ingredients (contains $understood)" =>
-      ingredients.split(' ').toList -> understood.split(", ").toList
-    }.toList
+    val food = input.linesIterator
+      .map:
+        case s"$ingredients (contains $understood)" => ingredients.split(' ').toList -> understood.split(", ").toList
+      .toVector
 
     val allergens = food
       .flatMap((ing, all) => all.map(_ -> ing.toSet))
-      .groupMapReduce(_._1)(_._2)(_ intersect _)
+      .groupMapReduce(_(0))(_(1))(_ intersect _)
       .values
       .reduce(_ union _)
 
@@ -21,9 +22,11 @@ object Day21:
       .size
 
   def solve2(input: String): String =
-    val food = input.linesIterator.map { case s"$ingredients (contains $understood)" =>
-      ingredients.split(' ').toList -> understood.split(", ").toList
-    }.toList
+    val food = input.linesIterator
+      .map:
+        case s"$ingredients (contains $understood)" =>
+          ingredients.split(' ').toList -> understood.split(", ").toList
+      .toVector
 
     @tailrec def simplify(allergens: Map[String, Set[String]]): Map[String, Set[String]] =
       val singles = allergens.collect:
@@ -35,7 +38,7 @@ object Day21:
       else simplify(simplified)
 
     immutable.SortedMap
-      .from(simplify(food.flatMap((ing, all) => all.map(_ -> ing.toSet)).groupMapReduce(_._1)(_._2)(_ intersect _)))
+      .from(simplify(food.flatMap((ing, all) => all.map(_ -> ing.toSet)).groupMapReduce(_(0))(_(1))(_ intersect _)))
       .values
       .flatMap(identity)
       .mkString(",")

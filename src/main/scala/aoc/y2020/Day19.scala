@@ -24,17 +24,20 @@ object Day19:
         def toRegex(rule: Rule): String =
           rule.or match
             case simple :: Nil =>
-              simple.ref.map {
-                case i: Int   => toRegex(rulesMap(i))
-                case ch: Char => ch.toString
-              }.mkString
-            case rest =>
-              rest.map {
-                _.ref.map {
+              simple.ref
+                .map:
                   case i: Int   => toRegex(rulesMap(i))
                   case ch: Char => ch.toString
-                }.mkString
-              }.mkString("(?:", "|", ")")
+                .mkString
+            case rest =>
+              rest
+                .map:
+                  _.ref
+                    .map:
+                      case i: Int   => toRegex(rulesMap(i))
+                      case ch: Char => ch.toString
+                    .mkString
+                .mkString("(?:", "|", ")")
 
         val regex = toRegex(rulesMap(0)).r
 
@@ -57,21 +60,25 @@ object Day19:
               s"(?:${toRegex(rulesMap(f1))})+"
             case Cons(List(f1: Int, s1: Int)) :: Cons(List(f2: Int, self: Int, s2: Int)) :: Nil
                 if f1 == f2 && s1 == s2 && self == rule.id =>
-              (1 to 10).map { i =>
-                s"(?:${toRegex(rulesMap(f1))}){$i}?(?:${toRegex(rulesMap(s1))}){$i}"
-              }.mkString("(?:", "|", ")")
+              (1 to 10)
+                .map: i =>
+                  s"(?:${toRegex(rulesMap(f1))}){$i}?(?:${toRegex(rulesMap(s1))}){$i}"
+                .mkString("(?:", "|", ")")
             case simple :: Nil =>
-              simple.ref.map {
-                case i: Int   => toRegex(rulesMap(i))
-                case ch: Char => ch.toString
-              }.mkString
-            case rest =>
-              rest.map {
-                _.ref.map {
+              simple.ref
+                .map:
                   case i: Int   => toRegex(rulesMap(i))
                   case ch: Char => ch.toString
-                }.mkString
-              }.mkString("(?:", "|", ")")
+                .mkString
+            case rest =>
+              rest
+                .map:
+                  _.ref
+                    .map:
+                      case i: Int   => toRegex(rulesMap(i))
+                      case ch: Char => ch.toString
+                    .mkString
+                .mkString("(?:", "|", ")")
 
         val regex = toRegex(rulesMap(0)).r
 

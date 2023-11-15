@@ -19,7 +19,7 @@ object Day24:
   def solve(input: String): Int =
     input.linesIterator
       .map(navigate(_))
-      .toList
+      .toVector
       .groupBy(identity)
       .count((_, list) => (list.size & 1) > 0)
 
@@ -37,24 +37,22 @@ object Day24:
   def solve2(input: String): Int =
     val floor = input.linesIterator
       .map(navigate(_))
-      .toList
+      .toVector
       .groupMapReduce(identity)(_ => true)(_ ^ _)
 
     (1 to 100)
-      .foldLeft(floor) { (acc, _) =>
+      .foldLeft(floor): (acc, _) =>
         acc.toSeq
           .filter((_, v) => v)
           .flatMap((tile, v) => (tile -> v) :: tile.neighbours().map(n => n -> acc.getOrElse(n, false)))
-          .map { (tile, v) =>
+          .map: (tile, v) =>
             val blacks = tile.neighbours().map(acc.getOrElse(_, false)).filter(identity).size
             (
               tile,
               if v then !(0 == blacks || blacks > 2)
               else 2 == blacks
             )
-          }
-          .groupMapReduce(_._1)(_._2)(_ || _)
-      }
+          .groupMapReduce(_(0))(_(1))(_ || _)
       .count((_, v) => v)
 
   val input = """seesweseseeeeeeeeeenweeee
