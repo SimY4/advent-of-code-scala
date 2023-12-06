@@ -1034,4 +1034,4 @@ object Day1:
                 |4threelfvzndfive
                 |nx9ninekvzzdlncblkdqbgspdfkcx
                 |tfn5kx6twojmzgbdznc2
-5bszzkpcdxqkvkf7tgcone2""".stripMargin
+                |5bszzkpcdxqkvkf7tgcone2""".stripMargin
