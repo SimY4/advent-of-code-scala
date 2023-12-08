@@ -46,7 +46,8 @@ object Day8:
             case (cur, Direction.Left)  => network(cur)(0)
             case (cur, Direction.Right) => network(cur)(1)
           .indexWhere(_.endsWith("Z"))
-      .foldLeft(1L)((l, r) => lcm(l.toLong, r.toLong))
+          .toLong
+      .foldLeft(1L)(lcm)
 
   val input =
     """LLRRRLLRRRLRRRLRLRLLRRLRRRLLLRLRRRLRRRLRLLRRLRRRLLRRLRRLRLRRRLRRLLRLRRLRRRLRRLLRRRLRLLLRLRRRLRRLLLLRRRLRRRLRRRLRLRRLRRLRLRRLLRLLRRRLRRLRLLRRLRRLLRLLRLRRRLRLRLRRRLRRLLLRLRRRLLRLLRRRLRLRLRRRLLRLLLLRRRLRRRLRLRRRLRRLRRLLRLRLRRRLRRRLRLRRLLLLRLRRRLRRRLRLRRRLRLRRLRLRRRR
