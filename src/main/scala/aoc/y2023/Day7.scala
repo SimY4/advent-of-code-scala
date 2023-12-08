@@ -44,7 +44,7 @@ object Day7:
         if groups.contains(Card.J) then Type.FiveOfAKind
         else if groups.values.exists(_.size == 4) then Type.FourOfAKind
         else Type.FullHouse
-      else if groups.size == 3 then // JJJ21 JJ221 J2221 J2211
+      else if groups.size == 3 then
         if groups.get(Card.J).exists(_.size > 1) then Type.FourOfAKind
         else if groups.contains(Card.J) then
           if groups.values.exists(_.size == 3) then Type.FourOfAKind else Type.FullHouse
