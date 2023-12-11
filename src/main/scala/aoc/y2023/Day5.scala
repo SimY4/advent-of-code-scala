@@ -47,7 +47,7 @@ object Day5:
             .getOrElse(seed)
       .min
 
-  def solve2(input: String) =
+  def solve2(input: String): Long =
     val (pairs, maps) = parse(input)
     val seeds = pairs
       .sliding(2, 2)
@@ -58,60 +58,29 @@ object Day5:
     maps
       .foldLeft(seeds): (seeds, map) =>
         seeds.flatMap: seed =>
-          val mapped = map.ranges.flatMap(seed.map.tupled).sortBy(_(0).start)
-          if mapped.isEmpty then Vector(seed)
-          else
-            (Vector(
-              Range(seed.start, mapped.head(0).start),
-              Range(mapped.last(0).end, seed.end)
-            ) ++ mapped
-              .sliding(2)
-              .flatMap:
-                case Vector(single) =>
-                  Vector(Range(single(1).start, single(1).end))
-                case Vector(prev, next) =>
-                  Vector(
-                    Range(prev(1).start, prev(1).end),
-                    Range(prev(0).end, next(0).start),
-                    Range(next(1).start, next(1).end)
-                  )
-            ).filter(range => range.start < range.end)
+          map.ranges
+            .flatMap(seed.map.tupled)
+            .sortBy(_(0).start)
+            .toList
+            .match
+              case Nil => Vector(seed)
+              case head :: Nil =>
+                Vector(
+                  Range(seed.start, head(0).start),
+                  head(1),
+                  Range(head(0).end, seed.end)
+                )
+              case rest =>
+                Vector(
+                  Range(seed.start, rest.head(0).start),
+                  Range(rest.last(0).end, seed.end)
+                ) ++ rest
+                  .zip(rest.tail)
+                  .flatMap: (prev, next) =>
+                    Vector(prev(1), Range(prev(0).end, next(0).start), next(1))
+            .filter(range => range.start < range.end)
       .map(_.start)
       .min
-
-  val sample = """seeds: 79 14 55 13
-
-seed-to-soil map:
-50 98 2
-52 50 48
-
-soil-to-fertilizer map:
-0 15 37
-37 52 2
-39 0 15
-
-fertilizer-to-water map:
-49 53 8
-0 11 42
-42 0 7
-57 7 4
-
-water-to-light map:
-88 18 7
-18 25 70
-
-light-to-temperature map:
-45 77 23
-81 45 19
-68 64 13
-
-temperature-to-humidity map:
-0 69 1
-1 0 69
-
-humidity-to-location map:
-60 56 37
-56 93 4"""
 
   val input =
     """seeds: 1263068588 44436703 1116624626 2393304 2098781025 128251971 2946842531 102775703 2361566863 262106125 221434439 24088025 1368516778 69719147 3326254382 101094138 1576631370 357411492 3713929839 154258863

@@ -16,10 +16,10 @@ object Day11:
         triple.size == 3 && triple(0) + 1 == triple(1) && triple(1) + 1 == triple(2))
       && !pass.exists(forbidden.contains)
       && pass
-        .sliding(2)
+        .zip(pass.tail)
         .zipWithIndex
         .collect:
-          case (pair, idx) if pair.size == 2 && pair(0) == pair(1) => idx
+          case ((f, s), idx) if f == s => idx
         .sliding(2)
         .exists(pair => pair.size == 2 && pair(0) + 1 != pair(1))
 

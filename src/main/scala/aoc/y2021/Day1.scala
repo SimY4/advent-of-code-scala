@@ -2,10 +2,12 @@ package aoc.y2021
 
 object Day1:
   def solve(input: String): Int =
-    input.linesIterator.map(_.toInt).sliding(2).count { case Seq(a, b) => a < b }
+    val ns = input.linesIterator.map(_.toInt).toVector
+    ns.zip(ns.tail).count(_ < _)
 
   def solve2(input: String): Int =
-    input.linesIterator.map(_.toInt).sliding(3).map(_.sum).sliding(2).count { case Seq(a, b) => a < b }
+    val ns = input.linesIterator.map(_.toInt).sliding(3).map(_.sum).toVector
+    ns.zip(ns.tail).count(_ < _)
 
   val input = """148
                 |167

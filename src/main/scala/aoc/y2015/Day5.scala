@@ -8,14 +8,14 @@ object Day5:
     (for
       line <- input.linesIterator
       if line.count(vowels.contains) >= 3
-      if line.toSeq.sliding(2).exists(s => s.head == s.last)
+      if line.sliding(2).exists(s => s.head == s.last)
       if bad.forall(!line.contains(_))
     yield line).size
 
   def solve2(input: String): Int =
     (for
       line <- input.linesIterator
-      if line.toSeq.sliding(2).exists(_.toString.r.findAllIn(line).size >= 2)
+      if line.sliding(2).exists(_.r.findAllIn(line).size >= 2)
       if line.toSeq.sliding(3).exists(s => s.head == s.last)
     yield line).size
 

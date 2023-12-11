@@ -3,9 +3,9 @@ package aoc.y2023
 import scala.annotation.tailrec
 
 object Day9:
-  @tailrec private def next(seq: Vector[Int], tail: List[Vector[Int]] = Nil): Int =
-    if seq.forall(_ == 0) then tail.map(_.last).sum
-    else next(seq.sliding(2).map(v => v(1) - v(0)).toVector, seq :: tail)
+  @tailrec private def next(seq: Vector[Int], acc: Int = 0): Int =
+    if seq.forall(_ == 0) then acc
+    else next(seq.zip(seq.tail).map((f, s) => s - f), seq.last + acc)
 
   def solve(input: String) =
     (for
@@ -13,11 +13,11 @@ object Day9:
       seq = "-?\\d+".r.findAllIn(line).map(_.toInt).toVector
     yield next(seq)).sum
 
-  @tailrec private def prev(seq: Vector[Int], tail: List[Vector[Int]] = Nil): Int =
-    if seq.forall(_ == 0) then tail.map(_.head).foldLeft(0)((acc, h) => h - acc)
-    else prev(seq.sliding(2).map(v => v(1) - v(0)).toVector, seq :: tail)
+  @tailrec private def prev(seq: Vector[Int], tail: List[Int] = Nil): Int =
+    if seq.forall(_ == 0) then tail.foldLeft(0)((acc, h) => h - acc)
+    else prev(seq.zip(seq.tail).map((f, s) => s - f), seq.head :: tail)
 
-  def solve2(input: String): Any =
+  def solve2(input: String): Int =
     (for
       line <- input.linesIterator
       seq = "-?\\d+".r.findAllIn(line).map(_.toInt).toVector
