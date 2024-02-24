@@ -14,7 +14,7 @@ object Day9:
 
   def solve2(input: String): Option[Long] =
     val n = solve(input)
-    (for 
+    (for
       init <- input.linesIterator.map(_.toLong).toSeq.inits
       tail <- init.tails
       if tail.size >= 2
