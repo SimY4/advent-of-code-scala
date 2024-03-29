@@ -14,7 +14,7 @@ object Day11:
       .sliding(3)
       .exists: triple =>
         triple.size == 3 && triple(0) + 1 == triple(1) && triple(1) + 1 == triple(2))
-    && !pass.exists(forbidden.contains)
+      && !pass.exists(forbidden.contains)
       && pass
         .zip(pass.tail)
         .zipWithIndex

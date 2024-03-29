@@ -31,8 +31,7 @@ object Day4:
       if (passport.count:
         case CountryId => false
         case _         => true
-      )
-      >= 7
+      ) >= 7
     yield ()).size
 
   private def passportFieldStrict(field: String): Option[PasswordField] =
