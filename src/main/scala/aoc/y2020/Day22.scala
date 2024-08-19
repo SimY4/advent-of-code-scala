@@ -7,7 +7,7 @@ object Day22:
     val player1 :: player2 :: Nil = input
       .split(System.lineSeparator * 2)
       .map(_.linesIterator.drop(1).map(_.toInt).toList)
-      .toList
+      .toList: @unchecked
 
     @tailrec def play(player1: List[Int], player2: List[Int]): Int =
       (player1, player2) match
@@ -27,7 +27,7 @@ object Day22:
     val player1 :: player2 :: Nil = input
       .split(System.lineSeparator * 2)
       .map(_.linesIterator.drop(1).map(_.toInt).toList)
-      .toList
+      .toList: @unchecked
 
     def recursiveCombat(player1: List[Int], player2: List[Int]): Boolean = play(player1, player2)._1
 
