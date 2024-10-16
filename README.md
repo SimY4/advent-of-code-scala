@@ -1,3 +1,3 @@
 # advent-of-code
 
-Solving advent of code challenges using Dotty
+Solving advent of code challenges using Scala
