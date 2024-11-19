@@ -1,7 +1,5 @@
 package aoc.y2019
 
-import scala.annotation.tailrec
-
 object Day1:
   def solve(input: String): Long =
     (for
@@ -13,7 +11,7 @@ object Day1:
     (for
       line <- input.linesIterator
       d = line.toLong
-    yield LazyList
+    yield Iterator
       .iterate(d)(d0 => math.floor(d0.toDouble / 3).toLong - 2)
       .drop(1)
       .takeWhile(_ >= 0)

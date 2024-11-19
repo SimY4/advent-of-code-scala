@@ -2,13 +2,11 @@ package aoc.y2019
 
 object Day8:
   def solve(input: String): Int =
-    val layer = input.toSeq
-      .sliding(25 * 6, 25 * 6)
-      .minBy(_.filter('0' == _).length)
-    layer.filter('1' == _).length * layer.filter('2' == _).length
+    val layer = input.sliding(25 * 6, 25 * 6).minBy(_.count('0' == _))
+    layer.count('1' == _) * layer.count('2' == _)
 
   def solve2(input: String): Unit =
-    val layers = input.toList.sliding(25 * 6, 25 * 6).map(_.mkString)
+    val layers = input.sliding(25 * 6, 25 * 6).toList
 
     println(
       (for
@@ -19,13 +17,12 @@ object Day8:
           .getOrElse('0')
       yield color)
         .sliding(25, 25)
-        .map {
-          _.map {
+        .map:
+          _.map:
             case '0' => " "
             case '1' => "X"
             case _   => "_"
-          }.mkString
-        }
+          .mkString
         .mkString("\n")
     )
 

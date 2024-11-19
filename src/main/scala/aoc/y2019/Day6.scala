@@ -4,23 +4,23 @@ import scala.annotation.tailrec
 
 object Day6:
   private def graph(input: String): Map[String, Set[String]] =
-    input.linesIterator.map { s =>
-      val split = s.split(')')
-      (split(0), split(1))
-    }.toList
-      .groupMap(_._1)(_._2)
+    input.linesIterator
+      .map:
+        case s"$l)$r" => l -> r
+      .toVector
+      .groupMap(_(0))(_(1))
       .view
       .mapValues(_.toSet)
       .toMap
 
   @tailrec private def chain(graph: Map[String, Set[String]], acc: List[String], node: String): List[String] =
-    graph.find(_._2.contains(node)) match
+    graph.find(_(1)(node)) match
       case Some((p, _)) => chain(graph, p :: acc, p)
       case None         => acc
 
   def solve(input: String): Int =
     val g      = graph(input)
-    val unique = g.keys ++ g.values.flatten.toSet
+    val unique = g.keySet | g.values.flatten.toSet
 
     unique.toList.map(chain(g, Nil, _).size).sum
 

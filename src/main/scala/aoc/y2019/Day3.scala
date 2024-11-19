@@ -2,38 +2,39 @@ package aoc
 package y2019
 
 object Day3:
-  private def wire(line: String): List[Coord] =
+  private def wire(line: String): Vector[Coord] =
     (for
-      instruction <- line.split(",").toList
+      instruction <- line.split(",").toVector
       (d, m) = instruction.splitAt(1)
-      coord <- List.fill(m.toInt) {
+      direction <- Vector.fill(m.toInt):
         d match
-          case "R" => Coord(1L, 0L)
-          case "U" => Coord(0L, -1L)
-          case "L" => Coord(-1L, 0L)
-          case "D" => Coord(0L, 1L)
-      }
-    yield coord)
-      .scanLeft(Coord(0, 0))(_ + _)
+          case "R" => Direction.Right
+          case "U" => Direction.Up
+          case "L" => Direction.Left
+          case "D" => Direction.Down
+    yield direction)
+      .scanLeft(Coord(0, 0))(_ + _.direction)
 
   def solve(input: String): Long =
     (for
       line <- input.linesIterator
-      wire <- wire(line).map((_, 1)).drop(1).toMap.toSeq
-    yield wire).toList
-      .groupMap(_._1)(_._2)
-      .filter(_._2.size >= 2)
-      .map { case (Coord(x, y), _) => math.abs(x) + math.abs(y) }
+      wire <- wire(line).drop(1).distinct.map((_, 1))
+    yield wire).toVector
+      .groupMap(_(0))(_(1))
+      .filter(_(1).size >= 2)
+      .map:
+        case (Coord(x, y), _) => math.abs(x) + math.abs(y)
       .min
 
   def solve2(input: String): Int =
     (for
       line <- input.linesIterator
-      wire <- wire(line).zipWithIndex.drop(1).toMap.toSeq
-    yield wire).toList
-      .groupMap(_._1)(_._2)
-      .filter(_._2.size >= 2)
-      .map(_._2.sum)
+      wire <- wire(line).zipWithIndex.drop(1).distinctBy(_(0))
+    yield wire).toVector
+      .groupMap(_(0))(_(1))
+      .values
+      .filter(_.size >= 2)
+      .map(_.sum)
       .min
 
   val input =

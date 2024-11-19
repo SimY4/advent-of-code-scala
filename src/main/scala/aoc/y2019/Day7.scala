@@ -1,20 +1,18 @@
 package aoc.y2019
 
-import scala.language.implicitConversions
-
 object Day7:
   import Day5.*
 
   def solve(input: String): Int =
-    val opCodes = input.split(",").map(_.toInt).toList
+    val opCodes = input.split(",").map(_.toInt).toVector
     (0 to 4).permutations
-      .map(_.fold(0) { (init, v) =>
-        runProgram(opCodes, LazyList(v, init)).head
-      })
+      .map:
+        _.fold(0): (init, v) =>
+          runProgram(opCodes, LazyList(v, init)).head
       .max
 
   def solve2(input: String): Int =
-    val opCodes = input.split(",").map(_.toInt).toList
+    val opCodes = input.split(",").map(_.toInt).toVector
     (for amplifier <- (5 to 9).permutations yield
       def out1: LazyList[Int] = runProgram(opCodes, amplifier(0) #:: 0 #:: out5)
       def out2: LazyList[Int] = runProgram(opCodes, amplifier(1) #:: out1)

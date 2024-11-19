@@ -1,40 +1,22 @@
 package aoc.y2019
 
 object Day4:
-  extension (i: Int)
-    private def digits: Seq[Int] =
-      LazyList
-        .iterate(Some(i): Option[Int]):
-          case Some(i) if i > 0 => Some(i / 10)
-          case _                => None
-        .takeWhile(_.isDefined)
-        .flatten
-        .map(_ % 10)
-        .toList
-        .reverse
-
   def solve(input: String): Int =
-    val range = input.split("-").map(_.toInt)
+    val min :: max :: Nil = "\\d+".r.findAllIn(input).map(_.toInt).toList
     (for
-      pass <- range(0) to range(1)
-      passDigits = pass.digits
-      if passDigits.sliding(2, 1).exists(pair => pair.head == pair.tail.head)
-      if passDigits.sliding(2, 1).forall(pair => pair.head <= pair.tail.head)
+      pass <- min to max
+      passDigits = pass.toString.map(_.asDigit)
+      if passDigits.zip(passDigits.tail).exists((fst, snd) => fst == snd)
+      if passDigits.zip(passDigits.tail).forall((fst, snd) => fst <= snd)
     yield pass).size
 
   def solve2(input: String): Int =
-    val range = input.split("-").map(_.toInt)
+    val min :: max :: Nil = "\\d+".r.findAllIn(input).map(_.toInt).toList
     (for
-      pass <- range(0) to range(1)
-      passDigits = pass.digits
-      if passDigits
-        .foldRight(Nil: List[(Int, Int)]) { (digit, acc) =>
-          acc match
-            case (`digit`, cnt) :: tail => (digit, cnt + 1) :: tail
-            case _                      => (digit, 1) :: acc
-        }
-        .exists((_, cnt) => cnt == 2)
-      if passDigits.sliding(2, 1).forall(pair => pair.head <= pair.tail.head)
+      pass <- min to max
+      passDigits = pass.toString.map(_.asDigit)
+      if passDigits.sliding(3).exists(_.distinct.size == 2)
+      if passDigits.zip(passDigits.tail).forall((fst, snd) => fst <= snd)
     yield pass).size
 
   val input = "264360-746325"

@@ -1,6 +1,6 @@
 package aoc
 
-import scala.annotation.targetName
+import scala.annotation.{ tailrec, targetName }
 
 extension [A](as: List[A])
   def pairs: List[(A, A)] =
@@ -9,8 +9,6 @@ extension [A](as: List[A])
 extension (n: Long)
   def factorial: Long = (1L to n).product
 
-  def u: Long = n << 32 >>> 32
-
   def factors: Seq[Long] =
     (1L to math.sqrt(n.toDouble).toLong).flatMap: i =>
       if n % i == 0L then
@@ -18,6 +16,11 @@ extension (n: Long)
         if i != div then i :: div :: Nil
         else i :: Nil
       else Nil
+
+  @tailrec def gcd(b: Long): Long =
+    if b == 0 then n else b.gcd(n % b)
+
+  def u: Long = n << 1 >>> 1
 
 private val hexArray = "0123456789ABCDEF".toCharArray
 
@@ -34,10 +37,13 @@ final case class Coord(x: Long, y: Long):
   @targetName("plus") def +(other: Coord): Coord =
     Coord(x + other.x, y + other.y)
 
-  def manhattan(to: Coord): Long =
-    math.abs(to.x - x) + math.abs(to.y - y)
+  def distance(to: Coord): Double =
+    math.hypot((x - to.x).toDouble, (y - to.y).toDouble)
 
   def distance: Long = x.abs max y.abs max math.abs(x - y)
+
+  def manhattan(to: Coord): Long =
+    math.abs(to.x - x) + math.abs(to.y - y)
 
   def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
     directions.map(this + _.direction)
