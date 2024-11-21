@@ -62,7 +62,21 @@ extension (lines: Seq[String])
   def apply(coord: Coord): Char       = lines(coord.y.toInt).charAt(coord.x.toInt)
   def get(coord: Coord): Option[Char] = lines.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
 
-sealed trait HV
+sealed trait HV:
+  def left: Direction & HV =
+    this match
+      case Direction.Up    => Direction.Left
+      case Direction.Right => Direction.Up
+      case Direction.Down  => Direction.Right
+      case Direction.Left  => Direction.Down
+
+  def right: Direction & HV =
+    this match
+      case Direction.Up    => Direction.Right
+      case Direction.Right => Direction.Down
+      case Direction.Down  => Direction.Left
+      case Direction.Left  => Direction.Up
+
 enum Direction(val direction: Coord) extends Enum[Direction]:
   case Up        extends Direction(Coord(0L, 1L)) with HV
   case UpRight   extends Direction(Coord(1L, 1L))

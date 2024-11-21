@@ -46,11 +46,11 @@ object Day9:
       .collect { case ProgramState(_, _, _, _, Some(output)) => output }
 
   def solve(input: String): String =
-    val fill = Vector.fill(100000)(0L)
+    val fill = Vector.fill(1000)(0L)
     runProgram(input.split(",").map(_.toLong).toVector ++ fill, LazyList(1L)).mkString(",")
 
   def solve2(input: String): String =
-    val fill = Vector.fill(100000)(0L)
+    val fill = Vector.fill(1000)(0L)
     runProgram(input.split(",").map(_.toLong).toVector ++ fill, LazyList(2L)).mkString(",")
 
   val input =

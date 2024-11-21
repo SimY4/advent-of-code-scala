@@ -1,7 +1,7 @@
 package aoc
 package y2019
 
-def run(): Unit =
+@main def run(): Unit =
   println("y2019:")
   println("  day1:")
   println(s"    ├ solution #1: ${timed(Day1.solve(Day1.input))}")
@@ -34,8 +34,8 @@ def run(): Unit =
   println(s"    ├ solution #1: ${timed(Day10.solve(Day10.input))}")
   println(s"    └ solution #2: ${timed(Day10.solve2(Day10.input))}")
   println("  day11:")
-//  println(s"    ├ solution #1: ${timed(Day11.solve(Day11.input1))}")
-//  println(s"    └ solution #2: ${timed(Day11.solve2(Day11.input2))}")
+  println(s"    ├ solution #1: ${timed(Day11.solve(Day11.input))}")
+  println(s"    └ solution #2:"); Day11.solve2(Day11.input)
 //  println("  day12:")
 //  println(s"    ├ solution #1: ${timed(Day12.solve(Day12.input))}")
 //  println(s"    └ solution #2: ${timed(Day12.solve2(Day12.input))}")

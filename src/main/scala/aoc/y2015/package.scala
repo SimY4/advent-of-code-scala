@@ -1,7 +1,7 @@
 package aoc
 package y2015
 
-def run(): Unit =
+@main def run(): Unit =
   println("y2015:")
   println("  day1:")
   println(s"    ├ solution #1: ${timed(Day1.solve(Day1.input))}")

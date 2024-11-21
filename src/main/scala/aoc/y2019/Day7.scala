@@ -7,18 +7,18 @@ object Day7:
     val opCodes = input.split(",").map(_.toInt).toVector
     (0 to 4).permutations
       .map:
-        _.fold(0): (init, v) =>
+        _.foldLeft(0): (init, v) =>
           runProgram(opCodes, LazyList(v, init)).head
       .max
 
   def solve2(input: String): Int =
     val opCodes = input.split(",").map(_.toInt).toVector
     (for amplifier <- (5 to 9).permutations yield
-      def out1: LazyList[Int] = runProgram(opCodes, amplifier(0) #:: 0 #:: out5)
-      def out2: LazyList[Int] = runProgram(opCodes, amplifier(1) #:: out1)
-      def out3: LazyList[Int] = runProgram(opCodes, amplifier(2) #:: out2)
-      def out4: LazyList[Int] = runProgram(opCodes, amplifier(3) #:: out3)
-      def out5: LazyList[Int] = runProgram(opCodes, amplifier(4) #:: out4)
+      lazy val out1: LazyList[Int] = runProgram(opCodes, amplifier(0) #:: 0 #:: out5)
+      lazy val out2: LazyList[Int] = runProgram(opCodes, amplifier(1) #:: out1)
+      lazy val out3: LazyList[Int] = runProgram(opCodes, amplifier(2) #:: out2)
+      lazy val out4: LazyList[Int] = runProgram(opCodes, amplifier(3) #:: out3)
+      lazy val out5: LazyList[Int] = runProgram(opCodes, amplifier(4) #:: out4)
       out5.last
     ).max
 

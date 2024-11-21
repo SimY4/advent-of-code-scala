@@ -7,21 +7,6 @@ object Day22:
 
   private case class State(grid: Map[Coord, Mode], pos: Coord, dir: Direction & HV)
 
-  extension (d: Direction & HV)
-    private def left: Direction & HV =
-      d match
-        case Direction.Up    => Direction.Left
-        case Direction.Right => Direction.Up
-        case Direction.Down  => Direction.Right
-        case Direction.Left  => Direction.Down
-
-    private def right: Direction & HV =
-      d match
-        case Direction.Up    => Direction.Right
-        case Direction.Right => Direction.Down
-        case Direction.Down  => Direction.Left
-        case Direction.Left  => Direction.Up
-
   def solve(input: String, n: Int = 10000): Int =
     val center = input.linesIterator.size / 2
     val grid = (for
