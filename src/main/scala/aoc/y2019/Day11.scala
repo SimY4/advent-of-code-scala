@@ -9,10 +9,10 @@ object Day11:
   private def robot(outputs: LazyList[Long]): LazyList[ProgramState] =
     outputs.zipWithIndex
       .scanLeft(ProgramState(Map.empty[Coord, Long], Coord(0, 0), Direction.Down)):
-        case (state, (color, i)) if i % 2 == 0 =>
+        case (state, (color, i)) if (i & 1) == 0 =>
           state.copy(floor = state.floor.updated(state.pos, color))
         case (state, (turn, _)) =>
-          val newDir = if turn == 1 then state.dir.right else state.dir.left
+          val newDir = if turn == 1 then state.dir.left else state.dir.right
           val newPos = state.pos + newDir.direction
           state.copy(dir = newDir, pos = newPos)
 
@@ -24,7 +24,6 @@ object Day11:
       input.split(",").map(_.toLong).toVector ++ fill,
       0L #:: state
         .map: state =>
-          println(state.floor.size)
           state.floor.getOrElse(state.pos, 0L)
     )
     state.last.floor.size

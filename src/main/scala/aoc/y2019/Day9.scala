@@ -13,8 +13,8 @@ object Day9:
     LazyList
       .iterate(ProgramState(0, opCodes, 0, inputs, None)):
         case state @ ProgramState(pointer, opCodes, relativeBase, inputs, _) =>
-          val instruction = opCodes(pointer)
           val (op, param1, param2, param3) =
+            val instruction = opCodes(pointer)
             (instruction % 100, instruction / 100 % 10, instruction / 1000 % 10, instruction / 10000 % 10)
 
           def getPointer(param: Long, i: Int): Int =
