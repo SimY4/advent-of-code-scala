@@ -16,7 +16,7 @@ object Day2:
         "\\d+".r.findAllIn(line).map(_.toInt).toList
       .count: report =>
         (report +: report.indices.map(report.patch(_, Nil, 1)))
-          .exists: report => 
+          .exists: report =>
             val diffs = report.zip(report.tail).map(_ - _)
             (diffs.forall(_ < 0) || diffs.forall(0 < _)) && diffs.forall: diff =>
               0 < diff.abs && diff.abs <= 3
