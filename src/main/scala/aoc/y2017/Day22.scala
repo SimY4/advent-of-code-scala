@@ -5,7 +5,7 @@ object Day22:
   private enum Mode extends Enum[Mode]:
     case Weakened, Infected, Flagged
 
-  private case class State(grid: Map[Coord, Mode], pos: Coord, dir: Direction & HV)
+  private case class State(grid: Map[Coord, Mode], pos: Coord, dir: Direction)
 
   def solve(input: String, n: Int = 10000): Int =
     val center = input.linesIterator.size / 2
@@ -38,9 +38,9 @@ object Day22:
 
     LazyList
       .unfold(State(grid, Coord(0L, 0L), Direction.Down)) { case State(grid, pos, dir) =>
-        val infected = grid.get(pos).exists(_ == Mode.Weakened)
+        val infected = grid.get(pos).contains(Mode.Weakened)
         val nextDir = grid.get(pos) match
-          case Some(Mode.Flagged)  => dir.oposite.asInstanceOf[Direction & HV]
+          case Some(Mode.Flagged)  => dir.oposite
           case Some(Mode.Infected) => dir.left
           case Some(Mode.Weakened) => dir
           case None                => dir.right

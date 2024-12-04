@@ -5,14 +5,13 @@ object Day3:
     "mul\\((\\d+),(\\d+)\\)".r.findAllMatchIn(input).map(m => m.group(1).toInt * m.group(2).toInt).sum
 
   def solve2(input: String): Int =
-    "(do)\\(\\)|(don't)\\(\\)|mul\\((\\d+),(\\d+)\\)".r
+    "do\\(\\)|don't\\(\\)|mul\\((\\d+),(\\d+)\\)".r
       .findAllMatchIn(input)
       .foldLeft(0 -> true):
-        case ((acc, _), m) if m.group(1) != null => acc -> true
-        case ((acc, _), m) if m.group(2) != null => acc -> false
-        case ((acc, true), m) if m.group(3) != null && m.group(4) != null =>
-          acc + m.group(3).toInt * m.group(4).toInt -> true
-        case ((acc, f), _) => acc -> f
+        case ((acc, _), m) if m.group(0) == "do()"    => acc                                       -> true
+        case ((acc, _), m) if m.group(0) == "don't()" => acc                                       -> false
+        case ((acc, true), m)                         => acc + m.group(1).toInt * m.group(2).toInt -> true
+        case (acc, _)                                 => acc
       (0)
 
   val input =
