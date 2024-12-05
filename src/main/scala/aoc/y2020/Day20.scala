@@ -3,7 +3,7 @@ package aoc.y2020
 object Day20:
   final private case class Tile(id: Int, tile: Array[Array[Char]]):
     def borders: List[Array[Char]] =
-      List(tile.head, tile.map(_.last).toArray, tile.last.reverse, tile.reverse.map(_.head).toArray)
+      List(tile.head, tile.map(_.last), tile.last.reverse, tile.reverse.map(_.head))
     def borderless: Tile =
       Tile(id, tile.tail.init.map(_.tail.init))
 
@@ -47,7 +47,7 @@ object Day20:
 
     ???
 
-  val input = """TTile 3923:
+  val input = """Tile 3923:
                 |...##.....
                 |.##.#..#.#
                 |###....#..

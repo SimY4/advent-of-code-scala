@@ -19,8 +19,7 @@ object Day7:
           .collect:
             case (step, set) if set.isEmpty => step
           .toList
-          .sorted
-          .head
+          .min
         val newReqs =
           for (k, set) <- reqs
           yield k -> (set - step)

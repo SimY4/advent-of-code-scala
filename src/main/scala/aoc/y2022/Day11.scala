@@ -6,7 +6,7 @@ object Day11:
   final private case class Test(divisibleBy: Long, ifTrue: String, ifFalse: String):
     def apply(item: Long): String = if item % divisibleBy == 0 then ifTrue else ifFalse
 
-  final private case class Monkey(id: String, items: List[Long], ops: (Long) => Long, test: Test):
+  final private case class Monkey(id: String, items: List[Long], ops: Long => Long, test: Test):
     override def toString = items.mkString(", ")
 
   private def parse(input: String): Monkey =

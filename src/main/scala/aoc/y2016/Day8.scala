@@ -24,12 +24,12 @@ object Day8:
       case (grid, RotateRow(y, shift)) =>
         val row    = grid(y)
         val newRow = Array.ofDim[Boolean](row.length)
-        for i <- 0 until row.length do newRow((i + shift) % newRow.length) = row(i)
+        for i <- row.indices do newRow((i + shift) % newRow.length) = row(i)
         grid(y) = newRow
         grid
       case (grid, RotateCol(x, shift)) =>
-        val col = for i <- 0 until grid.length yield grid(i)(x)
-        for i <- 0 until grid.length do grid((i + shift) % grid.length)(x) = col(i)
+        val col = for i <- grid.indices yield grid(i)(x)
+        for i <- grid.indices do grid((i + shift) % grid.length)(x) = col(i)
         grid
 
   def solve(input: String): Int = decode(input).map(_.count(identity)).sum

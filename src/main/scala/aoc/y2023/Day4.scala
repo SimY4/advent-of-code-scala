@@ -30,8 +30,7 @@ object Day4:
           case Some(n) => Some(n + 1)
           case None    => Some(1)
         cards
-          .drop(card.id)
-          .take(win)
+          .slice(card.id, card.id + win)
           .foldLeft(next): (acc, c) =>
             acc.updatedWith(c.id):
               case Some(n) => Some(n + acc(card.id))

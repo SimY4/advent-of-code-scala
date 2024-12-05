@@ -27,7 +27,7 @@ object Day18:
       .map(_.toArray.map(_ == '#'))
       .toArray
 
-    val alwaysOn = Set((0, 0), (0, grid.size - 1), (grid.size - 1, 0), (grid.size - 1, grid.size - 1))
+    val alwaysOn = Set((0, 0), (0, grid.length - 1), (grid.length - 1, 0), (grid.length - 1, grid.length - 1))
     for (i, j) <- alwaysOn do grid(i)(j) = true
 
     LazyList

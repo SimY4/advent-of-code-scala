@@ -11,7 +11,7 @@ object Day16:
           case '0' => '1'
           case '1' => '0'
         a + "0" + b
-      .dropWhile(_.size < length)
+      .dropWhile(_.length < length)
       .map(_.substring(0, length))
       .map: data =>
         @tailrec def checksum(d: String): String =

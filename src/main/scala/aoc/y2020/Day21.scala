@@ -40,7 +40,7 @@ object Day21:
     immutable.SortedMap
       .from(simplify(food.flatMap((ing, all) => all.map(_ -> ing.toSet)).groupMapReduce(_(0))(_(1))(_ intersect _)))
       .values
-      .flatMap(identity)
+      .flatten
       .mkString(",")
 
   val input =

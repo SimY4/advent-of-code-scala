@@ -17,7 +17,7 @@ object Day19:
     input.split(System.lineSeparator * 2).toList match
       case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
-          .map(ruleParser.run(_))
+          .map(ruleParser.run)
           .map(r => r.id -> r)
           .toMap
 
@@ -48,7 +48,7 @@ object Day19:
     input.split(System.lineSeparator * 2).toList match
       case rules :: inputs :: Nil =>
         val rulesMap = rules.linesIterator
-          .map(ruleParser.run(_))
+          .map(ruleParser.run)
           .map(r => r.id -> r)
           .toMap
           .updated(8, Rule(8, List(Cons(List(42)), Cons(List(42, 8)))))

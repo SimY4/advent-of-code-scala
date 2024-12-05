@@ -56,7 +56,7 @@ object Day12:
           case ('a', j)
               if Coord(j, i)
                 .neighbours(Direction.hvOnly)
-                .exists(coord => grid.get(coord).exists('b' == _)) =>
+                .exists(coord => grid.get(coord).contains('b')) =>
             Coord(j, i)
         }
       )

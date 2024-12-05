@@ -38,7 +38,7 @@ object Day10:
       .insert(80, '\n')
       .insert(40, '\n')
       .insert(0, '\n')
-      .toString()
+      .toString
 
   val input = """noop
                 |noop

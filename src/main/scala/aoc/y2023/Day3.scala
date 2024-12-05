@@ -8,7 +8,7 @@ object Day3:
       coordSym <- line.zipWithIndex.foldRight(Nil: List[(Coord, String Either String)]):
         case (('.', _), acc) => acc
         case ((d, x), (Coord(ax, _), Right(ds)) :: acc) if d.isDigit && x + 1 == ax =>
-          (Coord(x, y), Right(d.toString() + ds)) :: acc
+          (Coord(x, y), Right(d.toString + ds)) :: acc
         case ((d, x), acc) if d.isDigit => (Coord(x, y), Right(d.toString)) :: acc
         case ((s, x), acc)              => (Coord(x, y), Left(s.toString)) :: acc
     yield coordSym).toMap

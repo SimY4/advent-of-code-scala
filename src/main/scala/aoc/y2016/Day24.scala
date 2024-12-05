@@ -37,13 +37,13 @@ object Day24:
     val maze = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
-      ch = poi.toString().head
+      ch = poi.toString.head
       coord    <- maze.find(ch).toList
       (pos, d) <- maze.shortestFrom(coord)
     yield ch -> maze(pos) -> d).toMap
 
     def search(
-      toVisit: List[Char] = (1 to pois).map(_.toString().head).toList,
+      toVisit: List[Char] = (1 to pois).map(_.toString.head).toList,
       current: Char = '0',
       dist: Int = 0
     ): List[Int] =
@@ -61,13 +61,13 @@ object Day24:
     val maze = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
-      ch = poi.toString().head
+      ch = poi.toString.head
       coord    <- maze.find(ch).toList
       (pos, d) <- maze.shortestFrom(coord)
     yield ch -> maze(pos) -> d).toMap
 
     def search(
-      toVisit: List[Char] = (1 to pois).map(_.toString().head).toList,
+      toVisit: List[Char] = (1 to pois).map(_.toString.head).toList,
       current: Char = '0',
       dist: Int = 0
     ): List[(Int, Char)] =

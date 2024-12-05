@@ -25,11 +25,11 @@ object Day21:
       .foldLeft("abcdefgh"):
         case (pwd, SwapPos(x, y))       => pwd.updated(y, pwd(x)).updated(x, pwd(y))
         case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(y), x).updated(pwd.indexOf(x), y)
-        case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
-        case (pwd, RotatePos(true, x))  => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
+        case (pwd, RotatePos(false, x)) => pwd.indices.map(i => pwd((i + x) % pwd.length)).mkString
+        case (pwd, RotatePos(true, x))  => pwd.indices.map(i => pwd.reverse((i + x) % pwd.length)).mkString.reverse
         case (pwd, RotateLetter(x)) =>
           val times = 1 + pwd.indexOf(x) + (if pwd.indexOf(x) >= 4 then 1 else 0)
-          (0 until pwd.size).map(i => pwd.reverse((i + times) % pwd.size)).mkString.reverse
+          pwd.indices.map(i => pwd.reverse((i + times) % pwd.length)).mkString.reverse
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y))    => pwd.patch(x, Nil, 1).patch(y, Seq(pwd(x)), 0)
 
@@ -41,8 +41,8 @@ object Day21:
       .foldLeft("fbgdceah"):
         case (pwd, SwapPos(x, y))       => pwd.updated(x, pwd(y)).updated(y, pwd(x))
         case (pwd, SwapLetter(x, y))    => pwd.updated(pwd.indexOf(x), y).updated(pwd.indexOf(y), x)
-        case (pwd, RotatePos(false, x)) => (0 until pwd.size).map(i => pwd.reverse((i + x) % pwd.size)).mkString.reverse
-        case (pwd, RotatePos(true, x))  => (0 until pwd.size).map(i => pwd((i + x) % pwd.size)).mkString
+        case (pwd, RotatePos(false, x)) => pwd.indices.map(i => pwd.reverse((i + x) % pwd.length)).mkString.reverse
+        case (pwd, RotatePos(true, x))  => pwd.indices.map(i => pwd((i + x) % pwd.length)).mkString
         case (pwd, RotateLetter(x)) =>
           val i = pwd.indexOf(x)
           val times = i match
@@ -53,7 +53,7 @@ object Day21:
             case 5     => 3
             case 6     => 0
             case 7     => 4
-          (0 until pwd.size).map(i => pwd((i + times) % pwd.size)).mkString
+          pwd.indices.map(i => pwd((i + times) % pwd.length)).mkString
         case (pwd, Reverse(x, y)) => pwd.patch(x, pwd.substring(x, y + 1).reverse, y - x + 1)
         case (pwd, Move(x, y))    => pwd.patch(y, Nil, 1).patch(x, Seq(pwd(y)), 0)
 

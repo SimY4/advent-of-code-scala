@@ -21,7 +21,7 @@ object Day10:
     val arr = Array(1L, 0L, 0L, 0L)
     adapters.foldLeft(0): (acc, ad) =>
       val d = ad - acc
-      System.arraycopy(arr, 0, arr, d, arr.size - d)
+      System.arraycopy(arr, 0, arr, d, arr.length - d)
       (0 until d).foreach(arr(_) = 0)
       arr(0) = arr.sum
       ad

@@ -26,7 +26,7 @@ object Day16:
       case rules :: ticket :: nearbyTickets :: Nil =>
         val parsedRules = rules.linesIterator.map(parseRule).toSet
         val parsedTicket = ticket
-          .substring(ticket.indexOf(System.lineSeparator) + System.lineSeparator.size)
+          .substring(ticket.indexOf(System.lineSeparator) + System.lineSeparator.length)
           .split(',')
           .map(_.toInt)
           .toVector
@@ -35,7 +35,7 @@ object Day16:
           .map(_.split(',').map(_.toInt).toVector)
           .filter(_.forall(v => parsedRules.flatMap(_.ranges).exists(range => range.start <= v && v <= range.end)))
           .toList
-        val matchingFields = (0 until parsedTicket.size).foldLeft(Map.empty[Int, Set[Rule]]): (acc, i) =>
+        val matchingFields = parsedTicket.indices.foldLeft(Map.empty[Int, Set[Rule]]): (acc, i) =>
           acc + (i -> (parsedTicket :: parsedNearbyTickets).foldLeft(parsedRules): (acc, ticket) =>
             acc.filter(_.ranges.exists(range => range.start <= ticket(i) && ticket(i) <= range.end)))
 

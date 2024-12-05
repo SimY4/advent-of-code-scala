@@ -25,20 +25,21 @@ object Day9:
         .neighbours(Direction.hvOnly)
         .flatMap(grid.get)
         .forall(_ > v)
-    yield point).map { case point =>
-      val visited = mutable.HashSet.empty[Coord]
-      def loop(c: Coord): Int =
-        1 + (for
-          neighbour <- c.neighbours(Direction.hvOnly)
-          if !visited.contains(neighbour)
-          nv <- grid.lift(neighbour.x.toInt).flatMap(_.lift(neighbour.y.toInt))
-          if 9 > nv && nv > grid(c.x.toInt)(c.y.toInt)
-        yield
-          visited.add(neighbour)
-          loop(neighbour)
-        ).sum
-      loop(point)
-    }.sorted
+    yield point)
+      .map: point =>
+        val visited = mutable.HashSet.empty[Coord]
+        def loop(c: Coord): Int =
+          1 + (for
+            neighbour <- c.neighbours(Direction.hvOnly)
+            if !visited.contains(neighbour)
+            nv <- grid.lift(neighbour.x.toInt).flatMap(_.lift(neighbour.y.toInt))
+            if 9 > nv && nv > grid(c.x.toInt)(c.y.toInt)
+          yield
+            visited.add(neighbour)
+            loop(neighbour)
+          ).sum
+        loop(point)
+      .sorted
       .takeRight(3)
       .product
 

@@ -2,7 +2,7 @@ package aoc
 package y2022
 
 object Day17:
-  val rocks: Vector[Set[Coord]] = Vector(
+  private val rocks: Vector[Set[Coord]] = Vector(
     Set(Coord(0, 0), Coord(1, 0), Coord(2, 0), Coord(3, 0)),
     Set(Coord(1, 0), Coord(0, -1), Coord(1, -1), Coord(2, -1), Coord(1, -2)),
     Set(Coord(2, 0), Coord(2, -1), Coord(0, -2), Coord(1, -2), Coord(2, -2)),

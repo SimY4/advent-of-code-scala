@@ -14,7 +14,7 @@ object Day9:
       val nTimes   = ins.substring(idx + 1).toInt
       val sample   = input.substring(end + 1, end + nChar + 1)
       val newInput = input.replace(start, end + nChar + 1, sample * nTimes)
-      decompress(newInput, start + sample.size * nTimes)
+      decompress(newInput, start + sample.length * nTimes)
 
   @tailrec private def decompressV2(input: StringBuilder, count: Long = 0): Long =
     val start = input.indexOf('(')
@@ -29,7 +29,7 @@ object Day9:
       val newInput = input.replace(0, end + nChar + 1, sample * nTimes)
       decompressV2(newInput, count + start.toLong)
 
-  def solve(input: String): Int = decompress(StringBuilder(input)).size
+  def solve(input: String): Int = decompress(StringBuilder(input)).length
 
   def solve2(input: String): Long = decompressV2(StringBuilder(input))
 

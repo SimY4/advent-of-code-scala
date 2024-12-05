@@ -10,19 +10,9 @@ object Day11:
     @tailrec def loop(layout: Array[Array[Char]]): Int =
       val newLayout = layout.zipWithIndex.map: (col, y) =>
         col.zipWithIndex.map:
-          case ('L', x)
-              if !Coord(x, y)
-                .neighbours()
-                .flatMap(layout.get)
-                .exists(_ == '#') =>
-            '#'
-          case ('#', x)
-              if 4 <= Coord(x, y)
-                .neighbours()
-                .flatMap(layout.get)
-                .count(_ == '#') =>
-            'L'
-          case (c, _) => c
+          case ('L', x) if !Coord(x, y).neighbours().flatMap(layout.get).contains('#')       => '#'
+          case ('#', x) if 4 <= Coord(x, y).neighbours().flatMap(layout.get).count(_ == '#') => 'L'
+          case (c, _)                                                                        => c
       if layout.toSeq.zip(newLayout.toSeq).forall((col, newCol) => col.sameElements(newCol)) then
         newLayout.map(_.count(_ == '#')).sum
       else loop(newLayout)
@@ -41,7 +31,7 @@ object Day11:
                   .iterate(Coord(x, y))(_ + d.direction)
                   .map(layout.get)
                   .drop(1)
-                  .takeWhile(_.filter(_ != 'L').isDefined)
+                  .takeWhile(_.exists(_ != 'L'))
                   .exists(_.exists(_ == '#'))
               ) =>
             '#'
@@ -51,7 +41,7 @@ object Day11:
                   .iterate(Coord(x, y))(_ + d.direction)
                   .map(layout.get)
                   .drop(1)
-                  .takeWhile(_.filter(_ != 'L').isDefined)
+                  .takeWhile(_.exists(_ != 'L'))
                   .exists(_.exists(_ == '#'))
               ) =>
             'L'

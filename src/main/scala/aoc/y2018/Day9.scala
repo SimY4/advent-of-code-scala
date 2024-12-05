@@ -33,7 +33,7 @@ object Day9:
         val newRing = (1 to 7).foldLeft(ring)((r, _) => r.prev)
         val removed = newRing.value
         val player  = marble % players
-        loop(marble + 1, newRing.remove, scores.updated(player, (scores.getOrElse(player, 0L) + marble + removed)))
+        loop(marble + 1, newRing.remove, scores.updated(player, scores.getOrElse(player, 0L) + marble + removed))
       else loop(marble + 1, ring.next + marble, scores)
 
     loop()

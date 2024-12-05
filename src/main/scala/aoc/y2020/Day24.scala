@@ -46,7 +46,7 @@ object Day24:
           .filter((_, v) => v)
           .flatMap((tile, v) => (tile -> v) :: tile.neighbours().map(n => n -> acc.getOrElse(n, false)))
           .map: (tile, v) =>
-            val blacks = tile.neighbours().map(acc.getOrElse(_, false)).filter(identity).size
+            val blacks = tile.neighbours().map(acc.getOrElse(_, false)).count(identity)
             (
               tile,
               if v then !(0 == blacks || blacks > 2)

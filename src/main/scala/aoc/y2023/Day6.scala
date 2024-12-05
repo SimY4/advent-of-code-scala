@@ -7,7 +7,7 @@ object Day6:
 
   def solve2(input: List[(Int, Int)]): Int =
     val (time, distance) = input.foldRight(("", "")):
-      case ((t, d), (at, ad)) => (t.toString + at, d.toString() + ad)
+      case ((t, d), (at, ad)) => (t.toString + at, d.toString + ad)
 
     (0 until time.toInt).count(t => t * (time.toInt - t) > distance.toInt)
 

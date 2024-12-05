@@ -42,13 +42,13 @@ object Day18:
   def solve(input: String): Long =
     input.linesIterator
       .map(_.reverse)
-      .map(Expr.parser1.run(_))
+      .map(Expr.parser1.run)
       .map(eval)
       .sum
 
   def solve2(input: String): Long =
     input.linesIterator
-      .map(Expr.parser2.run(_))
+      .map(Expr.parser2.run)
       .map(eval)
       .sum
 

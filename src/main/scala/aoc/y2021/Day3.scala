@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 
 object Day3:
   def solve(input: String): Int =
-    val (r, e) = (0 until input.linesIterator.next.size)
+    val (r, e) = (0 until input.linesIterator.next.length)
       .foldLeft(0 -> 0) { case ((r, e), i) =>
         val (n, _) = input.linesIterator
           .map(_.reverse.charAt(i))
@@ -21,7 +21,7 @@ object Day3:
 
   def solve2(input: String): Int =
     @tailrec def loop(lines: List[String], i: Int = 0, num: List[Int] = Nil)(using Ordering[(Char, List[Char])]): Int =
-      if lines.isEmpty || lines.head.size <= i then num.zipWithIndex.map(_ << _).reduce(_ | _)
+      if lines.isEmpty || lines.head.length <= i then num.zipWithIndex.map(_ << _).reduce(_ | _)
       else
         val (n, _) = lines
           .map(_.charAt(i))

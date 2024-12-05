@@ -19,4 +19,4 @@ object Day15:
       .collect { case (a, b) if (a & 0xffff) == (b & 0xffff) => 1 }
       .sum
 
-  val input = (722L -> 354L)
+  val input = 722L -> 354L

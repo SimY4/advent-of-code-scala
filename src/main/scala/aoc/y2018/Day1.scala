@@ -15,7 +15,7 @@ object Day1:
       .scanLeft(NotFound(0, Set.empty)):
         case (state @ Found(_), _) => state
         case (NotFound(acc, set), cal) =>
-          val nextCal = acc + cal.toInt
+          val nextCal = acc + cal
           if set contains nextCal then Found(nextCal) else NotFound(nextCal, set + nextCal)
       .collectFirst { case Found(st) => st }
 

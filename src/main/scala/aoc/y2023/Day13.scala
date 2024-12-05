@@ -8,7 +8,7 @@ object Day13:
           val (up, down) = mirror.splitAt(y)
           down.zip(up.reverse).forall(_ == _)
         .map(100 * _),
-      (1 until mirror.head.size)
+      (1 until mirror.head.length)
         .filter: x =>
           mirror.forall: row =>
             val (left, right) = row.splitAt(x)

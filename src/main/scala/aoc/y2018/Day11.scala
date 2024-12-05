@@ -26,7 +26,7 @@ object Day11:
 
   def solve2(grid: Int): (Coord, Long) =
     val max = (for
-      size <- (1L to 300L).toSeq.par
+      size <- (1L to 300L).par
       (power, cell) = solve(grid, size)
     yield (power, cell, size))
       .maxBy(_._1)

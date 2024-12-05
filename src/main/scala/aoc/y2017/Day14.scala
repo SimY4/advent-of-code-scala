@@ -13,7 +13,7 @@ object Day14:
     val matrix = (for
       i <- 0 to 127
       hash = knotHash(s"$input-$i", _.toBinaryString.reverse.padTo(8, '0').reverse)
-    yield hash.toCharArray()).toArray
+    yield hash.toCharArray).toArray
 
     def remove(i: Int, j: Int): Int =
       if i >= 0 && j >= 0 && i < 128 && j < 128 && matrix(i)(j) == '1' then

@@ -11,4 +11,4 @@ trait Input(year: Int, day: Int):
     Using.resource(connection.getInputStream)(scala.io.Source.fromInputStream(_).mkString)
 
 object Input:
-  val SESSION: String = System.getProperty("aoc.session", "SESSION")
+  private val SESSION: String = System.getProperty("aoc.session", "SESSION")

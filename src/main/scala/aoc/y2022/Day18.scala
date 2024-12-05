@@ -1,6 +1,6 @@
 package aoc.y2022
 
-import scala.collection.mutable.{ HashMap, Stack }
+import scala.collection.mutable
 
 object Day18:
   private def area(input: List[(Int, Int, Int)]): Int =
@@ -35,9 +35,9 @@ object Day18:
       z <- minZ to maxZ
       coord = (x, y, z)
       if !cubes.contains(coord)
-    yield coord -> false).to(HashMap)
+    yield coord -> false).to(mutable.HashMap)
 
-    val stack = Stack.empty[(Int, Int, Int)]
+    val stack = mutable.Stack.empty[(Int, Int, Int)]
     stack.addOne((minX, minY, minZ))
 
     while stack.nonEmpty do

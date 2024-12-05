@@ -6,7 +6,7 @@ object Day6:
       .sliding(distinct, 1)
       .zipWithIndex
       .collectFirst:
-        case (s, i) if s.distinct.size == s.size => i + s.size
+        case (s, i) if s.distinct.length == s.length => i + s.length
 
   def solve2(input: String): Option[Int] = solve(input, 14)
 

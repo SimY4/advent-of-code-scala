@@ -8,24 +8,23 @@ object Day14:
   private given Ordering[Coord] = Ordering.by(_.y)
 
   private def parse(input: String): Map[Long, SortedSet[Coord]] =
-    input.linesIterator.foldLeft(Map.empty[Long, SortedSet[Coord]]) { (acc, line) =>
+    input.linesIterator.foldLeft(Map.empty[Long, SortedSet[Coord]]): (acc, line) =>
       line
         .split(" -> ")
         .toList
-        .map { case s"$x,$y" => Coord(x.toLong, y.toLong) }
+        .map:
+          case s"$x,$y" => Coord(x.toLong, y.toLong)
         .sliding(2)
-        .flatMap { case Coord(x1, y1) :: Coord(x2, y2) :: Nil =>
-          (for
-            x <- x1 to x2 by (if x2 < x1 then -1 else 1)
-            y <- y1 to y2 by (if y2 < y1 then -1 else 1)
-          yield Coord(x, y))
-        }
-        .foldLeft(acc) { (acc, coord) =>
+        .flatMap:
+          case Coord(x1, y1) :: Coord(x2, y2) :: Nil =>
+            for
+              x <- x1 to x2 by (if x2 < x1 then -1 else 1)
+              y <- y1 to y2 by (if y2 < y1 then -1 else 1)
+            yield Coord(x, y)
+        .foldLeft(acc): (acc, coord) =>
           acc.updatedWith(coord.x):
             case Some(coords) => Some(coords + coord)
             case None         => Some(SortedSet(coord))
-        }
-    }
 
   def solve(input: String): Int =
     val start = Coord(500L, 0L)

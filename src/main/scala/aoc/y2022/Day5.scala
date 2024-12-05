@@ -17,8 +17,7 @@ object Day5:
             .zipWithIndex
             .foldLeft(acc):
               case (acc, (s"[$s]", i)) => acc.updated(i, s :: acc(i))
-              case (acc, _)            => acc
-        .toList,
+              case (acc, _)            => acc,
       input
         .substring(input.indexOf("\n\n") + 2)
         .linesIterator

@@ -10,7 +10,7 @@ object Day5:
       Option.when(s < e):
         Range(s, e) -> Range(dst + s - src.start, dst + e - src.start)
 
-    override def toString(): String = s"[$start-$end)"
+    override def toString: String = s"[$start-$end)"
 
   private final case class Map(source: String, dest: String, ranges: Vector[(Range, Long)])
 

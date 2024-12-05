@@ -22,7 +22,7 @@ object Day2:
       line <- input.linesIterator
       (Policy(low, high, char), pwd) = parse(line)
       pwdFunc                        = pwd.toList.lift
-      if pwdFunc(low - 1).exists(_ == char) ^ pwdFunc(high - 1).exists(_ == char)
+      if pwdFunc(low - 1).contains(char) ^ pwdFunc(high - 1).contains(char)
     yield pwd).size
 
   val input = """6-7 w: wwhmzwtwwk
