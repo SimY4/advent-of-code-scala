@@ -18,7 +18,7 @@ object Day5:
       .map(numbers => numbers(numbers.size / 2).toInt)
       .sum
 
-  def solve2(input: String): Any =
+  def solve2(input: String): Int =
     val fst :: snd :: Nil = input.split(System.lineSeparator * 2, 2).toList
     val rules = fst.linesIterator
       .map:
@@ -29,8 +29,9 @@ object Day5:
       .map(line => "\\d+".r.findAllIn(line).toList)
       .filterNot: numbers =>
         numbers.indices.forall: i =>
+          val rule = rules.getOrElse(numbers(i), Vector.empty)
           ((i + 1) until numbers.size).forall: j =>
-            rules.getOrElse(numbers(i), Vector.empty).contains(numbers(j))
+            rule.contains(numbers(j))
       .map: numbers =>
         numbers.sortBy: number =>
           -rules.getOrElse(number, Vector.empty).count(numbers.contains)
