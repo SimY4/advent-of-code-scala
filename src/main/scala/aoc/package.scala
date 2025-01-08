@@ -40,10 +40,10 @@ final case class Coord(x: Long, y: Long):
   def distance(to: Coord): Double =
     math.hypot((x - to.x).toDouble, (y - to.y).toDouble)
 
-  def distance: Long = x.abs max y.abs max math.abs(x - y)
+  def distance: Long = x.abs max y.abs max (x - y).abs
 
   def manhattan(to: Coord): Long =
-    math.abs(to.x - x) + math.abs(to.y - y)
+    (to.x - x).abs + (to.y - y).abs
 
   def neighbours(directions: List[Direction] = Direction.values.toList): List[Coord] =
     directions.map(this + _.direction)
