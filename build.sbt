@@ -23,7 +23,8 @@ lazy val root = project
       "-feature",
       "-unchecked",
       "-deprecation",
-      "-source:future-migration"
+      "-source:future-migration",
+      "-language:experimental.betterFors"
     )
   )
 

@@ -17,58 +17,31 @@ object Day6:
     yield Coord(x, y)).next
     (field, guard)
 
-  def solve(input: String): Int =
-    val (field, guard) = parseField(input)
+  private def path(guard: Coord, direction: Direction, field: Set[Coord]): Iterator[(Coord, Direction)] =
     Iterator
-      .iterate(guard -> (Direction.Down: Direction)): (guard, direction) =>
+      .iterate(guard -> direction): (guard, direction) =>
         val newGuard = guard + direction.direction
         if field(newGuard) then guard -> direction.left
         else newGuard                 -> direction
-      .map(_(0))
-      .takeWhile: guard =>
-        guard.x >= 0 && guard.y >= 0 && guard.x <= field.map(_.x).max && guard.y <= field.map(_.y).max
-      .toSet
-      .size
-
-  def solve2(input: String): Any =
-    val (field, guard) = parseField(input)
-    val cache          = mutable.Set.empty[(Coord, Direction)]
-    Iterator
-      .iterate(guard -> (Direction.Down: Direction)): (guard, direction) =>
-        cache.add(guard -> direction)
-        val newGuard = guard + direction.direction
-        if field(newGuard) then guard -> direction.left
-        else newGuard -> direction
       .takeWhile: (guard, _) =>
         guard.x >= 0 && guard.y >= 0 && guard.x <= field.map(_.x).max && guard.y <= field.map(_.y).max
-      .filter: (guardPos, direction) =>
-        Iterator
-          .iterate(guardPos -> direction.left): (guard, direction) =>
-            val newGuard = guard + direction.direction
-            if field(newGuard) || newGuard == guardPos then guard -> direction.left
-            else newGuard                                         -> direction
-          .takeWhile: (guard, _) =>
-            guard.x >= 0 && guard.y >= 0 && guard.x <= field.map(_.x).max && guard.y <= field.map(_.y).max
-          .take(500)
-          .exists((guard, direction) => cache(guard -> direction))
-      .distinctBy(_(0))
-      .size
 
-  // 1846
-  // 1849
-  // 1907
-  // 1911
+  def solve(input: String): Int =
+    val (field, guard) = parseField(input)
+    path(guard, Direction.Down, field).distinctBy(_(0)).size
 
-  val sample = """....#.....
-                 |.........#
-                 |..........
-                 |..#.......
-                 |.......#..
-                 |..........
-                 |.#..^.....
-                 |........#.
-                 |#.........
-                 |......#...""".stripMargin
+  def solve2(input: String): Int =
+    val (field, guard) = parseField(input)
+    val cache          = mutable.Set.empty[(Coord, Direction)]
+
+    (for
+      (guardPos, direction) <- path(guard, Direction.Down, field)
+      _        = cache.add(guardPos -> direction)
+      obstacle = guardPos + direction.direction
+      if obstacle != guard && !field(obstacle) && !cache.exists((guard, _) => guard == obstacle)
+      cache2 = mutable.Set.from(cache)
+      if path(guardPos, direction.left, field + obstacle).exists((guard, direction) => !cache2.add(guard -> direction))
+    yield obstacle).size
 
   val input =
     """......#........#.............#.##..........................................#.......#...#........#......................#..........
