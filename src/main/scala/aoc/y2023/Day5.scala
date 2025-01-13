@@ -50,7 +50,7 @@ object Day5:
   def solve2(input: String): Long =
     val (pairs, maps) = parse(input)
     val seeds = pairs
-      .sliding(2, 2)
+      .grouped(2)
       .map:
         case start :: len :: Nil => Range(start, start + len)
       .toSet

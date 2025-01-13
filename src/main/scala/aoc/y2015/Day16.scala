@@ -34,7 +34,7 @@ object Day16:
       .split(" ")
       .toList
       .drop(2)
-      .sliding(2, 2)
+      .grouped(2)
       .foldLeft(AuntSue()): (sue, pair) =>
         pair match
           case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)

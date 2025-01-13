@@ -10,7 +10,7 @@ object Day3:
 
   def solve2(input: String): Int =
     (for
-      lines3 <- input.linesIterator.sliding(3, 3)
+      lines3 <- input.linesIterator.grouped(3)
       case f :: s :: t :: _ <-
         val triplet = lines3.map(line => "\\d+".r.findAllIn(line).map(_.toInt).toList).toList
         List(

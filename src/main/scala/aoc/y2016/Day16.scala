@@ -16,9 +16,9 @@ object Day16:
       .map: data =>
         @tailrec def checksum(d: String): String =
           val cs = d
-            .sliding(2, 2)
+            .grouped(2)
             .map: pair =>
-              if pair(0) == pair(1) then '1'
+              if pair.charAt(0) == pair.charAt(1) then '1'
               else '0'
             .mkString
           if (cs.length & 1) == 0 then checksum(cs)

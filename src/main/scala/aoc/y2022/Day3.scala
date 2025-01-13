@@ -14,7 +14,7 @@ object Day3:
 
   def solve2(input: String): Int =
     (for
-      group      <- input.linesIterator.sliding(3, 3)
+      group      <- input.linesIterator.grouped(3)
       groupBadge <- group.map(_.toSet).reduce(_ intersect _)
     yield priority(groupBadge)).sum
 

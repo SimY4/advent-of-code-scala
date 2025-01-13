@@ -20,7 +20,7 @@ object Day22:
 
   def solve2(input: String, dim: Coord = Coord(36, 25)): Int =
     val nodes       = input.linesIterator.drop(2).map(parseLine).toList
-    val grid        = nodes.sliding(dim.y.toInt, dim.y.toInt).map(_.toArray).toArray.transpose
+    val grid        = nodes.grouped(dim.y.toInt).map(_.toArray).toArray.transpose
     val destination = grid(0)(0)
     val target      = grid(0)(dim.x.toInt - 1)
     val empty       = grid.flatMap(_.find(_.used == 0L)).head

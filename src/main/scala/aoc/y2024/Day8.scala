@@ -4,13 +4,11 @@ package y2024
 object Day8:
   def solve(input: String): Int =
     val (maxX, maxY) = (input.linesIterator.size, input.linesIterator.size)
-    val grid = (for
+    val signals = (for
       (line, y) <- input.linesIterator.zipWithIndex
       (char, x) <- line.zipWithIndex
       if Character.isLetterOrDigit(char)
-    yield Coord(x, y) -> char).toMap
-
-    val signals = grid.toVector.groupMap(_(1))(_(0))
+    yield char -> Coord(x, y)).toVector.groupMap(_(0))(_(1))
 
     (for
       coords <- signals.values
@@ -23,13 +21,11 @@ object Day8:
 
   def solve2(input: String): Int =
     val (maxX, maxY) = (input.linesIterator.size, input.linesIterator.size)
-    val grid = (for
+    val signals = (for
       (line, y) <- input.linesIterator.zipWithIndex
       (char, x) <- line.zipWithIndex
       if Character.isLetterOrDigit(char)
-    yield Coord(x, y) -> char).toMap
-
-    val signals = grid.toVector.groupMap(_(1))(_(0))
+    yield char -> Coord(x, y)).toVector.groupMap(_(0))(_(1))
 
     (for
       coords <- signals.values

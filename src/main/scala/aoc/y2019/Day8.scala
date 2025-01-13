@@ -2,11 +2,11 @@ package aoc.y2019
 
 object Day8:
   def solve(input: String): Int =
-    val layer = input.sliding(25 * 6, 25 * 6).minBy(_.count('0' == _))
+    val layer = input.grouped(25 * 6).minBy(_.count('0' == _))
     layer.count('1' == _) * layer.count('2' == _)
 
   def solve2(input: String): Unit =
-    val layers = input.sliding(25 * 6, 25 * 6).toList
+    val layers = input.grouped(25 * 6).toList
 
     println(
       (for
@@ -16,7 +16,7 @@ object Day8:
           .find(_ != '2')
           .getOrElse('0')
       yield color)
-        .sliding(25, 25)
+        .grouped(25)
         .map:
           _.map:
             case '0' => " "
