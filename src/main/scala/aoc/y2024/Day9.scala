@@ -53,7 +53,7 @@ object Day9:
     loop(disk.size - 1, disk)
       .flatMap((id, size, free) => Array.fill(size)(id) ++ Array.fill(free)(0))
       .zipWithIndex
-      .map((id, i) => id.toLong * i.toLong)
+      .map(_.toLong * _.toLong)
       .sum
 
   val input =
