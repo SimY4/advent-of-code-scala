@@ -29,7 +29,7 @@ object Day10:
 
     start.map(s => loop(Set(s))).sum
 
-  def solve2(input: String): Long =
+  def solve2(input: String): Int =
     val grid = input.linesIterator.toVector
     val start = for
       (line, y) <- grid.zipWithIndex
