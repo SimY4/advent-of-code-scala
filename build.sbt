@@ -2,7 +2,7 @@ import sbtwelcome.*
 
 ThisBuild / organization := "com.github.simy4"
 ThisBuild / version      := "0.1.0"
-ThisBuild / scalaVersion := "3.6.2"
+ThisBuild / scalaVersion := "3.6.3"
 Global / cancelable      := true
 
 lazy val root = project
@@ -10,8 +10,8 @@ lazy val root = project
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4",
-      "org.scalameta"          %% "munit"                      % "1.0.3" % Test
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.2.0",
+      "org.scalameta"          %% "munit"                      % "1.0.4" % Test
     ),
     scalacOptions ++= Seq(
       "-release",
@@ -31,8 +31,8 @@ lazy val root = project
 addCommandAlias("fmt", ";scalafmtAll;scalafmtSbt")
 
 logo :=
-  raw"""           _                 _            __                 _                      _       
-       |  __ _  __| |_   _____ _ __ | |_    ___  / _|   ___ ___   __| | ___   ___  ___ __ _| | __ _ 
+  raw"""           _                 _            __                 _                      _
+       |  __ _  __| |_   _____ _ __ | |_    ___  / _|   ___ ___   __| | ___   ___  ___ __ _| | __ _
        | / _` |/ _` \ \ / / _ \ '_ \| __|  / _ \| |_   / __/ _ \ / _` |/ _ \ / __|/ __/ _` | |/ _` |
        || (_| | (_| |\ V /  __/ | | | |_  | (_) |  _| | (_| (_) | (_| |  __/ \__ \ (_| (_| | | (_| |
        | \__,_|\__,_| \_/ \___|_| |_|\__|  \___/|_|    \___\___/ \__,_|\___| |___/\___\__,_|_|\__,_|

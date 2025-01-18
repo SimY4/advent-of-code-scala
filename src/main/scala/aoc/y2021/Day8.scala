@@ -4,16 +4,14 @@ object Day8:
   def solve(input: String): Int =
     val parsedInput = input.linesIterator
       .map(_.split(" \\| ").map(_.split(" ").toList).toList match
-        case i :: o :: Nil => (i, o)
-      )
+        case i :: o :: Nil => (i, o))
       .toList
     parsedInput.flatMap { case (_, output) => output }.count(d => Set(2, 3, 4, 7).contains(d.length))
 
   def solve2(input: String): Int =
     val parsedInput = input.linesIterator
       .map(_.split(" \\| ").map(_.split(" ").map(_.toSet).toList).toList match
-        case i :: o :: Nil => (i, o)
-      )
+        case i :: o :: Nil => (i, o))
       .toList
     parsedInput.map { case (input, output) =>
       val combined = input ::: output

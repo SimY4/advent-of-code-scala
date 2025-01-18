@@ -31,8 +31,7 @@ object Day17:
           case Up    => hex.charAt(0)
           case Down  => hex.charAt(1)
           case Left  => hex.charAt(2)
-          case Right => hex.charAt(3)
-        )
+          case Right => hex.charAt(3))
       yield d
 
       directions.flatMap(d => paths(current + d.direction, d :: path))

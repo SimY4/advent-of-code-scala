@@ -15,8 +15,7 @@ object Day7:
       case "ls" :: output =>
         Output.LS(output.map:
           case s"dir $name"   => LS.Dir(name)
-          case s"$size $name" => LS.File(size.toInt, name)
-        )
+          case s"$size $name" => LS.File(size.toInt, name))
       case s"cd .." :: Nil   => Output.CDOut
       case s"cd $dir" :: Nil => Output.CD(dir)
 

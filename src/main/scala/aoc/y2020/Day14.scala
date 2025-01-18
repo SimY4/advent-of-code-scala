@@ -13,8 +13,7 @@ object Day14:
         Mask(mask.reverse.zipWithIndex.foldLeft(Array.fill(mask.length)(None: Option[Boolean])):
           case (mask, ('X', i)) => mask
           case (mask, ('0', i)) => mask.updated(i, Some(false))
-          case (mask, ('1', i)) => mask.updated(i, Some(true))
-        )
+          case (mask, ('1', i)) => mask.updated(i, Some(true)))
       case s"mem[$addr] = $value" => Mem(addr.toLong, value.toLong)
 
   def solve(input: String): Long =
