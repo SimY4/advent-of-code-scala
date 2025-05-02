@@ -43,7 +43,7 @@ object Day12:
       else
         loop(
           newPaths.filter: path =>
-            val small = path.filter(_.forall(_.isLower)).groupMapReduce(identity)(_ => 1)(_ + _).values.toVector
+            val small = path.filter(_.forall(_.isLower)).groupMapReduce(identity)(_ => 1)(_ + _).values
             small.count(_ == 2) < 2 && small.filter(_ != 2).forall(_ < 2)
         )
 
