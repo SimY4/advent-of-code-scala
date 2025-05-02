@@ -13,7 +13,7 @@ object Day13:
 
     val fold = snd.linesIterator
       .map:
-        case s"fold along $c=$n" => c -> n.toInt
+        case s"fold along $c=$n" => c -> n.toLong
       .next
 
     fold
@@ -37,7 +37,7 @@ object Day13:
 
     val fold = snd.linesIterator
       .map:
-        case s"fold along $c=$n" => c -> n.toInt
+        case s"fold along $c=$n" => c -> n.toLong
       .foldLeft(dots):
         case (acc, ("x", x)) =>
           acc.collect:
@@ -50,7 +50,7 @@ object Day13:
 
     (0 until 6).foreach: y =>
       (0 until 40).foreach: x =>
-        print(if fold(Coord(x, y)) then "X" else ".")
+        print(if fold(Coord(x, y)) then "X" else " ")
       println()
 
   val input = """176,226
