@@ -10,7 +10,16 @@ object Day21:
       case s"$i => $o" =>
         val in  = i.split("/").map(_.toVector).toVector
         val out = o.split("/").map(_.toVector).toVector
-        Seq(in, in.reverse, in.map(_.reverse), in.reverse.map(_.reverse), in.transpose, in.transpose.map(_.reverse), in.transpose.reverse, in.transpose.reverse.map(_.reverse)).map(_ -> out)
+        Seq(
+          in,
+          in.reverse,
+          in.map(_.reverse),
+          in.reverse.map(_.reverse),
+          in.transpose,
+          in.transpose.map(_.reverse),
+          in.transpose.reverse,
+          in.transpose.reverse.map(_.reverse)
+        ).map(_ -> out)
 
   private def process(image: Image, rules: Map[Image, Image]): Image =
     val size     = image.size
@@ -23,10 +32,9 @@ object Day21:
       j <- image.indices by step
       subImage    = image.slice(i, i + step).map(_.slice(j, j + step))
       newSubImage = rules.getOrElse(subImage, subImage)
-    do
-      for x <- newSubImage.indices do
-        for y <- newSubImage.indices do
-          newImage(i / step * (step + 1) + x)(j / step * (step + 1) + y) = newSubImage(x)(y)
+      x <- newSubImage.indices
+      y <- newSubImage.indices
+    do newImage(i / step * (step + 1) + x)(j / step * (step + 1) + y) = newSubImage(x)(y)
     newImage.map(_.toVector).toVector
 
   def solve(input: String, n: Int = 5): Int =
