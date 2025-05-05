@@ -75,5 +75,5 @@ package y2017
   println("  day24:")
   println(s"    ├ solution #1: ${timed(Day24.solve(Day24.input))}")
   println(s"    └ solution #2: ${timed(Day24.solve2(Day24.input))}")
-  // println("  day25:")
-  // println(s"    ├ solution #1: ${timed(Day25.solve(Day25.input))}")
+  println("  day25:")
+  println(s"    ├ solution #1: ${timed(Day25.solve(Day25.input))}")
