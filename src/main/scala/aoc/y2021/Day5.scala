@@ -5,26 +5,34 @@ object Day5:
   private val linePattern = "(\\d+),(\\d+) -> (\\d+),(\\d+)".r
 
   def solve(input: String): Int =
-    input.linesIterator.toSeq.view.collect {
-      case linePattern(x1, y1, x2, y2) if x1 == x2 || y1 == y2 =>
-        Coord(x1.toLong, y1.toLong) -> Coord(x2.toLong, y2.toLong)
-    }.flatMap { case (Coord(x1, y1), Coord(x2, y2)) =>
-      for
-        x <- x1 to x2 by (if x1 < x2 then 1 else -1)
-        y <- y1 to y2 by (if y1 < y2 then 1 else -1)
-      yield Coord(x, y)
-    }.groupMapReduce(identity)(_ => 1)(_ + _).count((_, is) => is > 1)
+    input.linesIterator
+      .collect:
+        case linePattern(x1, y1, x2, y2) if x1 == x2 || y1 == y2 =>
+          Coord(x1.toLong, y1.toLong) -> Coord(x2.toLong, y2.toLong)
+      .flatMap:
+        case (Coord(x1, y1), Coord(x2, y2)) =>
+          for
+            x <- x1 to x2 by (if x1 < x2 then 1 else -1)
+            y <- y1 to y2 by (if y1 < y2 then 1 else -1)
+          yield Coord(x, y)
+      .toSeq
+      .groupMapReduce(identity)(_ => 1)(_ + _)
+      .count((_, is) => is > 1)
 
   def solve2(input: String): Int =
-    input.linesIterator.toSeq.view.collect { case linePattern(x1, y1, x2, y2) =>
-      Coord(x1.toLong, y1.toLong) -> Coord(x2.toLong, y2.toLong)
-    }.flatMap { case (Coord(x1, y1), Coord(x2, y2)) =>
-      for
-        (x, i) <- (x1 to x2 by (if x1 < x2 then 1 else -1)).zipWithIndex
-        (y, j) <- (y1 to y2 by (if y1 < y2 then 1 else -1)).zipWithIndex
-        if x1 == x2 || y1 == y2 || i == j
-      yield Coord(x, y)
-    }.groupMapReduce(identity)(_ => 1)(_ + _).count((_, is) => is > 1)
+    input.linesIterator
+      .collect:
+        case linePattern(x1, y1, x2, y2) => Coord(x1.toLong, y1.toLong) -> Coord(x2.toLong, y2.toLong)
+      .flatMap:
+        case (Coord(x1, y1), Coord(x2, y2)) =>
+          for
+            (x, i) <- (x1 to x2 by (if x1 < x2 then 1 else -1)).zipWithIndex
+            (y, j) <- (y1 to y2 by (if y1 < y2 then 1 else -1)).zipWithIndex
+            if x1 == x2 || y1 == y2 || i == j
+          yield Coord(x, y)
+      .toSeq
+      .groupMapReduce(identity)(_ => 1)(_ + _)
+      .count((_, is) => is > 1)
 
   val input = """905,103 -> 905,82
                 |253,13 -> 253,546

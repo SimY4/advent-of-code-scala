@@ -2,14 +2,14 @@ package aoc.y2021
 
 object Day7:
   def solve(input: String): Long =
-    val positions = input.split(',').map(_.toInt).toList
-    (1 until positions.size)
+    val positions = input.split(',').map(_.toInt).toVector
+    positions.indices.tail
       .map(i => positions.map(_ - i).map(math.abs).sum)
       .min
 
   def solve2(input: String): Long =
-    val positions = input.split(',').map(_.toInt).toList
-    (1 until positions.size)
+    val positions = input.split(',').map(_.toInt).toVector
+    positions.indices.tail
       .map(i => positions.map(_ - i).map(math.abs).map(i => (i * (i + 1)) / 2).sum)
       .min
 

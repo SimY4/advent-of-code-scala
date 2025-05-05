@@ -3,25 +3,21 @@ package aoc.y2021
 object Day6:
   def solve(input: String): Int =
     LazyList
-      .iterate(input.split(',').map(_.toInt).toList) { days =>
-        val updated = days.map(_ - 1).map { day =>
-          if day < 0 then 6 else day
-        }
-        updated ::: List.fill(days.count(_ - 1 < 0))(8)
-      }
+      .iterate(input.split(',').map(_.toInt).toVector): days =>
+        val updated = days.map(_ - 1).map(day => if day < 0 then 6 else day)
+        updated ++ Vector.fill(days.count(_ - 1 < 0))(8)
       .drop(80)
       .head
       .size
 
   def solve2(input: String): Long =
-    val days   = input.split(',').map(_.toInt).toList
+    val days   = input.split(',').map(_.toInt).toVector
     val counts = (0 to 8).map(i => days.count(_ == i).toLong).toVector
     (0 until 256)
-      .foldLeft(counts) { (counts, _) =>
+      .foldLeft(counts): (counts, _) =>
         val zeros = counts.head
         val next  = counts.tail :+ zeros
         next.updated(6, next(6) + zeros)
-      }
       .sum
 
   val input =

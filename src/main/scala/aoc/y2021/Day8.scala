@@ -5,46 +5,50 @@ object Day8:
     val parsedInput = input.linesIterator
       .map(_.split(" \\| ").map(_.split(" ").toList).toList match
         case i :: o :: Nil => (i, o))
-      .toList
-    parsedInput.flatMap { case (_, output) => output }.count(d => Set(2, 3, 4, 7).contains(d.length))
+      .toVector
+    parsedInput.flatMap((_, output) => output).count(d => Set(2, 3, 4, 7).contains(d.length))
 
   def solve2(input: String): Int =
     val parsedInput = input.linesIterator
       .map(_.split(" \\| ").map(_.split(" ").map(_.toSet).toList).toList match
         case i :: o :: Nil => (i, o))
-      .toList
-    parsedInput.map { case (input, output) =>
-      val combined = input ::: output
-      val one      = combined.find(_.size == 2).get
-      val seven    = combined.find(_.size == 3).get
-      val four     = combined.find(_.size == 4).get
-      val eight    = combined.find(_.size == 7).get
+      .toVector
+    parsedInput
+      .map: (input, output) =>
+        val combined = input ::: output
+        val one      = combined.find(_.size == 2).get
+        val seven    = combined.find(_.size == 3).get
+        val four     = combined.find(_.size == 4).get
+        val eight    = combined.find(_.size == 7).get
 
-      val mappings = List(
-        combined
-          .filter(_.size == 6)
-          .find(s => s.intersect(four).size < 4 && s.intersect(seven) == seven)
-          .map(_ -> 0),
-        Some(one -> 1),
-        combined.filter(_.size == 5).find(_.intersect(four).size == 2).map(_ -> 2),
-        combined
-          .filter(_.size == 5)
-          .find(s => s.intersect(four).size == 3 && s.intersect(seven) == seven)
-          .map(_ -> 3),
-        Some(four -> 4),
-        combined
-          .filter(_.size == 5)
-          .find(s => s.intersect(four).size == 3 && s.intersect(seven).size < 3)
-          .map(_ -> 5),
-        combined.filter(_.size == 6).find(_.intersect(seven).size == 2).map(_ -> 6),
-        Some(seven -> 7),
-        Some(eight -> 8),
-        combined.filter(_.size == 6).find(_.intersect(four) == four).map(_ -> 9)
-      ).flatten.toMap
-      output.map(mappings).reverse.zipWithIndex.foldLeft(0) { case (acc, (n, i)) =>
-        acc + (n * math.pow(10, i).toInt)
-      }
-    }.sum
+        val mappings = List(
+          combined
+            .filter(_.size == 6)
+            .find(s => s.intersect(four).size < 4 && s.intersect(seven) == seven)
+            .map(_ -> 0),
+          Some(one -> 1),
+          combined.filter(_.size == 5).find(_.intersect(four).size == 2).map(_ -> 2),
+          combined
+            .filter(_.size == 5)
+            .find(s => s.intersect(four).size == 3 && s.intersect(seven) == seven)
+            .map(_ -> 3),
+          Some(four -> 4),
+          combined
+            .filter(_.size == 5)
+            .find(s => s.intersect(four).size == 3 && s.intersect(seven).size < 3)
+            .map(_ -> 5),
+          combined.filter(_.size == 6).find(_.intersect(seven).size == 2).map(_ -> 6),
+          Some(seven -> 7),
+          Some(eight -> 8),
+          combined.filter(_.size == 6).find(_.intersect(four) == four).map(_ -> 9)
+        ).flatten.toMap
+        output
+          .map(mappings)
+          .reverse
+          .zipWithIndex
+          .foldLeft(0):
+            case (acc, (n, i)) => acc + (n * math.pow(10, i).toInt)
+      .sum
 
   val input =
     """ecgabfd gfbe dgbeaf aeg gfbda eg bgdcaf efgdca abced eadgb | begf decgfa aeg eg

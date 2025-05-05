@@ -16,7 +16,7 @@ object Day14:
           .flatMap: pair =>
             pairs.get(pair) match
               case Some(subs) => List(pair(0), subs)
-              case None => List(pair(0))
+              case None       => List(pair(0))
           .appended(template.last)
       .drop(10)
       .head
@@ -33,10 +33,11 @@ object Day14:
       .toMap
 
     type Cache = Map[(Int, Char, Char), Map[Char, Long]]
-    extension (m: Map[Char, Long]) private def merge(other: Map[Char, Long]): Map[Char, Long] =
+    extension (m: Map[Char, Long])
+      private def merge(other: Map[Char, Long]): Map[Char, Long] =
         other.keySet.foldLeft(m): (acc, key) =>
           acc.updatedWith(key):
-            case None => Some(other(key))
+            case None    => Some(other(key))
             case Some(v) => Some(v + other(key))
 
     def polymerization(depth: Int, pair: (Char, Char), cache: Cache = Map.empty): (Map[Char, Long], Cache) =
@@ -44,15 +45,17 @@ object Day14:
       else
         cache.get(depth *: pair) match
           case None =>
-            val (left, lcache) = polymerization(depth - 1, pair(0) -> pairs(pair), cache)
+            val (left, lcache)  = polymerization(depth - 1, pair(0) -> pairs(pair), cache)
             val (right, rcache) = polymerization(depth - 1, pairs(pair) -> pair(1), lcache)
-            val merged = left.merge(right).merge(Map(pairs(pair) -> -1L))
+            val merged          = left.merge(right).merge(Map(pairs(pair) -> -1L))
             merged -> rcache.updated(depth *: pair, merged)
           case Some(s) => s -> cache
 
-    val counts = template.zip(template.tail)
+    val counts = template
+      .zip(template.tail)
       .map(pair => polymerization(40, pair)(0))
-      .reduce(_.merge(_)).merge(template.init.tail.map(_ -> -1L).groupMapReduce(_(0))(_(1))(_ + _))
+      .reduce(_.merge(_))
+      .merge(template.init.tail.map(_ -> -1L).groupMapReduce(_(0))(_(1))(_ + _))
 
     counts.values.max - counts.values.min
 

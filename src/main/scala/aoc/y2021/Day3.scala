@@ -6,31 +6,28 @@ import scala.annotation.tailrec
 object Day3:
   def solve(input: String): Int =
     val (r, e) = (0 until input.linesIterator.next.length)
-      .foldLeft(0 -> 0) { case ((r, e), i) =>
-        val (n, _) = input.linesIterator
-          .map(_.reverse.charAt(i))
-          .toList
-          .groupBy(identity)
-          .toSeq
-          .maxBy((_, ls) => ls.size)
-        n match
-          case '1' => (r | (1 << i), e)
-          case '0' => (r, e | (1 << i))
-      }
+      .foldLeft(0 -> 0):
+        case ((r, e), i) =>
+          val (n, _) = input.linesIterator
+            .map(_.reverse.charAt(i))
+            .toList
+            .groupBy(identity)
+            .toSeq
+            .maxBy((_, ls) => ls.size)
+          n match
+            case '1' => (r | (1 << i), e)
+            case '0' => (r, e | (1 << i))
     r * e
 
   def solve2(input: String): Int =
     @tailrec def loop(lines: List[String], i: Int = 0, num: List[Int] = Nil)(using Ordering[(Char, List[Char])]): Int =
       if lines.isEmpty || lines.head.length <= i then num.zipWithIndex.map(_ << _).reduce(_ | _)
       else
-        val (n, _) = lines
-          .map(_.charAt(i))
-          .groupBy(identity)
-          .max
+        val (n, _) = lines.map(_.charAt(i)).groupBy(identity).max
         loop(lines.filter(_.charAt(i) == n), i + 1, n.toString.toInt :: num)
 
-    val maxOrd = Ordering.by[(Char, List[Char]), (Int, Char)]((ch, cs) => cs.size -> ch)
-    val minOrd = maxOrd.reverse
+    val maxOrd: Ordering[(Char, List[Char])] = Ordering.by((ch, cs) => cs.size -> ch)
+    val minOrd                               = maxOrd.reverse
     loop(input.linesIterator.toList)(using maxOrd) * loop(input.linesIterator.toList)(using minOrd)
 
   val input = """110001010110

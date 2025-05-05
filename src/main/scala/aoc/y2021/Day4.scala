@@ -4,43 +4,41 @@ object Day4:
   private case class State(n: Int, crossed: Boolean = false)
 
   def solve(input: String): Int =
-    val (numbers, boards) = input.split(System.lineSeparator * 2).toList match
-      case numbers :: boards =>
-        numbers.split(',').map(_.toInt).toList ->
-          boards.map(_.linesIterator.map("\\d+".r.findAllIn(_).map(i => State(i.toInt)).toArray).toArray)
+    val (numbers, boards) = input.split(System.lineSeparator * 2).toVector match
+      case Vector(numbers, boards*) =>
+        numbers.split(',').map(_.toInt).toVector ->
+          boards.map(_.linesIterator.map("\\d+".r.findAllIn(_).map(i => State(i.toInt)).toArray).toArray).toVector
 
     numbers.view
-      .scanLeft(boards) { (boards, number) =>
+      .scanLeft(boards): (boards, number) =>
         boards.map(_.map(_.map(state => if state.n == number then state.copy(crossed = true) else state)))
-      }
       .tail
       .zip(numbers)
-      .flatMap { (boards, number) =>
+      .flatMap: (boards, number) =>
         for
           board <- boards
           if board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed))
         yield board.map(_.filterNot(_.crossed).map(_.n).sum).sum * number
-      }
       .head
 
   def solve2(input: String): Option[Int] =
-    val (numbers, boards) = input.split(System.lineSeparator * 2).toList match
-      case numbers :: boards =>
-        numbers.split(',').map(_.toInt).toList ->
-          boards.map(_.linesIterator.map("\\d+".r.findAllIn(_).map(i => State(i.toInt)).toArray).toArray)
+    val (numbers, boards) = input.split(System.lineSeparator * 2).toVector match
+      case Vector(numbers, boards*) =>
+        numbers.split(',').map(_.toInt).toVector ->
+          boards.map(_.linesIterator.map("\\d+".r.findAllIn(_).map(i => State(i.toInt)).toArray).toArray).toVector
 
     numbers.view
-      .scanLeft(boards -> List.empty[Int]) { case ((boards, winners), number) =>
-        val updated = boards.map(_.map(_.map(state => if state.n == number then state.copy(crossed = true) else state)))
-        val (cont, won) = updated.partitionMap { board =>
-          Either.cond(
-            board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed)),
-            board.map(_.filterNot(_.crossed).map(_.n).sum).sum * number,
-            board
-          )
-        }
-        cont -> (won ::: winners)
-      }
+      .scanLeft(boards -> Vector.empty[Int]):
+        case ((boards, winners), number) =>
+          val updated =
+            boards.map(_.map(_.map(state => if state.n == number then state.copy(crossed = true) else state)))
+          val (cont, won) = updated.partitionMap: board =>
+            Either.cond(
+              board.exists(_.forall(_.crossed)) || board.transpose.exists(_.forall(_.crossed)),
+              board.map(_.filterNot(_.crossed).map(_.n).sum).sum * number,
+              board
+            )
+          cont -> (won ++ winners)
       .find((boards, _) => boards.isEmpty)
       .map((_, winners) => winners.head)
 

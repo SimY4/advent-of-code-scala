@@ -3,7 +3,7 @@ package aoc.y2021
 import scala.annotation.tailrec
 
 object Day12:
-  def parseInput(input: String): Map[String, Vector[String]] = input.linesIterator
+  private def parseInput(input: String): Map[String, Vector[String]] = input.linesIterator
     .flatMap:
       case s"start-$to"   => List("start" -> to)
       case s"$from-start" => List("start" -> from)
