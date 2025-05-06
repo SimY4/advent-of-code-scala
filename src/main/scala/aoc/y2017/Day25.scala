@@ -5,14 +5,14 @@ object Day25:
   private final case class State(if0: Rule, if1: Rule)
 
   private def parseInput(input: String): (String, Int, Map[String, State]) =
-    val blocks = input.split(System.lineSeparator() * 2).toVector
-    val head   = blocks.head.linesIterator.toVector
-    val initialState = head(0) match
+    val lines = input.linesIterator.toVector
+    val initialState = lines(0) match
       case s"Begin in state $state." => state
-    val steps = head(1) match
+    val steps = lines(1) match
       case s"Perform a diagnostic checksum after $steps steps." => steps.toInt
-    val states = blocks.tail
-      .map(_.linesIterator.toVector)
+    val states = lines
+      .drop(3)
+      .grouped(10)
       .map: state =>
         val name = state(0) match
           case s"In state $state:" => state
