@@ -77,7 +77,8 @@ object Day4:
           .view
           .mapValues(_.size)
           .maxBy((_, size) => size)
-      .maxBy { case (_, (_, count)) => count }
+      .maxBy:
+        case (_, (_, count)) => count
     id * maxMinuteSleeping
 
   val input = """[1518-08-12 00:43] falls asleep

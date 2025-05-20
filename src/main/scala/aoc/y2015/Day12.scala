@@ -15,7 +15,7 @@ object Day12:
     case JArray(arr: List[Json])
     case JObj(obj: Map[String, Json])
   private object Json:
-    private val nullParser: Parser[JNull.type] = literal("null").`as`(JNull)
+    private val nullParser: Parser[JNull.type] = literal("null").as(JNull)
     private val boolParser: Parser[JBool] =
       literal("true").as(new JBool(true)) <|> literal("false").as(new JBool(false))
     private val numberParser: Parser[JNumber] = (char('-').optional <*> span(_.isDigit)).map: (oc, digits) =>

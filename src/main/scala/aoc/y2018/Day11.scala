@@ -18,9 +18,8 @@ object Day11:
       power = (for
         dx <- 0L until size
         dy <- 0L until size
-      yield Coord(x + dx, y + dy)).foldLeft(0L) { (acc, cell) =>
+      yield Coord(x + dx, y + dy)).foldLeft(0L): (acc, cell) =>
         acc + cell.power(grid)
-      }
     yield power -> Coord(x, y))
       .maxBy(_._1)
 

@@ -16,12 +16,15 @@ object Day11:
     input.split(',').view.map(parse).foldLeft(Coord(0, 0))(_ + _.direction).distance
 
   def solve2(input: String): Long =
-    val (_, max) = input.split(',').view.map(parse).foldLeft((Coord(0, 0), 0L)) { case ((current, mx), direction) =>
-      val next         = current + direction.direction
-      val nextDistance = next.distance
-      if nextDistance > mx then (next, nextDistance)
-      else (next, mx)
-    }
+    val (_, max) = input
+      .split(',')
+      .map(parse)
+      .foldLeft((Coord(0, 0), 0L)):
+        case ((current, mx), direction) =>
+          val next         = current + direction.direction
+          val nextDistance = next.distance
+          if nextDistance > mx then (next, nextDistance)
+          else (next, mx)
 
     max
 

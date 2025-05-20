@@ -2,10 +2,11 @@ package aoc.y2017
 
 object Day13:
   def solve(input: String): Int =
-    val config = input.linesIterator.map { line =>
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match
-        case i :: n :: _ => i -> n
-    }.toMap
+    val config = input.linesIterator
+      .map: line =>
+        "\\d+".r.findAllIn(line).map(_.toInt).toList match
+          case i :: n :: _ => i -> n
+      .toMap
 
     LazyList
       .iterate(config.keys.map(_ -> (0 -> 1)).toMap):
@@ -22,10 +23,11 @@ object Day13:
       .sum
 
   def solve2(input: String): Int =
-    val config = input.linesIterator.map { line =>
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match
-        case i :: n :: _ => i -> n
-    }.toMap
+    val config = input.linesIterator
+      .map: line =>
+        "\\d+".r.findAllIn(line).map(_.toInt).toList match
+          case i :: n :: _ => i -> n
+      .toMap
 
     LazyList
       .iterate(config.keys.map(_ -> (0 -> 1)).toMap):

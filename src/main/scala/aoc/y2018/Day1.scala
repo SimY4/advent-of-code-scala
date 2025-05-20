@@ -17,7 +17,8 @@ object Day1:
         case (NotFound(acc, set), cal) =>
           val nextCal = acc + cal
           if set contains nextCal then Found(nextCal) else NotFound(nextCal, set + nextCal)
-      .collectFirst { case Found(st) => st }
+      .collectFirst:
+        case Found(st) => st
 
   val input = """+4
                 |+3

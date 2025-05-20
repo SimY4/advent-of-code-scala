@@ -10,9 +10,10 @@ object Day3:
 
   private def fabric(input: String): Map[Coord, Set[Int]] =
     (for
-      claim <- input.linesIterator.map(parseLine)
-      i     <- claim.v1 until claim.v1 + claim.v2
-      j     <- claim.h1 until claim.h1 + claim.h2
+      line <- input.linesIterator
+      claim = parseLine(line)
+      i <- claim.v1 until claim.v1 + claim.v2
+      j <- claim.h1 until claim.h1 + claim.h2
     yield Coord(i, j) -> Set(claim.id)).toSeq.groupMapReduce(_._1)(_._2)(_ ++ _)
 
   def solve(input: String): Int = fabric(input).values.count(_.size > 1)

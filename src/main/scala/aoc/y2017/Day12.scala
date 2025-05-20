@@ -14,10 +14,11 @@ object Day12 extends Input(2017, 12):
     loop(Set.empty, Set(program))
 
   def solve(input: String): Int =
-    val map = input.linesIterator.map { line =>
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match
-        case i :: is => i -> is
-    }.toMap
+    val map = input.linesIterator
+      .map: line =>
+        "\\d+".r.findAllIn(line).map(_.toInt).toList match
+          case i :: is => i -> is
+      .toMap
 
     val gr   = group(0, map)
     val diff = map.keySet.diff(gr)
@@ -33,9 +34,10 @@ object Day12 extends Input(2017, 12):
     loop(Set.empty, input)
 
   def solve2(input: String): Int =
-    val map = input.linesIterator.map { line =>
-      "\\d+".r.findAllIn(line).map(_.toInt).toList match
-        case i :: is => i -> is
-    }.toMap
+    val map = input.linesIterator
+      .map: line =>
+        "\\d+".r.findAllIn(line).map(_.toInt).toList match
+          case i :: is => i -> is
+      .toMap
     val grs = groups(map)
     grs.size

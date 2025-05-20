@@ -35,10 +35,9 @@ object Day20 extends Input(2017, 20):
       t(p1.p.z, p1.v.z, p1.a.z, p2.p.z, p2.v.z, p2.a.z)
 
     val nans = ts.count(_.isNaN)
-    val tsInt = ts.flatMap { t =>
+    val tsInt = ts.flatMap: t =>
       val round = math.round(t * 10000.0).toInt
       if round % 10000 == 0 then Some(round) else None
-    }
 
     tsInt
       .groupBy(identity)
@@ -59,11 +58,10 @@ object Day20 extends Input(2017, 20):
         .toList
         .sortBy((t, _) => t)
         .map((_, ps) => ps)
-        .foldLeft(Set.empty[Int]) { (destroyed, particules) =>
+        .foldLeft(Set.empty[Int]): (destroyed, particules) =>
           val collidedParticules = particules.map((_, i) => i).toSet -- destroyed
           if collidedParticules.size > 1 then destroyed ++ collidedParticules
           else destroyed
-        }
         .size
 
     particles.size - destroyed

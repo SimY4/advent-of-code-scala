@@ -24,8 +24,6 @@ object Day9:
       oldNext.prev = oldPrev
       oldNext
 
-    override def toString: String = value.toString
-
   def solve(players: Int, lastMarble: Int = 72170): Long =
     @tailrec def loop(marble: Int = 1, ring: Node = new Node(0), scores: Map[Int, Long] = Map.empty): Long =
       if marble > lastMarble then scores.values.max
