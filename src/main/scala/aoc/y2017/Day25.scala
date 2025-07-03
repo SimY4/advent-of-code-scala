@@ -5,7 +5,7 @@ object Day25:
   private final case class State(if0: Rule, if1: Rule)
 
   private def parseInput(input: String): (String, Int, Map[String, State]) =
-    val lines = input.linesIterator.toVector
+    val lines        = input.linesIterator.toVector
     val initialState = lines(0) match
       case s"Begin in state $state." => state
     val steps = lines(1) match

@@ -20,7 +20,7 @@ object Day3:
       .iterate(0L)(_ + 1L)
       .flatMap:
         case 0L => Seq(Coord(0L, 0L))
-        case n =>
+        case n  =>
           (-n + 1 to n).map(Coord(n, _)) ++
             ((n - 1) to (-n, -1)).map(Coord(_, n)) ++
             ((n - 1) to (-n, -1)).map(Coord(-n, _)) ++

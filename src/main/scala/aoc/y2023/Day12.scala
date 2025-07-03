@@ -18,7 +18,7 @@ object Day12:
       case Nil                               => if springs.indexOf('#', idx) < 0 then 1L else 0L
       case _ if idx >= springs.length()      => 0L
       case _ if memo.contains((idx, groups)) => memo((idx, groups))
-      case g :: rest =>
+      case g :: rest                         =>
         val res = springs(idx) match
           case '?' =>
             if idx + g < springs.length() && !springs.substring(idx, idx + g).contains('.') && '#' != springs(idx + g)

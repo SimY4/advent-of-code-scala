@@ -3,7 +3,7 @@ package aoc.y2024
 object Day5:
   def solve(input: String): Int =
     val fst :: snd :: Nil = input.split(System.lineSeparator * 2, 2).toList
-    val rules = fst.linesIterator
+    val rules             = fst.linesIterator
       .map:
         case s"$f|$s" => f -> s
       .toVector
@@ -20,7 +20,7 @@ object Day5:
 
   def solve2(input: String): Int =
     val fst :: snd :: Nil = input.split(System.lineSeparator * 2, 2).toList
-    val rules = fst.linesIterator
+    val rules             = fst.linesIterator
       .map:
         case s"$f|$s" => f -> s
       .toVector

@@ -25,7 +25,7 @@ object Day4:
 
     cards
       .foldLeft(Map.empty[Int, Int]): (acc, card) =>
-        val win = card.winning.intersect(card.numbers).size
+        val win  = card.winning.intersect(card.numbers).size
         val next = acc.updatedWith(card.id):
           case Some(n) => Some(n + 1)
           case None    => Some(1)

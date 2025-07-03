@@ -49,7 +49,7 @@ object Day5:
 
   def solve2(input: String): Long =
     val (pairs, maps) = parse(input)
-    val seeds = pairs
+    val seeds         = pairs
       .grouped(2)
       .map:
         case start :: len :: Nil => Range(start, start + len)
@@ -63,7 +63,7 @@ object Day5:
             .sortBy(_(0).start)
             .toList
             .match
-              case Nil => Vector(seed)
+              case Nil         => Vector(seed)
               case head :: Nil =>
                 Vector(
                   Range(seed.start, head(0).start),

@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 
 object Day10:
   def solve(input: String): Int =
-    val grid = input.linesIterator.toVector
+    val grid  = input.linesIterator.toVector
     val start = for
       (line, y) <- grid.zipWithIndex
       x         <- line.indices
@@ -30,7 +30,7 @@ object Day10:
     start.map(s => loop(Set(s))).sum
 
   def solve2(input: String): Int =
-    val grid = input.linesIterator.toVector
+    val grid  = input.linesIterator.toVector
     val start = for
       (line, y) <- grid.zipWithIndex
       x         <- line.indices

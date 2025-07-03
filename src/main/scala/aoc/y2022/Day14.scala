@@ -39,7 +39,7 @@ object Day14:
             val ys = acc.getOrElse(sand.x, SortedSet.empty)
             ys.dropWhile(_.y < sand.y) match
               case set if set.isEmpty => None
-              case set =>
+              case set                =>
                 val top = set.head
                 sides.map(top + _.direction).filter(side => !acc.get(side.x).exists(ys => ys.contains(side))) match
                   case Nil       => Some(acc.updated(sand.x, ys + (top + Direction.Down.direction)))
@@ -63,7 +63,7 @@ object Day14:
           val ys = acc.getOrElse(sand.x, SortedSet.empty)
           ys.dropWhile(_.y < sand.y) match
             case set if set.isEmpty => acc.updated(sand.x, ys + Coord(sand.x, floor))
-            case set =>
+            case set                =>
               val top = set.head
               sides.map(top + _.direction).filter(side => !acc.get(side.x).exists(ys => ys.contains(side))) match
                 case Nil =>

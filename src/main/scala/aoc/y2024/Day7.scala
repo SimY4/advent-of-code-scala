@@ -8,7 +8,7 @@ object Day7:
       .collect:
         case (test, nums) if (0 to (1 << nums.size)).exists { mask =>
               test == nums.zipWithIndex.foldLeft(0L):
-                case (0, (num, _)) => num
+                case (0, (num, _))   => num
                 case (acc, (num, i)) =>
                   if (mask & (1 << i)) == 0 then acc + num
                   else acc * num
@@ -23,7 +23,7 @@ object Day7:
       .collect:
         case (test, nums) if (0L to (1L << (nums.size * 2))).exists { mask =>
               test == nums.zipWithIndex.foldLeft(0L):
-                case (0, (num, _)) => num
+                case (0, (num, _))   => num
                 case (acc, (num, i)) =>
                   if (mask & (1L << (i * 2))) == 0 then acc + num
                   else if (mask & (1L << ((i * 2) + 1))) == 0 then (acc.toString + num.toString).toLong

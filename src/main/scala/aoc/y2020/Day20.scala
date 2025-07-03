@@ -18,7 +18,7 @@ object Day20:
       .toVector
 
   def solve(input: String): Long =
-    val tiles = parse(input)
+    val tiles   = parse(input)
     val corners = tiles.filter: tile =>
       2 == tile.borders.count: border =>
         (for

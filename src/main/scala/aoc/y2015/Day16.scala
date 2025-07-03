@@ -37,9 +37,9 @@ object Day16:
       .grouped(2)
       .foldLeft(AuntSue()): (sue, pair) =>
         pair match
-          case "children:" :: num :: Nil => sue.copy(children = num.replace(",", "").toIntOption)
-          case "cats:" :: num :: Nil     => sue.copy(cats = num.replace(",", "").toIntOption)
-          case "samoyeds:" :: num :: Nil => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
+          case "children:" :: num :: Nil    => sue.copy(children = num.replace(",", "").toIntOption)
+          case "cats:" :: num :: Nil        => sue.copy(cats = num.replace(",", "").toIntOption)
+          case "samoyeds:" :: num :: Nil    => sue.copy(dogs = sue.dogs + (Dogs.Samoyeds -> num.replace(",", "").toInt))
           case "pomeranians:" :: num :: Nil =>
             sue.copy(dogs = sue.dogs + (Dogs.Pomeranians -> num.replace(",", "").toInt))
           case "akitas:" :: num :: Nil   => sue.copy(dogs = sue.dogs + (Dogs.Akitas -> num.replace(",", "").toInt))

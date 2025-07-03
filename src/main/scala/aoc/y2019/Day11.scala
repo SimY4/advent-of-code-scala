@@ -19,7 +19,7 @@ object Day11:
   def solve(input: String): Int =
     val fill = Vector.fill(1000)(0L)
 
-    lazy val state = robot(outputs)
+    lazy val state                   = robot(outputs)
     lazy val outputs: LazyList[Long] = runProgram(
       input.split(",").map(_.toLong).toVector ++ fill,
       0L #:: state
@@ -31,7 +31,7 @@ object Day11:
   def solve2(input: String): Unit =
     val fill = Vector.fill(1000)(0L)
 
-    lazy val state = robot(outputs)
+    lazy val state                   = robot(outputs)
     lazy val outputs: LazyList[Long] = runProgram(
       input.split(",").map(_.toLong).toVector ++ fill,
       1L #:: state

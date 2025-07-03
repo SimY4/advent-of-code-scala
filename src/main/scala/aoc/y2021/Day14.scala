@@ -3,7 +3,7 @@ package aoc.y2021
 object Day14:
   def solve(input: String): Int =
     val template = input.linesIterator.next.toVector
-    val pairs = input.linesIterator
+    val pairs    = input.linesIterator
       .drop(2)
       .map:
         case s"$x -> $y" => (x.head, x.last) -> y.head
@@ -26,7 +26,7 @@ object Day14:
 
   def solve2(input: String): Long =
     val template = input.linesIterator.next.toVector
-    val pairs = input.linesIterator
+    val pairs    = input.linesIterator
       .drop(2)
       .map:
         case s"$x -> $y" => (x.head, x.last) -> y.head

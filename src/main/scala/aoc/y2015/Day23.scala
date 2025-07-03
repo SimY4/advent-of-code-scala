@@ -24,11 +24,11 @@ object Day23:
 
   @tailrec private def runProgram(program: Vector[Ins], state: Map[String, Int], cursor: Int = 0): Map[String, Int] =
     program.lift(cursor) match
-      case None                   => state
-      case Some(Hlf(r: String))   => runProgram(program, state.updatedWith(r)(_.map(_ / 2)), cursor + 1)
-      case Some(Tpl(r: String))   => runProgram(program, state.updatedWith(r)(_.map(_ * 3)), cursor + 1)
-      case Some(Inc(r: String))   => runProgram(program, state.updatedWith(r)(_.map(_ + 1)), cursor + 1)
-      case Some(Jmp(offset: Int)) => runProgram(program, state, cursor + offset)
+      case None                              => state
+      case Some(Hlf(r: String))              => runProgram(program, state.updatedWith(r)(_.map(_ / 2)), cursor + 1)
+      case Some(Tpl(r: String))              => runProgram(program, state.updatedWith(r)(_.map(_ * 3)), cursor + 1)
+      case Some(Inc(r: String))              => runProgram(program, state.updatedWith(r)(_.map(_ + 1)), cursor + 1)
+      case Some(Jmp(offset: Int))            => runProgram(program, state, cursor + offset)
       case Some(Jie(r: String, offset: Int)) =>
         runProgram(program, state, cursor + (if (state(r) & 1) == 0 then offset else 1))
       case Some(Jio(r: String, offset: Int)) =>

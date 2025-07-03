@@ -31,11 +31,11 @@ object Day25:
     if out.size > 10 then out
     else
       instructions.lift(pos) match
-        case None => out
+        case None                  => out
         case Some(Cpy(value, reg)) =>
           runProgram(instructions, state.updated(reg, value.fold(identity, state)), pos + 1, out)
-        case Some(Inc(reg)) => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1, out)
-        case Some(Dec(reg)) => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1, out)
+        case Some(Inc(reg))           => runProgram(instructions, state.updated(reg, state(reg) + 1), pos + 1, out)
+        case Some(Dec(reg))           => runProgram(instructions, state.updated(reg, state(reg) - 1), pos + 1, out)
         case Some(Jnz(value, nOrReg)) =>
           runProgram(
             instructions,

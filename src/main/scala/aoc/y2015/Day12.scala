@@ -16,13 +16,13 @@ object Day12:
     case JObj(obj: Map[String, Json])
   private object Json:
     private val nullParser: Parser[JNull.type] = literal("null").as(JNull)
-    private val boolParser: Parser[JBool] =
+    private val boolParser: Parser[JBool]      =
       literal("true").as(new JBool(true)) <|> literal("false").as(new JBool(false))
     private val numberParser: Parser[JNumber] = (char('-').optional <*> span(_.isDigit)).map: (oc, digits) =>
       val i = digits.toInt
       JNumber(if oc.isDefined then -i else i)
     private val stringParser: Parser[String] = char('"') *> span(_ != '"') <* char('"')
-    private val arrayParser: Parser[JArray] = (char('[') *> parser.many(char(',')) <* char(']'))
+    private val arrayParser: Parser[JArray]  = (char('[') *> parser.many(char(',')) <* char(']'))
       .map(JArray.apply)
     private val objectParser: Parser[JObj] =
       (char('{') *> (stringParser <* char(':') <*> parser).many(char(',')) <* char('}'))

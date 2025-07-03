@@ -34,7 +34,7 @@ object Day4:
       if name
         .map:
           case '-' => ' '
-          case ch =>
+          case ch  =>
             LazyList
               .iterate(ch):
                 case 'z' => 'a'

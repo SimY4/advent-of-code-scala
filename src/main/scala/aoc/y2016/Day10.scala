@@ -25,7 +25,7 @@ object Day10:
     case s"value ${value} goes to bot ${bot}" => SetValue(value.toInt, bot.toInt)
 
   def solve(input: String): Int =
-    val parsed = input.linesIterator.map(parseLine).toList
+    val parsed    = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]):
       case (map, SetValue(value, bot)) =>
         map.updatedWith(bot):
@@ -58,7 +58,7 @@ object Day10:
     go(initState)
 
   def solve2(input: String): Int =
-    val parsed = input.linesIterator.map(parseLine).toList
+    val parsed    = input.linesIterator.map(parseLine).toList
     val initState = parsed.foldLeft(Map.empty[Int, List[Int]]):
       case (map, SetValue(value, bot)) =>
         map.updatedWith(bot):

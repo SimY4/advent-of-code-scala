@@ -60,7 +60,7 @@ object Day7:
               yield k -> (set - step)
             (newReqs - step, queue - step)
           case None if queue.size >= 5 => (reqs, work(queue))
-          case None =>
+          case None                    =>
             reqs
               .collect:
                 case (step, set) if set.isEmpty => step

@@ -18,7 +18,7 @@ object Day10:
     path: Set[Coord] = immutable.ListSet.empty
   ): Set[Coord] =
     node match
-      case None => path
+      case None       => path
       case Some(node) =>
         val next =
           maze(node)
@@ -37,7 +37,7 @@ object Day10:
         makeLoop(maze, next, path + node)
 
   def solve(input: String): Int =
-    val maze = input.linesIterator.toVector
+    val maze  = input.linesIterator.toVector
     val start = maze.zipWithIndex
       .collectFirst:
         case (row, y) if row.contains('S') => Coord(row.indexOf('S'), y)
@@ -45,12 +45,12 @@ object Day10:
     makeLoop(maze, start).size / 2
 
   def solve2(input: String): Int =
-    val maze = input.linesIterator.toVector
+    val maze  = input.linesIterator.toVector
     val start = maze.zipWithIndex
       .collectFirst:
         case (row, y) if row.contains('S') => Coord(row.indexOf('S'), y)
 
-    val loop = makeLoop(maze, start)
+    val loop       = makeLoop(maze, start)
     val doubleLoop = loop
       .map(c => Coord(2 * c.x, 2 * c.y))
       .union(

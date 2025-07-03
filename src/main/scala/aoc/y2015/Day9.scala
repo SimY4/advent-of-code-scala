@@ -14,7 +14,7 @@ object Day9:
         filtered = nextRoutes.filter(nextRoute => path.forall(_.from != nextRoute.to))
         if filtered.nonEmpty
       yield filtered) match
-        case None => path :: Nil
+        case None             => path :: Nil
         case Some(nextRoutes) =>
           (for
             nextRoute <- nextRoutes.par

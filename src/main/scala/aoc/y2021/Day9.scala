@@ -27,7 +27,7 @@ object Day9:
         .forall(_ > v)
     yield point)
       .map: point =>
-        val visited = mutable.HashSet.empty[Coord]
+        val visited             = mutable.HashSet.empty[Coord]
         def loop(c: Coord): Int =
           1 + (for
             neighbour <- c.neighbours(Direction.hvOnly)

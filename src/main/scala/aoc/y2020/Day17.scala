@@ -47,7 +47,7 @@ object Day17:
               .map: y =>
                 (0L until 40L)
                   .map: x =>
-                    val coord = Coord(x, y, z, 0L)
+                    val coord      = Coord(x, y, z, 0L)
                     val neighbours = coord.neighbours
                       .filter(n => (0 != n.x || 0 != n.y || 0 != n.z) && 0 == n.w)
                       .count(n => state.get3(n).exists(identity))
@@ -82,7 +82,7 @@ object Day17:
                   .map: y =>
                     (0L until 40L)
                       .map: x =>
-                        val coord = Coord(x, y, z, w)
+                        val coord      = Coord(x, y, z, w)
                         val neighbours = coord.neighbours
                           .count(n => state.get4(n).exists(identity))
                         if state.get4(coord).exists(identity) then neighbours == 2 || neighbours == 3

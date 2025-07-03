@@ -36,8 +36,8 @@ object Day4:
       schedule: Map[Int, List[SleepSchedule]] = Map.empty
     ): Map[Int, List[SleepSchedule]] =
       records match
-        case Nil                            => schedule
-        case Record(_, BeginsDuty(d)) :: rs => loop(rs, d, schedule)
+        case Nil                                                      => schedule
+        case Record(_, BeginsDuty(d)) :: rs                           => loop(rs, d, schedule)
         case Record(start, FallsAsleep) :: Record(end, WakesUp) :: rs =>
           loop(
             rs,
@@ -57,7 +57,7 @@ object Day4:
   def solve(input: String): Int =
     val sched                        = schedule(input)
     val (id, longestSleeperSchedule) = sched.maxBy((_, list) => list.map(_.durationBetween).reduce(_.plus(_)))
-    val (maxMinuteSleeping, _) = (for
+    val (maxMinuteSleeping, _)       = (for
       s      <- sched(id)
       minute <- s.minutes
     yield minute)
@@ -66,7 +66,7 @@ object Day4:
     id * maxMinuteSleeping
 
   def solve2(input: String): Int =
-    val sched = schedule(input)
+    val sched                        = schedule(input)
     val (id, (maxMinuteSleeping, _)) = sched.view
       .mapValues: list =>
         (for

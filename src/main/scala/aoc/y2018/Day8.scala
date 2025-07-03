@@ -8,7 +8,7 @@ object Day8:
       if children.isEmpty then meta.sum else meta.flatMap(m => children.lift(m - 1).map(_.sumMeta2)).sum
 
   private def parse(input: String): Node =
-    val nums = input.split(" ").map(_.toInt).toList
+    val nums                                      = input.split(" ").map(_.toInt).toList
     def child(list: List[Int]): (Node, List[Int]) = list match
       case num_ch :: num_meta :: rest =>
         val (children, r) = LazyList

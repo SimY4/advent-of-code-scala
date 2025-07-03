@@ -4,7 +4,7 @@ import scala.collection.mutable
 
 object Day17:
   def solve(input: Int): Int =
-    val buffer = mutable.ArrayBuffer(0)
+    val buffer   = mutable.ArrayBuffer(0)
     val finalPos = (1 to 2017).foldLeft(0): (pos, i) =>
       val next = (pos + input) % buffer.size + 1
       buffer.insert(next, i)

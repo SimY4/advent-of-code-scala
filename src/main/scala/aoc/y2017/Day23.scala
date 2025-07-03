@@ -25,7 +25,7 @@ object Day23:
     count: Int = 0
   ): Int =
     program.lift(cursor) match
-      case None => count
+      case None                  => count
       case Some(Set(reg, value)) =>
         runProgram(program, state.updated(reg, value.fold(identity, state)), cursor + 1, count)
       case Some(Sub(reg, value)) =>

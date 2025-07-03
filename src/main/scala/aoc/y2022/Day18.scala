@@ -29,7 +29,7 @@ object Day18:
     val maxY = cubes.map((_, y, _) => y).max + 1
     val minZ = cubes.map((_, _, z) => z).min - 1
     val maxZ = cubes.map((_, _, z) => z).max + 1
-    val air = (for
+    val air  = (for
       x <- minX to maxX
       y <- minY to maxY
       z <- minZ to maxZ

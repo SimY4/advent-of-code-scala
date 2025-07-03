@@ -7,7 +7,7 @@ object Day15:
       .from(0)
       .scanLeft(Map.empty[Int, List[Int]] -> 0):
         case ((acc, last), i) if i < init.length => acc.updated(init(i), List(i + 1)) -> init(i)
-        case ((acc, last), i) =>
+        case ((acc, last), i)                    =>
           acc.get(last).flatMap(_.dropWhile(_ >= i).headOption) match
             case Some(j) =>
               val v = i - j

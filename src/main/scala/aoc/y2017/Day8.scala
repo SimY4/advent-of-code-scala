@@ -61,7 +61,7 @@ object Day8:
     instructions.foldLeft(Map.empty[String, (Int, Int)]): (registers, instruction) =>
       if evalCondition(registers, instruction.condition) then
         val (currentVal, maxVal) = registers.getOrElse(instruction.register, 0 -> 0)
-        val newCurrent = instruction.command match
+        val newCurrent           = instruction.command match
           case Command.Inc(n) => currentVal + n
           case Command.Dec(n) => currentVal - n
         if maxVal >= newCurrent then registers.updated(instruction.register, (newCurrent, maxVal))

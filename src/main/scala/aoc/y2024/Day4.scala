@@ -4,7 +4,7 @@ package y2024
 object Day4:
   def solve(input: String): Int =
     val lines = input.linesIterator.toVector
-    val xs = for
+    val xs    = for
       (line, y) <- lines.zipWithIndex
       x         <- line.indices
       if line.charAt(x) == 'X'
@@ -20,7 +20,7 @@ object Day4:
 
   def solve2(input: String): Int =
     val lines = input.linesIterator.toVector
-    val as = for
+    val as    = for
       (line, y) <- lines.zipWithIndex
       x         <- line.indices
       if line.charAt(x) == 'A'

@@ -34,7 +34,7 @@ object Day20 extends Input(2017, 20):
       t(p1.p.y, p1.v.y, p1.a.y, p2.p.y, p2.v.y, p2.a.y) :::
       t(p1.p.z, p1.v.z, p1.a.z, p2.p.z, p2.v.z, p2.a.z)
 
-    val nans = ts.count(_.isNaN)
+    val nans  = ts.count(_.isNaN)
     val tsInt = ts.flatMap: t =>
       val round = math.round(t * 10000.0).toInt
       if round % 10000 == 0 then Some(round) else None

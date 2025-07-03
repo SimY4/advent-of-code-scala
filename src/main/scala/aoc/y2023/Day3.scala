@@ -5,8 +5,8 @@ object Day3:
   private def symbols(input: String): Map[Coord, String Either String] =
     (for
       (line, y) <- input.linesIterator.zipWithIndex
-      coordSym <- line.zipWithIndex.foldRight(Nil: List[(Coord, String Either String)]):
-        case (('.', _), acc) => acc
+      coordSym  <- line.zipWithIndex.foldRight(Nil: List[(Coord, String Either String)]):
+        case (('.', _), acc)                                                        => acc
         case ((d, x), (Coord(ax, _), Right(ds)) :: acc) if d.isDigit && x + 1 == ax =>
           (Coord(x, y), Right(d.toString + ds)) :: acc
         case ((d, x), acc) if d.isDigit => (Coord(x, y), Right(d.toString)) :: acc

@@ -24,7 +24,7 @@ object Day16:
   def solve2(input: String): Long =
     input.split(System.lineSeparator * 2).toList match
       case rules :: ticket :: nearbyTickets :: Nil =>
-        val parsedRules = rules.linesIterator.map(parseRule).toSet
+        val parsedRules  = rules.linesIterator.map(parseRule).toSet
         val parsedTicket = ticket
           .substring(ticket.indexOf(System.lineSeparator) + System.lineSeparator.length)
           .split(',')

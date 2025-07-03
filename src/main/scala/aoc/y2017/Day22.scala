@@ -9,7 +9,7 @@ object Day22:
 
   def solve(input: String, n: Int = 10000): Int =
     val center = input.linesIterator.size / 2
-    val grid = (for
+    val grid   = (for
       (line, j) <- input.linesIterator.zipWithIndex
       (c, i)    <- line.zipWithIndex
       if c == '#'
@@ -30,7 +30,7 @@ object Day22:
 
   def solve2(input: String, n: Int = 10000000): Int =
     val center = input.linesIterator.size / 2
-    val grid = (for
+    val grid   = (for
       (line, j) <- input.linesIterator.zipWithIndex
       (c, i)    <- line.zipWithIndex
       if c == '#'
@@ -40,7 +40,7 @@ object Day22:
       .unfold(State(grid, Coord(0L, 0L), Direction.Down)):
         case State(grid, pos, dir) =>
           val infected = grid.get(pos).contains(Mode.Weakened)
-          val nextDir = grid.get(pos) match
+          val nextDir  = grid.get(pos) match
             case Some(Mode.Flagged)  => dir.oposite
             case Some(Mode.Infected) => dir.left
             case Some(Mode.Weakened) => dir

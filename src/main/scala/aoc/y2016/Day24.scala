@@ -34,7 +34,7 @@ object Day24:
       search()
 
   def solve(input: String, pois: Int = 7): Int =
-    val maze = input.linesIterator.toVector
+    val maze   = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
       ch = poi.toString.head
@@ -58,7 +58,7 @@ object Day24:
     search().min
 
   def solve2(input: String, pois: Int = 7): Int =
-    val maze = input.linesIterator.toVector
+    val maze   = input.linesIterator.toVector
     val lookup = (for
       poi <- 0 to pois
       ch = poi.toString.head

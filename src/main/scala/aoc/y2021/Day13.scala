@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 object Day13:
   def solve(input: String): Int =
     val fst :: snd :: Nil = input.split(System.lineSeparator * 2).toList
-    val dots = fst.linesIterator
+    val dots              = fst.linesIterator
       .map:
         case s"$x,$y" => Coord(x.toInt, y.toInt)
       .toSet
@@ -30,7 +30,7 @@ object Day13:
 
   def solve2(input: String): Unit =
     val fst :: snd :: Nil = input.split(System.lineSeparator * 2).toList
-    val dots = fst.linesIterator
+    val dots              = fst.linesIterator
       .map:
         case s"$x,$y" => Coord(x.toInt, y.toInt)
       .toSet

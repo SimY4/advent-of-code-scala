@@ -34,8 +34,8 @@ object Day18:
     cursor: Int = 0
   ): Long =
     program.lift(cursor) match
-      case None             => sound
-      case Some(Snd(value)) => runProgram(program, state, value.fold(identity, state), cursor + 1)
+      case None                  => sound
+      case Some(Snd(value))      => runProgram(program, state, value.fold(identity, state), cursor + 1)
       case Some(Set(reg, value)) =>
         runProgram(program, state.updated(reg, value.fold(identity, state)), sound, cursor + 1)
       case Some(Add(reg, value)) =>
@@ -72,7 +72,7 @@ object Day18:
     override def run(): Unit =
       @tailrec def runProgram(state: Map[String, Long], cursor: Int = 0): Unit =
         program.lift(cursor) match
-          case None => ()
+          case None             => ()
           case Some(Snd(value)) =>
             sent.incrementAndGet()
             snd.put(value.fold(identity, state))

@@ -35,7 +35,7 @@ object Day5:
             case 3   => ProgramState(pointer + 2, opCodes.updated(opCodes(pointer + 1), inputs.head), inputs.tail, None)
             case 4   => ProgramState(pointer + 2, opCodes, inputs, Some(opCodes(opCodes(pointer + 1))))
             case 104 => ProgramState(pointer + 2, opCodes, inputs, Some(opCodes(pointer + 1)))
-            case 5 =>
+            case 5   =>
               val (x, y) = (opCodes(pointer + 1), opCodes(pointer + 2))
               ProgramState(if opCodes(x) != 0 then opCodes(y) else pointer + 3, opCodes, inputs, None)
             case 105 =>

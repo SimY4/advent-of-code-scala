@@ -7,7 +7,7 @@ object Day9:
       case Nil                                                   => Nil
       case `head` :: _                                           => tail
       case tailHead :: _ if head.neighbours().contains(tailHead) => tail
-      case tailHead :: tailTail =>
+      case tailHead :: tailTail                                  =>
         val newTailHead = Coord(
           tailHead.x + (-1L max (head.x - tailHead.x) min 1L),
           tailHead.y + (-1L max (head.y - tailHead.y) min 1L)

@@ -4,7 +4,7 @@ package y2024
 object Day8:
   def solve(input: String): Int =
     val (maxX, maxY) = (input.linesIterator.size, input.linesIterator.size)
-    val signals = (for
+    val signals      = (for
       (line, y) <- input.linesIterator.zipWithIndex
       (char, x) <- line.zipWithIndex
       if Character.isLetterOrDigit(char)
@@ -21,7 +21,7 @@ object Day8:
 
   def solve2(input: String): Int =
     val (maxX, maxY) = (input.linesIterator.size, input.linesIterator.size)
-    val signals = (for
+    val signals      = (for
       (line, y) <- input.linesIterator.zipWithIndex
       (char, x) <- line.zipWithIndex
       if Character.isLetterOrDigit(char)

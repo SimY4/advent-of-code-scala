@@ -11,7 +11,7 @@ object Day13:
     infix def <=(that: Packet): Option[Boolean] =
       (this, that) match
         case (Packet.Single(i), Packet.Single(j)) => Option.unless(i == j)(i < j)
-        case (Packet.Multi(i), Packet.Multi(j)) =>
+        case (Packet.Multi(i), Packet.Multi(j))   =>
           i.zipAll[Packet | Unit, Packet | Unit](j, (), ())
             .flatMap:
               case (left: Packet, right: Packet) => left <= right

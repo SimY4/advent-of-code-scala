@@ -34,7 +34,7 @@ object Day11:
 
     def nextStates(elevator: Int, items: Map[Facility, Int]): Seq[State] =
       val onThisFloor = itemsOnFloor(elevator, State(elevator, items))
-      val moves = (for
+      val moves       = (for
         i <- onThisFloor.indices
         j <- i until onThisFloor.size
         a = onThisFloor(i)

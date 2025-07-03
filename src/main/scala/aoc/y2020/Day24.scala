@@ -10,7 +10,7 @@ object Day24:
         navigate(line.substring(1), acc + Direction.Right.direction + Direction.Right.direction)
       case _ if line.startsWith("se") => navigate(line.substring(2), acc + Direction.DownRight.direction)
       case _ if line.startsWith("sw") => navigate(line.substring(2), acc + Direction.DownLeft.direction)
-      case _ if line.startsWith("w") =>
+      case _ if line.startsWith("w")  =>
         navigate(line.substring(1), acc + Direction.Left.direction + Direction.Left.direction)
       case _ if line.startsWith("ne") => navigate(line.substring(2), acc + Direction.UpRight.direction)
       case _ if line.startsWith("nw") => navigate(line.substring(2), acc + Direction.UpLeft.direction)

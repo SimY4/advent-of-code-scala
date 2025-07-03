@@ -24,8 +24,8 @@ object Day7:
   import Wire.*
 
   private def parseLine(line: String): Wire = line match
-    case s"$x AND $y -> $to" => And(Gate(x), Gate(y), Ref(to))
-    case s"$x OR $y -> $to"  => Or(Gate(x), Gate(y), Ref(to))
+    case s"$x AND $y -> $to"                             => And(Gate(x), Gate(y), Ref(to))
+    case s"$x OR $y -> $to"                              => Or(Gate(x), Gate(y), Ref(to))
     case s"$p LSHIFT $num -> $to" if num.matches("\\d+") =>
       LShift(Gate(p), num.toInt, Ref(to))
     case s"$p RSHIFT $num -> $to" if num.matches("\\d+") =>

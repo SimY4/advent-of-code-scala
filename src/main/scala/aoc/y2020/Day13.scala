@@ -33,7 +33,7 @@ object Day13:
 
         def chineseRemainder(residues: Array[Long], modulii: Array[Long]): Option[Long] =
           val prod = modulii.product
-          val sum = residues
+          val sum  = residues
             .zip(modulii)
             .map: (residue, modulus) =>
               val p = prod / modulus

@@ -6,7 +6,7 @@ object Day10:
 
   private def knotHash(state: State): State =
     val State(list, lengths, count, pos) = state
-    val (nextList, nextCount, nextPos) = lengths.foldLeft((list, count, pos)):
+    val (nextList, nextCount, nextPos)   = lengths.foldLeft((list, count, pos)):
       case ((ls, c, p), length) =>
         val reversed = Iterator
           .continually(ls)

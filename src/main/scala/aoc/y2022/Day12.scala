@@ -10,7 +10,7 @@ object Day12:
   )(grid: Array[Array[Char]], visited: mutable.Set[Coord]): List[Coord] =
     paths.find(path => grid(path.head) == 'E') match
       case Some(solution) => solution
-      case None =>
+      case None           =>
         paths.flatMap { path =>
           val coord = path.head
           val ch    = grid(coord)
@@ -31,7 +31,7 @@ object Day12:
           case next => trail(next)(grid, visited)
 
   def solve(input: String): Int =
-    val grid = input.linesIterator.map(_.toCharArray).toArray
+    val grid  = input.linesIterator.map(_.toCharArray).toArray
     val start = grid.zipWithIndex
       .flatMap((row, i) => row.zipWithIndex.collect { case ('S', j) => Coord(j, i) })
       .head
@@ -48,7 +48,7 @@ object Day12:
     yield neighbour :: Nil)(grid, visited).size
 
   def solve2(input: String): Int =
-    val grid = input.linesIterator.map(_.toCharArray).toArray
+    val grid   = input.linesIterator.map(_.toCharArray).toArray
     val starts = grid.view.zipWithIndex
       .flatMap((row, i) =>
         row.zipWithIndex.collect {

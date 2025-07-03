@@ -8,7 +8,7 @@ object Day13:
       (f.toBinaryString.count('1' == _) & 1) != 0
 
   def solve(input: Int): Option[Int] =
-    val destination = Coord(31L, 39L)
+    val destination                                                        = Coord(31L, 39L)
     def loop(current: Coord, visited: Set[Coord] = Set.empty): Option[Int] =
       if destination == current then Some(0)
       else
