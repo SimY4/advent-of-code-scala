@@ -21,12 +21,12 @@ object Day20:
       .toVector
       .sorted :+ (1L << 32, 1L << 32)
 
-    data
+    val (_, res) = data
       .foldLeft((0L, 0L)):
         case ((h, c), (begin, end)) =>
           if begin > h then (end + 1, c + begin - h)
           else math.max(h, end + 1) -> c
-    (1)
+    res
 
   val input = """919958672-920375477
                 |886049087-888249849
