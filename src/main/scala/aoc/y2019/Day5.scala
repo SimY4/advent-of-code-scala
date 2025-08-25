@@ -1,7 +1,7 @@
 package aoc.y2019
 
 object Day5:
-  private final case class ProgramState(pointer: Int, opCodes: Vector[Int], inputs: LazyList[Int], output: Option[Int])
+  final private case class ProgramState(pointer: Int, opCodes: Vector[Int], inputs: LazyList[Int], output: Option[Int])
 
   def runProgram(opCodes: Vector[Int], inputs: LazyList[Int]): LazyList[Int] =
     LazyList

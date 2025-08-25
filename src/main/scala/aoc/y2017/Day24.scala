@@ -1,7 +1,7 @@
 package aoc.y2017
 
 object Day24:
-  private final class Port(val i: Int, val o: Int):
+  final private class Port(val i: Int, val o: Int):
     def strength: Int = i + o
 
   private def bridges(ports: Vector[Port], port: Int, used: Set[Port] = Set.empty): Vector[List[Port]] =

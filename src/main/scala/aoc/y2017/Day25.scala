@@ -1,8 +1,8 @@
 package aoc.y2017
 
 object Day25:
-  private final case class Rule(write: Int, move: Int, next: String)
-  private final case class State(if0: Rule, if1: Rule)
+  final private case class Rule(write: Int, move: Int, next: String)
+  final private case class State(if0: Rule, if1: Rule)
 
   private def parseInput(input: String): (String, Int, Map[String, State]) =
     val lines        = input.linesIterator.toVector

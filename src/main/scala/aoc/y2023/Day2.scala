@@ -1,7 +1,7 @@
 package aoc.y2023
 
 object Day2:
-  private final case class Game(id: Int, sets: List[(Int, Int, Int)]):
+  final private case class Game(id: Int, sets: List[(Int, Int, Int)]):
     def possible(br: Int, bg: Int, bb: Int): Boolean =
       sets.forall: (r, g, b) =>
         r <= br && g <= bg && b <= bb

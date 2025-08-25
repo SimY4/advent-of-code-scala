@@ -1,7 +1,7 @@
 package aoc.y2023
 
 object Day5:
-  private final case class Range(start: Long, end: Long):
+  final private case class Range(start: Long, end: Long):
     def within(value: Long): Boolean = start <= value && value < end
 
     def map(src: Range, dst: Long): Option[(Range, Range)] =
@@ -12,7 +12,7 @@ object Day5:
 
     override def toString: String = s"[$start-$end)"
 
-  private final case class Map(source: String, dest: String, ranges: Vector[(Range, Long)])
+  final private case class Map(source: String, dest: String, ranges: Vector[(Range, Long)])
 
   private def parse(input: String): (List[Long], Vector[Map]) =
     input.split("\\n\\n").toList match

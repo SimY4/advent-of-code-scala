@@ -24,7 +24,7 @@ object Day7:
   private enum Type extends java.lang.Enum[Type]:
     case HighCard, OnePair, TwoPair, ThreeOfAKind, FullHouse, FourOfAKind, FiveOfAKind
 
-  private final case class Hand(cards: List[Card], bid: Int):
+  final private case class Hand(cards: List[Card], bid: Int):
     def `type`: Type =
       val groups = cards.groupBy(identity)
       if groups.size == 1 then Type.FiveOfAKind

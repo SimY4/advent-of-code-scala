@@ -1,7 +1,7 @@
 package aoc.y2019
 
 object Day9:
-  private final case class ProgramState(
+  final private case class ProgramState(
     pointer: Int,
     opCodes: Vector[Long],
     relativeBase: Int,

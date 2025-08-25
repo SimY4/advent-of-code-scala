@@ -3,7 +3,7 @@ package aoc.y2015
 import java.util.concurrent.atomic.AtomicInteger
 
 object Day22:
-  private sealed trait EffectOverTime(val turns: Int)
+  sealed private trait EffectOverTime(val turns: Int)
   private enum Spell(val mana: Int) extends Enum[Spell]:
     case MagicMisile extends Spell(53)
     case Drain       extends Spell(73)

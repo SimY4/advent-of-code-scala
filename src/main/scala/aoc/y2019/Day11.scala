@@ -4,7 +4,7 @@ package y2019
 object Day11:
   import Day9.*
 
-  private final case class ProgramState(floor: Map[Coord, Long], pos: Coord, dir: Direction)
+  final private case class ProgramState(floor: Map[Coord, Long], pos: Coord, dir: Direction)
 
   private def robot(outputs: LazyList[Long]): LazyList[ProgramState] =
     outputs.zipWithIndex

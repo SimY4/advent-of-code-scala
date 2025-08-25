@@ -1,7 +1,7 @@
 package aoc.y2023
 
 object Day4:
-  private final case class Card(id: Int, winning: Set[Int], numbers: Set[Int])
+  final private case class Card(id: Int, winning: Set[Int], numbers: Set[Int])
 
   private def parseLine(line: String): Card =
     line match
