@@ -13,6 +13,7 @@ final case class Timed[R](result: R, time: Long):
   y2022.run()
   y2023.run()
   y2024.run()
+  y2025.run()
 
 def timed[R](block: => R): Timed[R] =
   val t0     = System.nanoTime()
