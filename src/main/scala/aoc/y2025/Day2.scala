@@ -1,5 +1,4 @@
-package aoc
-package y2025
+package aoc.y2025
 
 object Day2:
   def solve(input: String): Long =
