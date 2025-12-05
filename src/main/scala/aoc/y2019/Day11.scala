@@ -41,9 +41,7 @@ object Day11:
 
     val grid = Array.fill(6, 45)(" ")
     state.last.floor.foreach: (coord, color) =>
-      val x = coord.x.toInt
-      val y = coord.y.toInt
-      grid(y)(x) = if color == 1 then "#" else " "
+      grid(coord) = if color == 1 then "#" else " "
 
     grid.foreach: row =>
       println(row.mkString)

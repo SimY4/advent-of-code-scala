@@ -34,13 +34,13 @@ object Day2:
     input.linesIterator
       .scanLeft(Coord(0L, 2L)): (ccord, instructions) =>
         instructions.foldLeft(ccord): (coord, instruction) =>
-          val Coord(x, y) = instruction match
+          val next = instruction match
             case 'U' if coord.y > 0L => coord.copy(y = coord.y - 1L)
             case 'R' if coord.x < 4L => coord.copy(x = coord.x + 1L)
             case 'D' if coord.y < 4L => coord.copy(y = coord.y + 1L)
             case 'L' if coord.x > 0L => coord.copy(x = coord.x - 1L)
             case _                   => coord
-          if '_' == field2(y.toInt)(x.toInt) then coord else Coord(x, y)
+          if '_' == field2(next) then coord else next
       .drop(1)
       .map(field2(_))
       .mkString

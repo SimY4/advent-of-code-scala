@@ -55,8 +55,9 @@ object Coord extends ((Long, Long) => Coord):
     Coord(x.toLong, y.toLong)
 
 extension [A](dd: Array[Array[A]])
-  def apply(coord: Coord): A       = dd(coord.y.toInt)(coord.x.toInt)
-  def get(coord: Coord): Option[A] = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
+  def apply(coord: Coord): A               = dd(coord.y.toInt)(coord.x.toInt)
+  def get(coord: Coord): Option[A]         = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
+  def update(coord: Coord, value: A): Unit = dd(coord.y.toInt)(coord.x.toInt) = value
 
 extension (lines: Seq[String])
   def apply(coord: Coord): Char       = lines(coord.y.toInt).charAt(coord.x.toInt)

@@ -25,12 +25,11 @@ object Day4:
         x <- grid(0).indices
         coord = Coord(x, y)
       do
-        nextGrid(coord.y.toInt)(coord.x.toInt) =
+        nextGrid(coord) =
           if '@' == grid(coord) && Direction.values.count(d => grid.get(coord + d.direction).contains('@')) < 4 then
             n += 1
             '.'
-          else if '.' == grid(coord) then '.'
-          else '@'
+          else grid(coord)
       if nextGrid.flatten.sameElements(grid.flatten) then acc else loop(nextGrid, acc + n)
 
     loop(grid)
