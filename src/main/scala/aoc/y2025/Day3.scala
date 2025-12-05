@@ -16,13 +16,13 @@ object Day3:
         val radix = bank.indices.sortBy(-bank(_))
 
         def loop(radix: Seq[Int], acc: List[Int] = Nil): Long =
-          if acc.length == 12 then acc.reverse.mkString.toLong
+          if acc.length == 12 then acc.zipWithIndex.map((d, i) => d.toLong * Math.pow(10, i).toLong).sum
           else
             val filtered = radix.filter(i => i < bank.length - 11 + acc.length)
             val ch       = bank(filtered.head)
             filtered
               .collect:
-                case i if bank(i) == ch => loop(radix.filter(j => i < j), ch.asDigit :: acc)
+                case i if bank(i) == ch => loop(radix.filter(i < _), ch.asDigit :: acc)
               .max
 
         loop(radix)
