@@ -20,8 +20,8 @@ object Day5 extends Input(2025, 5):
       .toVector
       .sortBy(_(0))
       .foldLeft(Nil: List[(Long, Long)]):
-        case (Nil, (b, e))                         => List((b, e))
-        case (head @ ((b1, e1) :: tail), (b2, e2)) =>
+        case (Nil, init)                  => init :: Nil
+        case ((b1, e1) :: tail, (b2, e2)) =>
           if (b1 >= b2 && b1 <= e2)
             || (e1 <= e2 && e1 >= b2)
             || (b1 >= b2 && e1 <= e2)
