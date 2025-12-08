@@ -59,7 +59,7 @@ extension [A](dd: Array[Array[A]])
   def get(coord: Coord): Option[A]         = dd.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
   def update(coord: Coord, value: A): Unit = dd(coord.y.toInt)(coord.x.toInt) = value
 
-extension (lines: Seq[String])
+extension (lines: IndexedSeq[String])
   def apply(coord: Coord): Char       = lines(coord.y.toInt).charAt(coord.x.toInt)
   def get(coord: Coord): Option[Char] = lines.lift(coord.y.toInt).flatMap(_.lift(coord.x.toInt))
 
