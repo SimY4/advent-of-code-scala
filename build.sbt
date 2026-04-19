@@ -11,7 +11,7 @@ lazy val root = project
     name := "advent-of-code",
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %% "scala-parallel-collections" % "1.2.0",
-      "org.scalameta"          %% "munit"                      % "1.2.4" % Test
+      "org.scalameta"          %% "munit"                      % "1.3.0" % Test
     ),
     scalacOptions ++= Seq(
       "-release",
