@@ -2,7 +2,7 @@ import sbtwelcome.*
 
 organization        := "com.github.simy4"
 version             := "0.1.0"
-scalaVersion        := "3.8.4"
+scalaVersion        := "3.9.0"
 Global / cancelable := true
 
 lazy val root = project
