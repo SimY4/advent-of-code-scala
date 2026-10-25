@@ -10,7 +10,7 @@ lazy val root = project
   .settings(
     name := "advent-of-code",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.2.0",
+      "org.scala-lang.modules" %% "scala-parallel-collections" % "1.3.0",
       "org.scalameta"          %% "munit"                      % "1.3.6" % Test
     ),
     scalacOptions ++= Seq(
